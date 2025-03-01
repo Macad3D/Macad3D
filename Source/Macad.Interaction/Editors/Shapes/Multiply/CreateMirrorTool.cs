@@ -129,14 +129,14 @@ public class CreateMirrorTool : Tool
             case ShapeType.Sketch:
                 if (args.SelectedSubshapeType == SubshapeTypes.Edge)
                 {
-                    subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Edge(args.SelectedSubshape));
+                    subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), args.SelectedSubshape.ToEdge());
                 }
                 break;
 
             case ShapeType.Solid:
                 if (args.SelectedSubshapeType == SubshapeTypes.Face)
                 {
-                    subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Face(args.SelectedSubshape));
+                    subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), args.SelectedSubshape.ToFace());
                 }
                 break;
 

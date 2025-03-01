@@ -91,44 +91,6 @@ public:
 }; // class BRep_ListOfPointRepresentation
 
 //---------------------------------------------------------------------
-//  Class  BRep_ListIteratorOfListOfPointRepresentation
-//---------------------------------------------------------------------
-public ref class BRep_ListIteratorOfListOfPointRepresentation sealed
-    : public Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>
-{
-
-#ifdef Include_BRep_ListIteratorOfListOfPointRepresentation_h
-public:
-    Include_BRep_ListIteratorOfListOfPointRepresentation_h
-#endif
-
-public:
-    BRep_ListIteratorOfListOfPointRepresentation(::BRep_ListIteratorOfListOfPointRepresentation* nativeInstance)
-        : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>( nativeInstance, true )
-    {}
-
-    BRep_ListIteratorOfListOfPointRepresentation(::BRep_ListIteratorOfListOfPointRepresentation& nativeInstance)
-        : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>( &nativeInstance, false )
-    {}
-
-    property ::BRep_ListIteratorOfListOfPointRepresentation* NativeInstance
-    {
-        ::BRep_ListIteratorOfListOfPointRepresentation* get()
-        {
-            return static_cast<::BRep_ListIteratorOfListOfPointRepresentation*>(_NativeInstance);
-        }
-    }
-
-public:
-    BRep_ListIteratorOfListOfPointRepresentation();
-    BRep_ListIteratorOfListOfPointRepresentation(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::BRep_PointRepresentation^ Value();
-    Macad::Occt::BRep_PointRepresentation^ ChangeValue();
-}; // class BRep_ListIteratorOfListOfPointRepresentation
-
-//---------------------------------------------------------------------
 //  Class  BRep_ListOfCurveRepresentation
 //---------------------------------------------------------------------
 public ref class BRep_ListOfCurveRepresentation sealed
@@ -208,44 +170,6 @@ public:
     Macad::Occt::BRep_CurveRepresentation^ InsertAfter(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
     void Reverse();
 }; // class BRep_ListOfCurveRepresentation
-
-//---------------------------------------------------------------------
-//  Class  BRep_ListIteratorOfListOfCurveRepresentation
-//---------------------------------------------------------------------
-public ref class BRep_ListIteratorOfListOfCurveRepresentation sealed
-    : public Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>
-{
-
-#ifdef Include_BRep_ListIteratorOfListOfCurveRepresentation_h
-public:
-    Include_BRep_ListIteratorOfListOfCurveRepresentation_h
-#endif
-
-public:
-    BRep_ListIteratorOfListOfCurveRepresentation(::BRep_ListIteratorOfListOfCurveRepresentation* nativeInstance)
-        : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>( nativeInstance, true )
-    {}
-
-    BRep_ListIteratorOfListOfCurveRepresentation(::BRep_ListIteratorOfListOfCurveRepresentation& nativeInstance)
-        : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>( &nativeInstance, false )
-    {}
-
-    property ::BRep_ListIteratorOfListOfCurveRepresentation* NativeInstance
-    {
-        ::BRep_ListIteratorOfListOfCurveRepresentation* get()
-        {
-            return static_cast<::BRep_ListIteratorOfListOfCurveRepresentation*>(_NativeInstance);
-        }
-    }
-
-public:
-    BRep_ListIteratorOfListOfCurveRepresentation();
-    BRep_ListIteratorOfListOfCurveRepresentation(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::BRep_CurveRepresentation^ Value();
-    Macad::Occt::BRep_CurveRepresentation^ ChangeValue();
-}; // class BRep_ListIteratorOfListOfCurveRepresentation
 
 //---------------------------------------------------------------------
 //  Class  BRep_Builder
@@ -569,7 +493,8 @@ public:
     /// </summary>
     void Tolerance(double theTolerance);
     /// <summary>
-    /// Returns TRUE if the boundary of this face is known to be the parametric space (Umin, UMax, VMin, VMax).
+    /// Returns TRUE if the boundary of this face is known to be the parametric space (Umin, UMax,
+    /// VMin, VMax).
     /// </summary>
     bool NaturalRestriction();
     /// <summary>
@@ -987,7 +912,8 @@ public:
     /// </summary>
     static bool HasContinuity(Macad::Occt::TopoDS_Edge^ E);
     /// <summary>
-    /// Returns the max continuity of edge between some surfaces or GeomAbs_C0 if there no such surfaces.
+    /// Returns the max continuity of edge between some surfaces or GeomAbs_C0 if there no such
+    /// surfaces.
     /// </summary>
     static Macad::Occt::GeomAbs_Shape MaxContinuity(Macad::Occt::TopoDS_Edge^ theEdge);
     /// <summary>
@@ -1001,14 +927,14 @@ public:
     /// <summary>
     /// Finds the parameter of <theV> on <theE>.
     /// </summary>
-    /// <param name="theV">
-    /// [in] input vertex
+    /// <param name="in]">
+    /// theV  input vertex
     /// </param>
-    /// <param name="theE">
-    /// [in] input edge
+    /// <param name="in]">
+    /// theE  input edge
     /// </param>
-    /// <param name="theParam">
-    ///  [out] calculated parameter on the curve
+    /// <param name="out]">
+    /// theParam   calculated parameter on the curve
     /// </param>
     /// <returns>
     /// TRUE if done

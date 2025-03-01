@@ -33,9 +33,9 @@ public enum class Prs3d_VertexDrawMode
 /// Declares types of hidden line removal algorithm.
 /// TOH_Algo enables using of exact HLR algorithm.
 /// TOH_PolyAlgo enables using of polygonal HLR algorithm.
-/// TOH_NotSet is used by Prs3d_Drawer class, it means that the drawer should return the global value.
-/// For more details see Prs3d_Drawer class, AIS_Shape::Compute() method and
-/// HLRAlgo package from TKHLR toolkit.
+/// TOH_NotSet is used by Prs3d_Drawer class, it means that the drawer should return the global
+/// value. For more details see Prs3d_Drawer class, AIS_Shape::Compute() method and HLRAlgo package
+/// from TKHLR toolkit.
 /// </summary>
 public enum class Prs3d_TypeOfHLR
 {
@@ -280,44 +280,6 @@ public:
     Macad::Occt::TColgp_HSequenceOfPnt^ InsertAfter(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
     void Reverse();
 }; // class Prs3d_NListOfSequenceOfPnt
-
-//---------------------------------------------------------------------
-//  Class  Prs3d_NListIteratorOfListOfSequenceOfPnt
-//---------------------------------------------------------------------
-public ref class Prs3d_NListIteratorOfListOfSequenceOfPnt sealed
-    : public Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>
-{
-
-#ifdef Include_Prs3d_NListIteratorOfListOfSequenceOfPnt_h
-public:
-    Include_Prs3d_NListIteratorOfListOfSequenceOfPnt_h
-#endif
-
-public:
-    Prs3d_NListIteratorOfListOfSequenceOfPnt(::Prs3d_NListIteratorOfListOfSequenceOfPnt* nativeInstance)
-        : Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>( nativeInstance, true )
-    {}
-
-    Prs3d_NListIteratorOfListOfSequenceOfPnt(::Prs3d_NListIteratorOfListOfSequenceOfPnt& nativeInstance)
-        : Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>( &nativeInstance, false )
-    {}
-
-    property ::Prs3d_NListIteratorOfListOfSequenceOfPnt* NativeInstance
-    {
-        ::Prs3d_NListIteratorOfListOfSequenceOfPnt* get()
-        {
-            return static_cast<::Prs3d_NListIteratorOfListOfSequenceOfPnt*>(_NativeInstance);
-        }
-    }
-
-public:
-    Prs3d_NListIteratorOfListOfSequenceOfPnt();
-    Prs3d_NListIteratorOfListOfSequenceOfPnt(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::TColgp_HSequenceOfPnt^ Value();
-    Macad::Occt::TColgp_HSequenceOfPnt^ ChangeValue();
-}; // class Prs3d_NListIteratorOfListOfSequenceOfPnt
 
 //---------------------------------------------------------------------
 //  Class  Prs3d_DimensionUnits
@@ -1088,7 +1050,8 @@ public:
     /// </summary>
     Macad::Occt::Prs3d_ShadingAspect^ ShadingAspect(Macad::Occt::Prs3d_DatumParts thePart);
     /// <summary>
-    /// Returns the text attributes for rendering label of specified part (Prs3d_DatumParts_XAxis/Prs3d_DatumParts_YAxis/Prs3d_DatumParts_ZAxis).
+    /// Returns the text attributes for rendering label of specified part
+    /// (Prs3d_DatumParts_XAxis/Prs3d_DatumParts_YAxis/Prs3d_DatumParts_ZAxis).
     /// </summary>
     Macad::Occt::Prs3d_TextAspect^ TextAspect(Macad::Occt::Prs3d_DatumParts thePart);
     /// <summary>
@@ -1488,7 +1451,8 @@ public:
     /// </summary>
     void UnsetOwnIsoOnTriangulation();
     /// <summary>
-    /// Enables or disables isolines on triangulation by setting the parameter theIsEnabled to true or false.
+    /// Enables or disables isolines on triangulation by setting the parameter theIsEnabled to true or
+    /// false.
     /// </summary>
     void SetIsoOnTriangulation(bool theToEnable);
     /// <summary>
@@ -1509,7 +1473,8 @@ public:
     void UnsetOwnDiscretisation();
     /// <summary>
     /// Sets the deviation coefficient theCoefficient.
-    /// Also sets the hasOwnDeviationCoefficient flag to Standard_True and myPreviousDeviationCoefficient
+    /// Also sets the hasOwnDeviationCoefficient flag to Standard_True and
+    /// myPreviousDeviationCoefficient
     /// </summary>
     void SetDeviationCoefficient(double theCoefficient);
     /// <summary>
@@ -1578,8 +1543,8 @@ public:
     /// <summary>
     /// Sets IsAutoTriangulated on or off by setting the parameter theIsEnabled to true or false.
     /// If this flag is True automatic re-triangulation with deflection-check logic will be applied.
-    /// Else this feature will be disable and triangulation is expected to be computed by application itself
-    /// and no shading presentation at all if unavailable.
+    /// Else this feature will be disable and triangulation is expected to be computed by application
+    /// itself and no shading presentation at all if unavailable.
     /// </summary>
     void SetAutoTriangulation(bool theIsEnabled);
     /// <summary>
@@ -1704,8 +1669,8 @@ public:
     /// single U and single V gray75 solid isolines (::UIsoAspect(), ::VIsoAspect()),
     /// red wire (::WireAspect()), yellow line (::LineAspect()),
     /// yellow seen line (::SeenLineAspect()), dashed yellow hidden line (::HiddenLineAspect()),
-    /// green free boundary (::FreeBoundaryAspect()), yellow unfree boundary (::UnFreeBoundaryAspect()).
-    /// Returns FALSE if own line aspect are already set.
+    /// green free boundary (::FreeBoundaryAspect()), yellow unfree boundary
+    /// (::UnFreeBoundaryAspect()). Returns FALSE if own line aspect are already set.
     /// </summary>
     bool SetOwnLineAspects(Macad::Occt::Prs3d_Drawer^ theDefaults);
     /// <summary>
@@ -1713,8 +1678,8 @@ public:
     /// single U and single V gray75 solid isolines (::UIsoAspect(), ::VIsoAspect()),
     /// red wire (::WireAspect()), yellow line (::LineAspect()),
     /// yellow seen line (::SeenLineAspect()), dashed yellow hidden line (::HiddenLineAspect()),
-    /// green free boundary (::FreeBoundaryAspect()), yellow unfree boundary (::UnFreeBoundaryAspect()).
-    /// Returns FALSE if own line aspect are already set.
+    /// green free boundary (::FreeBoundaryAspect()), yellow unfree boundary
+    /// (::UnFreeBoundaryAspect()). Returns FALSE if own line aspect are already set.
     /// </summary>
     bool SetOwnLineAspects();
     /// <summary>
@@ -1741,7 +1706,8 @@ public:
     /// </summary>
     bool HasOwnTextAspect();
     /// <summary>
-    /// Returns own settings for shading aspects, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for shading aspects, settings from linked Drawer or NULL if neither was
+    /// set.
     /// </summary>
     Macad::Occt::Prs3d_ShadingAspect^ ShadingAspect();
     /// <summary>
@@ -1764,7 +1730,8 @@ public:
     /// </summary>
     bool SetupOwnShadingAspect();
     /// <summary>
-    /// Returns own settings for seen line aspects, settings of linked Drawer or NULL if neither was set.
+    /// Returns own settings for seen line aspects, settings of linked Drawer or NULL if neither was
+    /// set.
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ SeenLineAspect();
     /// <summary>
@@ -1777,7 +1744,8 @@ public:
     /// </summary>
     bool HasOwnSeenLineAspect();
     /// <summary>
-    /// Returns own settings for the appearance of planes, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for the appearance of planes, settings from linked Drawer or NULL if
+    /// neither was set.
     /// </summary>
     Macad::Occt::Prs3d_PlaneAspect^ PlaneAspect();
     /// <summary>
@@ -1790,7 +1758,8 @@ public:
     /// </summary>
     bool HasOwnPlaneAspect();
     /// <summary>
-    /// Returns own attributes for display of arrows, settings from linked Drawer or NULL if neither was set.
+    /// Returns own attributes for display of arrows, settings from linked Drawer or NULL if neither
+    /// was set.
     /// </summary>
     Macad::Occt::Prs3d_ArrowAspect^ ArrowAspect();
     /// <summary>
@@ -1822,7 +1791,8 @@ public:
     /// </summary>
     void UnsetOwnLineArrowDraw();
     /// <summary>
-    /// Returns own settings for hidden line aspects, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for hidden line aspects, settings from linked Drawer or NULL if neither
+    /// was set.
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ HiddenLineAspect();
     /// <summary>
@@ -1853,11 +1823,13 @@ public:
     /// </summary>
     bool HasOwnDrawHiddenLine();
     /// <summary>
-    /// Resets HasOwnDrawHiddenLine() flag, e.g. unsets EnableDrawHiddenLine()/DisableDrawHiddenLine().
+    /// Resets HasOwnDrawHiddenLine() flag, e.g. unsets
+    /// EnableDrawHiddenLine()/DisableDrawHiddenLine().
     /// </summary>
     void UnsetOwnDrawHiddenLine();
     /// <summary>
-    /// Returns own settings for the appearance of vectors, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for the appearance of vectors, settings from linked Drawer or NULL if
+    /// neither was set.
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ VectorAspect();
     /// <summary>
@@ -1889,7 +1861,8 @@ public:
     /// </summary>
     bool HasOwnVertexDrawMode();
     /// <summary>
-    /// Returns own settings for the appearance of datums, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for the appearance of datums, settings from linked Drawer or NULL if
+    /// neither was set.
     /// </summary>
     Macad::Occt::Prs3d_DatumAspect^ DatumAspect();
     /// <summary>
@@ -1902,8 +1875,8 @@ public:
     /// </summary>
     bool HasOwnDatumAspect();
     /// <summary>
-    /// Returns own LineAspect for section wire, settings from linked Drawer or NULL if neither was set.
-    /// These attributes are used by the algorithm Prs3d_WFShape.
+    /// Returns own LineAspect for section wire, settings from linked Drawer or NULL if neither was
+    /// set. These attributes are used by the algorithm Prs3d_WFShape.
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ SectionAspect();
     /// <summary>
@@ -1922,8 +1895,8 @@ public:
     /// </summary>
     void SetFreeBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
     /// <summary>
-    /// Returns own settings for presentation of free boundaries, settings from linked Drawer or NULL if neither was set.
-    /// In other words, this settings affect boundaries which are not shared.
+    /// Returns own settings for presentation of free boundaries, settings from linked Drawer or NULL
+    /// if neither was set. In other words, this settings affect boundaries which are not shared.
     /// These attributes are used by the algorithm Prs3d_WFShape
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ FreeBoundaryAspect();
@@ -1961,8 +1934,8 @@ public:
     /// </summary>
     void SetUnFreeBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
     /// <summary>
-    /// Returns own settings for shared boundary line aspects, settings from linked Drawer or NULL if neither was set.
-    /// These attributes are used by the algorithm Prs3d_WFShape
+    /// Returns own settings for shared boundary line aspects, settings from linked Drawer or NULL if
+    /// neither was set. These attributes are used by the algorithm Prs3d_WFShape
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ UnFreeBoundaryAspect();
     /// <summary>
@@ -1974,7 +1947,8 @@ public:
     /// Enables or disables drawing of shared boundaries for shading presentations.
     /// The method sets drawing flag owned by the drawer that will be used during
     /// visualization instead of the one set in link.
-    /// theIsEnabled is a boolean flag indicating whether the shared boundaries should be drawn or not.
+    /// theIsEnabled is a boolean flag indicating whether the shared boundaries should be drawn or
+    /// not.
     /// </summary>
     void SetUnFreeBoundaryDraw(bool theIsEnabled);
     /// <summary>
@@ -1999,7 +1973,8 @@ public:
     /// </summary>
     void SetFaceBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
     /// <summary>
-    /// Returns own line aspect of face boundaries, settings from linked Drawer or NULL if neither was set.
+    /// Returns own line aspect of face boundaries, settings from linked Drawer or NULL if neither was
+    /// set.
     /// </summary>
     Macad::Occt::Prs3d_LineAspect^ FaceBoundaryAspect();
     /// <summary>
@@ -2038,7 +2013,8 @@ public:
     /// </summary>
     void UnsetOwnFaceBoundaryDraw();
     /// <summary>
-    /// Returns true if the drawer has its own attribute for face boundaries upper edge continuity class that overrides the one in the link.
+    /// Returns true if the drawer has its own attribute for face boundaries upper edge continuity
+    /// class that overrides the one in the link.
     /// </summary>
     bool HasOwnFaceBoundaryUpperContinuity();
     /// <summary>
@@ -2054,7 +2030,8 @@ public:
     /// </summary>
     void UnsetFaceBoundaryUpperContinuity();
     /// <summary>
-    /// Returns own settings for the appearance of dimensions, settings from linked Drawer or NULL if neither was set.
+    /// Returns own settings for the appearance of dimensions, settings from linked Drawer or NULL if
+    /// neither was set.
     /// </summary>
     Macad::Occt::Prs3d_DimensionAspect^ DimensionAspect();
     /// <summary>
@@ -2176,11 +2153,13 @@ public:
     ///  the type of primitives
     /// </param>
     /// <param name="theToOverrideDefaults">
-    /// if true then non-overridden attributes using defaults will be allocated and copied from the Link;
+    /// if true then non-overridden attributes using defaults will be
+    /// allocated and copied from the Link;
     /// otherwise, only already customized attributes will be changed
     /// </param>
     /// <returns>
-    /// TRUE if presentation should be recomputed after creating aspects not previously customized (if theToOverrideDefaults is also TRUE)
+    /// TRUE if presentation should be recomputed after creating aspects not previously
+    /// customized (if theToOverrideDefaults is also TRUE)
     /// </returns>
     bool SetShaderProgram(Macad::Occt::Graphic3d_ShaderProgram^ theProgram, Macad::Occt::Graphic3d_GroupAspect theAspect, bool theToOverrideDefaults);
     /// <summary>
@@ -2193,11 +2172,13 @@ public:
     ///  the type of primitives
     /// </param>
     /// <param name="theToOverrideDefaults">
-    /// if true then non-overridden attributes using defaults will be allocated and copied from the Link;
+    /// if true then non-overridden attributes using defaults will be
+    /// allocated and copied from the Link;
     /// otherwise, only already customized attributes will be changed
     /// </param>
     /// <returns>
-    /// TRUE if presentation should be recomputed after creating aspects not previously customized (if theToOverrideDefaults is also TRUE)
+    /// TRUE if presentation should be recomputed after creating aspects not previously
+    /// customized (if theToOverrideDefaults is also TRUE)
     /// </returns>
     bool SetShaderProgram(Macad::Occt::Graphic3d_ShaderProgram^ theProgram, Macad::Occt::Graphic3d_GroupAspect theAspect);
     /// <summary>
@@ -2279,42 +2260,48 @@ public:
     /// </summary>
     static bool MatchSegment(double X, double Y, double Z, double aDistance, Macad::Occt::Pnt p1, Macad::Occt::Pnt p2, double% dist);
     /// <summary>
-    /// Computes the absolute deflection value based on relative deflection Prs3d_Drawer::DeviationCoefficient().
+    /// Computes the absolute deflection value based on relative deflection
+    /// Prs3d_Drawer::DeviationCoefficient().
     /// </summary>
-    /// <param name="theBndMin">
-    /// [in] bounding box min corner
+    /// <param name="in]">
+    /// theBndMin  bounding box min corner
     /// </param>
-    /// <param name="theBndMax">
-    /// [in] bounding box max corner
+    /// <param name="in]">
+    /// theBndMax  bounding box max corner
     /// </param>
-    /// <param name="theDeviationCoefficient">
-    /// [in] relative deflection coefficient from Prs3d_Drawer::DeviationCoefficient()
+    /// <param name="in]">
+    /// theDeviationCoefficient  relative deflection coefficient from
+    /// Prs3d_Drawer::DeviationCoefficient()
     /// </param>
     /// <returns>
     /// absolute deflection coefficient based on bounding box dimensions
     /// </returns>
     static double GetDeflection(Macad::Occt::Graphic3d_Vec3d^ theBndMin, Macad::Occt::Graphic3d_Vec3d^ theBndMax, double theDeviationCoefficient);
     /// <summary>
-    /// Computes the absolute deflection value based on relative deflection Prs3d_Drawer::DeviationCoefficient().
+    /// Computes the absolute deflection value based on relative deflection
+    /// Prs3d_Drawer::DeviationCoefficient().
     /// </summary>
-    /// <param name="theBndBox">
-    /// [in] bounding box
+    /// <param name="in]">
+    /// theBndBox  bounding box
     /// </param>
-    /// <param name="theDeviationCoefficient">
-    /// [in] relative deflection coefficient from Prs3d_Drawer::DeviationCoefficient()
+    /// <param name="in]">
+    /// theDeviationCoefficient  relative deflection coefficient from
+    /// Prs3d_Drawer::DeviationCoefficient()
     /// </param>
-    /// <param name="theMaximalChordialDeviation">
-    /// [in] absolute deflection coefficient from Prs3d_Drawer::MaximalChordialDeviation()
+    /// <param name="in]">
+    /// theMaximalChordialDeviation  absolute deflection coefficient from
+    /// Prs3d_Drawer::MaximalChordialDeviation()
     /// </param>
     /// <returns>
-    /// absolute deflection coefficient based on bounding box dimensions or theMaximalChordialDeviation if bounding box is Void or Infinite
+    /// absolute deflection coefficient based on bounding box dimensions or
+    /// theMaximalChordialDeviation if bounding box is Void or Infinite
     /// </returns>
     static double GetDeflection(Macad::Occt::Bnd_Box^ theBndBox, double theDeviationCoefficient, double theMaximalChordialDeviation);
     /// <summary>
     /// Assembles array of primitives for sequence of polylines.
     /// </summary>
-    /// <param name="thePoints">
-    /// [in] the polylines sequence
+    /// <param name="in]">
+    /// thePoints  the polylines sequence
     /// </param>
     /// <returns>
     /// array of primitives
@@ -2331,7 +2318,8 @@ public:
 //  Class  Prs3d_Arrow
 //---------------------------------------------------------------------
 /// <summary>
-/// Provides class methods to draw an arrow at a given location, along a given direction and using a given angle.
+/// Provides class methods to draw an arrow at a given location, along a given direction and using a
+/// given angle.
 /// </summary>
 public ref class Prs3d_Arrow sealed
     : public Macad::Occt::BaseClass<::Prs3d_Arrow>
@@ -2561,74 +2549,74 @@ public:
     /// <summary>
     /// Computes presentation of a bounding box.
     /// </summary>
-    /// <param name="thePresentation">
-    /// [in] the presentation.
+    /// <param name="in]">
+    /// thePresentation  the presentation.
     /// </param>
-    /// <param name="theBndBox">
-    /// [in] the bounding box.
+    /// <param name="in]">
+    /// theBndBox  the bounding box.
     /// </param>
-    /// <param name="theDrawer">
-    /// [in] the drawer.
+    /// <param name="in]">
+    /// theDrawer  the drawer.
     /// </param>
     static void Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_Box^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer);
     /// <summary>
     /// Computes presentation of a bounding box.
     /// </summary>
-    /// <param name="thePresentation">
-    /// [in] the presentation.
+    /// <param name="in]">
+    /// thePresentation  the presentation.
     /// </param>
-    /// <param name="theBndBox">
-    /// [in] the bounding box.
+    /// <param name="in]">
+    /// theBndBox  the bounding box.
     /// </param>
-    /// <param name="theDrawer">
-    /// [in] the drawer.
+    /// <param name="in]">
+    /// theDrawer  the drawer.
     /// </param>
     static void Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_OBB^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer);
     /// <summary>
     /// Create primitive array with line segments for displaying a box.
     /// </summary>
-    /// <param name="theBox">
-    /// [in] the box to add
+    /// <param name="in]">
+    /// theBox  the box to add
     /// </param>
     static Macad::Occt::Graphic3d_ArrayOfSegments^ FillSegments(Macad::Occt::Bnd_OBB^ theBox);
     /// <summary>
     /// Create primitive array with line segments for displaying a box.
     /// </summary>
-    /// <param name="theBox">
-    /// [in] the box to add
+    /// <param name="in]">
+    /// theBox  the box to add
     /// </param>
     static Macad::Occt::Graphic3d_ArrayOfSegments^ FillSegments(Macad::Occt::Bnd_Box^ theBox);
     /// <summary>
     /// Create primitive array with line segments for displaying a box.
     /// </summary>
-    /// <param name="theSegments">
-    /// [in] [out] primitive array to be filled;
+    /// <param name="in][out]">
+    /// theSegments   primitive array to be filled;
     /// should be at least 8 nodes and 24 edges in size
     /// </param>
-    /// <param name="theBox">
-    /// [in] the box to add
+    /// <param name="in]">
+    /// theBox  the box to add
     /// </param>
     static void FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_OBB^ theBox);
     /// <summary>
     /// Create primitive array with line segments for displaying a box.
     /// </summary>
-    /// <param name="theSegments">
-    /// [in] [out] primitive array to be filled;
+    /// <param name="in][out]">
+    /// theSegments   primitive array to be filled;
     /// should be at least 8 nodes and 24 edges in size
     /// </param>
-    /// <param name="theBox">
-    /// [in] the box to add
+    /// <param name="in]">
+    /// theBox  the box to add
     /// </param>
     static void FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_Box^ theBox);
     /// <summary>
     /// Create primitive array with line segments for displaying a box.
     /// </summary>
-    /// <param name="theSegments">
-    /// [in] [out] primitive array to be filled;
+    /// <param name="in][out]">
+    /// theSegments   primitive array to be filled;
     /// should be at least 8 nodes and 24 edges in size
     /// </param>
-    /// <param name="theBox">
-    /// [in] the box to add
+    /// <param name="in]">
+    /// theBox  the box to add
     /// </param>
     static void fillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Pnt theBox);
 }; // class Prs3d_BndBox
@@ -2882,8 +2870,8 @@ public:
     /// <summary>
     /// Generate primitives for 3D quadric surface presentation.
     /// </summary>
-    /// <param name="theTrsf">
-    /// [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf  optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -2893,14 +2881,14 @@ public:
     /// <summary>
     /// Generate primitives for 3D quadric surface and fill the given array.
     /// </summary>
-    /// <param name="theArray">
-    /// [in][out] the array of vertices;
+    /// <param name="in][out]">
+    /// theArray  the array of vertices;
     /// when NULL, function will create an indexed array;
     /// when not NULL, triangles will be appended to the end of array
     /// (will raise an exception if reserved array size is not large enough)
     /// </param>
-    /// <param name="theTrsf">
-    /// [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf  optional transformation to apply
     /// </param>
     void FillArray(Macad::Occt::Graphic3d_ArrayOfTriangles^ theArray, Macad::Occt::Trsf theTrsf);
     /// <summary>
@@ -2954,42 +2942,42 @@ public:
     /// <summary>
     /// Initializes the algorithm creating a cylinder.
     /// </summary>
-    /// <param name="theBottomRad">
-    /// [in] cylinder bottom radius
+    /// <param name="in]">
+    /// theBottomRad  cylinder bottom radius
     /// </param>
-    /// <param name="theTopRad">
-    ///    [in] cylinder top radius
+    /// <param name="in]">
+    /// theTopRad     cylinder top radius
     /// </param>
-    /// <param name="theHeight">
-    ///    [in] cylinder height
+    /// <param name="in]">
+    /// theHeight     cylinder height
     /// </param>
-    /// <param name="theNbSlices">
-    ///  [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices   number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    ///  [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks   number of stacks within V parameter
     /// </param>
     Prs3d_ToolCylinder(double theBottomRad, double theTopRad, double theHeight, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Generate primitives for 3D quadric surface and return a filled array.
     /// </summary>
-    /// <param name="theBottomRad">
-    /// [in] cylinder bottom radius
+    /// <param name="in]">
+    /// theBottomRad  cylinder bottom radius
     /// </param>
-    /// <param name="theTopRad">
-    ///    [in] cylinder top radius
+    /// <param name="in]">
+    /// theTopRad     cylinder top radius
     /// </param>
-    /// <param name="theHeight">
-    ///    [in] cylinder height
+    /// <param name="in]">
+    /// theHeight     cylinder height
     /// </param>
-    /// <param name="theNbSlices">
-    ///  [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices   number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    ///  [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks   number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///      [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf       optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3033,36 +3021,36 @@ public:
     /// <summary>
     /// Initializes the algorithm creating a disk.
     /// </summary>
-    /// <param name="theInnerRadius">
-    /// [in] inner disk radius
+    /// <param name="in]">
+    /// theInnerRadius  inner disk radius
     /// </param>
-    /// <param name="theOuterRadius">
-    /// [in] outer disk radius
+    /// <param name="in]">
+    /// theOuterRadius  outer disk radius
     /// </param>
-    /// <param name="theNbSlices">
-    ///    [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices     number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    ///    [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks     number of stacks within V parameter
     /// </param>
     Prs3d_ToolDisk(double theInnerRadius, double theOuterRadius, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
-    /// <param name="theInnerRadius">
-    /// [in] inner disc radius
+    /// <param name="in]">
+    /// theInnerRadius  inner disc radius
     /// </param>
-    /// <param name="theOuterRadius">
-    /// [in] outer disc radius
+    /// <param name="in]">
+    /// theOuterRadius  outer disc radius
     /// </param>
-    /// <param name="theNbSlices">
-    ///    [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices     number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    ///    [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks     number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///        [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf         optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3071,11 +3059,11 @@ public:
     /// <summary>
     /// Set angle range in radians [0, 2*PI] by default.
     /// </summary>
-    /// <param name="theStartAngle">
-    /// [in] Start angle in counter clockwise order
+    /// <param name="in]">
+    /// theStartAngle  Start angle in counter clockwise order
     /// </param>
-    /// <param name="theEndAngle">
-    ///   [in] End   angle in counter clockwise order
+    /// <param name="in]">
+    /// theEndAngle    End   angle in counter clockwise order
     /// </param>
     void SetAngleRange(double theStartAngle, double theEndAngle);
 }; // class Prs3d_ToolDisk
@@ -3116,30 +3104,30 @@ public:
     /// <summary>
     /// Initializes the algorithm creating a sector (quadrant).
     /// </summary>
-    /// <param name="theRadius">
-    ///   [in] sector radius
+    /// <param name="in]">
+    /// theRadius    sector radius
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolSector(double theRadius, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
-    /// <param name="theRadius">
-    ///   [in] sector radius
+    /// <param name="in]">
+    /// theRadius    sector radius
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3183,30 +3171,30 @@ public:
     /// <summary>
     /// Initializes the algorithm creating a sphere.
     /// </summary>
-    /// <param name="theRadius">
-    ///   [in] sphere radius
+    /// <param name="in]">
+    /// theRadius    sphere radius
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolSphere(double theRadius, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
-    /// <param name="theRadius">
-    ///   [in] sphere radius
+    /// <param name="in]">
+    /// theRadius    sphere radius
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3250,102 +3238,102 @@ public:
     /// <summary>
     /// Initializes the algorithm creating a complete torus.
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolTorus(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Initializes the algorithm creating a torus pipe segment.
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle">
-    ///    [in] angle to create a torus pipe segment
+    /// <param name="in]">
+    /// theAngle     angle to create a torus pipe segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Initializes the algorithm creating a torus ring segment.
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle1">
-    ///   [in] first  angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle1    first  angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle2">
-    ///   [in] second angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle2    second angle to create a torus ring segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Initializes the algorithm creating a torus ring segment.
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle1">
-    ///   [in] first  angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle1    first  angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle2">
-    ///   [in] second angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle2    second angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle">
-    ///    [in] angle to create a torus pipe segment
+    /// <param name="in]">
+    /// theAngle     angle to create a torus pipe segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
     Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks);
     /// <summary>
     /// Generate primitives for 3D quadric surface (complete torus).
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3354,23 +3342,23 @@ public:
     /// <summary>
     /// Generate primitives for 3D quadric surface (torus segment).
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle">
-    ///    [in] angle to create a torus pipe segment
+    /// <param name="in]">
+    /// theAngle     angle to create a torus pipe segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3379,26 +3367,26 @@ public:
     /// <summary>
     /// Generate primitives for 3D quadric surface (torus ring segment).
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle1">
-    ///   [in] first  angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle1    first  angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle2">
-    ///   [in] second angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle2    second angle to create a torus ring segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation
@@ -3407,29 +3395,29 @@ public:
     /// <summary>
     /// Generate primitives for 3D quadric surface (segment of the torus ring segment).
     /// </summary>
-    /// <param name="theMajorRad">
-    /// [in] distance from the center of the pipe to the center of the torus
+    /// <param name="in]">
+    /// theMajorRad  distance from the center of the pipe to the center of the torus
     /// </param>
-    /// <param name="theMinorRad">
-    /// [in] radius of the pipe
+    /// <param name="in]">
+    /// theMinorRad  radius of the pipe
     /// </param>
-    /// <param name="theAngle1">
-    ///   [in] first  angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle1    first  angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle2">
-    ///   [in] second angle to create a torus ring segment
+    /// <param name="in]">
+    /// theAngle2    second angle to create a torus ring segment
     /// </param>
-    /// <param name="theAngle">
-    ///    [in] angle to create a torus pipe segment
+    /// <param name="in]">
+    /// theAngle     angle to create a torus pipe segment
     /// </param>
-    /// <param name="theNbSlices">
-    /// [in] number of slices within U parameter
+    /// <param name="in]">
+    /// theNbSlices  number of slices within U parameter
     /// </param>
-    /// <param name="theNbStacks">
-    /// [in] number of stacks within V parameter
+    /// <param name="in]">
+    /// theNbStacks  number of stacks within V parameter
     /// </param>
-    /// <param name="theTrsf">
-    ///     [in] optional transformation to apply
+    /// <param name="in]">
+    /// theTrsf      optional transformation to apply
     /// </param>
     /// <returns>
     /// generated triangulation

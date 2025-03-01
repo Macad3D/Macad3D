@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Extensions\Geom2dAPI_Ex.cpp" />
+    <ClCompile Include="Extensions\TopoDS_Ex.cpp" />
     <ClCompile Include="Generated\BRepClass3d.cpp" />
     <ClCompile Include="Generated\BRepOffset.cpp" />
     <ClCompile Include="Generated\GeomPlate.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="ValueTypes\3d\Vec.cpp" />
     <ClCompile Include="ValueTypes\3d\XYZ.cpp" />
     <ClInclude Include="BaseClass.h" />
+    <ClInclude Include="Extensions\TopoDS_Ex.h" />
     <ClInclude Include="IndexEnumerator.h" />
     <ClInclude Include="IteratorEnumerator.h" />
     <ClInclude Include="Extensions\BRep_Ex.h" />

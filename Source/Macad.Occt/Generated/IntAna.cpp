@@ -156,49 +156,6 @@ Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListOfCurve::Iterator::ChangeValu
 
 
 //---------------------------------------------------------------------
-//  Class  IntAna_ListIteratorOfListOfCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::IntAna_ListIteratorOfListOfCurve::IntAna_ListIteratorOfListOfCurve()
-    : Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListIteratorOfListOfCurve();
-}
-
-Macad::Occt::IntAna_ListIteratorOfListOfCurve::IntAna_ListIteratorOfListOfCurve(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListIteratorOfListOfCurve(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::IntAna_ListIteratorOfListOfCurve::More()
-{
-    bool _result = ((::IntAna_ListIteratorOfListOfCurve*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::IntAna_ListIteratorOfListOfCurve::Next()
-{
-    ((::IntAna_ListIteratorOfListOfCurve*)_NativeInstance)->Next();
-}
-
-Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListIteratorOfListOfCurve::Value()
-{
-    ::IntAna_Curve* _result = new ::IntAna_Curve();
-    *_result = (::IntAna_Curve)((::IntAna_ListIteratorOfListOfCurve*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
-}
-
-Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListIteratorOfListOfCurve::ChangeValue()
-{
-    ::IntAna_Curve* _result = new ::IntAna_Curve();
-    *_result = ((::IntAna_ListIteratorOfListOfCurve*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  IntAna_Curve
 //---------------------------------------------------------------------
 

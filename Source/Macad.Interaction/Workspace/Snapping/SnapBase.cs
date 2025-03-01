@@ -96,7 +96,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
             && shapeToSnap.ShapeType() == TopAbs_ShapeEnum.VERTEX)
         {
             // On Vertex
-            var vertex = TopoDS.Vertex(shapeToSnap);
+            var vertex = shapeToSnap.ToVertex();
             return (SnapModes.Vertex, BRep_Tool.Pnt(vertex), null);
         }
 
@@ -105,7 +105,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
             && shapeToSnap.ShapeType() == TopAbs_ShapeEnum.EDGE)
         {
             // On Edge
-            var edge = TopoDS.Edge(shapeToSnap);
+            var edge = shapeToSnap.ToEdge();
             double umin = 0, umax = 0;
             var curve = BRep_Tool.Curve(edge, ref umin, ref umax);
             if (curve == null && BRepLib.BuildCurve3d(edge))

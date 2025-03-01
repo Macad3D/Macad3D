@@ -110,44 +110,6 @@ public:
 }; // class IntAna_ListOfCurve
 
 //---------------------------------------------------------------------
-//  Class  IntAna_ListIteratorOfListOfCurve
-//---------------------------------------------------------------------
-public ref class IntAna_ListIteratorOfListOfCurve sealed
-    : public Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>
-{
-
-#ifdef Include_IntAna_ListIteratorOfListOfCurve_h
-public:
-    Include_IntAna_ListIteratorOfListOfCurve_h
-#endif
-
-public:
-    IntAna_ListIteratorOfListOfCurve(::IntAna_ListIteratorOfListOfCurve* nativeInstance)
-        : Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>( nativeInstance, true )
-    {}
-
-    IntAna_ListIteratorOfListOfCurve(::IntAna_ListIteratorOfListOfCurve& nativeInstance)
-        : Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>( &nativeInstance, false )
-    {}
-
-    property ::IntAna_ListIteratorOfListOfCurve* NativeInstance
-    {
-        ::IntAna_ListIteratorOfListOfCurve* get()
-        {
-            return static_cast<::IntAna_ListIteratorOfListOfCurve*>(_NativeInstance);
-        }
-    }
-
-public:
-    IntAna_ListIteratorOfListOfCurve();
-    IntAna_ListIteratorOfListOfCurve(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::IntAna_Curve^ Value();
-    Macad::Occt::IntAna_Curve^ ChangeValue();
-}; // class IntAna_ListIteratorOfListOfCurve
-
-//---------------------------------------------------------------------
 //  Class  IntAna_Curve
 //---------------------------------------------------------------------
 /// <summary>
@@ -201,7 +163,7 @@ public:
     /// </summary>
     bool IsOpen();
     /// <summary>
-    /// Returns the paramatric domain of the curve.
+    /// Returns the parametric domain of the curve.
     /// </summary>
     void Domain(double% theFirst, double% theLast);
     /// <summary>
@@ -778,7 +740,8 @@ public:
     Macad::Occt::Pnt Point(int N);
     /// <summary>
     /// Returns the parameters on the "explicit quadric"
-    /// (i.e  the cylinder or the  cone, the first argument given to the constructor) of the point of range N.
+    /// (i.e  the cylinder or the  cone, the first argument given to the constructor) of the point of
+    /// range N.
     /// </summary>
     void Parameters(int N, double% U1, double% U2);
     /// <summary>

@@ -1326,16 +1326,6 @@ bool Macad::Occt::Extrema_Array2OfPOnSurfParams::IsDeletable()
     return _result;
 }
 
-System::Collections::Generic::IEnumerator<Macad::Occt::Extrema_POnSurfParams^>^ Macad::Occt::Extrema_Array2OfPOnSurfParams::GetEnumerator()
-{
-    return gcnew Macad::Occt::Extrema_Array2OfPOnSurfParams::Iterator(new ::Extrema_Array2OfPOnSurfParams::Iterator(*NativeInstance));
-}
-
-System::Collections::IEnumerator^ Macad::Occt::Extrema_Array2OfPOnSurfParams::GetEnumerator2()
-{
-    return gcnew Macad::Occt::Extrema_Array2OfPOnSurfParams::Iterator(new ::Extrema_Array2OfPOnSurfParams::Iterator(*NativeInstance));
-}
-
 
 
 //---------------------------------------------------------------------

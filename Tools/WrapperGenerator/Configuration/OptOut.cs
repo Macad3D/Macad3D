@@ -36,6 +36,7 @@ public static partial class Configuration
         "Standard_Type", // could not deduce template argument for 'T'
         "Graphic3d_Buffer", // could not deduce template argument for 'Type_t'
         "BRepExtrema_CellFilter", // error C2039: 'IsEqual': is not a member of 'BRepExtrema_VertexInspector'
+        "AIS_Manipulator", // error C2039: 'OptionsForAttach': is not a member of '`global namespace''
 
         /*
          * Missing External

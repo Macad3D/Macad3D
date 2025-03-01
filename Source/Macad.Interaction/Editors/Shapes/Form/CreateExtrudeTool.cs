@@ -87,7 +87,7 @@ public class CreateExtrudeTool : Tool
         bool finished = false;
         if (args.SelectedSubshapeType == SubshapeTypes.Face)
         {
-            var face = TopoDS.Face(args.SelectedSubshape);
+            var face = args.SelectedSubshape.ToFace();
             StopAction(action);
             Stop();
             finished = true;

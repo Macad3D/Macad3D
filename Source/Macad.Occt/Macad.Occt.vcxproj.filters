@@ -438,6 +438,9 @@
     <ClInclude Include="Extensions\Geom2dAPI_Ex.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="Extensions\TopoDS_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -757,6 +760,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp" />
     <ClCompile Include="Extensions\Geom2dAPI_Ex.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\TopoDS_Ex.cpp">
       <Filter>Extensions</Filter>
     </ClCompile>
   </ItemGroup>

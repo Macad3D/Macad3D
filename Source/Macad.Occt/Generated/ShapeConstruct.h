@@ -81,9 +81,8 @@ public:
     /// (re-calculate with account of orientation edges)
     /// c3dOut - result curve
     /// isRev1,isRev2 - out parameters indicative on possible errors.
-    /// isError - input parameter indicative possible errors due to that one from edges have one vertex
-    /// Return value : True - if curves were joined successfully,
-    /// else - False.
+    /// isError - input parameter indicative possible errors due to that one from edges have one
+    /// vertex Return value : True - if curves were joined successfully, else - False.
     /// </summary>
     static bool JoinCurves(Macad::Occt::Geom2d_Curve^ c2d1, Macad::Occt::Geom2d_Curve^ ac2d2, Macad::Occt::TopAbs_Orientation Orient1, Macad::Occt::TopAbs_Orientation Orient2, double% first1, double% last1, double% first2, double% last2, Macad::Occt::Geom2d_Curve^ c2dOut, bool% isRev1, bool% isRev2, bool isError);
     /// <summary>
@@ -94,9 +93,8 @@ public:
     /// (re-calculate with account of orientation edges)
     /// c3dOut - result curve
     /// isRev1,isRev2 - out parameters indicative on possible errors.
-    /// isError - input parameter indicative possible errors due to that one from edges have one vertex
-    /// Return value : True - if curves were joined successfully,
-    /// else - False.
+    /// isError - input parameter indicative possible errors due to that one from edges have one
+    /// vertex Return value : True - if curves were joined successfully, else - False.
     /// </summary>
     static bool JoinCurves(Macad::Occt::Geom2d_Curve^ c2d1, Macad::Occt::Geom2d_Curve^ ac2d2, Macad::Occt::TopAbs_Orientation Orient1, Macad::Occt::TopAbs_Orientation Orient2, double% first1, double% last1, double% first2, double% last2, Macad::Occt::Geom2d_Curve^ c2dOut, bool% isRev1, bool% isRev2);
 }; // class ShapeConstruct

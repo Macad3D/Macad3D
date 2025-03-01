@@ -91,7 +91,6 @@ namespace Occt
     ref class TColStd_Array1OfExtendedString;
     ref class TColStd_Array1OfInteger;
     ref class TColStd_ListOfInteger;
-    ref class TColStd_ListIteratorOfListOfInteger;
     ref class TColStd_Array1OfListOfInteger;
     ref class TColStd_Array1OfReal;
     ref class TColStd_Array1OfTransient;
@@ -114,17 +113,9 @@ namespace Occt
     ref class TColStd_SequenceOfInteger;
     ref class TColStd_SequenceOfReal;
     ref class TColStd_SequenceOfTransient;
-    ref class TColStd_IndexedDataMapOfStringString;
-    ref class TColStd_IndexedDataMapOfTransientTransient;
-    ref class TColStd_IndexedMapOfInteger;
-    ref class TColStd_IndexedMapOfReal;
-    ref class TColStd_IndexedMapOfTransient;
     ref class TColStd_ListOfAsciiString;
-    ref class TColStd_ListIteratorOfListOfAsciiString;
     ref class TColStd_ListOfReal;
-    ref class TColStd_ListIteratorOfListOfReal;
     ref class TColStd_ListOfTransient;
-    ref class TColStd_ListIteratorOfListOfTransient;
     ref class TColStd_MapOfAsciiString;
     ref class TColStd_MapOfInteger;
     ref class TColStd_MapOfReal;
@@ -242,7 +233,6 @@ namespace Occt
     ref class gp_Sphere;
     ref class gp_Torus;
     ref class Precision;
-    ref class TopLoc_IndexedMapOfLocation;
     ref class TopLoc_MapOfLocation;
     ref class TopLoc_Datum3D;
     ref class TopLoc_SListNodeOfItemLocation;
@@ -475,7 +465,6 @@ namespace Occt
     ref class gce_MakeTranslation2d;
     enum class gce_ErrorType;
     ref class IntAna_ListOfCurve;
-    ref class IntAna_ListIteratorOfListOfCurve;
     ref class IntAna_Curve;
     ref class IntAna_Int3Pln;
     ref class IntAna_Quadric;
@@ -549,8 +538,8 @@ namespace Occt
     enum class Extrema_ExtAlgo;
     enum class Extrema_ExtFlag;
     ref class TopoDS_ListOfShape;
-    ref class TopoDS_ListIteratorOfListOfShape;
     ref class TopoDS_Shape;
+    ref class TopoDS_TShape;
     ref class TopoDS_Vertex;
     ref class TopoDS_Edge;
     ref class TopoDS_Wire;
@@ -560,7 +549,6 @@ namespace Occt
     ref class TopoDS_CompSolid;
     ref class TopoDS_Compound;
     ref class TopoDS_HShape;
-    ref class TopoDS_TShape;
     ref class TopoDS_TVertex;
     ref class TopoDS_TEdge;
     ref class TopoDS_TWire;
@@ -571,15 +559,12 @@ namespace Occt
     ref class TopoDS_TCompound;
     ref class TopoDS_Builder;
     ref class TopoDS_Iterator;
-    ref class TopoDS;
     ref class TopoDS_FrozenShape;
     ref class TopoDS_LockedShape;
     ref class TopoDS_UnCompatibleShapes;
     enum class TopoDS_TShape_Flags;
     ref class BRep_ListOfPointRepresentation;
-    ref class BRep_ListIteratorOfListOfPointRepresentation;
     ref class BRep_ListOfCurveRepresentation;
-    ref class BRep_ListIteratorOfListOfCurveRepresentation;
     ref class BRep_Builder;
     ref class BRep_TFace;
     ref class BRep_PointRepresentation;
@@ -613,7 +598,6 @@ namespace Occt
     ref class BRepLProp_SurfaceTool;
     ref class BRepLProp_SLProps;
     ref class TopTools_ListOfShape;
-    ref class TopTools_ListIteratorOfListOfShape;
     ref class TopTools_Array1OfListOfShape;
     ref class TopTools_Array1OfShape;
     ref class TopTools_Array2OfShape;
@@ -633,10 +617,8 @@ namespace Occt
     ref class TopTools_IndexedDataMapOfShapeListOfShape;
     ref class TopTools_IndexedDataMapOfShapeReal;
     ref class TopTools_IndexedDataMapOfShapeShape;
-    ref class TopTools_IndexedMapOfOrientedShape;
     ref class TopTools_IndexedMapOfShape;
     ref class TopTools_ListOfListOfShape;
-    ref class TopTools_ListIteratorOfListOfListOfShape;
     ref class TopTools_MapOfOrientedShape;
     ref class TopTools_MapOfShape;
     ref class TopTools;
@@ -751,7 +733,6 @@ namespace Occt
     enum class BRepGProp_GaussType;
     enum class BRepGProp_MeshObjType;
     ref class BRepCheck_ListOfStatus;
-    ref class BRepCheck_ListIteratorOfListOfStatus;
     ref class BRepCheck_HListOfStatus;
     ref class BRepCheck_DataMapOfShapeListOfStatus;
     ref class BRepCheck_IndexedDataMapOfShapeResult;
@@ -1080,7 +1061,6 @@ namespace Occt
     ref class Graphic3d_ShaderVariableList;
     ref class Graphic3d_ShaderAttributeList;
     ref class Graphic3d_CameraLerp;
-    ref class Graphic3d_MapOfAspectsToAspects;
     ref class Graphic3d_SequenceOfGroup;
     ref class Graphic3d_MapOfStructure;
     ref class Graphic3d_SequenceOfStructure;
@@ -1223,7 +1203,6 @@ namespace Occt
     enum class FrustumCulling;
     enum class IterationFilter;
     ref class PrsMgr_ListOfPresentableObjects;
-    ref class PrsMgr_ListOfPresentableObjectsIter;
     ref class PrsMgr_ListOfPresentations;
     ref class PrsMgr_Presentations;
     ref class PrsMgr_PresentableObject;
@@ -1232,7 +1211,6 @@ namespace Occt
     enum class PrsMgr_DisplayStatus;
     enum class PrsMgr_TypeOfPresentation3d;
     ref class SelectMgr_ListOfFilter;
-    ref class SelectMgr_ListIteratorOfListOfFilter;
     ref class SelectMgr_Vec3;
     ref class SelectMgr_Vec4;
     ref class SelectMgr_Mat4;
@@ -1240,7 +1218,6 @@ namespace Occt
     ref class SelectMgr_SequenceOfOwner;
     ref class SelectMgr_IndexedDataMapOfOwnerCriterion;
     ref class SelectMgr_MapOfObjectSensitives;
-    ref class SelectMgr_FrustumCache;
     ref class SelectMgr_IndexedMapOfHSensitive;
     ref class SelectMgr_MapOfOwners;
     ref class SelectMgr_TriangFrustums;
@@ -1287,7 +1264,6 @@ namespace Occt
     enum class StdSelect_TypeOfFace;
     enum class StdSelect_TypeOfSelectionImage;
     ref class Prs3d_NListOfSequenceOfPnt;
-    ref class Prs3d_NListIteratorOfListOfSequenceOfPnt;
     ref class Prs3d_DimensionUnits;
     ref class Prs3d_BasicAspect;
     ref class Prs3d_LineAspect;
@@ -1326,7 +1302,6 @@ namespace Occt
     enum class Prs3d_TypeOfLinePicking;
     ref class AIS_DataMapOfIOStatus;
     ref class AIS_ListOfInteractive;
-    ref class AIS_ListIteratorOfListOfInteractive;
     ref class AIS_NArray1OfEntityOwner;
     ref class AIS_NListOfEntityOwner;
     ref class AIS_DataMapOfShapeDrawer;
@@ -1362,7 +1337,6 @@ namespace Occt
     ref class AIS_LightSourceOwner;
     ref class AIS_Line;
     ref class AIS_ManipulatorObjectSequence;
-    ref class AIS_Manipulator;
     ref class AIS_ManipulatorOwner;
     ref class AIS_MediaPlayer;
     ref class AIS_MultipleConnectedInteractive;
@@ -1410,9 +1384,7 @@ namespace Occt
     enum class DisplayMode;
     enum class SelectionMode;
     ref class V3d_ListOfLight;
-    ref class V3d_ListOfLightIterator;
     ref class V3d_ListOfView;
-    ref class V3d_ListOfViewIterator;
     ref class V3d_ImageDumpOptions;
     ref class V3d_View;
     ref class V3d;

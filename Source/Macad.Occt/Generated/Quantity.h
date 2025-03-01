@@ -657,12 +657,14 @@ public:
 //  Class  Quantity_Color
 //---------------------------------------------------------------------
 /// <summary>
-/// This class allows the definition of an RGB color as triplet of 3 normalized floating point values (red, green, blue).
+/// This class allows the definition of an RGB color as triplet of 3 normalized floating point
+/// values (red, green, blue).
 /// 
-/// Although Quantity_Color can be technically used for pass-through storage of RGB triplet in any color space,
-/// other OCCT interfaces taking/returning Quantity_Color would expect them in linear space.
-/// Therefore, take a look into methods converting to and from non-linear sRGB color space, if needed;
-/// for instance, application usually providing color picking within 0..255 range in sRGB color space.
+/// Although Quantity_Color can be technically used for pass-through storage of RGB triplet in any
+/// color space, other OCCT interfaces taking/returning Quantity_Color would expect them in linear
+/// space. Therefore, take a look into methods converting to and from non-linear sRGB color space,
+/// if needed; for instance, application usually providing color picking within 0..255 range in sRGB
+/// color space.
 /// </summary>
 public ref class Quantity_Color sealed
     : public Macad::Occt::BaseClass<::Quantity_Color>
@@ -759,7 +761,8 @@ public:
     /// </summary>
     void ChangeIntensity(double theDelta);
     /// <summary>
-    /// Returns the Saturation component (value of the saturation) of the color within range [0.0; 1.0].
+    /// Returns the Saturation component (value of the saturation) of the color within range
+    /// [0.0; 1.0].
     /// </summary>
     double Saturation();
     /// <summary>
@@ -777,7 +780,8 @@ public:
     /// </summary>
     bool IsEqual(Macad::Occt::Quantity_Color^ theOther);
     /// <summary>
-    /// Returns the distance between two colors. It's a value between 0 and the square root of 3 (the black/white distance).
+    /// Returns the distance between two colors. It's a value between 0 and the square root of 3 (the
+    /// black/white distance).
     /// </summary>
     double Distance(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
@@ -796,7 +800,7 @@ public:
     /// Returns the value of the perceptual difference between this color
     /// and @p theOther, computed using the CIEDE2000 formula.
     /// The difference is in range [0, 100.], with 1 approximately corresponding
-    /// to the minimal percievable difference (usually difference 5 or greater is
+    /// to the minimal perceivable difference (usually difference 5 or greater is
     /// needed for the difference to be recognizable in practice).
     /// </summary>
     double DeltaE2000(Macad::Occt::Quantity_Color^ theOther);
@@ -828,7 +832,8 @@ public:
     /// </returns>
     static bool ColorFromName(System::String^ theColorNameString, Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
-    /// Parses the string as a hex color (like "#FF0" for short sRGB color, or "#FFFF00" for sRGB color)
+    /// Parses the string as a hex color (like "#FF0" for short sRGB color, or "#FFFF00" for sRGB
+    /// color)
     /// </summary>
     /// <param name="theHexColorString">
     /// the string to be parsed
@@ -887,11 +892,11 @@ public:
     /// Note that this unpacking does NOT involve non-linear sRGB -> linear RGB conversion,
     /// as would be usually expected for RGB color packed into 4 bytes.
     /// </summary>
-    /// <param name="theColor">
-    /// [in] color to convert
+    /// <param name="in]">
+    /// theColor  color to convert
     /// </param>
-    /// <param name="theARGB">
-    /// [out] result color encoded as integer
+    /// <param name="out]">
+    /// theARGB  result color encoded as integer
     /// </param>
     static void Color2argb(Macad::Occt::Quantity_Color^ theColor, int% theARGB);
     /// <summary>
@@ -901,19 +906,23 @@ public:
     /// </summary>
     static void Argb2color(int theARGB, Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
-    /// Convert linear RGB component into sRGB using OpenGL specs formula (double precision), also known as gamma correction.
+    /// Convert linear RGB component into sRGB using OpenGL specs formula (double precision), also
+    /// known as gamma correction.
     /// </summary>
     static double Convert_LinearRGB_To_sRGB(double theLinearValue);
     /// <summary>
-    /// Convert linear RGB component into sRGB using OpenGL specs formula (single precision), also known as gamma correction.
+    /// Convert linear RGB component into sRGB using OpenGL specs formula (single precision), also
+    /// known as gamma correction.
     /// </summary>
     static float Convert_LinearRGB_To_sRGB(float theLinearValue);
     /// <summary>
-    /// Convert sRGB component into linear RGB using OpenGL specs formula (double precision), also known as gamma correction.
+    /// Convert sRGB component into linear RGB using OpenGL specs formula (double precision), also
+    /// known as gamma correction.
     /// </summary>
     static double Convert_sRGB_To_LinearRGB(double thesRGBValue);
     /// <summary>
-    /// Convert sRGB component into linear RGB using OpenGL specs formula (single precision), also known as gamma correction.
+    /// Convert sRGB component into linear RGB using OpenGL specs formula (single precision), also
+    /// known as gamma correction.
     /// </summary>
     static float Convert_sRGB_To_LinearRGB(float thesRGBValue);
     static Macad::Occt::gp_Vec3f^ Convert_LinearRGB_To_sRGB(Macad::Occt::gp_Vec3f^ theRGB);
@@ -1064,7 +1073,8 @@ public:
     /// </returns>
     static bool ColorFromName(System::String^ theColorNameString, Macad::Occt::Quantity_ColorRGBA^ theColor);
     /// <summary>
-    /// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA color,
+    /// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA
+    /// color,
     /// "#FFFF00" for RGB color, or "#FFFF00FF" for RGBA color)
     /// </summary>
     /// <param name="theHexColorString">
@@ -1082,7 +1092,8 @@ public:
     /// </returns>
     static bool ColorFromHex(char theHexColorString, Macad::Occt::Quantity_ColorRGBA^ theColor, bool theAlphaComponentIsOff);
     /// <summary>
-    /// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA color,
+    /// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA
+    /// color,
     /// "#FFFF00" for RGB color, or "#FFFF00FF" for RGBA color)
     /// </summary>
     /// <param name="theHexColorString">

@@ -42,8 +42,8 @@ public enum class Image_Format
 //  Enum  Image_CompressedFormat
 //---------------------------------------------------------------------
 /// <summary>
-/// List of compressed pixel formats natively supported by various graphics hardware (e.g. for efficient decoding on-the-fly).
-/// It is defined as extension of Image_Format.
+/// List of compressed pixel formats natively supported by various graphics hardware (e.g. for
+/// efficient decoding on-the-fly). It is defined as extension of Image_Format.
 /// </summary>
 public enum class Image_CompressedFormat
 {
@@ -738,7 +738,8 @@ public:
     void SetFramerate(int theNumerator, int theDenominator);
     /// <summary>
     /// Setup playback FPS.
-    /// For fixed-fps content, timebase should be 1/framerate and timestamp increments should be identical to 1.
+    /// For fixed-fps content, timebase should be 1/framerate and timestamp increments should be
+    /// identical to 1.
     /// </summary>
     void SetFramerate(int theValue);
 }; // class Image_VideoParams
@@ -1030,7 +1031,8 @@ public:
     /// theFormat pixel format
     /// </param>
     /// <param name="in]">
-    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g. Image_Format_RGB) will be linearized
+    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g.
+    /// Image_Format_RGB) will be linearized
     /// </param>
     /// <returns>
     /// the pixel color
@@ -1046,7 +1048,8 @@ public:
     /// theFormat pixel format
     /// </param>
     /// <param name="in]">
-    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g. Image_Format_RGB) will be linearized
+    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g.
+    /// Image_Format_RGB) will be linearized
     /// </param>
     /// <returns>
     /// the pixel color
@@ -1065,7 +1068,8 @@ public:
     ///  theColor color value to convert from
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     static void ColorToRawPixel(unsigned char% theRawValue, Macad::Occt::Image_Format theFormat, Macad::Occt::Quantity_ColorRGBA^ theColor, bool theToDeLinearize);
     /// <summary>
@@ -1081,7 +1085,8 @@ public:
     ///  theColor color value to convert from
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     static void ColorToRawPixel(unsigned char% theRawValue, Macad::Occt::Image_Format theFormat, Macad::Occt::Quantity_ColorRGBA^ theColor);
     /// <summary>
@@ -1130,7 +1135,8 @@ public:
     bool IsEmpty();
     /// <summary>
     /// Returns the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left, starting from 0
@@ -1139,7 +1145,8 @@ public:
     /// theY row    index from top,  starting from 0
     /// </param>
     /// <param name="in]">
-    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g. Image_Format_RGB) will be linearized
+    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g.
+    /// Image_Format_RGB) will be linearized
     /// </param>
     /// <returns>
     /// the pixel color
@@ -1147,7 +1154,8 @@ public:
     Macad::Occt::Quantity_ColorRGBA^ PixelColor(int theX, int theY, bool theToLinearize);
     /// <summary>
     /// Returns the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left, starting from 0
@@ -1156,7 +1164,8 @@ public:
     /// theY row    index from top,  starting from 0
     /// </param>
     /// <param name="in]">
-    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g. Image_Format_RGB) will be linearized
+    /// theToLinearize when TRUE, the color stored in non-linear color space (e.g.
+    /// Image_Format_RGB) will be linearized
     /// </param>
     /// <returns>
     /// the pixel color
@@ -1164,7 +1173,8 @@ public:
     Macad::Occt::Quantity_ColorRGBA^ PixelColor(int theX, int theY);
     /// <summary>
     /// Sets the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left
@@ -1176,12 +1186,14 @@ public:
     /// theColor color to store
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_Color^ theColor, bool theToDeLinearize);
     /// <summary>
     /// Sets the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left
@@ -1193,12 +1205,14 @@ public:
     /// theColor color to store
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
     /// Sets the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left
@@ -1210,12 +1224,14 @@ public:
     /// theColor color to store
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_ColorRGBA^ theColor, bool theToDeLinearize);
     /// <summary>
     /// Sets the pixel color. This function is relatively slow.
-    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and ::ChangeValue().
+    /// Beware that this method takes coordinates in opposite order in contrast to ::Value() and
+    /// ::ChangeValue().
     /// </summary>
     /// <param name="in]">
     /// theX column index from left
@@ -1227,7 +1243,8 @@ public:
     /// theColor color to store
     /// </param>
     /// <param name="in]">
-    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in non-linear color space (e.g. Image_Format_RGB)
+    /// theToDeLinearize when TRUE, the gamma correction will be applied for storing in
+    /// non-linear color space (e.g. Image_Format_RGB)
     /// </param>
     void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_ColorRGBA^ theColor);
     /// <summary>
@@ -1286,6 +1303,8 @@ public:
     /* Method skipped due to unknown mapping: bool InitZero3D(Image_Format thePixelFormat, NCollection_Vec3<unsigned long long> theSizeXYZ, long long unsigned int theSizeRowBytes, unsigned char theValue, ) */
     /* Method skipped due to unknown mapping: bool InitZero3D(Image_Format thePixelFormat, NCollection_Vec3<unsigned long long> theSizeXYZ, long long unsigned int theSizeRowBytes, unsigned char theValue, ) */
     /// <summary>
+    /// </summary>
+    /// @name low-level API for batch-processing (pixels reading / comparison / modification)
     /// Returns TRUE if image data is stored from Top to the Down.
     /// By default Bottom Up order is used instead
     /// (topmost scanlines starts from the bottom in memory).
@@ -1294,7 +1313,6 @@ public:
     /// Notice that access methods within this class automatically
     /// convert input row-index to apply this flag!
     /// You should use this flag only if interconnect with alien APIs and buffers.
-    /// </summary>
     /// <returns>
     /// true if image data is top-down
     /// </returns>
@@ -1315,11 +1333,13 @@ public:
     /// </returns>
     long long unsigned int TopDownInc();
     /// <summary>
-    /// Return data pointer for low-level operations (copying entire buffer, parsing with extra tools etc.).
+    /// Return data pointer for low-level operations (copying entire buffer, parsing with extra tools
+    /// etc.).
     /// </summary>
     unsigned char Data();
     /// <summary>
-    /// Return data pointer for low-level operations (copying entire buffer, parsing with extra tools etc.).
+    /// Return data pointer for low-level operations (copying entire buffer, parsing with extra tools
+    /// etc.).
     /// </summary>
     unsigned char ChangeData();
     /// <summary>
@@ -1384,14 +1404,16 @@ public:
     /// Access image pixel as raw data pointer.
     /// Indexation starts from 0.
     /// This method does not perform any type checks - use on own risk (check Format() before)!
-    /// WARNING: Input parameters are defined in the decreasing majority following memory layout - e.g. row first, column next.
+    /// WARNING: Input parameters are defined in the decreasing majority following memory layout -
+    /// e.g. row first, column next.
     /// </summary>
     unsigned char RawValue(long long unsigned int theRow, long long unsigned int theCol);
     /// <summary>
     /// Access image pixel as raw data pointer.
     /// Indexation starts from 0.
     /// This method does not perform any type checks - use on own risk (check Format() before)!
-    /// WARNING: Input parameters are defined in the decreasing majority following memory layout - e.g. row first, column next.
+    /// WARNING: Input parameters are defined in the decreasing majority following memory layout -
+    /// e.g. row first, column next.
     /// </summary>
     unsigned char ChangeRawValue(long long unsigned int theRow, long long unsigned int theCol);
     /// <summary>
@@ -1443,10 +1465,12 @@ public:
 /// - *.bmp - bitmap image, lossless format without compression.
 /// - *.ppm - PPM (Portable Pixmap Format), lossless format without compression.
 /// - *.png - PNG (Portable Network Graphics) lossless format with compression.
-/// - *.jpg, *.jpe, *.jpeg - JPEG/JIFF (Joint Photographic Experts Group) lossy format (compressed with quality losses). YUV color space used (automatically converted from/to RGB).
+/// - *.jpg, *.jpe, *.jpeg - JPEG/JIFF (Joint Photographic Experts Group) lossy format (compressed
+/// with quality losses). YUV color space used (automatically converted from/to RGB).
 /// - *.tif, *.tiff - TIFF (Tagged Image File Format).
 /// - *.tga - TGA (Truevision Targa Graphic), lossless format.
-/// - *.gif - GIF (Graphical Interchange Format), lossy format. Color stored using palette (up to 256 distinct colors).
+/// - *.gif - GIF (Graphical Interchange Format), lossy format. Color stored using palette (up to
+/// 256 distinct colors).
 /// - *.exr - OpenEXR high dynamic-range format (supports float pixel formats).
 /// </summary>
 public ref class Image_AlienPixMap sealed
@@ -1534,7 +1558,8 @@ public:
     /// than nearest supported will be used instead!
     /// </param>
     /// <param name="in]">
-    /// theSizeRowBytes may be ignored by this class and required alignment will be used instead!
+    /// theSizeRowBytes may be ignored by this class and required alignment will be used
+    /// instead!
     /// </param>
     bool InitTrash(Macad::Occt::Image_Format thePixelFormat, long long unsigned int theSizeX, long long unsigned int theSizeY, long long unsigned int theSizeRowBytes);
     /// <summary>
@@ -1545,7 +1570,8 @@ public:
     /// than nearest supported will be used instead!
     /// </param>
     /// <param name="in]">
-    /// theSizeRowBytes may be ignored by this class and required alignment will be used instead!
+    /// theSizeRowBytes may be ignored by this class and required alignment will be used
+    /// instead!
     /// </param>
     bool InitTrash(Macad::Occt::Image_Format thePixelFormat, long long unsigned int theSizeX, long long unsigned int theSizeY);
     /// <summary>
@@ -1781,18 +1807,18 @@ public:
     /// <summary>
     /// Load the face from DDS file.
     /// </summary>
-    /// <param name="theSupported">
-    /// [in] list of supported image formats
+    /// <param name="in]">
+    /// theSupported  list of supported image formats
     /// </param>
-    /// <param name="theFile">
-    ///      [in] file path
+    /// <param name="in]">
+    /// theFile       file path
     /// </param>
-    /// <param name="theFaceIndex">
-    /// [in] face index, within [0, Image_CompressedPixMap::NbFaces()) range;
+    /// <param name="in]">
+    /// theFaceIndex  face index, within [0, Image_CompressedPixMap::NbFaces()) range;
     /// use -1 to skip reading the face data
     /// </param>
-    /// <param name="theFileOffset">
-    /// [in] offset to the DDS data
+    /// <param name="in]">
+    /// theFileOffset  offset to the DDS data
     /// </param>
     /// <returns>
     /// loaded face or NULL if file cannot be read or not valid DDS file
@@ -1801,18 +1827,18 @@ public:
     /// <summary>
     /// Load the face from DDS file.
     /// </summary>
-    /// <param name="theSupported">
-    /// [in] list of supported image formats
+    /// <param name="in]">
+    /// theSupported  list of supported image formats
     /// </param>
-    /// <param name="theFile">
-    ///      [in] file path
+    /// <param name="in]">
+    /// theFile       file path
     /// </param>
-    /// <param name="theFaceIndex">
-    /// [in] face index, within [0, Image_CompressedPixMap::NbFaces()) range;
+    /// <param name="in]">
+    /// theFaceIndex  face index, within [0, Image_CompressedPixMap::NbFaces()) range;
     /// use -1 to skip reading the face data
     /// </param>
-    /// <param name="theFileOffset">
-    /// [in] offset to the DDS data
+    /// <param name="in]">
+    /// theFileOffset  offset to the DDS data
     /// </param>
     /// <returns>
     /// loaded face or NULL if file cannot be read or not valid DDS file
@@ -1821,14 +1847,15 @@ public:
     /// <summary>
     /// Load the face from DDS file.
     /// </summary>
-    /// <param name="theSupported">
-    /// [in] list of supported image formats
+    /// <param name="in]">
+    /// theSupported  list of supported image formats
     /// </param>
-    /// <param name="theBuffer">
-    ///    [in] pre-loaded file data, should be at least of 128 bytes long defining DDS header.
+    /// <param name="in]">
+    /// theBuffer     pre-loaded file data, should be at least of 128 bytes long defining
+    /// DDS header.
     /// </param>
-    /// <param name="theFaceIndex">
-    /// [in] face index, within [0, Image_CompressedPixMap::NbFaces()) range;
+    /// <param name="in]">
+    /// theFaceIndex  face index, within [0, Image_CompressedPixMap::NbFaces()) range;
     /// use -1 to skip reading the face data
     /// </param>
     /// <returns>
@@ -1856,7 +1883,7 @@ public:
 /// (about 90 degree between the normal and the direction to the user's eye).
 /// Deflection of the light for such a triangle depends on implementation of the video driver.
 /// In order to skip this difference the following algorithm is used:
-/// a) "Different" pixels are groupped and checked on "one-pixel width line".
+/// a) "Different" pixels are grouped and checked on "one-pixel width line".
 /// indeed, the pixels may represent not a line, but any curve.
 /// But the width of this curve should be not more than a pixel.
 /// This group of pixels become a candidate to be ignored because of boundary effect.
@@ -1872,7 +1899,8 @@ public:
 /// 1. http://pdiff.sourceforge.net/ypg01.pdf
 /// 2. http://pdiff.sourceforge.net/metric.html
 /// 3. http://www.cs.ucf.edu/~sumant/publications/sig99.pdf
-/// 4. http://www.worldscientific.com/worldscibooks/10.1142/2641#t=toc (there is a list of articles and books in PDF format)
+/// 4. http://www.worldscientific.com/worldscibooks/10.1142/2641#t=toc (there is a list of
+/// articles and books in PDF format)
 /// </summary>
 public ref class Image_Diff sealed
     : public Macad::Occt::Standard_Transient
@@ -1936,7 +1964,8 @@ public:
     /// <summary>
     /// Color tolerance for equality check. Should be within range 0..1:
     /// Corresponds to a difference between white and black colors (maximum difference).
-    /// By default, the tolerance is equal to 0 thus equality check will return false for any different colors.
+    /// By default, the tolerance is equal to 0 thus equality check will return false for any
+    /// different colors.
     /// </summary>
     void SetColorTolerance(double theTolerance);
     /// <summary>
@@ -1977,7 +2006,8 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// Texture image definition.
-/// The image can be stored as path to image file, as file path with the given offset and as a data buffer of encoded image.
+/// The image can be stored as path to image file, as file path with the given offset and as a data
+/// buffer of encoded image.
 /// </summary>
 public ref class Image_Texture sealed
     : public Macad::Occt::Standard_Transient
@@ -2060,12 +2090,14 @@ public:
     bool WriteImage(Macad::Occt::TCollection_AsciiString^ theFile);
     /* Method skipped due to unknown mapping: bool WriteImage(ostream theStream, TCollection_AsciiString theFile, ) */
     /// <summary>
-    /// Dumps the content of me into the stream
     /// </summary>
+    /// @name hasher interface
+    /// Dumps the content of me into the stream
     void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
     /// <summary>
-    /// Dumps the content of me into the stream
     /// </summary>
+    /// @name hasher interface
+    /// Dumps the content of me into the stream
     void DumpJson(System::IO::TextWriter^ theOStream);
     static Macad::Occt::Image_Texture^ CreateDowncasted(::Image_Texture* instance);
 }; // class Image_Texture
@@ -2114,11 +2146,11 @@ public:
     /// <summary>
     /// Open output stream - initialize recorder.
     /// </summary>
-    /// <param name="theFileName">
-    /// [in] video filename
+    /// <param name="in]">
+    /// theFileName  video filename
     /// </param>
-    /// <param name="theParams">
-    ///   [in] video parameters
+    /// <param name="in]">
+    /// theParams    video parameters
     /// </param>
     bool Open(char theFileName, Macad::Occt::Image_VideoParams^ theParams);
     /// <summary>

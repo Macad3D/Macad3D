@@ -162,49 +162,6 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopTools_ListOfShape::Iterator::ChangeVa
 
 
 //---------------------------------------------------------------------
-//  Class  TopTools_ListIteratorOfListOfShape
-//---------------------------------------------------------------------
-
-Macad::Occt::TopTools_ListIteratorOfListOfShape::TopTools_ListIteratorOfListOfShape()
-    : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_ListIteratorOfListOfShape();
-}
-
-Macad::Occt::TopTools_ListIteratorOfListOfShape::TopTools_ListIteratorOfListOfShape(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_ListIteratorOfListOfShape(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::TopTools_ListIteratorOfListOfShape::More()
-{
-    bool _result = ((::TopTools_ListIteratorOfListOfShape*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TopTools_ListIteratorOfListOfShape::Next()
-{
-    ((::TopTools_ListIteratorOfListOfShape*)_NativeInstance)->Next();
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopTools_ListIteratorOfListOfShape::Value()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = (::TopoDS_Shape)((::TopTools_ListIteratorOfListOfShape*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopTools_ListIteratorOfListOfShape::ChangeValue()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = ((::TopTools_ListIteratorOfListOfShape*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  TopTools_Array1OfListOfShape
 //---------------------------------------------------------------------
 
@@ -3314,169 +3271,6 @@ bool Macad::Occt::TopTools_IndexedDataMapOfShapeShape::Iterator::Equals(System::
 
 
 //---------------------------------------------------------------------
-//  Class  TopTools_IndexedMapOfOrientedShape
-//---------------------------------------------------------------------
-
-Macad::Occt::TopTools_IndexedMapOfOrientedShape::TopTools_IndexedMapOfOrientedShape()
-    : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_IndexedMapOfOrientedShape();
-}
-
-Macad::Occt::TopTools_IndexedMapOfOrientedShape::TopTools_IndexedMapOfOrientedShape(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-    : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_IndexedMapOfOrientedShape(theNbBuckets, Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::TopTools_IndexedMapOfOrientedShape::TopTools_IndexedMapOfOrientedShape(int theNbBuckets)
-    : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_IndexedMapOfOrientedShape(theNbBuckets, 0L);
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Exchange(Macad::Occt::TopTools_IndexedMapOfOrientedShape^ theOther)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Exchange(*(::TopTools_IndexedMapOfOrientedShape*)theOther->NativeInstance);
-}
-
-Macad::Occt::TopTools_IndexedMapOfOrientedShape^ Macad::Occt::TopTools_IndexedMapOfOrientedShape::Assign(Macad::Occt::TopTools_IndexedMapOfOrientedShape^ theOther)
-{
-    ::TopTools_IndexedMapOfOrientedShape* _result = new ::TopTools_IndexedMapOfOrientedShape();
-    *_result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Assign(*(::TopTools_IndexedMapOfOrientedShape*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_IndexedMapOfOrientedShape(_result);
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::ReSize(int theExtent)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->ReSize(theExtent);
-}
-
-int Macad::Occt::TopTools_IndexedMapOfOrientedShape::Add(Macad::Occt::TopoDS_Shape^ theKey1)
-{
-    int _result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Add(*(::TopoDS_Shape*)theKey1->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::TopTools_IndexedMapOfOrientedShape::Contains(Macad::Occt::TopoDS_Shape^ theKey1)
-{
-    bool _result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Contains(*(::TopoDS_Shape*)theKey1->NativeInstance);
-    return _result;
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Substitute(int theIndex, Macad::Occt::TopoDS_Shape^ theKey1)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Substitute(theIndex, *(::TopoDS_Shape*)theKey1->NativeInstance);
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Swap(int theIndex1, int theIndex2)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Swap(theIndex1, theIndex2);
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::RemoveLast()
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->RemoveLast();
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::RemoveFromIndex(int theIndex)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->RemoveFromIndex(theIndex);
-}
-
-bool Macad::Occt::TopTools_IndexedMapOfOrientedShape::RemoveKey(Macad::Occt::TopoDS_Shape^ theKey1)
-{
-    bool _result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->RemoveKey(*(::TopoDS_Shape*)theKey1->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopTools_IndexedMapOfOrientedShape::FindKey(int theIndex)
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = (::TopoDS_Shape)((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->FindKey(theIndex);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-int Macad::Occt::TopTools_IndexedMapOfOrientedShape::FindIndex(Macad::Occt::TopoDS_Shape^ theKey1)
-{
-    int _result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->FindIndex(*(::TopoDS_Shape*)theKey1->NativeInstance);
-    return _result;
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Clear(bool doReleaseMemory)
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Clear(doReleaseMemory);
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Clear()
-{
-    ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Clear(false);
-}
-
-int Macad::Occt::TopTools_IndexedMapOfOrientedShape::Size()
-{
-    int _result = ((::TopTools_IndexedMapOfOrientedShape*)_NativeInstance)->Size();
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  TopTools_IndexedMapOfOrientedShape::Iterator
-//---------------------------------------------------------------------
-
-Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_IndexedMapOfOrientedShape::Iterator();
-}
-
-bool Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::More()
-{
-    bool _result = ((::TopTools_IndexedMapOfOrientedShape::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::Next()
-{
-    ((::TopTools_IndexedMapOfOrientedShape::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::Value()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = (::TopoDS_Shape)((::TopTools_IndexedMapOfOrientedShape::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-bool Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::IsEqual(Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator^ theOther)
-{
-    bool _result = ((::TopTools_IndexedMapOfOrientedShape::Iterator*)_NativeInstance)->IsEqual(*(::TopTools_IndexedMapOfOrientedShape::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  TopTools_IndexedMapOfShape
 //---------------------------------------------------------------------
 
@@ -3582,16 +3376,6 @@ int Macad::Occt::TopTools_IndexedMapOfShape::Size()
     return _result;
 }
 
-System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ Macad::Occt::TopTools_IndexedMapOfShape::GetEnumerator()
-{
-    return gcnew Macad::Occt::TopTools_IndexedMapOfShape::Iterator(new ::TopTools_IndexedMapOfShape::Iterator(*NativeInstance));
-}
-
-System::Collections::IEnumerator^ Macad::Occt::TopTools_IndexedMapOfShape::GetEnumerator2()
-{
-    return gcnew Macad::Occt::TopTools_IndexedMapOfShape::Iterator(new ::TopTools_IndexedMapOfShape::Iterator(*NativeInstance));
-}
-
 
 
 //---------------------------------------------------------------------
@@ -3599,7 +3383,7 @@ System::Collections::IEnumerator^ Macad::Occt::TopTools_IndexedMapOfShape::GetEn
 //---------------------------------------------------------------------
 
 Macad::Occt::TopTools_IndexedMapOfShape::Iterator::Iterator()
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_IndexedMapOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::TopTools_IndexedMapOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopTools_IndexedMapOfShape::Iterator();
 }
@@ -3795,49 +3579,6 @@ Macad::Occt::TopoDS_ListOfShape^ Macad::Occt::TopTools_ListOfListOfShape::Iterat
 
 
 //---------------------------------------------------------------------
-//  Class  TopTools_ListIteratorOfListOfListOfShape
-//---------------------------------------------------------------------
-
-Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::TopTools_ListIteratorOfListOfListOfShape()
-    : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_ListIteratorOfListOfListOfShape();
-}
-
-Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::TopTools_ListIteratorOfListOfListOfShape(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopTools_ListIteratorOfListOfListOfShape(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::More()
-{
-    bool _result = ((::TopTools_ListIteratorOfListOfListOfShape*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::Next()
-{
-    ((::TopTools_ListIteratorOfListOfListOfShape*)_NativeInstance)->Next();
-}
-
-Macad::Occt::TopoDS_ListOfShape^ Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::Value()
-{
-    ::TopoDS_ListOfShape* _result = new ::TopoDS_ListOfShape();
-    *_result = (::TopoDS_ListOfShape)((::TopTools_ListIteratorOfListOfListOfShape*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_ListOfShape(_result);
-}
-
-Macad::Occt::TopoDS_ListOfShape^ Macad::Occt::TopTools_ListIteratorOfListOfListOfShape::ChangeValue()
-{
-    ::TopoDS_ListOfShape* _result = new ::TopoDS_ListOfShape();
-    *_result = ((::TopTools_ListIteratorOfListOfListOfShape*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_ListOfShape(_result);
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  TopTools_MapOfOrientedShape
 //---------------------------------------------------------------------
 
@@ -3992,6 +3733,16 @@ bool Macad::Occt::TopTools_MapOfOrientedShape::Equals(System::Object^ obj)
     return false;
 }
 
+System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ Macad::Occt::TopTools_MapOfOrientedShape::GetEnumerator()
+{
+    return gcnew Macad::Occt::TopTools_MapOfOrientedShape::Iterator(new ::TopTools_MapOfOrientedShape::Iterator(*NativeInstance));
+}
+
+System::Collections::IEnumerator^ Macad::Occt::TopTools_MapOfOrientedShape::GetEnumerator2()
+{
+    return gcnew Macad::Occt::TopTools_MapOfOrientedShape::Iterator(new ::TopTools_MapOfOrientedShape::Iterator(*NativeInstance));
+}
+
 
 
 //---------------------------------------------------------------------
@@ -3999,7 +3750,7 @@ bool Macad::Occt::TopTools_MapOfOrientedShape::Equals(System::Object^ obj)
 //---------------------------------------------------------------------
 
 Macad::Occt::TopTools_MapOfOrientedShape::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::TopTools_MapOfOrientedShape::Iterator>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfOrientedShape::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopTools_MapOfOrientedShape::Iterator();
 }
@@ -4186,16 +3937,6 @@ bool Macad::Occt::TopTools_MapOfShape::Equals(System::Object^ obj)
     return false;
 }
 
-System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ Macad::Occt::TopTools_MapOfShape::GetEnumerator()
-{
-    return gcnew Macad::Occt::TopTools_MapOfShape::Iterator(new ::TopTools_MapOfShape::Iterator(*NativeInstance));
-}
-
-System::Collections::IEnumerator^ Macad::Occt::TopTools_MapOfShape::GetEnumerator2()
-{
-    return gcnew Macad::Occt::TopTools_MapOfShape::Iterator(new ::TopTools_MapOfShape::Iterator(*NativeInstance));
-}
-
 
 
 //---------------------------------------------------------------------
@@ -4203,7 +3944,7 @@ System::Collections::IEnumerator^ Macad::Occt::TopTools_MapOfShape::GetEnumerato
 //---------------------------------------------------------------------
 
 Macad::Occt::TopTools_MapOfShape::Iterator::Iterator()
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::TopTools_MapOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopTools_MapOfShape::Iterator();
 }

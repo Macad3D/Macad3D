@@ -98,7 +98,7 @@ public:
     /// </summary>
     void Translate(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
     /// <summary>
-    /// Transformation of a geometric object. This tansformation
+    /// Transformation of a geometric object. This transformation
     /// can be a translation, a rotation, a symmetry, a scaling
     /// or a complex transformation obtained by combination of
     /// the previous elementaries transformations.

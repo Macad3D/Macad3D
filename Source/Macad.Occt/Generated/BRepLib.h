@@ -518,26 +518,26 @@ public:
     /// <summary>
     /// Enlarges the face on the given value.
     /// </summary>
-    /// <param name="theF">
-    /// [in] The face to extend
+    /// <param name="in]">
+    /// theF  The face to extend
     /// </param>
-    /// <param name="theExtVal">
-    /// [in] The extension value
+    /// <param name="in]">
+    /// theExtVal  The extension value
     /// </param>
-    /// <param name="theExtUMin">
-    /// [in] Defines whether to extend the face in UMin direction
+    /// <param name="in]">
+    /// theExtUMin  Defines whether to extend the face in UMin direction
     /// </param>
-    /// <param name="theExtUMax">
-    /// [in] Defines whether to extend the face in UMax direction
+    /// <param name="in]">
+    /// theExtUMax  Defines whether to extend the face in UMax direction
     /// </param>
-    /// <param name="theExtVMin">
-    /// [in] Defines whether to extend the face in VMin direction
+    /// <param name="in]">
+    /// theExtVMin  Defines whether to extend the face in VMin direction
     /// </param>
-    /// <param name="theExtVMax">
-    /// [in] Defines whether to extend the face in VMax direction
+    /// <param name="in]">
+    /// theExtVMax  Defines whether to extend the face in VMax direction
     /// </param>
-    /// <param name="theFExtended">
-    /// [in] The extended face
+    /// <param name="in]">
+    /// theFExtended  The extended face
     /// </param>
     static void ExtendFace(Macad::Occt::TopoDS_Face^ theF, double theExtVal, bool theExtUMin, bool theExtUMax, bool theExtVMin, bool theExtVMax, Macad::Occt::TopoDS_Face^ theFExtended);
 }; // class BRepLib
@@ -1908,7 +1908,8 @@ public:
     /// </summary>
     void SetTolerance(double theTol);
     /// <summary>
-    /// Returns value of the distance to define deflection of points from shape along normal to shape; 0.0 by default.
+    /// Returns value of the distance to define deflection of points from shape along normal to shape;
+    /// 0.0 by default.
     /// </summary>
     double GetDistance();
     /// <summary>

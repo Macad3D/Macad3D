@@ -217,7 +217,7 @@ public:
     /// 
     /// x(1)/w , x(2)/w ,  ... derivated <N,0> times
     /// ....
-    /// Warning: <RDers> must be dimensionned properly.
+    /// Warning: <RDers> must be dimensioned properly.
     /// </summary>
     static void RationalDerivative(int UDeg, int VDeg, int N, int M, double% Ders, double% RDers, bool All);
     /// <summary>
@@ -303,7 +303,7 @@ public:
     /// 
     /// x(1)/w , x(2)/w ,  ... derivated <N,0> times
     /// ....
-    /// Warning: <RDers> must be dimensionned properly.
+    /// Warning: <RDers> must be dimensioned properly.
     /// </summary>
     static void RationalDerivative(int UDeg, int VDeg, int N, int M, double% Ders, double% RDers);
     static void D0(double U, double V, int UIndex, int VIndex, Macad::Occt::TColgp_Array2OfPnt^ Poles, Macad::Occt::TColStd_Array2OfReal^ Weights, Macad::Occt::TColStd_Array1OfReal^ UKnots, Macad::Occt::TColStd_Array1OfReal^ VKnots, Macad::Occt::TColStd_Array1OfInteger^ UMults, Macad::Occt::TColStd_Array1OfInteger^ VMults, int UDegree, int VDegree, bool URat, bool VRat, bool UPer, bool VPer, Macad::Occt::Pnt% P);
@@ -405,7 +405,7 @@ public:
     /// <summary>
     /// Perform the evaluation of the Taylor expansion
     /// of the Bspline normalized between 0 and 1.
-    /// If rational computes the homogeneous Taylor expension
+    /// If rational computes the homogeneous Taylor expansion
     /// for the numerator and stores it in CachePoles
     /// </summary>
     static void BuildCache(double U, double V, double USpanDomain, double VSpanDomain, bool UPeriodicFlag, bool VPeriodicFlag, int UDegree, int VDegree, int UIndex, int VIndex, Macad::Occt::TColStd_Array1OfReal^ UFlatKnots, Macad::Occt::TColStd_Array1OfReal^ VFlatKnots, Macad::Occt::TColgp_Array2OfPnt^ Poles, Macad::Occt::TColStd_Array2OfReal^ Weights, Macad::Occt::TColgp_Array2OfPnt^ CachePoles, Macad::Occt::TColStd_Array2OfReal^ CacheWeights);
@@ -606,7 +606,7 @@ public:
     /// \param theDegreeU    degree along the first parameter (U) of the surface
     /// \param thePeriodicU  identify the surface is periodical along U axis
     /// \param theFlatKnotsU knots of the surface (with repetition) along U axis
-    /// \param theDegreeV    degree alogn the second parameter (V) of the surface
+    /// \param theDegreeV    degree along the second parameter (V) of the surface
     /// \param thePeriodicV  identify the surface is periodical along V axis
     /// \param theFlatKnotsV knots of the surface (with repetition) along V axis
     /// \param theWeights    array of weights of corresponding poles
@@ -617,7 +617,7 @@ public:
     /// \param theDegreeU    degree along the first parameter (U) of the surface
     /// \param thePeriodicU  identify the surface is periodical along U axis
     /// \param theFlatKnotsU knots of the surface (with repetition) along U axis
-    /// \param theDegreeV    degree alogn the second parameter (V) of the surface
+    /// \param theDegreeV    degree along the second parameter (V) of the surface
     /// \param thePeriodicV  identify the surface is periodical along V axis
     /// \param theFlatKnotsV knots of the surface (with repetition) along V axis
     /// \param theWeights    array of weights of corresponding poles

@@ -1115,6 +1115,13 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeUpgrade_RemoveLocations::ModifiedSh
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
+Macad::Occt::TopTools_DataMapOfShapeShape^ Macad::Occt::ShapeUpgrade_RemoveLocations::GetModifiedShapesMap()
+{
+    ::TopTools_DataMapOfShapeShape* _result = new ::TopTools_DataMapOfShapeShape();
+    *_result = (::TopTools_DataMapOfShapeShape)((::ShapeUpgrade_RemoveLocations*)_NativeInstance)->GetModifiedShapesMap();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_DataMapOfShapeShape(_result);
+}
+
 Macad::Occt::ShapeUpgrade_RemoveLocations^ Macad::Occt::ShapeUpgrade_RemoveLocations::CreateDowncasted(::ShapeUpgrade_RemoveLocations* instance)
 {
     return gcnew Macad::Occt::ShapeUpgrade_RemoveLocations( instance );

@@ -119,44 +119,6 @@ public:
 }; // class PrsMgr_ListOfPresentableObjects
 
 //---------------------------------------------------------------------
-//  Class  PrsMgr_ListOfPresentableObjectsIter
-//---------------------------------------------------------------------
-public ref class PrsMgr_ListOfPresentableObjectsIter sealed
-    : public Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>
-{
-
-#ifdef Include_PrsMgr_ListOfPresentableObjectsIter_h
-public:
-    Include_PrsMgr_ListOfPresentableObjectsIter_h
-#endif
-
-public:
-    PrsMgr_ListOfPresentableObjectsIter(::PrsMgr_ListOfPresentableObjectsIter* nativeInstance)
-        : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>( nativeInstance, true )
-    {}
-
-    PrsMgr_ListOfPresentableObjectsIter(::PrsMgr_ListOfPresentableObjectsIter& nativeInstance)
-        : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>( &nativeInstance, false )
-    {}
-
-    property ::PrsMgr_ListOfPresentableObjectsIter* NativeInstance
-    {
-        ::PrsMgr_ListOfPresentableObjectsIter* get()
-        {
-            return static_cast<::PrsMgr_ListOfPresentableObjectsIter*>(_NativeInstance);
-        }
-    }
-
-public:
-    PrsMgr_ListOfPresentableObjectsIter();
-    PrsMgr_ListOfPresentableObjectsIter(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::PrsMgr_PresentableObject^ Value();
-    Macad::Occt::PrsMgr_PresentableObject^ ChangeValue();
-}; // class PrsMgr_ListOfPresentableObjectsIter
-
-//---------------------------------------------------------------------
 //  Class  PrsMgr_ListOfPresentations
 //---------------------------------------------------------------------
 public ref class PrsMgr_ListOfPresentations sealed
@@ -339,18 +301,21 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// A framework to supply the Graphic3d structure of the object to be presented.
-/// On the first display request, this structure is created by calling the appropriate algorithm and retaining this framework for further display.
-/// This abstract framework is inherited in Application Interactive Services (AIS), notably by AIS_InteractiveObject.
-/// Consequently, 3D presentation should be handled by the relevant daughter classes and their member functions in AIS.
-/// This is particularly true in the creation of new interactive objects.
+/// On the first display request, this structure is created by calling the appropriate algorithm and
+/// retaining this framework for further display. This abstract framework is inherited in
+/// Application Interactive Services (AIS), notably by AIS_InteractiveObject. Consequently, 3D
+/// presentation should be handled by the relevant daughter classes and their member functions in
+/// AIS. This is particularly true in the creation of new interactive objects.
 /// 
 /// Key interface methods to be implemented by every Selectable Object:
 /// - AcceptDisplayMode() accepting display modes implemented by this object;
 /// - Compute() computing presentation for the given display mode index.
 /// 
-/// Warning! Methods managing standard attributes (SetColor(), SetWidth(), SetMaterial()) have different meaning for objects of different type (or no meaning at all).
-/// Sub-classes might override these methods to modify Prs3d_Drawer or class properties providing a convenient short-cut depending on application needs.
-/// For more sophisticated configuring, Prs3d_Drawer should be modified directly, while short-cuts might be left unimplemented.
+/// Warning! Methods managing standard attributes (SetColor(), SetWidth(), SetMaterial()) have
+/// different meaning for objects of different type (or no meaning at all). Sub-classes might
+/// override these methods to modify Prs3d_Drawer or class properties providing a convenient
+/// short-cut depending on application needs. For more sophisticated configuring, Prs3d_Drawer
+/// should be modified directly, while short-cuts might be left unimplemented.
 /// </summary>
 public ref class PrsMgr_PresentableObject
     : public Macad::Occt::Standard_Transient
@@ -394,7 +359,8 @@ public:
     int ZLayer();
     /// <summary>
     /// Set Z layer ID and update all presentations of the presentable object.
-    /// The layers mechanism allows drawing objects in higher layers in overlay of objects in lower layers.
+    /// The layers mechanism allows drawing objects in higher layers in overlay of objects in lower
+    /// layers.
     /// </summary>
     void SetZLayer(int theLayerId);
     /// <summary>
@@ -412,18 +378,21 @@ public:
     /// </summary>
     Macad::Occt::Graphic3d_ViewAffinity^ ViewAffinity();
     /// <summary>
-    /// Returns true if the Interactive Object has display mode setting overriding global setting (within Interactive Context).
+    /// Returns true if the Interactive Object has display mode setting overriding global setting
+    /// (within Interactive Context).
     /// </summary>
     bool HasDisplayMode();
     /// <summary>
     /// Returns the display mode setting of the Interactive Object.
-    /// The range of supported display mode indexes should be specified within object definition and filtered by AccepDisplayMode().
+    /// The range of supported display mode indexes should be specified within object definition and
+    /// filtered by AccepDisplayMode().
     /// </summary>
     /// @sa AcceptDisplayMode()
     int DisplayMode();
     /// <summary>
     /// Sets the display mode for the interactive object.
-    /// An object can have its own temporary display mode, which is different from that proposed by the interactive context.
+    /// An object can have its own temporary display mode, which is different from that proposed by
+    /// the interactive context.
     /// </summary>
     /// @sa AcceptDisplayMode()
     void SetDisplayMode(int theMode);
@@ -438,13 +407,15 @@ public:
     bool HasHilightMode();
     /// <summary>
     /// Returns highlight display mode.
-    /// This is obsolete method for backward compatibility - use ::HilightAttributes() and ::DynamicHilightAttributes() instead.
+    /// This is obsolete method for backward compatibility - use ::HilightAttributes() and
+    /// ::DynamicHilightAttributes() instead.
     /// </summary>
     /// @sa HilightAttributes()
     int HilightMode();
     /// <summary>
     /// Sets highlight display mode.
-    /// This is obsolete method for backward compatibility - use ::HilightAttributes() and ::DynamicHilightAttributes() instead.
+    /// This is obsolete method for backward compatibility - use ::HilightAttributes() and
+    /// ::DynamicHilightAttributes() instead.
     /// </summary>
     /// @sa HilightAttributes()
     void SetHilightMode(int theMode);
@@ -455,12 +426,13 @@ public:
     void UnsetHilightMode();
     /// <summary>
     /// Returns true if the class of objects accepts specified display mode index.
-    /// The interactive context can have a default mode of representation for the set of Interactive Objects.
-    /// This mode may not be accepted by a given class of objects.
-    /// Consequently, this virtual method allowing us to get information about the class in question must be implemented.
-    /// At least one display mode index should be accepted by this method.
-    /// Although subclass can leave default implementation, it is highly desired defining exact list of supported modes instead,
-    /// which is usually an enumeration for one object or objects class sharing similar list of display modes.
+    /// The interactive context can have a default mode of representation for the set of Interactive
+    /// Objects. This mode may not be accepted by a given class of objects. Consequently, this virtual
+    /// method allowing us to get information about the class in question must be implemented. At
+    /// least one display mode index should be accepted by this method. Although subclass can leave
+    /// default implementation, it is highly desired defining exact list of supported modes instead,
+    /// which is usually an enumeration for one object or objects class sharing similar list of
+    /// display modes.
     /// </summary>
     bool AcceptDisplayMode(int theMode);
     /// <summary>
@@ -494,10 +466,10 @@ public:
     void SetToUpdate();
     /// <summary>
     /// Returns true if the interactive object is infinite; FALSE by default.
-    /// This flag affects various operations operating on bounding box of graphic presentations of this object.
-    /// For instance, infinite objects are not taken in account for View FitAll.
-    /// This does not necessarily means that object is actually infinite,
-    /// auxiliary objects might be also marked with this flag to achieve desired behavior.
+    /// This flag affects various operations operating on bounding box of graphic presentations of
+    /// this object. For instance, infinite objects are not taken in account for View FitAll. This
+    /// does not necessarily means that object is actually infinite, auxiliary objects might be also
+    /// marked with this flag to achieve desired behavior.
     /// </summary>
     bool IsInfinite();
     /// <summary>
@@ -521,8 +493,9 @@ public:
     /// </summary>
     Macad::Occt::PrsMgr_DisplayStatus DisplayStatus();
     /// <summary>
-    /// Returns the attributes settings.
     /// </summary>
+    /// @name presentation attributes
+    /// Returns the attributes settings.
     Macad::Occt::Prs3d_Drawer^ Attributes();
     /// <summary>
     /// Initializes the drawing tool theDrawer.
@@ -530,7 +503,8 @@ public:
     void SetAttributes(Macad::Occt::Prs3d_Drawer^ theDrawer);
     /// <summary>
     /// Returns the hilight attributes settings.
-    /// When not NULL, overrides both Prs3d_TypeOfHighlight_LocalSelected and Prs3d_TypeOfHighlight_Selected defined within AIS_InteractiveContext::HighlightStyle().
+    /// When not NULL, overrides both Prs3d_TypeOfHighlight_LocalSelected and
+    /// Prs3d_TypeOfHighlight_Selected defined within AIS_InteractiveContext::HighlightStyle().
     /// </summary>
     /// @sa AIS_InteractiveContext::HighlightStyle()
     Macad::Occt::Prs3d_Drawer^ HilightAttributes();
@@ -540,7 +514,8 @@ public:
     void SetHilightAttributes(Macad::Occt::Prs3d_Drawer^ theDrawer);
     /// <summary>
     /// Returns the hilight attributes settings.
-    /// When not NULL, overrides both Prs3d_TypeOfHighlight_LocalDynamic and Prs3d_TypeOfHighlight_Dynamic defined within AIS_InteractiveContext::HighlightStyle().
+    /// When not NULL, overrides both Prs3d_TypeOfHighlight_LocalDynamic and
+    /// Prs3d_TypeOfHighlight_Dynamic defined within AIS_InteractiveContext::HighlightStyle().
     /// </summary>
     /// @sa AIS_InteractiveContext::HighlightStyle()
     Macad::Occt::Prs3d_Drawer^ DynamicHilightAttributes();
@@ -555,21 +530,25 @@ public:
     /// <summary>
     /// Synchronize presentation aspects after their modification.
     /// 
-    /// This method should be called after modifying primitive aspect properties (material, texture, shader)
-    /// so that modifications will take effect on already computed presentation groups (thus avoiding re-displaying the object).
+    /// This method should be called after modifying primitive aspect properties (material, texture,
+    /// shader) so that modifications will take effect on already computed presentation groups (thus
+    /// avoiding re-displaying the object).
     /// </summary>
     void SynchronizeAspects();
     /// <summary>
-    /// Returns Transformation Persistence defining a special Local Coordinate system where this presentable object is located or NULL handle if not defined.
-    /// Position of the object having Transformation Persistence is mutable and depends on camera position.
-    /// The same applies to a bounding box of the object.
     /// </summary>
+    /// @name object transformation
+    /// Returns Transformation Persistence defining a special Local Coordinate system where this
+    /// presentable object is located or NULL handle if not defined. Position of the object having
+    /// Transformation Persistence is mutable and depends on camera position. The same applies to a
+    /// bounding box of the object.
     /// @sa Graphic3d_TransformPers class description
     Macad::Occt::Graphic3d_TransformPers^ TransformPersistence();
     /// <summary>
-    /// Sets up Transform Persistence defining a special Local Coordinate system where this object should be located.
-    /// Note that management of Transform Persistence object is more expensive than of the normal one,
-    /// because it requires its position being recomputed basing on camera position within each draw call / traverse.
+    /// Sets up Transform Persistence defining a special Local Coordinate system where this object
+    /// should be located. Note that management of Transform Persistence object is more expensive than
+    /// of the normal one, because it requires its position being recomputed basing on camera position
+    /// within each draw call / traverse.
     /// </summary>
     /// @sa Graphic3d_TransformPers class description
     void SetTransformPersistence(Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
@@ -630,8 +609,18 @@ public:
     /// </summary>
     void UpdateTransformation();
     /// <summary>
-    /// Get clip planes.
+    /// Calculates object presentation for specific camera position.
+    /// Each of the views in the viewer and every modification such as rotation, for example, entails
+    /// recalculation.
     /// </summary>
+    /// <param name="theProjector">
+    /// [in] view orientation
+    /// </param>
+    void RecomputeTransformation(Macad::Occt::Graphic3d_Camera^ theProjector);
+    /// <summary>
+    /// </summary>
+    /// @name clipping planes
+    /// Get clip planes.
     /// <returns>
     /// set of previously added clip planes for all display mode presentations.
     /// </returns>
@@ -655,20 +644,21 @@ public:
     /// is shown: the number of these planes should be subtracted from limit
     /// to predict the maximum possible number of object clipping planes.
     /// </summary>
-    /// <param name="thePlane">
-    /// [in] the clip plane to be appended to map of clip planes.
+    /// <param name="in]">
+    /// thePlane  the clip plane to be appended to map of clip planes.
     /// </param>
     void AddClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
     /// <summary>
     /// Removes previously added clip plane.
     /// </summary>
-    /// <param name="thePlane">
-    /// [in] the clip plane to be removed from map of clip planes.
+    /// <param name="in]">
+    /// thePlane  the clip plane to be removed from map of clip planes.
     /// </param>
     void RemoveClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
     /// <summary>
-    /// Returns parent of current object in scene hierarchy.
     /// </summary>
+    /// @name parent/children properties
+    /// Returns parent of current object in scene hierarchy.
     Macad::Occt::PrsMgr_PresentableObject^ Parent();
     /// <summary>
     /// Returns children of the current object.
@@ -679,8 +669,8 @@ public:
     /// </summary>
     void AddChild(Macad::Occt::PrsMgr_PresentableObject^ theObject);
     /// <summary>
-    /// Makes theObject child of current object in scene hierarchy with keeping the current global transformation
-    /// So the object keeps the same position/orientation in the global CS.
+    /// Makes theObject child of current object in scene hierarchy with keeping the current global
+    /// transformation So the object keeps the same position/orientation in the global CS.
     /// </summary>
     void AddChildWithCurrentTransformation(Macad::Occt::PrsMgr_PresentableObject^ theObject);
     /// <summary>
@@ -688,8 +678,8 @@ public:
     /// </summary>
     void RemoveChild(Macad::Occt::PrsMgr_PresentableObject^ theObject);
     /// <summary>
-    /// Removes theObject from children of current object in scene hierarchy with keeping the current global transformation.
-    /// So the object keeps the same position/orientation in the global CS.
+    /// Removes theObject from children of current object in scene hierarchy with keeping the current
+    /// global transformation. So the object keeps the same position/orientation in the global CS.
     /// </summary>
     void RemoveChildWithRestoreTransformation(Macad::Occt::PrsMgr_PresentableObject^ theObject);
     /// <summary>
@@ -698,26 +688,30 @@ public:
     bool HasOwnPresentations();
     /// <summary>
     /// Returns bounding box of object correspondingly to its current display mode.
-    /// This method requires presentation to be already computed, since it relies on bounding box of presentation structures,
-    /// which are supposed to be same/close amongst different display modes of this object.
+    /// This method requires presentation to be already computed, since it relies on bounding box of
+    /// presentation structures, which are supposed to be same/close amongst different display modes
+    /// of this object.
     /// </summary>
     void BoundingBox(Macad::Occt::Bnd_Box^ theBndBox);
     /// <summary>
-    /// Enables or disables on-triangulation build of isolines according to the flag given.
     /// </summary>
+    /// @name simplified presentation properties API
+    /// Enables or disables on-triangulation build of isolines according to the flag given.
     void SetIsoOnTriangulation(bool theIsEnabled);
     /// <summary>
     /// Returns the current facing model which is in effect.
     /// </summary>
     Macad::Occt::Aspect_TypeOfFacingModel CurrentFacingModel();
     /// <summary>
-    /// change the current facing model apply on polygons for SetColor(), SetTransparency(), SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE.
-    /// This mean that attributes is applying both on the front and back face.
+    /// change the current facing model apply on polygons for SetColor(), SetTransparency(),
+    /// SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE. This mean that attributes
+    /// is applying both on the front and back face.
     /// </summary>
     void SetCurrentFacingModel(Macad::Occt::Aspect_TypeOfFacingModel theModel);
     /// <summary>
-    /// change the current facing model apply on polygons for SetColor(), SetTransparency(), SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE.
-    /// This mean that attributes is applying both on the front and back face.
+    /// change the current facing model apply on polygons for SetColor(), SetTransparency(),
+    /// SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE. This mean that attributes
+    /// is applying both on the front and back face.
     /// </summary>
     void SetCurrentFacingModel();
     /// <summary>
@@ -730,8 +724,9 @@ public:
     void Color(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
     /// Only the interactive object knowns which Drawer attribute is affected by the color, if any
-    /// (ex: for a wire,it's the wireaspect field of the drawer, but for a vertex, only the point aspect field is affected by the color).
-    /// WARNING : Do not forget to set the corresponding fields here (hasOwnColor and myDrawer->SetColor())
+    /// (ex: for a wire,it's the wireaspect field of the drawer, but for a vertex, only the point
+    /// aspect field is affected by the color). WARNING : Do not forget to set the corresponding
+    /// fields here (hasOwnColor and myDrawer->SetColor())
     /// </summary>
     void SetColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
@@ -842,13 +837,14 @@ public:
     /// </summary>
     void DumpJson(System::IO::TextWriter^ theOStream);
     /// <summary>
-    /// gives the list of modes which are flagged "to be updated".
     /// </summary>
+    /// @name deprecated methods
+    /// gives the list of modes which are flagged "to be updated".
     void ToBeUpdated(Macad::Occt::TColStd_ListOfInteger^ ListOfMode);
     /// <summary>
     /// Get value of the flag "propagate visual state"
-    /// It means that the display/erase/color visual state is propagated automatically to all children;
-    /// by default, the flag is true
+    /// It means that the display/erase/color visual state is propagated automatically to all
+    /// children; by default, the flag is true
     /// </summary>
     bool ToPropagateVisualState();
     /// <summary>
@@ -863,9 +859,10 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// A framework to manage 3D displays, graphic entities and their updates.
-/// Used in the AIS package (Application Interactive Services), to enable the advanced user to define the
-/// default display mode of a new interactive object which extends the list of signatures and types.
-/// Definition of new display types is handled by calling the presentation algorithms provided by the StdPrs package.
+/// Used in the AIS package (Application Interactive Services), to enable the advanced user to
+/// define the default display mode of a new interactive object which extends the list of signatures
+/// and types. Definition of new display types is handled by calling the presentation algorithms
+/// provided by the StdPrs package.
 /// </summary>
 public ref class PrsMgr_PresentationManager sealed
     : public Macad::Occt::Standard_Transient
@@ -895,7 +892,8 @@ public:
 
 public:
     /// <summary>
-    /// Creates a framework to manage displays and graphic entities with the 3D view theStructureManager.
+    /// Creates a framework to manage displays and graphic entities with the 3D view
+    /// theStructureManager.
     /// </summary>
     PrsMgr_PresentationManager(Macad::Occt::Graphic3d_StructureManager^ theStructureManager);
     /// <summary>
@@ -921,11 +919,13 @@ public:
     /// </summary>
     void Erase(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject);
     /// <summary>
-    /// Clears the presentation of the presentable object thePrsObject in this framework with the display mode theMode.
+    /// Clears the presentation of the presentable object thePrsObject in this framework with the
+    /// display mode theMode.
     /// </summary>
     void Clear(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode);
     /// <summary>
-    /// Clears the presentation of the presentable object thePrsObject in this framework with the display mode theMode.
+    /// Clears the presentation of the presentable object thePrsObject in this framework with the
+    /// display mode theMode.
     /// </summary>
     void Clear(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject);
     /// <summary>
@@ -980,7 +980,8 @@ public:
     void Update(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject);
     /// <summary>
     /// Resets the transient list of presentations previously displayed in immediate mode
-    /// and begins accumulation of new list by following AddToImmediateList()/Color()/Highlight() calls.
+    /// and begins accumulation of new list by following AddToImmediateList()/Color()/Highlight()
+    /// calls.
     /// </summary>
     void BeginImmediateDraw();
     /// <summary>
@@ -993,7 +994,8 @@ public:
     /// </summary>
     void AddToImmediateList(Macad::Occt::Graphic3d_Structure^ thePrs);
     /// <summary>
-    /// Allows rapid drawing of the each view in theViewer by avoiding an update of the whole background.
+    /// Allows rapid drawing of the each view in theViewer by avoiding an update of the whole
+    /// background.
     /// </summary>
     void EndImmediateDraw(Macad::Occt::V3d_Viewer^ theViewer);
     /// <summary>
@@ -1001,7 +1003,8 @@ public:
     /// </summary>
     void RedrawImmediate(Macad::Occt::V3d_Viewer^ theViewer);
     /// <summary>
-    /// Returns true if Presentation Manager is accumulating transient list of presentations to be displayed in immediate mode.
+    /// Returns true if Presentation Manager is accumulating transient list of presentations to be
+    /// displayed in immediate mode.
     /// </summary>
     bool IsImmediateModeOn();
     /// <summary>
@@ -1033,12 +1036,14 @@ public:
     void Connect(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::PrsMgr_PresentableObject^ theOtherObject);
     /// <summary>
     /// Sets the transformation theTransformation for the presentable object thePrsObject.
-    /// thePrsObject has the display mode theMode; this has the default value of 0, that is, the wireframe display mode.
+    /// thePrsObject has the display mode theMode; this has the default value of 0, that is, the
+    /// wireframe display mode.
     /// </summary>
     void Transform(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::TopLoc_Datum3D^ theTransformation, int theMode);
     /// <summary>
     /// Sets the transformation theTransformation for the presentable object thePrsObject.
-    /// thePrsObject has the display mode theMode; this has the default value of 0, that is, the wireframe display mode.
+    /// thePrsObject has the display mode theMode; this has the default value of 0, that is, the
+    /// wireframe display mode.
     /// </summary>
     void Transform(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::TopLoc_Datum3D^ theTransformation);
     /// <summary>
@@ -1047,75 +1052,87 @@ public:
     Macad::Occt::Graphic3d_StructureManager^ StructureManager();
     /// <summary>
     /// Returns true if there is a presentation of the
-    /// presentable object thePrsObject in this framework, thePrsObject having the display mode theMode.
+    /// presentable object thePrsObject in this framework, thePrsObject having the display mode
+    /// theMode.
     /// </summary>
     bool HasPresentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode);
     /// <summary>
     /// Returns true if there is a presentation of the
-    /// presentable object thePrsObject in this framework, thePrsObject having the display mode theMode.
+    /// presentable object thePrsObject in this framework, thePrsObject having the display mode
+    /// theMode.
     /// </summary>
     bool HasPresentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject);
     /// <summary>
-    /// Returns the presentation Presentation of the presentable object thePrsObject in this framework.
-    /// When theToCreate is true - automatically creates presentation for specified mode when not exist.
-    /// Optional argument theSelObj specifies parent decomposed object to inherit its view affinity.
+    /// Returns the presentation Presentation of the presentable object thePrsObject in this
+    /// framework. When theToCreate is true - automatically creates presentation for specified mode
+    /// when not exist. Optional argument theSelObj specifies parent decomposed object to inherit its
+    /// view affinity.
     /// </summary>
     Macad::Occt::PrsMgr_Presentation^ Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode, bool theToCreate, Macad::Occt::PrsMgr_PresentableObject^ theSelObj);
     /// <summary>
-    /// Returns the presentation Presentation of the presentable object thePrsObject in this framework.
-    /// When theToCreate is true - automatically creates presentation for specified mode when not exist.
-    /// Optional argument theSelObj specifies parent decomposed object to inherit its view affinity.
+    /// Returns the presentation Presentation of the presentable object thePrsObject in this
+    /// framework. When theToCreate is true - automatically creates presentation for specified mode
+    /// when not exist. Optional argument theSelObj specifies parent decomposed object to inherit its
+    /// view affinity.
     /// </summary>
     Macad::Occt::PrsMgr_Presentation^ Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode, bool theToCreate);
     /// <summary>
-    /// Returns the presentation Presentation of the presentable object thePrsObject in this framework.
-    /// When theToCreate is true - automatically creates presentation for specified mode when not exist.
-    /// Optional argument theSelObj specifies parent decomposed object to inherit its view affinity.
+    /// Returns the presentation Presentation of the presentable object thePrsObject in this
+    /// framework. When theToCreate is true - automatically creates presentation for specified mode
+    /// when not exist. Optional argument theSelObj specifies parent decomposed object to inherit its
+    /// view affinity.
     /// </summary>
     Macad::Occt::PrsMgr_Presentation^ Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode);
     /// <summary>
-    /// Returns the presentation Presentation of the presentable object thePrsObject in this framework.
-    /// When theToCreate is true - automatically creates presentation for specified mode when not exist.
-    /// Optional argument theSelObj specifies parent decomposed object to inherit its view affinity.
+    /// Returns the presentation Presentation of the presentable object thePrsObject in this
+    /// framework. When theToCreate is true - automatically creates presentation for specified mode
+    /// when not exist. Optional argument theSelObj specifies parent decomposed object to inherit its
+    /// view affinity.
     /// </summary>
     Macad::Occt::PrsMgr_Presentation^ Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject);
     /// <summary>
     /// Allows to apply location transformation to shadow highlight presentation immediately.
     /// </summary>
     /// <param name="theObj">
-    /// defines the base object, it local transformation will be applied to corresponding highlight structure
+    /// defines the base object, it local transformation will be applied to
+    /// corresponding highlight structure
     /// </param>
     /// <param name="theMode">
     /// defines display mode of the base object
     /// </param>
     /// <param name="theSelObj">
-    /// defines the object produced after decomposition of the base object for local selection
+    /// defines the object produced after decomposition of the base object for local
+    /// selection
     /// </param>
     void UpdateHighlightTrsf(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::PrsMgr_PresentableObject^ theObj, int theMode, Macad::Occt::PrsMgr_PresentableObject^ theSelObj);
     /// <summary>
     /// Allows to apply location transformation to shadow highlight presentation immediately.
     /// </summary>
     /// <param name="theObj">
-    /// defines the base object, it local transformation will be applied to corresponding highlight structure
+    /// defines the base object, it local transformation will be applied to
+    /// corresponding highlight structure
     /// </param>
     /// <param name="theMode">
     /// defines display mode of the base object
     /// </param>
     /// <param name="theSelObj">
-    /// defines the object produced after decomposition of the base object for local selection
+    /// defines the object produced after decomposition of the base object for local
+    /// selection
     /// </param>
     void UpdateHighlightTrsf(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::PrsMgr_PresentableObject^ theObj, int theMode);
     /// <summary>
     /// Allows to apply location transformation to shadow highlight presentation immediately.
     /// </summary>
     /// <param name="theObj">
-    /// defines the base object, it local transformation will be applied to corresponding highlight structure
+    /// defines the base object, it local transformation will be applied to
+    /// corresponding highlight structure
     /// </param>
     /// <param name="theMode">
     /// defines display mode of the base object
     /// </param>
     /// <param name="theSelObj">
-    /// defines the object produced after decomposition of the base object for local selection
+    /// defines the object produced after decomposition of the base object for local
+    /// selection
     /// </param>
     void UpdateHighlightTrsf(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::PrsMgr_PresentableObject^ theObj);
     static Macad::Occt::PrsMgr_PresentationManager^ CreateDowncasted(::PrsMgr_PresentationManager* instance);

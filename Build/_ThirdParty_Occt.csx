@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public static class Occt
 {
@@ -26,7 +27,7 @@ public static class Occt
     static readonly string[] _OcctPartialPackages = new string[]
     {
         "HLRAlgo", "HLRBRep",
-        "Interface", "IFSelect", "MoniTool", "XSControl", "STEPControl", "StepData", "IGESControl", "IGESData"
+        "Interface", "IFSelect", "MoniTool", "XSControl", "STEPControl", "StepData", "IGESControl", "IGESData", "XSAlgo", "DESTEP", "DE"
     };
 
     static readonly string[] _IncludeFileExtensions = new string[]
@@ -41,57 +42,72 @@ public static class Occt
     };
 
     public static string TbbPath { get; private set; }
-    public static readonly string[] TbbBinariesRelease = new string[]
+    public static readonly string[] TbbBinaries = new string[]
     {
         "tbb12.dll",
         "tbbmalloc.dll",
     };
-    public static readonly string[] TbbBinariesDebug = new string[]
-    {
-        "tbb12_debug.dll",
-        "tbbmalloc_debug.dll",
-    };
 
     public static List<string> AdditionalDependenciesSourcePaths = new List<string>();
+    static Dictionary<string,string> CmakeValues = new Dictionary<string,string>();
+
+    //--------------------------------------------------------------------------------------------------
+
+    static string GetCmakeValue(string key)
+    {
+        if(CmakeValues.ContainsKey(key))
+            return CmakeValues[key];
+        Printer.Error($"The CMake cache does not contain a value for {key}.");
+        return "";
+    }
 
     //--------------------------------------------------------------------------------------------------
 
     public static bool SetOcctPath(string occtSourcePath)
     {
-        OcctPath = occtSourcePath;
-        if(!File.Exists(Path.Combine(OcctPath, @"src\Standard\Standard_Version.hxx")))
+        CmakeValues.Clear();
+        if(!File.Exists(Path.Combine(occtSourcePath, @"inc\Standard_Version.hxx")))
         {
-            OcctPath = Path.Combine(occtSourcePath, "opencascade");
-            if(!File.Exists(Path.Combine(OcctPath, @"src\Standard\Standard_Version.hxx")))
-            {
-                Printer.Error($"OCCT not found in directory {occtSourcePath}.");
-                Printer.Error($"Please make sure that you have selected to install the sources (folder 'src' must exist in path).");
-                return false;
-            }
-        }
-        Printer.Success($"OCCT found in directory {occtSourcePath}.");
-
-        // Get Third Party Paths
-        var output = new List<string>();
-        if(Common.Run("cmd.exe", "/V /C \"call custom.bat && echo !CSF_OPT_BIN64! && echo !HAVE_TBB! && echo !HAVE_FREEIMAGE! && echo !HAVE_FFMPEG! && echo !HAVE_OPENVR!\"", OcctPath, output)!=0)
-        {
-            Printer.Error($"The batch file 'Custom.bat' in OCCT directory could not be executed.");
+            Printer.Error($"Standard_Version.hxx not found in directory {occtSourcePath}\\inc.");
+            Printer.Error($"Please make sure that you have generated the project.");
             return false;
         }
-        bool hasTbb = output[1].Contains("true");
-        bool hasFreeImage = output[2].Contains("true");
-        bool hasFFMpeg = output[3].Contains("true");
-        bool hasOpenVR = output[4].Contains("true");
 
+        if(!File.Exists(Path.Combine(occtSourcePath, @"CMakeCache.txt")))
+        {
+            Printer.Error($"CMakeCache.txt not found in directory {occtSourcePath}.");
+            Printer.Error($"Please select the cmake build directory of your custom OCCT build.");
+            return false;
+        }
+
+        Printer.Line($"Reading cmake cache...");
+        string cmakeCacheContent = System.IO.File.ReadAllText(Path.Combine(occtSourcePath, @"CMakeCache.txt"));
+        Regex rg = new Regex(@"^([A-Za-z_0-9]*):[A-Z]*=(.*)\r", RegexOptions.Multiline);
+        foreach(Match m in rg.Matches(cmakeCacheContent))
+        {
+            CmakeValues.Add(m.Groups[1].Value, m.Groups[2].Value);
+        }
+
+        // Check for source
+        if(!File.Exists(Path.Combine(GetCmakeValue("TKStd_SOURCE_DIR"), @"PACKAGES")))
+        {
+            Printer.Error($"PACKAGES not found in directory {GetCmakeValue("TKStd_SOURCE_DIR")}.");
+            return false;
+        }
+
+        OcctPath = occtSourcePath;
+        Printer.Success($"OCCT found in directory {OcctPath}.");
+
+        // Get Third Party Paths
+        bool hasTbb = GetCmakeValue("USE_TBB") == "ON";
         if(!hasTbb)
         {
             Printer.Error($"Usage of TBB has not been enabled. The build scripts do expect that TBB has been enabled.");
             return false;
         }
-        var binPaths = output[0].Split(';');
         
         // Check for FreeType
-        FreetypePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freetype")) ?? "");
+        FreetypePath = GetCmakeValue("3RDPARTY_FREETYPE_DLL_DIR");
         if(!File.Exists(Path.Combine(FreetypePath, FreetypeBinaries[0])))
         {
             Printer.Error($"The file {FreetypeBinaries[0]} could not be found in folder {FreetypePath}.");
@@ -100,18 +116,19 @@ public static class Occt
         Printer.Success($"Freetype found in folder {FreetypePath}");
         
         // Check for TBB
-        TbbPath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("tbb")) ?? "");
-        if(!File.Exists(Path.Combine(TbbPath, TbbBinariesRelease[0])))
+        TbbPath = GetCmakeValue("3RDPARTY_TBB_DLL_DIR");
+        if(!File.Exists(Path.Combine(TbbPath, TbbBinaries[0])))
         {
-            Printer.Error($"The file {TbbBinariesRelease[0]} could not be found in folder {TbbPath}.");
+            Printer.Error($"The file {TbbBinaries[0]} could not be found in folder {TbbPath}.");
             return false;
         }
         Printer.Success($"TBB found in folder {TbbPath}");
         
         // Check for FreeImage
+        bool hasFreeImage = CmakeValues["USE_FREEIMAGE"] == "ON";
         if(hasFreeImage)
         {
-            var freeImageSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freeimage")) ?? "");
+            var freeImageSourcePath = GetCmakeValue("3RDPARTY_FREEIMAGE_DLL_DIR");
             if(File.Exists(Path.Combine(freeImageSourcePath, "FreeImage.dll")))
             {
                 Printer.Success($"FreeImage found in folder {freeImageSourcePath}");
@@ -120,9 +137,10 @@ public static class Occt
         }
         
         // Check for FFMPEG
+        bool hasFFMpeg = CmakeValues["USE_FFMPEG"] == "ON";
         if(hasFFMpeg)
         {
-            var ffmpegSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("ffmpeg")) ?? "");
+            var ffmpegSourcePath = GetCmakeValue("3RDPARTY_FFMPEG_DLL_DIR");
             if(File.Exists(Path.Combine(ffmpegSourcePath, "ffprobe.exe")))
             {
                 Printer.Success($"FFMPEG found in folder {ffmpegSourcePath}");
@@ -131,14 +149,10 @@ public static class Occt
         }
         
         // Check for OpenVR
-        if(hasFreeImage && hasFFMpeg && !hasOpenVR)
-        {
-            hasOpenVR = true;
-            Printer.Warning("It seems that you are referencing the official download build of OCCT. This download does erroneously not declare the HAVE_OPENVR switch. This switch is now set anyway to avoid crashes due to missing dlls.");
-        }
+        bool hasOpenVR = CmakeValues["USE_OPENVR"] == "ON";
         if(hasOpenVR)
         {
-            var openVrPath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("openvr")) ?? "");
+            var openVrPath = GetCmakeValue("3RDPARTY_OPENVR_DLL_DIR");
             if(File.Exists(Path.Combine(openVrPath, "openvr_api.dll")))
             {
                 Printer.Success($"OpenVR found in folder {openVrPath}");
@@ -157,7 +171,7 @@ public static class Occt
 
         foreach (var tk in _OcctToolkits)
         {
-            var packages = File.ReadAllLines(Path.Combine(OcctPath, string.Format("src\\{0}\\PACKAGES", tk)));
+            var packages = File.ReadAllLines(Path.Combine(GetCmakeValue($"{tk}_SOURCE_DIR"), "PACKAGES"));
             list.AddRange(packages);
         }
         list.AddRange(_OcctPartialPackages);
@@ -192,15 +206,23 @@ public static class Occt
         }
 
         var sb = new StringBuilder();
+
+        // Generic files
+        string occtSourceDir = Path.GetFullPath(GetCmakeValue("OCCT_SOURCE_DIR"));
+        sb.AppendLine(@$"<file src=""{occtSourceDir}\LICENSE_LGPL_21.txt"" target=""native\opencascade"" />");
+        sb.AppendLine(@$"<file src=""{occtSourceDir}\OCCT_LGPL_EXCEPTION.txt"" target=""native\opencascade"" />");
+        sb.AppendLine(@$"<file src=""{sourcePath}\inc\Standard_Version.hxx"" target=""native\opencascade\inc"" />");
+
         foreach(string package in Occt.GetPackages())
         {
-            sb.AppendLine(@$"<file src=""src\{package}\*.hxx"" target=""native\opencascade\inc"" />");
-            if(Directory.EnumerateFiles(Path.Combine(OcctPath, "src", package), "*.h").Any())
-                sb.AppendLine(@$"<file src=""src\{package}\*.h"" target=""native\opencascade\inc"" />");
-            if(Directory.EnumerateFiles(Path.Combine(OcctPath, "src", package), "*.lxx").Any())
-                sb.AppendLine(@$"<file src=""src\{package}\*.lxx"" target=""native\opencascade\inc"" />");
-            if(Directory.EnumerateFiles(Path.Combine(OcctPath, "src", package), "*.gxx").Any())
-                sb.AppendLine(@$"<file src=""src\{package}\*.gxx"" target=""native\opencascade\inc"" />");
+            string packageDir = Path.Combine(occtSourceDir, "src", package);
+            sb.AppendLine(@$"<file src=""{packageDir}\*.hxx"" target=""native\opencascade\inc"" />");
+            if(Directory.EnumerateFiles(packageDir, "*.h").Any())
+                sb.AppendLine(@$"<file src=""{packageDir}\*.h"" target=""native\opencascade\inc"" />");
+            if(Directory.EnumerateFiles(packageDir, "*.lxx").Any())
+                sb.AppendLine(@$"<file src=""{packageDir}\*.lxx"" target=""native\opencascade\inc"" />");
+            if(Directory.EnumerateFiles(packageDir, "*.gxx").Any())
+                sb.AppendLine(@$"<file src=""{packageDir}\*.gxx"" target=""native\opencascade\inc"" />");
         }
 
         foreach (var tk in _OcctToolkits.Concat(_OcctPartialToolkits))
@@ -220,7 +242,7 @@ public static class Occt
 
         var tbbRelativePath = Utils.GetRelativePath(OcctPath, TbbPath);
         sb.AppendLine(@$"<file src=""{tbbRelativePath}\..\..\*.txt"" target=""native\tbb"" />");
-        foreach(var file in TbbBinariesRelease.Concat(TbbBinariesDebug))
+        foreach(var file in TbbBinaries)
         {
             sb.AppendLine(@$"<file src=""{tbbRelativePath}\{file}"" target=""native\tbb\win-x64\bin"" />");
         }

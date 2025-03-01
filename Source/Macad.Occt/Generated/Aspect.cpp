@@ -161,67 +161,6 @@ int Macad::Occt::Aspect_XRActionMap::Size()
 //  Class  Aspect_XRActionMap::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::Aspect_XRActionMap::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Aspect_XRActionMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionMap::Iterator();
-}
-
-bool Macad::Occt::Aspect_XRActionMap::Iterator::More()
-{
-    bool _result = ((::Aspect_XRActionMap::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::Aspect_XRActionMap::Iterator::Next()
-{
-    ((::Aspect_XRActionMap::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::Iterator::Value()
-{
-    Handle(::Aspect_XRAction) _result = ((::Aspect_XRActionMap::Iterator*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::Iterator::ChangeValue()
-{
-    Handle(::Aspect_XRAction) _result = ((::Aspect_XRActionMap::Iterator*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionMap::Iterator::Key()
-{
-    ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-    *_result = (::TCollection_AsciiString)((::Aspect_XRActionMap::Iterator*)_NativeInstance)->Key();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-bool Macad::Occt::Aspect_XRActionMap::Iterator::IsEqual(Macad::Occt::Aspect_XRActionMap::Iterator^ theOther)
-{
-    bool _result = ((::Aspect_XRActionMap::Iterator*)_NativeInstance)->IsEqual(*(::Aspect_XRActionMap::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::Aspect_XRActionMap::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::Aspect_XRActionMap::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
-
 
 
 //---------------------------------------------------------------------
@@ -368,67 +307,6 @@ int Macad::Occt::Aspect_XRActionSetMap::Size()
 //---------------------------------------------------------------------
 //  Class  Aspect_XRActionSetMap::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::Aspect_XRActionSetMap::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Aspect_XRActionSetMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionSetMap::Iterator();
-}
-
-bool Macad::Occt::Aspect_XRActionSetMap::Iterator::More()
-{
-    bool _result = ((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::Aspect_XRActionSetMap::Iterator::Next()
-{
-    ((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::Iterator::Value()
-{
-    Handle(::Aspect_XRActionSet) _result = ((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::Iterator::ChangeValue()
-{
-    Handle(::Aspect_XRActionSet) _result = ((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionSetMap::Iterator::Key()
-{
-    ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-    *_result = (::TCollection_AsciiString)((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->Key();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-bool Macad::Occt::Aspect_XRActionSetMap::Iterator::IsEqual(Macad::Occt::Aspect_XRActionSetMap::Iterator^ theOther)
-{
-    bool _result = ((::Aspect_XRActionSetMap::Iterator*)_NativeInstance)->IsEqual(*(::Aspect_XRActionSetMap::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::Aspect_XRActionSetMap::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::Aspect_XRActionSetMap::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
 
 
 
@@ -977,62 +855,6 @@ int Macad::Occt::Aspect_TouchMap::Size()
 //---------------------------------------------------------------------
 //  Class  Aspect_TouchMap::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::Aspect_TouchMap::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Aspect_TouchMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TouchMap::Iterator();
-}
-
-bool Macad::Occt::Aspect_TouchMap::Iterator::More()
-{
-    bool _result = ((::Aspect_TouchMap::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::Aspect_TouchMap::Iterator::Next()
-{
-    ((::Aspect_TouchMap::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::Aspect_Touch^ Macad::Occt::Aspect_TouchMap::Iterator::Value()
-{
-    ::Aspect_Touch* _result = new ::Aspect_Touch();
-    *_result = (::Aspect_Touch)((::Aspect_TouchMap::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_Touch(_result);
-}
-
-Macad::Occt::Aspect_Touch^ Macad::Occt::Aspect_TouchMap::Iterator::ChangeValue()
-{
-    ::Aspect_Touch* _result = new ::Aspect_Touch();
-    *_result = ((::Aspect_TouchMap::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_Touch(_result);
-}
-
-bool Macad::Occt::Aspect_TouchMap::Iterator::IsEqual(Macad::Occt::Aspect_TouchMap::Iterator^ theOther)
-{
-    bool _result = ((::Aspect_TouchMap::Iterator*)_NativeInstance)->IsEqual(*(::Aspect_TouchMap::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::Aspect_TouchMap::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::Aspect_TouchMap::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
 
 
 

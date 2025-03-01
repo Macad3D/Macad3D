@@ -286,8 +286,9 @@ public:
     /* Method skipped due to unknown mapping: char16_t Value(int where, ) */
     /// <summary>
     /// Returns a hashed value for the extended string.
-    /// Note: if string is ASCII, the computed value is the same as the value computed with the HashCode function on a
-    /// TCollection_AsciiString string composed with equivalent ASCII characters.
+    /// Note: if string is ASCII, the computed value is the same as the value computed with the
+    /// HashCode function on a TCollection_AsciiString string composed with equivalent ASCII
+    /// characters.
     /// </summary>
     /// <returns>
     /// a computed hash code
@@ -319,18 +320,20 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// Class defines a variable-length sequence of 8-bit characters.
-/// Despite class name (kept for historical reasons), it is intended to store UTF-8 string, not just ASCII characters.
-/// However, multi-byte nature of UTF-8 is not considered by the following methods:
+/// Despite class name (kept for historical reasons), it is intended to store UTF-8 string, not just
+/// ASCII characters. However, multi-byte nature of UTF-8 is not considered by the following
+/// methods:
 /// - Method ::Length() return the number of bytes, not the number of Unicode symbols.
 /// - Methods taking/returning symbol index work with 8-bit code units, not true Unicode symbols,
 /// including ::Remove(), ::SetValue(), ::Value(), ::Search(), ::Trunc() and others.
-/// If application needs to process multi-byte Unicode symbols explicitly, NCollection_Utf8Iter class can be used
-/// for iterating through Unicode string (UTF-32 code unit will be returned for each position).
+/// If application needs to process multi-byte Unicode symbols explicitly, NCollection_Utf8Iter
+/// class can be used for iterating through Unicode string (UTF-32 code unit will be returned for
+/// each position).
 /// 
-/// Class provides editing operations with built-in memory management to make AsciiString objects easier to use than ordinary character arrays.
-/// AsciiString objects follow value semantics; in other words, they are the actual strings,
-/// not handles to strings, and are copied through assignment.
-/// You may use HAsciiString objects to get handles to strings.
+/// Class provides editing operations with built-in memory management to make AsciiString objects
+/// easier to use than ordinary character arrays. AsciiString objects follow value semantics; in
+/// other words, they are the actual strings, not handles to strings, and are copied through
+/// assignment. You may use HAsciiString objects to get handles to strings.
 /// </summary>
 public ref class TCollection_AsciiString sealed
     : public Macad::Occt::BaseClass<::TCollection_AsciiString>
@@ -665,19 +668,21 @@ public:
     /// </summary>
     bool IsIntegerValue();
     /// <summary>
-    /// Returns True if the AsciiString starts with some characters that can be interpreted as integer or real value.
+    /// Returns True if the AsciiString starts with some characters that can be interpreted as integer
+    /// or real value.
     /// </summary>
-    /// <param name="theToCheckFull">
-    /// [in] when TRUE, checks if entire string defines a real value;
+    /// <param name="in]">
+    /// theToCheckFull  when TRUE, checks if entire string defines a real value;
     /// otherwise checks if string starts with a real value
     /// Note: an integer value is considered to be a real value as well.
     /// </param>
     bool IsRealValue(bool theToCheckFull);
     /// <summary>
-    /// Returns True if the AsciiString starts with some characters that can be interpreted as integer or real value.
+    /// Returns True if the AsciiString starts with some characters that can be interpreted as integer
+    /// or real value.
     /// </summary>
-    /// <param name="theToCheckFull">
-    /// [in] when TRUE, checks if entire string defines a real value;
+    /// <param name="in]">
+    /// theToCheckFull  when TRUE, checks if entire string defines a real value;
     /// otherwise checks if string starts with a real value
     /// Note: an integer value is considered to be a real value as well.
     /// </param>

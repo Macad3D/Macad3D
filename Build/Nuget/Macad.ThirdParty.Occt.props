@@ -13,13 +13,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\libd</OcctLibPath>
     <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\bind</OcctBinPath>
-    <TbbSuffix>_debug</TbbSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\lib</OcctLibPath>
     <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\bin</OcctBinPath>
-    <TbbSuffix></TbbSuffix>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
@@ -34,7 +32,7 @@
 
   <ItemGroup>
     <CopyToOutput Include="$(FreeTypeBinPath)\freetype.dll" />
-    <CopyToOutput Include="$(TbbBinPath)\tbb12$(TbbSuffix).dll" />
+    <CopyToOutput Include="$(TbbBinPath)\tbb12.dll" />
     <CopyToOutput Include="$(TbbBinPath)\tbbmalloc.dll" />
     <CopyToOutput Include="$(OcctBinPath)\*" />
   </ItemGroup>

@@ -599,14 +599,14 @@ public:
     /// </summary>
     void Init(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Ax1 Axis);
     /// <summary>
-    /// Performs every  holes of   radius  <Radius>.  This
+    /// Performs every  hole of    radius  <Radius>.  This
     /// command  has the  same effect as   a cut operation
     /// with an  infinite cylinder   defined by the  given
     /// axis and <Radius>.
     /// </summary>
     void Perform(double Radius);
     /// <summary>
-    /// Performs evry   hole  of  radius  <Radius> located
+    /// Performs every  hole  of  radius  <Radius> located
     /// between PFrom  and  PTo  on the  given  axis.   If
     /// <WithControl> is set  to Standard_False no control
     /// are  done  on   the  resulting  shape   after  the
@@ -614,7 +614,7 @@ public:
     /// </summary>
     void Perform(double Radius, double PFrom, double PTo, bool WithControl);
     /// <summary>
-    /// Performs evry   hole  of  radius  <Radius> located
+    /// Performs every  hole  of  radius  <Radius> located
     /// between PFrom  and  PTo  on the  given  axis.   If
     /// <WithControl> is set  to Standard_False no control
     /// are  done  on   the  resulting  shape   after  the
@@ -640,7 +640,7 @@ public:
     /// </summary>
     void PerformThruNext(double Radius);
     /// <summary>
-    /// Performs  evry  holes of  radius  <Radius> located
+    /// Performs every  hole of   radius  <Radius> located
     /// after  the   origin  of   the given    axis.    If
     /// <WithControl> is  set to Standard_False no control
     /// are done   on   the  resulting  shape   after  the
@@ -648,7 +648,7 @@ public:
     /// </summary>
     void PerformUntilEnd(double Radius, bool WithControl);
     /// <summary>
-    /// Performs  evry  holes of  radius  <Radius> located
+    /// Performs every  hole of   radius  <Radius> located
     /// after  the   origin  of   the given    axis.    If
     /// <WithControl> is  set to Standard_False no control
     /// are done   on   the  resulting  shape   after  the

@@ -268,8 +268,8 @@ public:
 /// the NotDone error. When Done is false on a command
 /// the error description can be asked to the command.
 /// 
-/// In  theory  the  comands can be    called with any
-/// arguments, argument  checking  is performed by the
+/// In theory the commands can be called with any
+/// arguments, argument checking is performed by the
 /// command.
 /// </summary>
 public ref class BRepBuilderAPI sealed
@@ -2444,7 +2444,7 @@ public:
 /// <summary>
 /// Conversion of the complete geometry of a shape
 /// (all 3D analytical representation of surfaces and curves)
-/// into NURBS geometry (execpt for Planes). For example,
+/// into NURBS geometry (except for Planes). For example,
 /// all curves supporting edges of the basis shape are converted
 /// into BSpline curves, and all surfaces supporting its faces are
 /// converted into BSpline surfaces.
@@ -2565,7 +2565,7 @@ public:
 /// - set the cutting option as you need (default True)
 /// - define a tolerance
 /// - add shapes to be sewed -> Add
-/// - compute -> Perfom
+/// - compute -> Perform
 /// - output the resulted shapes
 /// - output free edges if necessary
 /// - output multiple edges if necessary
@@ -2677,7 +2677,7 @@ public:
     /// </summary>
     void Init();
     /// <summary>
-    /// Loades the context shape.
+    /// Loads the context shape.
     /// </summary>
     void Load(Macad::Occt::TopoDS_Shape^ shape);
     /// <summary>
@@ -2744,7 +2744,7 @@ public:
     /// <summary>
     /// Gives the original edge (free boundary) which becomes the
     /// the section. Remember that sections constitute  common edges.
-    /// This imformation is important for control because with
+    /// This information is important for control because with
     /// original edge we can find the surface to which the section
     /// is attached.
     /// </summary>

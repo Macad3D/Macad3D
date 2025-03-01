@@ -12,8 +12,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Bnd.h"
 #include "gp.h"
 #include "Image.h"
-#include "TColStd.h"
 #include "TCollection.h"
+#include "TColStd.h"
 #include "Prs3d.h"
 
 
@@ -145,47 +145,6 @@ Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLight::Iterator::ChangeVal
 
 
 //---------------------------------------------------------------------
-//  Class  V3d_ListOfLightIterator
-//---------------------------------------------------------------------
-
-Macad::Occt::V3d_ListOfLightIterator::V3d_ListOfLightIterator()
-    : Macad::Occt::BaseClass<::V3d_ListOfLightIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLightIterator();
-}
-
-Macad::Occt::V3d_ListOfLightIterator::V3d_ListOfLightIterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::V3d_ListOfLightIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLightIterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::V3d_ListOfLightIterator::More()
-{
-    bool _result = ((::V3d_ListOfLightIterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::V3d_ListOfLightIterator::Next()
-{
-    ((::V3d_ListOfLightIterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLightIterator::Value()
-{
-    Handle(::Graphic3d_CLight) _result = ((::V3d_ListOfLightIterator*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLightIterator::ChangeValue()
-{
-    Handle(::Graphic3d_CLight) _result = ((::V3d_ListOfLightIterator*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  V3d_ListOfView
 //---------------------------------------------------------------------
 
@@ -307,47 +266,6 @@ Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::Iterator::Value()
 Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::Iterator::ChangeValue()
 {
     Handle(::V3d_View) _result = ((::V3d_ListOfView::Iterator*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  V3d_ListOfViewIterator
-//---------------------------------------------------------------------
-
-Macad::Occt::V3d_ListOfViewIterator::V3d_ListOfViewIterator()
-    : Macad::Occt::BaseClass<::V3d_ListOfViewIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfViewIterator();
-}
-
-Macad::Occt::V3d_ListOfViewIterator::V3d_ListOfViewIterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::V3d_ListOfViewIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfViewIterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::V3d_ListOfViewIterator::More()
-{
-    bool _result = ((::V3d_ListOfViewIterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::V3d_ListOfViewIterator::Next()
-{
-    ((::V3d_ListOfViewIterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfViewIterator::Value()
-{
-    Handle(::V3d_View) _result = ((::V3d_ListOfViewIterator*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfViewIterator::ChangeValue()
-{
-    Handle(::V3d_View) _result = ((::V3d_ListOfViewIterator*)_NativeInstance)->ChangeValue();
     return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
 }
 
@@ -1547,30 +1465,53 @@ bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad:
     return _result;
 }
 
-bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, Macad::Occt::V3d_StereoDumpOptions theStereoOptions)
+bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer, Macad::Occt::V3d_StereoDumpOptions theStereoOptions, System::String^ theLightName)
 {
     pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
-    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, (::V3d_StereoDumpOptions)theStereoOptions);
+    const char* sz_theLightName = (char*)(void*)Marshal::StringToHGlobalAnsi(theLightName);
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, theTargetZLayerId, theIsSingleLayer, (::V3d_StereoDumpOptions)theStereoOptions, sz_theLightName);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theLightName);
+    return _result;
+}
+
+bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer, Macad::Occt::V3d_StereoDumpOptions theStereoOptions)
+{
+    pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, theTargetZLayerId, theIsSingleLayer, (::V3d_StereoDumpOptions)theStereoOptions, "");
+    return _result;
+}
+
+bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer)
+{
+    pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, theTargetZLayerId, theIsSingleLayer, V3d_SDO_MONO, "");
+    return _result;
+}
+
+bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId)
+{
+    pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, theTargetZLayerId, false, V3d_SDO_MONO, "");
     return _result;
 }
 
 bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect)
 {
     pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
-    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, V3d_SDO_MONO);
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, theToAdjustAspect, Graphic3d_ZLayerId_BotOSD, false, V3d_SDO_MONO, "");
     return _result;
 }
 
 bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType)
 {
     pin_ptr<Macad::Occt::Graphic3d_BufferType> pp_theBufferType = &theBufferType;
-    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, true, V3d_SDO_MONO);
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, *(::Graphic3d_BufferType*)pp_theBufferType, true, Graphic3d_ZLayerId_BotOSD, false, V3d_SDO_MONO, "");
     return _result;
 }
 
 bool Macad::Occt::V3d_View::ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight)
 {
-    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, Graphic3d_BT_RGB, true, V3d_SDO_MONO);
+    bool _result = ((::V3d_View*)_NativeInstance)->ToPixMap(*(::Image_PixMap*)theImage->NativeInstance, theWidth, theHeight, Graphic3d_BT_RGB, true, Graphic3d_ZLayerId_BotOSD, false, V3d_SDO_MONO, "");
     return _result;
 }
 
@@ -1652,21 +1593,11 @@ void Macad::Occt::V3d_View::SetFrustumCulling(bool theMode)
     ((::V3d_View*)_NativeInstance)->SetFrustumCulling(theMode);
 }
 
-void Macad::Occt::V3d_View::DiagnosticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict, Macad::Occt::Graphic3d_DiagnosticInfo theFlags)
-{
-    ((::V3d_View*)_NativeInstance)->DiagnosticInformation(*(::TColStd_IndexedDataMapOfStringString*)theDict->NativeInstance, (::Graphic3d_DiagnosticInfo)theFlags);
-}
-
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::V3d_View::StatisticInformation()
 {
     ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
     *_result = ((::V3d_View*)_NativeInstance)->StatisticInformation();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::V3d_View::StatisticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict)
-{
-    ((::V3d_View*)_NativeInstance)->StatisticInformation(*(::TColStd_IndexedDataMapOfStringString*)theDict->NativeInstance);
 }
 
 Macad::Occt::Pnt Macad::Occt::V3d_View::GravityPoint()

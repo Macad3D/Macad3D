@@ -31,7 +31,7 @@ public class IteratorEnumerablePass : Pass
         }
 
         var collectionTemplateParts = cd.TemplateTypes.Select(td => td.Name).ToArray();
-        if (collectionTemplateParts.Length > 2)
+        if (collectionTemplateParts.Length > 1)
         {
             return true;
         }

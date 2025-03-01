@@ -8,95 +8,11 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
-//  Class  TopLoc_IndexedMapOfLocation
-//---------------------------------------------------------------------
-public ref class TopLoc_IndexedMapOfLocation sealed
-    : public Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation>
-{
-
-#ifdef Include_TopLoc_IndexedMapOfLocation_h
-public:
-    Include_TopLoc_IndexedMapOfLocation_h
-#endif
-
-public:
-    TopLoc_IndexedMapOfLocation(::TopLoc_IndexedMapOfLocation* nativeInstance)
-        : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation>( nativeInstance, true )
-    {}
-
-    TopLoc_IndexedMapOfLocation(::TopLoc_IndexedMapOfLocation& nativeInstance)
-        : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation>( &nativeInstance, false )
-    {}
-
-    property ::TopLoc_IndexedMapOfLocation* NativeInstance
-    {
-        ::TopLoc_IndexedMapOfLocation* get()
-        {
-            return static_cast<::TopLoc_IndexedMapOfLocation*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>
-    {
-
-#ifdef Include_TopLoc_IndexedMapOfLocation_Iterator_h
-    public:
-        Include_TopLoc_IndexedMapOfLocation_Iterator_h
-#endif
-
-    public:
-        Iterator(::TopLoc_IndexedMapOfLocation::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TopLoc_IndexedMapOfLocation::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TopLoc_IndexedMapOfLocation::Iterator* NativeInstance
-        {
-            ::TopLoc_IndexedMapOfLocation::Iterator* get()
-            {
-                return static_cast<::TopLoc_IndexedMapOfLocation::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TopLoc_Location^ Value();
-        bool IsEqual(Macad::Occt::TopLoc_IndexedMapOfLocation::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TopLoc_IndexedMapOfLocation();
-    TopLoc_IndexedMapOfLocation(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TopLoc_IndexedMapOfLocation(int theNbBuckets);
-    void Exchange(Macad::Occt::TopLoc_IndexedMapOfLocation^ theOther);
-    Macad::Occt::TopLoc_IndexedMapOfLocation^ Assign(Macad::Occt::TopLoc_IndexedMapOfLocation^ theOther);
-    void ReSize(int theExtent);
-    int Add(Macad::Occt::TopLoc_Location^ theKey1);
-    bool Contains(Macad::Occt::TopLoc_Location^ theKey1);
-    void Substitute(int theIndex, Macad::Occt::TopLoc_Location^ theKey1);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    bool RemoveKey(Macad::Occt::TopLoc_Location^ theKey1);
-    Macad::Occt::TopLoc_Location^ FindKey(int theIndex);
-    int FindIndex(Macad::Occt::TopLoc_Location^ theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TopLoc_IndexedMapOfLocation
-
-//---------------------------------------------------------------------
 //  Class  TopLoc_MapOfLocation
 //---------------------------------------------------------------------
 public ref class TopLoc_MapOfLocation sealed
     : public Macad::Occt::BaseClass<::TopLoc_MapOfLocation>
+    , public IEnumerable<Macad::Occt::TopLoc_Location^>
 {
 
 #ifdef Include_TopLoc_MapOfLocation_h
@@ -123,7 +39,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>
+        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>
     {
 
 #ifdef Include_TopLoc_MapOfLocation_Iterator_h
@@ -133,11 +49,11 @@ public:
 
     public:
         Iterator(::TopLoc_MapOfLocation::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>( nativeInstance, true )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopLoc_MapOfLocation::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>( &nativeInstance, false )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopLoc_MapOfLocation::Iterator* NativeInstance
@@ -150,9 +66,9 @@ public:
 
     public:
         Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TopLoc_Location^ Value();
+        bool More() override;
+        void Next() override;
+        Macad::Occt::TopLoc_Location^ Value() override;
         Macad::Occt::TopLoc_Location^ Key();
     }; // class Iterator
 
@@ -180,6 +96,8 @@ public:
     void Difference(Macad::Occt::TopLoc_MapOfLocation^ theLeft, Macad::Occt::TopLoc_MapOfLocation^ theRight);
     bool Differ(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     bool Equals(System::Object^ obj) override;
+    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopLoc_Location^>^ GetEnumerator();
+    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TopLoc_MapOfLocation
 
 //---------------------------------------------------------------------
@@ -409,7 +327,7 @@ public:
     /// </summary>
     Macad::Occt::TopLoc_SListOfItemLocation^ Assign(Macad::Occt::TopLoc_SListOfItemLocation^ Other);
     /// <summary>
-    /// Returne true if this list is empty
+    /// Return true if this list is empty
     /// </summary>
     bool IsEmpty();
     /// <summary>
@@ -563,8 +481,8 @@ public:
     /// </summary>
     Macad::Occt::TopLoc_Location^ Powered(int pwr);
     /// <summary>
-    /// Returns a hashed value for this local coordinate system. This value is used, with map tables, to store and
-    /// retrieve the object easily
+    /// Returns a hashed value for this local coordinate system. This value is used, with map tables,
+    /// to store and retrieve the object easily
     /// </summary>
     /// <returns>
     /// a computed hash code

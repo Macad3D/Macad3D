@@ -331,7 +331,7 @@ public:
     /// 
     /// Warnings :Index is used  as input   data to initialize  the
     /// searching  function.
-    /// Warning: Knots have to be "withe repetitions"
+    /// Warning: Knots have to be "with repetitions"
     /// </summary>
     static void LocateParameter(int Degree, Macad::Occt::TColStd_Array1OfReal^ Knots, Macad::Occt::TColStd_Array1OfInteger^ Mults, double U, bool IsPeriodic, int FromK1, int ToK2, int% KnotIndex, double% NewU);
     /// <summary>
@@ -836,7 +836,7 @@ public:
     /// knot : 1.  2.
     /// mult : 3   2
     /// @endcode
-    /// The multipicity of the first knot may also be reduced if the sum is still to big.
+    /// The multiplicity of the first knot may also be reduced if the sum is still too big.
     /// 
     /// In the most common situations (periodic curve or curve with first
     /// and last multiplicities equals to Degree+1) the knots are knot changes.
@@ -1109,7 +1109,7 @@ public:
     /// WeightsResult one has  the result of the evaluation of
     /// the denominator
     /// 
-    /// Warning:   <PolesResult> and <WeightsResult>  must be   dimensionned
+    /// Warning:   <PolesResult> and <WeightsResult>  must be   dimensioned
     /// properly.
     /// </summary>
     static void Eval(double U, bool PeriodicFlag, int DerivativeRequest, int% ExtrapMode, int Degree, Macad::Occt::TColStd_Array1OfReal^ FlatKnots, int ArrayDimension, double% Poles, double% Weights, double% PolesResult, double% WeightsResult);
@@ -1131,7 +1131,7 @@ public:
     /// <Continuity> must be equal to 1, 2 or 3.
     /// <Degree> must be greater or equal than <Continuity> + 1.
     /// 
-    /// Warning:   <KnotsResult> and <PolesResult>  must be   dimensionned
+    /// Warning:   <KnotsResult> and <PolesResult>  must be   dimensioned
     /// properly.
     /// </summary>
     static void TangExtendToConstraint(Macad::Occt::TColStd_Array1OfReal^ FlatKnots, double C1Coefficient, int NumPoles, double% Poles, int Dimension, int Degree, Macad::Occt::TColStd_Array1OfReal^ ConstraintPoint, int Continuity, bool After, int% NbPolesResult, int% NbKnotsRsult, double% KnotsResult, double% PolesResult);
@@ -1302,14 +1302,14 @@ public:
     /// <summary>
     /// Perform the evaluation of the Taylor expansion
     /// of the Bspline normalized between 0 and 1.
-    /// If rational computes the homogeneous Taylor expension
+    /// If rational computes the homogeneous Taylor expansion
     /// for the numerator and stores it in CachePoles
     /// </summary>
     static void BuildCache(double U, double InverseOfSpanDomain, bool PeriodicFlag, int Degree, Macad::Occt::TColStd_Array1OfReal^ FlatKnots, Macad::Occt::TColgp_Array1OfPnt^ Poles, Macad::Occt::TColStd_Array1OfReal^ Weights, Macad::Occt::TColgp_Array1OfPnt^ CachePoles, Macad::Occt::TColStd_Array1OfReal^ CacheWeights);
     /// <summary>
     /// Perform the evaluation of the Taylor expansion
     /// of the Bspline normalized between 0 and 1.
-    /// If rational computes the homogeneous Taylor expension
+    /// If rational computes the homogeneous Taylor expansion
     /// for the numerator and stores it in CachePoles
     /// </summary>
     static void BuildCache(double U, double InverseOfSpanDomain, bool PeriodicFlag, int Degree, Macad::Occt::TColStd_Array1OfReal^ FlatKnots, Macad::Occt::TColgp_Array1OfPnt2d^ Poles, Macad::Occt::TColStd_Array1OfReal^ Weights, Macad::Occt::TColgp_Array1OfPnt2d^ CachePoles, Macad::Occt::TColStd_Array1OfReal^ CacheWeights);
@@ -1742,7 +1742,8 @@ public:
     /// Calculates the point on the curve and its first derivative in the specified parameter
     /// \param[in]  theParameter parameter of calculation of the value
     /// \param[out] thePoint     the result of calculation (the point on the curve)
-    /// \param[out] theTangent   tangent vector (first derivatives) for the curve in the calculated point
+    /// \param[out] theTangent   tangent vector (first derivatives) for the curve in the calculated
+    /// point
     /// </summary>
     void D1(double theParameter, Macad::Occt::Pnt2d% thePoint, Macad::Occt::Vec2d% theTangent);
     void D1(double theParameter, Macad::Occt::Pnt% thePoint, Macad::Occt::Vec% theTangent);
@@ -1750,8 +1751,9 @@ public:
     /// Calculates the point on the curve and two derivatives in the specified parameter
     /// \param[in]  theParameter parameter of calculation of the value
     /// \param[out] thePoint     the result of calculation (the point on the curve)
-    /// \param[out] theTangent   tangent vector (1st derivatives) for the curve in the calculated point
-    /// \param[out] theCurvature curvature vector (2nd derivatives) for the curve in the calculated point
+    /// \param[out] theTangent   tangent vector (1st derivatives) for the curve in the calculated
+    /// point \param[out] theCurvature curvature vector (2nd derivatives) for the curve in the
+    /// calculated point
     /// </summary>
     void D2(double theParameter, Macad::Occt::Pnt2d% thePoint, Macad::Occt::Vec2d% theTangent, Macad::Occt::Vec2d% theCurvature);
     void D2(double theParameter, Macad::Occt::Pnt% thePoint, Macad::Occt::Vec% theTangent, Macad::Occt::Vec% theCurvature);
@@ -1759,9 +1761,10 @@ public:
     /// Calculates the point on the curve and three derivatives in the specified parameter
     /// \param[in]  theParameter parameter of calculation of the value
     /// \param[out] thePoint     the result of calculation (the point on the curve)
-    /// \param[out] theTangent   tangent vector (1st derivatives) for the curve in the calculated point
-    /// \param[out] theCurvature curvature vector (2nd derivatives) for the curve in the calculated point
-    /// \param[out] theTorsion   second curvature vector (3rd derivatives) for the curve in the calculated point
+    /// \param[out] theTangent   tangent vector (1st derivatives) for the curve in the calculated
+    /// point \param[out] theCurvature curvature vector (2nd derivatives) for the curve in the
+    /// calculated point \param[out] theTorsion   second curvature vector (3rd derivatives) for the
+    /// curve in the calculated point
     /// </summary>
     void D3(double theParameter, Macad::Occt::Pnt2d% thePoint, Macad::Occt::Vec2d% theTangent, Macad::Occt::Vec2d% theCurvature, Macad::Occt::Vec2d% theTorsion);
     void D3(double theParameter, Macad::Occt::Pnt% thePoint, Macad::Occt::Vec% theTangent, Macad::Occt::Vec% theCurvature, Macad::Occt::Vec% theTorsion);

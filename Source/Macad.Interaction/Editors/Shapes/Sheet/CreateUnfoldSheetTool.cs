@@ -66,7 +66,7 @@ public class CreateUnfoldSheetTool : Tool
         bool finished = false;
         if (args.SelectedSubshapeType == SubshapeTypes.Face)
         {
-            var face = TopoDS.Face(args.SelectedSubshape);
+            var face = args.SelectedSubshape.ToFace();
             var brepAdaptor = new BRepAdaptor_Surface(face, true);
             if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
             {

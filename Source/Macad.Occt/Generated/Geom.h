@@ -196,7 +196,7 @@ public:
     /// </summary>
     void Translate(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
     /// <summary>
-    /// Transformation of a geometric object. This tansformation
+    /// Transformation of a geometric object. This transformation
     /// can be a translation, a rotation, a symmetry, a scaling
     /// or a complex transformation obtained by combination of
     /// the previous elementaries transformations.
@@ -1223,7 +1223,8 @@ public:
 /// The key characteristic of these surfaces is that they are parameterized.
 /// Geom_Surface demonstrates:
 /// - how to work with the parametric equation of a surface
-/// to compute the point of parameters (u, v), and, at this point, the 1st, 2nd ... Nth derivative;
+/// to compute the point of parameters (u, v), and, at this point, the 1st, 2nd ... Nth
+/// derivative;
 /// - how to find global information about a surface in
 /// each parametric direction (for example, level of continuity, whether the surface is closed,
 /// its periodicity, the bounds of the parameters and so on);
@@ -1473,10 +1474,11 @@ public:
     /// </summary>
     void D3(double U, double V, Macad::Occt::Pnt% P, Macad::Occt::Vec% D1U, Macad::Occt::Vec% D1V, Macad::Occt::Vec% D2U, Macad::Occt::Vec% D2V, Macad::Occt::Vec% D2UV, Macad::Occt::Vec% D3U, Macad::Occt::Vec% D3V, Macad::Occt::Vec% D3UUV, Macad::Occt::Vec% D3UVV);
     /// <summary>
-    /// Computes the derivative of order Nu in the direction U and Nv in the direction V at the point P(U, V).
+    /// Computes the derivative of order Nu in the direction U and Nv in the direction V at the point
+    /// P(U, V).
     /// 
-    /// Raised if the continuity of the surface is not CNu in the U direction or not CNv in the V direction.
-    /// Raised if Nu + Nv < 1 or Nu < 0 or Nv < 0.
+    /// Raised if the continuity of the surface is not CNu in the U direction or not CNv in the V
+    /// direction. Raised if Nu + Nv < 1 or Nu < 0 or Nv < 0.
     /// </summary>
     Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
     /// <summary>
@@ -1801,7 +1803,7 @@ public:
     /// . UDegree is greater than MaxDegree.
     /// . the Length of CPoles is not equal to NbVPoles
     /// . a weight value is lower or equal to Resolution from
-    /// pacakage gp
+    /// package gp
     /// </summary>
     void InsertPoleRowBefore(int UIndex, Macad::Occt::TColgp_Array1OfPnt^ CPoles, Macad::Occt::TColStd_Array1OfReal^ CPoleWeights);
     /// <summary>
@@ -3160,7 +3162,7 @@ public:
     /// </summary>
     Macad::Occt::Geom_Geometry^ Copy();
     /// <summary>
-    /// Comapare two Bspline curve on identity;
+    /// Compare two Bspline curve on identity;
     /// </summary>
     bool IsEqual(Macad::Occt::Geom_BSplineCurve^ theOther, double thePreci);
     /// <summary>
@@ -5561,7 +5563,8 @@ public:
     /// These coefficients are normalized.
     /// </summary>
     /// @code
-    /// A1.X**2 + A2.Y**2 + A3.Z**2 + 2.(B1.X.Y + B2.X.Z + B3.Y.Z) + 2.(C1.X + C2.Y + C3.Z) + D = 0.0
+    /// A1.X**2 + A2.Y**2 + A3.Z**2 + 2.(B1.X.Y + B2.X.Z + B3.Y.Z) + 2.(C1.X + C2.Y + C3.Z) + D =
+    /// 0.0
     /// @endcode
     void Coefficients(double% A1, double% A2, double% A3, double% B1, double% B2, double% B3, double% C1, double% C2, double% C3, double% D);
     /// <summary>
@@ -7541,8 +7544,8 @@ public:
     /// </summary>
     double UReversedParameter(double U);
     /// <summary>
-    /// Changes the orientation of this offset surface in the v parametric direction. The bounds of the surface
-    /// are not changed but the given parametric direction is reversed.
+    /// Changes the orientation of this offset surface in the v parametric direction. The bounds of
+    /// the surface are not changed but the given parametric direction is reversed.
     /// </summary>
     void VReverse();
     /// <summary>

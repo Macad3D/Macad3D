@@ -438,7 +438,8 @@ public enum class Aspect_TypeOfTriedronPosition
 //  Enum  Aspect_VKeyBasic
 //---------------------------------------------------------------------
 /// <summary>
-/// Enumeration defining virtual keys irrelevant to current keyboard layout for simplified hot-keys management logic.
+/// Enumeration defining virtual keys irrelevant to current keyboard layout for simplified hot-keys
+/// management logic.
 /// </summary>
 public enum class Aspect_VKeyBasic
 {
@@ -668,14 +669,6 @@ public:
         }
 
     public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::Aspect_XRAction^ Value();
-        Macad::Occt::Aspect_XRAction^ ChangeValue();
-        Macad::Occt::TCollection_AsciiString^ Key();
-        bool IsEqual(Macad::Occt::Aspect_XRActionMap::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_XRActionMap();
@@ -761,14 +754,6 @@ public:
         }
 
     public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::Aspect_XRActionSet^ Value();
-        Macad::Occt::Aspect_XRActionSet^ ChangeValue();
-        Macad::Occt::TCollection_AsciiString^ Key();
-        bool IsEqual(Macad::Occt::Aspect_XRActionSetMap::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_XRActionSetMap();
@@ -1042,14 +1027,6 @@ public:
         }
 
     public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::Aspect_Touch^ Value();
-        Macad::Occt::Aspect_Touch^ ChangeValue();
-        /* Method skipped due to unknown mapping: unsigned long long Key() */
-        bool IsEqual(Macad::Occt::Aspect_TouchMap::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_TouchMap();
@@ -2048,7 +2025,8 @@ public:
 
 public:
     /// <summary>
-    /// Creates an available set of identifiers with the lower bound 0 and the upper bound INT_MAX / 2.
+    /// Creates an available set of identifiers with the lower bound 0 and the upper bound INT_MAX
+    /// / 2.
     /// </summary>
     Aspect_GenId();
     /// <summary>
@@ -2084,8 +2062,8 @@ public:
     /// <summary>
     /// Generates the next available identifier.
     /// </summary>
-    /// <param name="theId">
-    /// [out] generated identifier
+    /// <param name="out]">
+    /// theId  generated identifier
     /// </param>
     /// <returns>
     /// FALSE if all identifiers are busy.
@@ -2579,7 +2557,8 @@ public:
     //  Enum  TrackingUniverseOrigin
     //---------------------------------------------------------------------
     /// <summary>
-    /// Identifies which style of tracking origin the application wants to use for the poses it is requesting.
+    /// Identifies which style of tracking origin the application wants to use for the poses it is
+    /// requesting.
     /// </summary>
     enum class TrackingUniverseOrigin
     {
@@ -2634,7 +2613,8 @@ public:
     /// </summary>
     Macad::Occt::Graphic3d_Mat4d^ ProjectionMatrix(Macad::Occt::Aspect_Eye theEye, double theZNear, double theZFar);
     /// <summary>
-    /// Return FALSE if projection frustums are unsupported and general 4x4 projection matrix should be fetched instead
+    /// Return FALSE if projection frustums are unsupported and general 4x4 projection matrix should
+    /// be fetched instead
     /// </summary>
     bool HasProjectionFrustums();
     /// <summary>
@@ -2644,19 +2624,19 @@ public:
     /// <summary>
     /// Submit texture eye to XR Composer.
     /// </summary>
-    /// <param name="theTexture">
-    ///     [in] texture handle
+    /// <param name="in]">
+    /// theTexture      texture handle
     /// </param>
-    /// <param name="theGraphicsLib">
-    /// [in] graphics library in which texture handle is defined
+    /// <param name="in]">
+    /// theGraphicsLib  graphics library in which texture handle is defined
     /// </param>
-    /// <param name="theColorSpace">
-    ///  [in] texture color space;
+    /// <param name="in]">
+    /// theColorSpace   texture color space;
     /// sRGB means no color conversion by composer;
     /// Linear means to sRGB color conversion by composer
     /// </param>
-    /// <param name="theEye">
-    /// [in] eye to display
+    /// <param name="in]">
+    /// theEye  eye to display
     /// </param>
     /// <returns>
     /// FALSE on error
@@ -2719,11 +2699,11 @@ public:
     /// <summary>
     /// Load model for displaying device.
     /// </summary>
-    /// <param name="theDevice">
-    ///  [in] device index
+    /// <param name="in]">
+    /// theDevice   device index
     /// </param>
-    /// <param name="theTexture">
-    /// [out] texture source
+    /// <param name="out]">
+    /// theTexture  texture source
     /// </param>
     /// <returns>
     /// model triangulation or NULL if not found
@@ -2732,14 +2712,14 @@ public:
     /// <summary>
     /// Load model for displaying device.
     /// </summary>
-    /// <param name="theDevice">
-    ///  [in] device index
+    /// <param name="in]">
+    /// theDevice   device index
     /// </param>
-    /// <param name="theToApplyUnitFactor">
-    /// [in] flag to apply unit scale factor
+    /// <param name="in]">
+    /// theToApplyUnitFactor  flag to apply unit scale factor
     /// </param>
-    /// <param name="theTexture">
-    /// [out] texture source
+    /// <param name="out]">
+    /// theTexture  texture source
     /// </param>
     /// <returns>
     /// model triangulation or NULL if not found
@@ -2748,23 +2728,23 @@ public:
     /// <summary>
     /// Fetch data for digital input action (like button).
     /// </summary>
-    /// <param name="theAction">
-    /// [in] action of Aspect_XRActionType_InputDigital type
+    /// <param name="in]">
+    /// theAction  action of Aspect_XRActionType_InputDigital type
     /// </param>
     Macad::Occt::Aspect_XRDigitalActionData^ GetDigitalActionData(Macad::Occt::Aspect_XRAction^ theAction);
     /// <summary>
     /// Fetch data for digital input action (like axis).
     /// </summary>
-    /// <param name="theAction">
-    /// [in] action of Aspect_XRActionType_InputAnalog type
+    /// <param name="in]">
+    /// theAction  action of Aspect_XRActionType_InputAnalog type
     /// </param>
     Macad::Occt::Aspect_XRAnalogActionData^ GetAnalogActionData(Macad::Occt::Aspect_XRAction^ theAction);
     /// <summary>
     /// Fetch data for pose input action (like fingertip position).
     /// The returned values will match the values returned by the last call to WaitPoses().
     /// </summary>
-    /// <param name="theAction">
-    /// [in] action of Aspect_XRActionType_InputPose type
+    /// <param name="in]">
+    /// theAction  action of Aspect_XRActionType_InputPose type
     /// </param>
     Macad::Occt::Aspect_XRPoseActionData^ GetPoseActionDataForNextFrame(Macad::Occt::Aspect_XRAction^ theAction);
     /// <summary>
@@ -2832,8 +2812,8 @@ public:
     /// </summary>
     Aspect_OpenVRSession();
     /// <summary>
-    /// Return TRUE if an HMD may be presented on the system (e.g. to show VR checkbox in application GUI).
-    /// This is fast check, and even if it returns TRUE, opening session may fail.
+    /// Return TRUE if an HMD may be presented on the system (e.g. to show VR checkbox in application
+    /// GUI). This is fast check, and even if it returns TRUE, opening session may fail.
     /// </summary>
     static bool IsHmdPresent();
     /// <summary>
@@ -2876,19 +2856,19 @@ public:
     /// <summary>
     /// Submit texture eye to XR Composer.
     /// </summary>
-    /// <param name="theTexture">
-    ///     [in] texture handle
+    /// <param name="in]">
+    /// theTexture      texture handle
     /// </param>
-    /// <param name="theGraphicsLib">
-    /// [in] graphics library in which texture handle is defined
+    /// <param name="in]">
+    /// theGraphicsLib  graphics library in which texture handle is defined
     /// </param>
-    /// <param name="theColorSpace">
-    ///  [in] texture color space;
+    /// <param name="in]">
+    /// theColorSpace   texture color space;
     /// sRGB means no color conversion by composer;
     /// Linear means to sRGB color conversion by composer
     /// </param>
-    /// <param name="theEye">
-    /// [in] eye to display
+    /// <param name="in]">
+    /// theEye  eye to display
     /// </param>
     /// <returns>
     /// FALSE on error
@@ -3088,14 +3068,16 @@ public:
     /// Creates a window skydome background with given parameters.
     /// </summary>
     /// <param name="in]">
-    /// theSunDirection direction to the sun (moon). Sun direction with negative Y component
+    /// theSunDirection direction to the sun (moon). Sun direction with negative Y
+    /// component
     /// represents moon with (-X, -Y, -Z) direction.
     /// </param>
     /// <param name="in]">
     /// theCloudiness   cloud intensity, 0.0 means no clouds at all and 1.0 - high clody.
     /// </param>
     /// <param name="in]">
-    /// theTime         time parameter of simulation. Might be tweaked to slightly change appearance.
+    /// theTime         time parameter of simulation. Might be tweaked to slightly change
+    /// appearance.
     /// </param>
     /// <param name="in]">
     /// theFogginess    fog intensity, 0.0 means no fog and 1.0 - high fogginess
@@ -3412,9 +3394,10 @@ public:
     /// </summary>
     void KeyFromAxis(unsigned int theNegative, unsigned int thePositive, double theTime, double thePressure);
     /// <summary>
+    /// </summary>
+    /// @name mouse input
     /// Update mouse scroll event.
     /// This method is expected to be called from UI thread.
-    /// </summary>
     /// <param name="theDelta">
     /// mouse cursor position and delta
     /// </param>
@@ -3522,8 +3505,9 @@ public:
     /// </summary>
     Macad::Occt::Graphic3d_Vec2i^ LastMousePosition();
     /// <summary>
-    /// Return TRUE if touches map is not empty.
     /// </summary>
+    /// @name multi-touch input
+    /// Return TRUE if touches map is not empty.
     bool HasTouchPoints();
     /// <summary>
     /// Return map of active touches.
@@ -3598,8 +3582,9 @@ public:
     /// </param>
     void UpdateTouchPoint(long long unsigned int theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
     /// <summary>
-    /// Return acceleration ratio for translation event; 2.0 by default.
     /// </summary>
+    /// @name 3d mouse input
+    /// Return acceleration ratio for translation event; 2.0 by default.
     float Get3dMouseTranslationScale();
     /// <summary>
     /// Set acceleration ratio for translation event.

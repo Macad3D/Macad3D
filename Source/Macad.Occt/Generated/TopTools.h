@@ -108,44 +108,6 @@ public:
 }; // class TopTools_ListOfShape
 
 //---------------------------------------------------------------------
-//  Class  TopTools_ListIteratorOfListOfShape
-//---------------------------------------------------------------------
-public ref class TopTools_ListIteratorOfListOfShape sealed
-    : public Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfShape>
-{
-
-#ifdef Include_TopTools_ListIteratorOfListOfShape_h
-public:
-    Include_TopTools_ListIteratorOfListOfShape_h
-#endif
-
-public:
-    TopTools_ListIteratorOfListOfShape(::TopTools_ListIteratorOfListOfShape* nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfShape>( nativeInstance, true )
-    {}
-
-    TopTools_ListIteratorOfListOfShape(::TopTools_ListIteratorOfListOfShape& nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfShape>( &nativeInstance, false )
-    {}
-
-    property ::TopTools_ListIteratorOfListOfShape* NativeInstance
-    {
-        ::TopTools_ListIteratorOfListOfShape* get()
-        {
-            return static_cast<::TopTools_ListIteratorOfListOfShape*>(_NativeInstance);
-        }
-    }
-
-public:
-    TopTools_ListIteratorOfListOfShape();
-    TopTools_ListIteratorOfListOfShape(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::TopoDS_Shape^ Value();
-    Macad::Occt::TopoDS_Shape^ ChangeValue();
-}; // class TopTools_ListIteratorOfListOfShape
-
-//---------------------------------------------------------------------
 //  Class  TopTools_Array1OfListOfShape
 //---------------------------------------------------------------------
 public ref class TopTools_Array1OfListOfShape sealed
@@ -1838,96 +1800,10 @@ public:
 }; // class TopTools_IndexedDataMapOfShapeShape
 
 //---------------------------------------------------------------------
-//  Class  TopTools_IndexedMapOfOrientedShape
-//---------------------------------------------------------------------
-public ref class TopTools_IndexedMapOfOrientedShape sealed
-    : public Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>
-{
-
-#ifdef Include_TopTools_IndexedMapOfOrientedShape_h
-public:
-    Include_TopTools_IndexedMapOfOrientedShape_h
-#endif
-
-public:
-    TopTools_IndexedMapOfOrientedShape(::TopTools_IndexedMapOfOrientedShape* nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>( nativeInstance, true )
-    {}
-
-    TopTools_IndexedMapOfOrientedShape(::TopTools_IndexedMapOfOrientedShape& nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape>( &nativeInstance, false )
-    {}
-
-    property ::TopTools_IndexedMapOfOrientedShape* NativeInstance
-    {
-        ::TopTools_IndexedMapOfOrientedShape* get()
-        {
-            return static_cast<::TopTools_IndexedMapOfOrientedShape*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape::Iterator>
-    {
-
-#ifdef Include_TopTools_IndexedMapOfOrientedShape_Iterator_h
-    public:
-        Include_TopTools_IndexedMapOfOrientedShape_Iterator_h
-#endif
-
-    public:
-        Iterator(::TopTools_IndexedMapOfOrientedShape::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TopTools_IndexedMapOfOrientedShape::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TopTools_IndexedMapOfOrientedShape::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TopTools_IndexedMapOfOrientedShape::Iterator* NativeInstance
-        {
-            ::TopTools_IndexedMapOfOrientedShape::Iterator* get()
-            {
-                return static_cast<::TopTools_IndexedMapOfOrientedShape::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TopoDS_Shape^ Value();
-        bool IsEqual(Macad::Occt::TopTools_IndexedMapOfOrientedShape::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TopTools_IndexedMapOfOrientedShape();
-    TopTools_IndexedMapOfOrientedShape(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TopTools_IndexedMapOfOrientedShape(int theNbBuckets);
-    void Exchange(Macad::Occt::TopTools_IndexedMapOfOrientedShape^ theOther);
-    Macad::Occt::TopTools_IndexedMapOfOrientedShape^ Assign(Macad::Occt::TopTools_IndexedMapOfOrientedShape^ theOther);
-    void ReSize(int theExtent);
-    int Add(Macad::Occt::TopoDS_Shape^ theKey1);
-    bool Contains(Macad::Occt::TopoDS_Shape^ theKey1);
-    void Substitute(int theIndex, Macad::Occt::TopoDS_Shape^ theKey1);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    bool RemoveKey(Macad::Occt::TopoDS_Shape^ theKey1);
-    Macad::Occt::TopoDS_Shape^ FindKey(int theIndex);
-    int FindIndex(Macad::Occt::TopoDS_Shape^ theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TopTools_IndexedMapOfOrientedShape
-
-//---------------------------------------------------------------------
 //  Class  TopTools_IndexedMapOfShape
 //---------------------------------------------------------------------
 public ref class TopTools_IndexedMapOfShape sealed
     : public Macad::Occt::BaseClass<::TopTools_IndexedMapOfShape>
-    , public IEnumerable<Macad::Occt::TopoDS_Shape^>
 {
 
 #ifdef Include_TopTools_IndexedMapOfShape_h
@@ -1954,7 +1830,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_IndexedMapOfShape::Iterator>
+        : public Macad::Occt::BaseClass<::TopTools_IndexedMapOfShape::Iterator>
     {
 
 #ifdef Include_TopTools_IndexedMapOfShape_Iterator_h
@@ -1964,11 +1840,11 @@ public:
 
     public:
         Iterator(::TopTools_IndexedMapOfShape::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_IndexedMapOfShape::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TopTools_IndexedMapOfShape::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopTools_IndexedMapOfShape::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_IndexedMapOfShape::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TopTools_IndexedMapOfShape::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopTools_IndexedMapOfShape::Iterator* NativeInstance
@@ -1981,9 +1857,9 @@ public:
 
     public:
         Iterator();
-        bool More() override;
-        void Next() override;
-        Macad::Occt::TopoDS_Shape^ Value() override;
+        bool More();
+        void Next();
+        Macad::Occt::TopoDS_Shape^ Value();
         bool IsEqual(Macad::Occt::TopTools_IndexedMapOfShape::Iterator^ theOther);
         bool Equals(System::Object^ obj) override;
     }; // class Iterator
@@ -2006,8 +1882,6 @@ public:
     void Clear(bool doReleaseMemory);
     void Clear();
     int Size();
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TopTools_IndexedMapOfShape
 
 //---------------------------------------------------------------------
@@ -2095,48 +1969,11 @@ public:
 }; // class TopTools_ListOfListOfShape
 
 //---------------------------------------------------------------------
-//  Class  TopTools_ListIteratorOfListOfListOfShape
-//---------------------------------------------------------------------
-public ref class TopTools_ListIteratorOfListOfListOfShape sealed
-    : public Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfListOfShape>
-{
-
-#ifdef Include_TopTools_ListIteratorOfListOfListOfShape_h
-public:
-    Include_TopTools_ListIteratorOfListOfListOfShape_h
-#endif
-
-public:
-    TopTools_ListIteratorOfListOfListOfShape(::TopTools_ListIteratorOfListOfListOfShape* nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfListOfShape>( nativeInstance, true )
-    {}
-
-    TopTools_ListIteratorOfListOfListOfShape(::TopTools_ListIteratorOfListOfListOfShape& nativeInstance)
-        : Macad::Occt::BaseClass<::TopTools_ListIteratorOfListOfListOfShape>( &nativeInstance, false )
-    {}
-
-    property ::TopTools_ListIteratorOfListOfListOfShape* NativeInstance
-    {
-        ::TopTools_ListIteratorOfListOfListOfShape* get()
-        {
-            return static_cast<::TopTools_ListIteratorOfListOfListOfShape*>(_NativeInstance);
-        }
-    }
-
-public:
-    TopTools_ListIteratorOfListOfListOfShape();
-    TopTools_ListIteratorOfListOfListOfShape(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::TopoDS_ListOfShape^ Value();
-    Macad::Occt::TopoDS_ListOfShape^ ChangeValue();
-}; // class TopTools_ListIteratorOfListOfListOfShape
-
-//---------------------------------------------------------------------
 //  Class  TopTools_MapOfOrientedShape
 //---------------------------------------------------------------------
 public ref class TopTools_MapOfOrientedShape sealed
     : public Macad::Occt::BaseClass<::TopTools_MapOfOrientedShape>
+    , public IEnumerable<Macad::Occt::TopoDS_Shape^>
 {
 
 #ifdef Include_TopTools_MapOfOrientedShape_h
@@ -2163,7 +2000,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TopTools_MapOfOrientedShape::Iterator>
+        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfOrientedShape::Iterator>
     {
 
 #ifdef Include_TopTools_MapOfOrientedShape_Iterator_h
@@ -2173,11 +2010,11 @@ public:
 
     public:
         Iterator(::TopTools_MapOfOrientedShape::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TopTools_MapOfOrientedShape::Iterator>( nativeInstance, true )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfOrientedShape::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopTools_MapOfOrientedShape::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TopTools_MapOfOrientedShape::Iterator>( &nativeInstance, false )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfOrientedShape::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopTools_MapOfOrientedShape::Iterator* NativeInstance
@@ -2190,9 +2027,9 @@ public:
 
     public:
         Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TopoDS_Shape^ Value();
+        bool More() override;
+        void Next() override;
+        Macad::Occt::TopoDS_Shape^ Value() override;
         Macad::Occt::TopoDS_Shape^ Key();
     }; // class Iterator
 
@@ -2220,6 +2057,8 @@ public:
     void Difference(Macad::Occt::TopTools_MapOfOrientedShape^ theLeft, Macad::Occt::TopTools_MapOfOrientedShape^ theRight);
     bool Differ(Macad::Occt::TopTools_MapOfOrientedShape^ theOther);
     bool Equals(System::Object^ obj) override;
+    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ GetEnumerator();
+    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TopTools_MapOfOrientedShape
 
 //---------------------------------------------------------------------
@@ -2227,7 +2066,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TopTools_MapOfShape sealed
     : public Macad::Occt::BaseClass<::TopTools_MapOfShape>
-    , public IEnumerable<Macad::Occt::TopoDS_Shape^>
 {
 
 #ifdef Include_TopTools_MapOfShape_h
@@ -2254,7 +2092,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfShape::Iterator>
+        : public Macad::Occt::BaseClass<::TopTools_MapOfShape::Iterator>
     {
 
 #ifdef Include_TopTools_MapOfShape_Iterator_h
@@ -2264,11 +2102,11 @@ public:
 
     public:
         Iterator(::TopTools_MapOfShape::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfShape::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TopTools_MapOfShape::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopTools_MapOfShape::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopTools_MapOfShape::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TopTools_MapOfShape::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopTools_MapOfShape::Iterator* NativeInstance
@@ -2281,9 +2119,9 @@ public:
 
     public:
         Iterator();
-        bool More() override;
-        void Next() override;
-        Macad::Occt::TopoDS_Shape^ Value() override;
+        bool More();
+        void Next();
+        Macad::Occt::TopoDS_Shape^ Value();
         Macad::Occt::TopoDS_Shape^ Key();
     }; // class Iterator
 
@@ -2311,8 +2149,6 @@ public:
     void Difference(Macad::Occt::TopTools_MapOfShape^ theLeft, Macad::Occt::TopTools_MapOfShape^ theRight);
     bool Differ(Macad::Occt::TopTools_MapOfShape^ theOther);
     bool Equals(System::Object^ obj) override;
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TopTools_MapOfShape
 
 //---------------------------------------------------------------------

@@ -694,52 +694,6 @@ public:
 }; // class TColStd_ListOfInteger
 
 //---------------------------------------------------------------------
-//  Class  TColStd_ListIteratorOfListOfInteger
-//---------------------------------------------------------------------
-public ref class TColStd_ListIteratorOfListOfInteger sealed
-    : public Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfInteger>
-{
-
-#ifdef Include_TColStd_ListIteratorOfListOfInteger_h
-public:
-    Include_TColStd_ListIteratorOfListOfInteger_h
-#endif
-
-public:
-    TColStd_ListIteratorOfListOfInteger(::TColStd_ListIteratorOfListOfInteger* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfInteger>( nativeInstance, true )
-    {}
-
-    TColStd_ListIteratorOfListOfInteger(::TColStd_ListIteratorOfListOfInteger& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfInteger>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_ListIteratorOfListOfInteger* NativeInstance
-    {
-        ::TColStd_ListIteratorOfListOfInteger* get()
-        {
-            return static_cast<::TColStd_ListIteratorOfListOfInteger*>(_NativeInstance);
-        }
-    }
-
-public:
-    property int ChangeValue {
-        int get() {
-            return ((::TColStd_ListIteratorOfListOfInteger*)_NativeInstance)->ChangeValue();
-        }
-        void set(int value) {
-            ((::TColStd_ListIteratorOfListOfInteger*)_NativeInstance)->ChangeValue() = value;
-        }
-    }
-
-    TColStd_ListIteratorOfListOfInteger();
-    TColStd_ListIteratorOfListOfInteger(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    int Value();
-}; // class TColStd_ListIteratorOfListOfInteger
-
-//---------------------------------------------------------------------
 //  Class  TColStd_Array1OfListOfInteger
 //---------------------------------------------------------------------
 public ref class TColStd_Array1OfListOfInteger sealed
@@ -2898,447 +2852,6 @@ public:
 }; // class TColStd_SequenceOfTransient
 
 //---------------------------------------------------------------------
-//  Class  TColStd_IndexedDataMapOfStringString
-//---------------------------------------------------------------------
-public ref class TColStd_IndexedDataMapOfStringString sealed
-    : public Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString>
-{
-
-#ifdef Include_TColStd_IndexedDataMapOfStringString_h
-public:
-    Include_TColStd_IndexedDataMapOfStringString_h
-#endif
-
-public:
-    TColStd_IndexedDataMapOfStringString(::TColStd_IndexedDataMapOfStringString* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString>( nativeInstance, true )
-    {}
-
-    TColStd_IndexedDataMapOfStringString(::TColStd_IndexedDataMapOfStringString& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_IndexedDataMapOfStringString* NativeInstance
-    {
-        ::TColStd_IndexedDataMapOfStringString* get()
-        {
-            return static_cast<::TColStd_IndexedDataMapOfStringString*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString::Iterator>
-    {
-
-#ifdef Include_TColStd_IndexedDataMapOfStringString_Iterator_h
-    public:
-        Include_TColStd_IndexedDataMapOfStringString_Iterator_h
-#endif
-
-    public:
-        Iterator(::TColStd_IndexedDataMapOfStringString::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TColStd_IndexedDataMapOfStringString::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfStringString::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TColStd_IndexedDataMapOfStringString::Iterator* NativeInstance
-        {
-            ::TColStd_IndexedDataMapOfStringString::Iterator* get()
-            {
-                return static_cast<::TColStd_IndexedDataMapOfStringString::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TCollection_AsciiString^ Value();
-        Macad::Occt::TCollection_AsciiString^ ChangeValue();
-        Macad::Occt::TCollection_AsciiString^ Key();
-        bool IsEqual(Macad::Occt::TColStd_IndexedDataMapOfStringString::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TColStd_IndexedDataMapOfStringString();
-    TColStd_IndexedDataMapOfStringString(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_IndexedDataMapOfStringString(int theNbBuckets);
-    void Exchange(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theOther);
-    Macad::Occt::TColStd_IndexedDataMapOfStringString^ Assign(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theOther);
-    void ReSize(int N);
-    int Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::TCollection_AsciiString^ theItem);
-    bool Contains(Macad::Occt::TCollection_AsciiString^ theKey1);
-    void Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::TCollection_AsciiString^ theItem);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    void RemoveKey(Macad::Occt::TCollection_AsciiString^ theKey1);
-    Macad::Occt::TCollection_AsciiString^ FindKey(int theIndex);
-    Macad::Occt::TCollection_AsciiString^ FindFromIndex(int theIndex);
-    Macad::Occt::TCollection_AsciiString^ ChangeFromIndex(int theIndex);
-    int FindIndex(Macad::Occt::TCollection_AsciiString^ theKey1);
-    Macad::Occt::TCollection_AsciiString^ FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
-    Macad::Occt::TCollection_AsciiString^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
-    Macad::Occt::TCollection_AsciiString^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
-    Macad::Occt::TCollection_AsciiString^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TColStd_IndexedDataMapOfStringString
-
-//---------------------------------------------------------------------
-//  Class  TColStd_IndexedDataMapOfTransientTransient
-//---------------------------------------------------------------------
-public ref class TColStd_IndexedDataMapOfTransientTransient sealed
-    : public Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient>
-{
-
-#ifdef Include_TColStd_IndexedDataMapOfTransientTransient_h
-public:
-    Include_TColStd_IndexedDataMapOfTransientTransient_h
-#endif
-
-public:
-    TColStd_IndexedDataMapOfTransientTransient(::TColStd_IndexedDataMapOfTransientTransient* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient>( nativeInstance, true )
-    {}
-
-    TColStd_IndexedDataMapOfTransientTransient(::TColStd_IndexedDataMapOfTransientTransient& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_IndexedDataMapOfTransientTransient* NativeInstance
-    {
-        ::TColStd_IndexedDataMapOfTransientTransient* get()
-        {
-            return static_cast<::TColStd_IndexedDataMapOfTransientTransient*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient::Iterator>
-    {
-
-#ifdef Include_TColStd_IndexedDataMapOfTransientTransient_Iterator_h
-    public:
-        Include_TColStd_IndexedDataMapOfTransientTransient_Iterator_h
-#endif
-
-    public:
-        Iterator(::TColStd_IndexedDataMapOfTransientTransient::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TColStd_IndexedDataMapOfTransientTransient::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedDataMapOfTransientTransient::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TColStd_IndexedDataMapOfTransientTransient::Iterator* NativeInstance
-        {
-            ::TColStd_IndexedDataMapOfTransientTransient::Iterator* get()
-            {
-                return static_cast<::TColStd_IndexedDataMapOfTransientTransient::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::Standard_Transient^ Value();
-        Macad::Occt::Standard_Transient^ ChangeValue();
-        Macad::Occt::Standard_Transient^ Key();
-        bool IsEqual(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TColStd_IndexedDataMapOfTransientTransient();
-    TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets);
-    void Exchange(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
-    Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ Assign(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
-    void ReSize(int N);
-    int Add(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
-    bool Contains(Macad::Occt::Standard_Transient^ theKey1);
-    void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    void RemoveKey(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ FindKey(int theIndex);
-    Macad::Occt::Standard_Transient^ FindFromIndex(int theIndex);
-    Macad::Occt::Standard_Transient^ ChangeFromIndex(int theIndex);
-    int FindIndex(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ FindFromKey(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ ChangeFromKey(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ Seek(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TColStd_IndexedDataMapOfTransientTransient
-
-//---------------------------------------------------------------------
-//  Class  TColStd_IndexedMapOfInteger
-//---------------------------------------------------------------------
-public ref class TColStd_IndexedMapOfInteger sealed
-    : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger>
-{
-
-#ifdef Include_TColStd_IndexedMapOfInteger_h
-public:
-    Include_TColStd_IndexedMapOfInteger_h
-#endif
-
-public:
-    TColStd_IndexedMapOfInteger(::TColStd_IndexedMapOfInteger* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger>( nativeInstance, true )
-    {}
-
-    TColStd_IndexedMapOfInteger(::TColStd_IndexedMapOfInteger& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_IndexedMapOfInteger* NativeInstance
-    {
-        ::TColStd_IndexedMapOfInteger* get()
-        {
-            return static_cast<::TColStd_IndexedMapOfInteger*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>
-    {
-
-#ifdef Include_TColStd_IndexedMapOfInteger_Iterator_h
-    public:
-        Include_TColStd_IndexedMapOfInteger_Iterator_h
-#endif
-
-    public:
-        Iterator(::TColStd_IndexedMapOfInteger::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TColStd_IndexedMapOfInteger::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TColStd_IndexedMapOfInteger::Iterator* NativeInstance
-        {
-            ::TColStd_IndexedMapOfInteger::Iterator* get()
-            {
-                return static_cast<::TColStd_IndexedMapOfInteger::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        int Value();
-        bool IsEqual(Macad::Occt::TColStd_IndexedMapOfInteger::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TColStd_IndexedMapOfInteger();
-    TColStd_IndexedMapOfInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_IndexedMapOfInteger(int theNbBuckets);
-    void Exchange(Macad::Occt::TColStd_IndexedMapOfInteger^ theOther);
-    Macad::Occt::TColStd_IndexedMapOfInteger^ Assign(Macad::Occt::TColStd_IndexedMapOfInteger^ theOther);
-    void ReSize(int theExtent);
-    int Add(int theKey1);
-    bool Contains(int theKey1);
-    void Substitute(int theIndex, int theKey1);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    bool RemoveKey(int theKey1);
-    int FindKey(int theIndex);
-    int FindIndex(int theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TColStd_IndexedMapOfInteger
-
-//---------------------------------------------------------------------
-//  Class  TColStd_IndexedMapOfReal
-//---------------------------------------------------------------------
-public ref class TColStd_IndexedMapOfReal sealed
-    : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal>
-{
-
-#ifdef Include_TColStd_IndexedMapOfReal_h
-public:
-    Include_TColStd_IndexedMapOfReal_h
-#endif
-
-public:
-    TColStd_IndexedMapOfReal(::TColStd_IndexedMapOfReal* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal>( nativeInstance, true )
-    {}
-
-    TColStd_IndexedMapOfReal(::TColStd_IndexedMapOfReal& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_IndexedMapOfReal* NativeInstance
-    {
-        ::TColStd_IndexedMapOfReal* get()
-        {
-            return static_cast<::TColStd_IndexedMapOfReal*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>
-    {
-
-#ifdef Include_TColStd_IndexedMapOfReal_Iterator_h
-    public:
-        Include_TColStd_IndexedMapOfReal_Iterator_h
-#endif
-
-    public:
-        Iterator(::TColStd_IndexedMapOfReal::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TColStd_IndexedMapOfReal::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TColStd_IndexedMapOfReal::Iterator* NativeInstance
-        {
-            ::TColStd_IndexedMapOfReal::Iterator* get()
-            {
-                return static_cast<::TColStd_IndexedMapOfReal::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        double Value();
-        bool IsEqual(Macad::Occt::TColStd_IndexedMapOfReal::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TColStd_IndexedMapOfReal();
-    TColStd_IndexedMapOfReal(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_IndexedMapOfReal(int theNbBuckets);
-    void Exchange(Macad::Occt::TColStd_IndexedMapOfReal^ theOther);
-    Macad::Occt::TColStd_IndexedMapOfReal^ Assign(Macad::Occt::TColStd_IndexedMapOfReal^ theOther);
-    void ReSize(int theExtent);
-    int Add(double theKey1);
-    bool Contains(double theKey1);
-    void Substitute(int theIndex, double theKey1);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    bool RemoveKey(double theKey1);
-    double FindKey(int theIndex);
-    int FindIndex(double theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TColStd_IndexedMapOfReal
-
-//---------------------------------------------------------------------
-//  Class  TColStd_IndexedMapOfTransient
-//---------------------------------------------------------------------
-public ref class TColStd_IndexedMapOfTransient sealed
-    : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient>
-{
-
-#ifdef Include_TColStd_IndexedMapOfTransient_h
-public:
-    Include_TColStd_IndexedMapOfTransient_h
-#endif
-
-public:
-    TColStd_IndexedMapOfTransient(::TColStd_IndexedMapOfTransient* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient>( nativeInstance, true )
-    {}
-
-    TColStd_IndexedMapOfTransient(::TColStd_IndexedMapOfTransient& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_IndexedMapOfTransient* NativeInstance
-    {
-        ::TColStd_IndexedMapOfTransient* get()
-        {
-            return static_cast<::TColStd_IndexedMapOfTransient*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient::Iterator>
-    {
-
-#ifdef Include_TColStd_IndexedMapOfTransient_Iterator_h
-    public:
-        Include_TColStd_IndexedMapOfTransient_Iterator_h
-#endif
-
-    public:
-        Iterator(::TColStd_IndexedMapOfTransient::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::TColStd_IndexedMapOfTransient::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfTransient::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::TColStd_IndexedMapOfTransient::Iterator* NativeInstance
-        {
-            ::TColStd_IndexedMapOfTransient::Iterator* get()
-            {
-                return static_cast<::TColStd_IndexedMapOfTransient::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::Standard_Transient^ Value();
-        bool IsEqual(Macad::Occt::TColStd_IndexedMapOfTransient::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
-    }; // class Iterator
-
-    TColStd_IndexedMapOfTransient();
-    TColStd_IndexedMapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_IndexedMapOfTransient(int theNbBuckets);
-    void Exchange(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
-    Macad::Occt::TColStd_IndexedMapOfTransient^ Assign(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
-    void ReSize(int theExtent);
-    int Add(Macad::Occt::Standard_Transient^ theKey1);
-    bool Contains(Macad::Occt::Standard_Transient^ theKey1);
-    void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1);
-    void Swap(int theIndex1, int theIndex2);
-    void RemoveLast();
-    void RemoveFromIndex(int theIndex);
-    bool RemoveKey(Macad::Occt::Standard_Transient^ theKey1);
-    Macad::Occt::Standard_Transient^ FindKey(int theIndex);
-    int FindIndex(Macad::Occt::Standard_Transient^ theKey1);
-    void Clear(bool doReleaseMemory);
-    void Clear();
-    int Size();
-}; // class TColStd_IndexedMapOfTransient
-
-//---------------------------------------------------------------------
 //  Class  TColStd_ListOfAsciiString
 //---------------------------------------------------------------------
 public ref class TColStd_ListOfAsciiString sealed
@@ -3421,44 +2934,6 @@ public:
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_ListOfAsciiString
-
-//---------------------------------------------------------------------
-//  Class  TColStd_ListIteratorOfListOfAsciiString
-//---------------------------------------------------------------------
-public ref class TColStd_ListIteratorOfListOfAsciiString sealed
-    : public Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfAsciiString>
-{
-
-#ifdef Include_TColStd_ListIteratorOfListOfAsciiString_h
-public:
-    Include_TColStd_ListIteratorOfListOfAsciiString_h
-#endif
-
-public:
-    TColStd_ListIteratorOfListOfAsciiString(::TColStd_ListIteratorOfListOfAsciiString* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfAsciiString>( nativeInstance, true )
-    {}
-
-    TColStd_ListIteratorOfListOfAsciiString(::TColStd_ListIteratorOfListOfAsciiString& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfAsciiString>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_ListIteratorOfListOfAsciiString* NativeInstance
-    {
-        ::TColStd_ListIteratorOfListOfAsciiString* get()
-        {
-            return static_cast<::TColStd_ListIteratorOfListOfAsciiString*>(_NativeInstance);
-        }
-    }
-
-public:
-    TColStd_ListIteratorOfListOfAsciiString();
-    TColStd_ListIteratorOfListOfAsciiString(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::TCollection_AsciiString^ Value();
-    Macad::Occt::TCollection_AsciiString^ ChangeValue();
-}; // class TColStd_ListIteratorOfListOfAsciiString
 
 //---------------------------------------------------------------------
 //  Class  TColStd_ListOfReal
@@ -3553,52 +3028,6 @@ public:
 }; // class TColStd_ListOfReal
 
 //---------------------------------------------------------------------
-//  Class  TColStd_ListIteratorOfListOfReal
-//---------------------------------------------------------------------
-public ref class TColStd_ListIteratorOfListOfReal sealed
-    : public Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfReal>
-{
-
-#ifdef Include_TColStd_ListIteratorOfListOfReal_h
-public:
-    Include_TColStd_ListIteratorOfListOfReal_h
-#endif
-
-public:
-    TColStd_ListIteratorOfListOfReal(::TColStd_ListIteratorOfListOfReal* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfReal>( nativeInstance, true )
-    {}
-
-    TColStd_ListIteratorOfListOfReal(::TColStd_ListIteratorOfListOfReal& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfReal>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_ListIteratorOfListOfReal* NativeInstance
-    {
-        ::TColStd_ListIteratorOfListOfReal* get()
-        {
-            return static_cast<::TColStd_ListIteratorOfListOfReal*>(_NativeInstance);
-        }
-    }
-
-public:
-    property double ChangeValue {
-        double get() {
-            return ((::TColStd_ListIteratorOfListOfReal*)_NativeInstance)->ChangeValue();
-        }
-        void set(double value) {
-            ((::TColStd_ListIteratorOfListOfReal*)_NativeInstance)->ChangeValue() = value;
-        }
-    }
-
-    TColStd_ListIteratorOfListOfReal();
-    TColStd_ListIteratorOfListOfReal(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    double Value();
-}; // class TColStd_ListIteratorOfListOfReal
-
-//---------------------------------------------------------------------
 //  Class  TColStd_ListOfTransient
 //---------------------------------------------------------------------
 public ref class TColStd_ListOfTransient sealed
@@ -3680,48 +3109,11 @@ public:
 }; // class TColStd_ListOfTransient
 
 //---------------------------------------------------------------------
-//  Class  TColStd_ListIteratorOfListOfTransient
-//---------------------------------------------------------------------
-public ref class TColStd_ListIteratorOfListOfTransient sealed
-    : public Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfTransient>
-{
-
-#ifdef Include_TColStd_ListIteratorOfListOfTransient_h
-public:
-    Include_TColStd_ListIteratorOfListOfTransient_h
-#endif
-
-public:
-    TColStd_ListIteratorOfListOfTransient(::TColStd_ListIteratorOfListOfTransient* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfTransient>( nativeInstance, true )
-    {}
-
-    TColStd_ListIteratorOfListOfTransient(::TColStd_ListIteratorOfListOfTransient& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_ListIteratorOfListOfTransient>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_ListIteratorOfListOfTransient* NativeInstance
-    {
-        ::TColStd_ListIteratorOfListOfTransient* get()
-        {
-            return static_cast<::TColStd_ListIteratorOfListOfTransient*>(_NativeInstance);
-        }
-    }
-
-public:
-    TColStd_ListIteratorOfListOfTransient();
-    TColStd_ListIteratorOfListOfTransient(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::Standard_Transient^ Value();
-    Macad::Occt::Standard_Transient^ ChangeValue();
-}; // class TColStd_ListIteratorOfListOfTransient
-
-//---------------------------------------------------------------------
 //  Class  TColStd_MapOfAsciiString
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfAsciiString sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfAsciiString>
+    , public IEnumerable<Macad::Occt::TCollection_AsciiString^>
 {
 
 #ifdef Include_TColStd_MapOfAsciiString_h
@@ -3748,7 +3140,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>
+        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfAsciiString_Iterator_h
@@ -3758,11 +3150,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfAsciiString::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>( nativeInstance, true )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfAsciiString::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>( &nativeInstance, false )
+            : Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfAsciiString::Iterator* NativeInstance
@@ -3775,9 +3167,9 @@ public:
 
     public:
         Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::TCollection_AsciiString^ Value();
+        bool More() override;
+        void Next() override;
+        Macad::Occt::TCollection_AsciiString^ Value() override;
         Macad::Occt::TCollection_AsciiString^ Key();
     }; // class Iterator
 
@@ -3805,6 +3197,8 @@ public:
     void Difference(Macad::Occt::TColStd_MapOfAsciiString^ theLeft, Macad::Occt::TColStd_MapOfAsciiString^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     bool Equals(System::Object^ obj) override;
+    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
+    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_MapOfAsciiString
 
 //---------------------------------------------------------------------
@@ -3812,6 +3206,7 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfInteger sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfInteger>
+    , public IEnumerable<int>
 {
 
 #ifdef Include_TColStd_MapOfInteger_h
@@ -3838,7 +3233,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>
+        : public Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfInteger_Iterator_h
@@ -3848,11 +3243,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfInteger::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>( nativeInstance, true )
+            : Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfInteger::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>( &nativeInstance, false )
+            : Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfInteger::Iterator* NativeInstance
@@ -3865,9 +3260,9 @@ public:
 
     public:
         Iterator();
-        bool More();
-        void Next();
-        int Value();
+        bool More() override;
+        void Next() override;
+        int Value() override;
         int Key();
     }; // class Iterator
 
@@ -3895,6 +3290,8 @@ public:
     void Difference(Macad::Occt::TColStd_MapOfInteger^ theLeft, Macad::Occt::TColStd_MapOfInteger^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfInteger^ theOther);
     bool Equals(System::Object^ obj) override;
+    virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
+    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_MapOfInteger
 
 //---------------------------------------------------------------------
@@ -3902,6 +3299,7 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfReal sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfReal>
+    , public IEnumerable<double>
 {
 
 #ifdef Include_TColStd_MapOfReal_h
@@ -3928,7 +3326,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>
+        : public Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfReal_Iterator_h
@@ -3938,11 +3336,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfReal::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfReal::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfReal::Iterator* NativeInstance
@@ -3955,9 +3353,9 @@ public:
 
     public:
         Iterator();
-        bool More();
-        void Next();
-        double Value();
+        bool More() override;
+        void Next() override;
+        double Value() override;
         double Key();
     }; // class Iterator
 
@@ -3985,6 +3383,8 @@ public:
     void Difference(Macad::Occt::TColStd_MapOfReal^ theLeft, Macad::Occt::TColStd_MapOfReal^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfReal^ theOther);
     bool Equals(System::Object^ obj) override;
+    virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
+    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_MapOfReal
 
 //---------------------------------------------------------------------
@@ -5842,7 +5242,8 @@ public:
     bool Contains(int aKey);
     bool Remove(int aKey);
     /// <summary>
-    /// Returns the number of map buckets (not that since integers are packed in this map, the number is smaller than extent).
+    /// Returns the number of map buckets (not that since integers are packed in this map, the number
+    /// is smaller than extent).
     /// </summary>
     int NbBuckets();
     /// <summary>
@@ -5872,35 +5273,38 @@ public:
     void Statistics(System::IO::TextWriter^ theStream);
     /// <summary>
     /// /**
-    /// * Sets this Map to be the result of union (aka addition, fuse, merge, boolean OR) operation between two given Maps.
-    /// * The new Map contains the values that are contained either in the first map or in the second map or in both.
-    /// * All previous contents of this Map is cleared. This map (result of the boolean operation) can also be passed as one of operands.
+    /// * Sets this Map to be the result of union (aka addition, fuse, merge, boolean OR) operation
+    /// * between two given Maps. The new Map contains the values that are contained either in the first
+    /// * map or in the second map or in both. All previous contents of this Map is cleared. This map
+    /// * (result of the boolean operation) can also be passed as one of operands.
     /// */
     /// </summary>
     void Union(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1, Macad::Occt::TColStd_PackedMapOfInteger^ parameter2);
     /// <summary>
     /// /**
-    /// * Apply to this Map the boolean operation union (aka addition, fuse, merge, boolean OR) with another (given) Map.
-    /// * The result contains the values that were previously contained in this map or contained in the given (operand) map.
-    /// * This algorithm is similar to method Union().
+    /// * Apply to this Map the boolean operation union (aka addition, fuse, merge, boolean OR) with
+    /// * another (given) Map. The result contains the values that were previously contained in this map
+    /// * or contained in the given (operand) map. This algorithm is similar to method Union().
     /// * @return True if content of this map is changed
     /// */
     /// </summary>
     bool Unite(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1);
     /// <summary>
     /// /**
-    /// * Sets this Map to be the result of intersection (aka multiplication, common, boolean AND) operation between two given Maps.
-    /// * The new Map contains only the values that are contained in both map operands.
-    /// * All previous contents of this Map is cleared. This same map (result of the boolean operation) can also be used as one of operands.
-    /// * The order of operands makes no difference; the method minimizes internally the number of iterations using the smallest map for the loop.
+    /// * Sets this Map to be the result of intersection (aka multiplication, common, boolean AND)
+    /// * operation between two given Maps. The new Map contains only the values that are contained in
+    /// * both map operands. All previous contents of this Map is cleared. This same map (result of the
+    /// * boolean operation) can also be used as one of operands. The order of operands makes no
+    /// * difference; the method minimizes internally the number of iterations using the smallest map for
+    /// * the loop.
     /// */
     /// </summary>
     void Intersection(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1, Macad::Occt::TColStd_PackedMapOfInteger^ parameter2);
     /// <summary>
     /// /**
-    /// * Apply to this Map the intersection operation (aka multiplication, common,  boolean AND) with another (given) Map.
-    /// * The result contains only the values that are contained in both this and the given maps.
-    /// * This algorithm is similar to method Intersection().
+    /// * Apply to this Map the intersection operation (aka multiplication, common,  boolean AND) with
+    /// * another (given) Map. The result contains only the values that are contained in both this and
+    /// * the given maps. This algorithm is similar to method Intersection().
     /// * @return True if content of this map is changed
     /// */
     /// </summary>
@@ -5908,36 +5312,37 @@ public:
     /// <summary>
     /// /**
     /// * Sets this Map to be the result of subtraction
-    /// * (aka set-theoretic difference, relative complement, exclude, cut, boolean NOT) operation between two given Maps.
-    /// * The new Map contains only the values that are contained in the first map operands and not contained in the second one.
-    /// * All previous contents of this Map is cleared.
+    /// * (aka set-theoretic difference, relative complement, exclude, cut, boolean NOT) operation
+    /// * between two given Maps. The new Map contains only the values that are contained in the first
+    /// * map operands and not contained in the second one. All previous contents of this Map is cleared.
     /// * This map (result of the boolean operation) can also be used as the first operand.
     /// */
     /// </summary>
     void Subtraction(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1, Macad::Occt::TColStd_PackedMapOfInteger^ parameter2);
     /// <summary>
     /// /**
-    /// * Apply to this Map the subtraction (aka set-theoretic difference, relative complement, exclude, cut, boolean NOT) operation with another (given) Map.
-    /// * The result contains only the values that were previously contained in this map and not contained in this map.
-    /// * This algorithm is similar to method Subtract() with two operands.
+    /// * Apply to this Map the subtraction (aka set-theoretic difference, relative complement, exclude,
+    /// * cut, boolean NOT) operation with another (given) Map. The result contains only the values that
+    /// * were previously contained in this map and not contained in this map. This algorithm is similar
+    /// * to method Subtract() with two operands.
     /// * @return True if contents of this map is changed
     /// */
     /// </summary>
     bool Subtract(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1);
     /// <summary>
     /// /**
-    /// * Sets this Map to be the result of symmetric difference (aka exclusive disjunction, boolean XOR) operation between two given Maps.
-    /// * The new Map contains the values that are contained only in the first or the second operand maps but not in both.
-    /// * All previous contents of this Map is cleared.
-    /// * This map (result of the boolean operation) can also be used as one of operands.
+    /// * Sets this Map to be the result of symmetric difference (aka exclusive disjunction, boolean XOR)
+    /// * operation between two given Maps. The new Map contains the values that are contained only in
+    /// * the first or the second operand maps but not in both. All previous contents of this Map is
+    /// * cleared. This map (result of the boolean operation) can also be used as one of operands.
     /// */
     /// </summary>
     void Difference(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1, Macad::Occt::TColStd_PackedMapOfInteger^ parameter2);
     /// <summary>
     /// /**
-    /// * Apply to this Map the symmetric difference (aka exclusive disjunction, boolean XOR) operation with another (given) Map.
-    /// * The result contains the values that are contained only in this or the operand map, but not in both.
-    /// * This algorithm is similar to method Difference().
+    /// * Apply to this Map the symmetric difference (aka exclusive disjunction, boolean XOR) operation
+    /// * with another (given) Map. The result contains the values that are contained only in this or the
+    /// * operand map, but not in both. This algorithm is similar to method Difference().
     /// * @return True if contents of this map is changed
     /// */
     /// </summary>

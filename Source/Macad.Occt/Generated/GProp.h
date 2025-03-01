@@ -24,7 +24,7 @@ public enum class GProp_EquaType
 //  Enum  GProp_ValueType
 //---------------------------------------------------------------------
 /// <summary>
-/// Algorithmes :
+/// Algorithms:
 /// </summary>
 public enum class GProp_ValueType
 {
@@ -165,7 +165,7 @@ public:
     /// returns true if the geometric system has an axis of symmetry.
     /// For  comparing  moments  relative  tolerance  1.e-10  is  used.
     /// Usually  it  is  enough  for  objects,  restricted  by  faces  with
-    /// analitycal  geometry.
+    /// analytical  geometry.
     /// </summary>
     bool HasSymmetryAxis();
     /// <summary>
@@ -178,7 +178,7 @@ public:
     /// returns true if the geometric system has a point of symmetry.
     /// For  comparing  moments  relative  tolerance  1.e-10  is  used.
     /// Usually  it  is  enough  for  objects,  restricted  by  faces  with
-    /// analitycal  geometry.
+    /// analytical  geometry.
     /// </summary>
     bool HasSymmetryPoint();
     /// <summary>

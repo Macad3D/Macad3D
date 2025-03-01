@@ -142,8 +142,9 @@ public:
     /// </summary>
     Macad::Occt::TopoDS_Shape^ GetBadShape();
     /// <summary>
-    /// Returns the  list of shapes generated from the shape <S>.
     /// </summary>
+    /// @name History methods
+    /// Returns the  list of shapes generated from the shape <S>.
     Macad::Occt::TopTools_ListOfShape^ Generated(Macad::Occt::TopoDS_Shape^ theS);
     /// <summary>
     /// Returns the list of shapes modified from the shape <S>.

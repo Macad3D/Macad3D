@@ -157,49 +157,6 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListOfShape::Iterator::ChangeValu
 
 
 //---------------------------------------------------------------------
-//  Class  TopoDS_ListIteratorOfListOfShape
-//---------------------------------------------------------------------
-
-Macad::Occt::TopoDS_ListIteratorOfListOfShape::TopoDS_ListIteratorOfListOfShape()
-    : Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListIteratorOfListOfShape();
-}
-
-Macad::Occt::TopoDS_ListIteratorOfListOfShape::TopoDS_ListIteratorOfListOfShape(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListIteratorOfListOfShape(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::TopoDS_ListIteratorOfListOfShape::More()
-{
-    bool _result = ((::TopoDS_ListIteratorOfListOfShape*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_ListIteratorOfListOfShape::Next()
-{
-    ((::TopoDS_ListIteratorOfListOfShape*)_NativeInstance)->Next();
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListIteratorOfListOfShape::Value()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = (::TopoDS_Shape)((::TopoDS_ListIteratorOfListOfShape*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListIteratorOfListOfShape::ChangeValue()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = ((::TopoDS_ListIteratorOfListOfShape*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  TopoDS_Shape
 //---------------------------------------------------------------------
 
@@ -234,7 +191,7 @@ void Macad::Occt::TopoDS_Shape::Location(Macad::Occt::TopLoc_Location^ theLoc, b
 
 void Macad::Occt::TopoDS_Shape::Location(Macad::Occt::TopLoc_Location^ theLoc)
 {
-    ((::TopoDS_Shape*)_NativeInstance)->Location(*(::TopLoc_Location*)theLoc->NativeInstance, true);
+    ((::TopoDS_Shape*)_NativeInstance)->Location(*(::TopLoc_Location*)theLoc->NativeInstance, false);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Located(Macad::Occt::TopLoc_Location^ theLoc, bool theRaiseExc)
@@ -247,7 +204,7 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Located(Macad::Occt::TopLo
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Located(Macad::Occt::TopLoc_Location^ theLoc)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = ((::TopoDS_Shape*)_NativeInstance)->Located(*(::TopLoc_Location*)theLoc->NativeInstance, true);
+    *_result = ((::TopoDS_Shape*)_NativeInstance)->Located(*(::TopLoc_Location*)theLoc->NativeInstance, false);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
@@ -376,7 +333,7 @@ void Macad::Occt::TopoDS_Shape::Move(Macad::Occt::TopLoc_Location^ thePosition, 
 
 void Macad::Occt::TopoDS_Shape::Move(Macad::Occt::TopLoc_Location^ thePosition)
 {
-    ((::TopoDS_Shape*)_NativeInstance)->Move(*(::TopLoc_Location*)thePosition->NativeInstance, true);
+    ((::TopoDS_Shape*)_NativeInstance)->Move(*(::TopLoc_Location*)thePosition->NativeInstance, false);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Moved(Macad::Occt::TopLoc_Location^ thePosition, bool theRaiseExc)
@@ -389,7 +346,7 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Moved(Macad::Occt::TopLoc_
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Shape::Moved(Macad::Occt::TopLoc_Location^ thePosition)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = ((::TopoDS_Shape*)_NativeInstance)->Moved(*(::TopLoc_Location*)thePosition->NativeInstance, true);
+    *_result = ((::TopoDS_Shape*)_NativeInstance)->Moved(*(::TopLoc_Location*)thePosition->NativeInstance, false);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
@@ -512,6 +469,157 @@ bool Macad::Occt::TopoDS_Shape::Equals(System::Object^ obj)
 int Macad::Occt::TopoDS_Shape::GetHashCode()
 {
     return std::hash<::TopoDS_Shape>{}(*NativeInstance);
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  TopoDS_TShape
+//---------------------------------------------------------------------
+
+bool Macad::Occt::TopoDS_TShape::Free()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Free();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Free(bool theIsFree)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Free(theIsFree);
+}
+
+bool Macad::Occt::TopoDS_TShape::Locked()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Locked();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Locked(bool theIsLocked)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Locked(theIsLocked);
+}
+
+bool Macad::Occt::TopoDS_TShape::Modified()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Modified();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Modified(bool theIsModified)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Modified(theIsModified);
+}
+
+bool Macad::Occt::TopoDS_TShape::Checked()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Checked();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Checked(bool theIsChecked)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Checked(theIsChecked);
+}
+
+bool Macad::Occt::TopoDS_TShape::Orientable()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Orientable();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Orientable(bool theIsOrientable)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Orientable(theIsOrientable);
+}
+
+bool Macad::Occt::TopoDS_TShape::Closed()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Closed();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Closed(bool theIsClosed)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Closed(theIsClosed);
+}
+
+bool Macad::Occt::TopoDS_TShape::Infinite()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Infinite();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Infinite(bool theIsInfinite)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Infinite(theIsInfinite);
+}
+
+bool Macad::Occt::TopoDS_TShape::Convex()
+{
+    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Convex();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::Convex(bool theIsConvex)
+{
+    ((::TopoDS_TShape*)_NativeInstance)->Convex(theIsConvex);
+}
+
+Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TShape::ShapeType()
+{
+    ::TopAbs_ShapeEnum _result = ((::TopoDS_TShape*)_NativeInstance)->ShapeType();
+    return (Macad::Occt::TopAbs_ShapeEnum)_result;
+}
+
+Macad::Occt::TopoDS_TShape^ Macad::Occt::TopoDS_TShape::EmptyCopy()
+{
+    Handle(::TopoDS_TShape) _result = ((::TopoDS_TShape*)_NativeInstance)->EmptyCopy();
+    return _result.IsNull() ? nullptr : Macad::Occt::TopoDS_TShape::CreateDowncasted(_result.get());
+}
+
+int Macad::Occt::TopoDS_TShape::NbChildren()
+{
+    int _result = ((::TopoDS_TShape*)_NativeInstance)->NbChildren();
+    return _result;
+}
+
+void Macad::Occt::TopoDS_TShape::DumpJson(System::IO::TextWriter^ theOStream, int theDepth)
+{
+    std::ostringstream oss_theOStream;
+    ((::TopoDS_TShape*)_NativeInstance)->DumpJson(oss_theOStream, theDepth);
+    theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
+}
+
+void Macad::Occt::TopoDS_TShape::DumpJson(System::IO::TextWriter^ theOStream)
+{
+    std::ostringstream oss_theOStream;
+    ((::TopoDS_TShape*)_NativeInstance)->DumpJson(oss_theOStream, -1);
+    theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
+}
+
+Macad::Occt::TopoDS_TShape^ Macad::Occt::TopoDS_TShape::CreateDowncasted(::TopoDS_TShape* instance)
+{
+    if( instance == nullptr )
+        return nullptr;
+    
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TVertex)))
+        return Macad::Occt::TopoDS_TVertex::CreateDowncasted((::TopoDS_TVertex*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TEdge)))
+        return Macad::Occt::TopoDS_TEdge::CreateDowncasted((::TopoDS_TEdge*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TWire)))
+        return Macad::Occt::TopoDS_TWire::CreateDowncasted((::TopoDS_TWire*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TFace)))
+        return Macad::Occt::TopoDS_TFace::CreateDowncasted((::TopoDS_TFace*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TShell)))
+        return Macad::Occt::TopoDS_TShell::CreateDowncasted((::TopoDS_TShell*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TSolid)))
+        return Macad::Occt::TopoDS_TSolid::CreateDowncasted((::TopoDS_TSolid*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TCompSolid)))
+        return Macad::Occt::TopoDS_TCompSolid::CreateDowncasted((::TopoDS_TCompSolid*)instance);
+    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TCompound)))
+        return Macad::Occt::TopoDS_TCompound::CreateDowncasted((::TopoDS_TCompound*)instance);
+    
+    return gcnew Macad::Occt::TopoDS_TShape( instance );
 }
 
 
@@ -690,157 +798,6 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_HShape::ChangeShape()
 Macad::Occt::TopoDS_HShape^ Macad::Occt::TopoDS_HShape::CreateDowncasted(::TopoDS_HShape* instance)
 {
     return gcnew Macad::Occt::TopoDS_HShape( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  TopoDS_TShape
-//---------------------------------------------------------------------
-
-bool Macad::Occt::TopoDS_TShape::Free()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Free();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Free(bool theIsFree)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Free(theIsFree);
-}
-
-bool Macad::Occt::TopoDS_TShape::Locked()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Locked();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Locked(bool theIsLocked)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Locked(theIsLocked);
-}
-
-bool Macad::Occt::TopoDS_TShape::Modified()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Modified();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Modified(bool theIsModified)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Modified(theIsModified);
-}
-
-bool Macad::Occt::TopoDS_TShape::Checked()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Checked();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Checked(bool theIsChecked)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Checked(theIsChecked);
-}
-
-bool Macad::Occt::TopoDS_TShape::Orientable()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Orientable();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Orientable(bool theIsOrientable)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Orientable(theIsOrientable);
-}
-
-bool Macad::Occt::TopoDS_TShape::Closed()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Closed();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Closed(bool theIsClosed)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Closed(theIsClosed);
-}
-
-bool Macad::Occt::TopoDS_TShape::Infinite()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Infinite();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Infinite(bool theIsInfinite)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Infinite(theIsInfinite);
-}
-
-bool Macad::Occt::TopoDS_TShape::Convex()
-{
-    bool _result = ((::TopoDS_TShape*)_NativeInstance)->Convex();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::Convex(bool theIsConvex)
-{
-    ((::TopoDS_TShape*)_NativeInstance)->Convex(theIsConvex);
-}
-
-Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TShape::ShapeType()
-{
-    ::TopAbs_ShapeEnum _result = ((::TopoDS_TShape*)_NativeInstance)->ShapeType();
-    return (Macad::Occt::TopAbs_ShapeEnum)_result;
-}
-
-Macad::Occt::TopoDS_TShape^ Macad::Occt::TopoDS_TShape::EmptyCopy()
-{
-    Handle(::TopoDS_TShape) _result = ((::TopoDS_TShape*)_NativeInstance)->EmptyCopy();
-    return _result.IsNull() ? nullptr : Macad::Occt::TopoDS_TShape::CreateDowncasted(_result.get());
-}
-
-int Macad::Occt::TopoDS_TShape::NbChildren()
-{
-    int _result = ((::TopoDS_TShape*)_NativeInstance)->NbChildren();
-    return _result;
-}
-
-void Macad::Occt::TopoDS_TShape::DumpJson(System::IO::TextWriter^ theOStream, int theDepth)
-{
-    std::ostringstream oss_theOStream;
-    ((::TopoDS_TShape*)_NativeInstance)->DumpJson(oss_theOStream, theDepth);
-    theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
-}
-
-void Macad::Occt::TopoDS_TShape::DumpJson(System::IO::TextWriter^ theOStream)
-{
-    std::ostringstream oss_theOStream;
-    ((::TopoDS_TShape*)_NativeInstance)->DumpJson(oss_theOStream, -1);
-    theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
-}
-
-Macad::Occt::TopoDS_TShape^ Macad::Occt::TopoDS_TShape::CreateDowncasted(::TopoDS_TShape* instance)
-{
-    if( instance == nullptr )
-        return nullptr;
-    
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TVertex)))
-        return Macad::Occt::TopoDS_TVertex::CreateDowncasted((::TopoDS_TVertex*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TEdge)))
-        return Macad::Occt::TopoDS_TEdge::CreateDowncasted((::TopoDS_TEdge*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TWire)))
-        return Macad::Occt::TopoDS_TWire::CreateDowncasted((::TopoDS_TWire*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TFace)))
-        return Macad::Occt::TopoDS_TFace::CreateDowncasted((::TopoDS_TFace*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TShell)))
-        return Macad::Occt::TopoDS_TShell::CreateDowncasted((::TopoDS_TShell*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TSolid)))
-        return Macad::Occt::TopoDS_TSolid::CreateDowncasted((::TopoDS_TSolid*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TCompSolid)))
-        return Macad::Occt::TopoDS_TCompSolid::CreateDowncasted((::TopoDS_TCompSolid*)instance);
-    if (instance->IsKind(STANDARD_TYPE(::TopoDS_TCompound)))
-        return Macad::Occt::TopoDS_TCompound::CreateDowncasted((::TopoDS_TCompound*)instance);
-    
-    return gcnew Macad::Occt::TopoDS_TShape( instance );
 }
 
 
@@ -1177,74 +1134,6 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_Iterator::Value()
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
     *_result = (::TopoDS_Shape)((::TopoDS_Iterator*)_NativeInstance)->Value();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  TopoDS
-//---------------------------------------------------------------------
-
-Macad::Occt::TopoDS::TopoDS()
-    : Macad::Occt::BaseClass<::TopoDS>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS();
-}
-
-Macad::Occt::TopoDS_Vertex^ Macad::Occt::TopoDS::Vertex(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Vertex* _result = new ::TopoDS_Vertex();
-    *_result = (::TopoDS_Vertex)::TopoDS::Vertex(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Vertex(_result);
-}
-
-Macad::Occt::TopoDS_Edge^ Macad::Occt::TopoDS::Edge(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Edge* _result = new ::TopoDS_Edge();
-    *_result = (::TopoDS_Edge)::TopoDS::Edge(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Edge(_result);
-}
-
-Macad::Occt::TopoDS_Wire^ Macad::Occt::TopoDS::Wire(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Wire* _result = new ::TopoDS_Wire();
-    *_result = (::TopoDS_Wire)::TopoDS::Wire(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Wire(_result);
-}
-
-Macad::Occt::TopoDS_Face^ Macad::Occt::TopoDS::Face(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Face* _result = new ::TopoDS_Face();
-    *_result = (::TopoDS_Face)::TopoDS::Face(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Face(_result);
-}
-
-Macad::Occt::TopoDS_Shell^ Macad::Occt::TopoDS::Shell(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Shell* _result = new ::TopoDS_Shell();
-    *_result = (::TopoDS_Shell)::TopoDS::Shell(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shell(_result);
-}
-
-Macad::Occt::TopoDS_Solid^ Macad::Occt::TopoDS::Solid(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Solid* _result = new ::TopoDS_Solid();
-    *_result = (::TopoDS_Solid)::TopoDS::Solid(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Solid(_result);
-}
-
-Macad::Occt::TopoDS_CompSolid^ Macad::Occt::TopoDS::CompSolid(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_CompSolid* _result = new ::TopoDS_CompSolid();
-    *_result = (::TopoDS_CompSolid)::TopoDS::CompSolid(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_CompSolid(_result);
-}
-
-Macad::Occt::TopoDS_Compound^ Macad::Occt::TopoDS::Compound(Macad::Occt::TopoDS_Shape^ S)
-{
-    ::TopoDS_Compound* _result = new ::TopoDS_Compound();
-    *_result = (::TopoDS_Compound)::TopoDS::Compound(*(::TopoDS_Shape*)S->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Compound(_result);
 }
 
 

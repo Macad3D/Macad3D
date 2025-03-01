@@ -147,47 +147,6 @@ Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObje
 
 
 //---------------------------------------------------------------------
-//  Class  PrsMgr_ListOfPresentableObjectsIter
-//---------------------------------------------------------------------
-
-Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::PrsMgr_ListOfPresentableObjectsIter()
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjectsIter();
-}
-
-Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::PrsMgr_ListOfPresentableObjectsIter(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjectsIter(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::More()
-{
-    bool _result = ((::PrsMgr_ListOfPresentableObjectsIter*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::Next()
-{
-    ((::PrsMgr_ListOfPresentableObjectsIter*)_NativeInstance)->Next();
-}
-
-Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::Value()
-{
-    Handle(::PrsMgr_PresentableObject) _result = ((::PrsMgr_ListOfPresentableObjectsIter*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::ChangeValue()
-{
-    Handle(::PrsMgr_PresentableObject) _result = ((::PrsMgr_ListOfPresentableObjectsIter*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  PrsMgr_ListOfPresentations
 //---------------------------------------------------------------------
 
@@ -796,6 +755,11 @@ void Macad::Occt::PrsMgr_PresentableObject::ResetTransformation()
 void Macad::Occt::PrsMgr_PresentableObject::UpdateTransformation()
 {
     ((::PrsMgr_PresentableObject*)_NativeInstance)->UpdateTransformation();
+}
+
+void Macad::Occt::PrsMgr_PresentableObject::RecomputeTransformation(Macad::Occt::Graphic3d_Camera^ theProjector)
+{
+    ((::PrsMgr_PresentableObject*)_NativeInstance)->RecomputeTransformation(Handle(::Graphic3d_Camera)(theProjector->NativeInstance));
 }
 
 Macad::Occt::Graphic3d_SequenceOfHClipPlane^ Macad::Occt::PrsMgr_PresentableObject::ClipPlanes()

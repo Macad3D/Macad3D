@@ -517,8 +517,9 @@ public:
 
 public:
     /// <summary>
-    /// Computes the distance between two Shapes (face edge vertex).
     /// </summary>
+    /// @name Constructor from two shapes
+    /// Computes the distance between two Shapes (face edge vertex).
     /// <param name="theS1">
     /// - First shape
     /// </param>
@@ -548,8 +549,9 @@ public:
     /// </param>
     BRepExtrema_DistanceSS(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, double theDstRef, double theDeflection, Macad::Occt::Extrema_ExtFlag theExtFlag, Macad::Occt::Extrema_ExtAlgo theExtAlgo);
     /// <summary>
-    /// Computes the distance between two Shapes (face edge vertex).
     /// </summary>
+    /// @name Constructor from two shapes
+    /// Computes the distance between two Shapes (face edge vertex).
     /// <param name="theS1">
     /// - First shape
     /// </param>
@@ -579,8 +581,9 @@ public:
     /// </param>
     BRepExtrema_DistanceSS(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, double theDstRef, double theDeflection, Macad::Occt::Extrema_ExtFlag theExtFlag);
     /// <summary>
-    /// Computes the distance between two Shapes (face edge vertex).
     /// </summary>
+    /// @name Constructor from two shapes
+    /// Computes the distance between two Shapes (face edge vertex).
     /// <param name="theS1">
     /// - First shape
     /// </param>
@@ -610,8 +613,9 @@ public:
     /// </param>
     BRepExtrema_DistanceSS(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, double theDstRef, double theDeflection);
     /// <summary>
-    /// Computes the distance between two Shapes (face edge vertex).
     /// </summary>
+    /// @name Constructor from two shapes
+    /// Computes the distance between two Shapes (face edge vertex).
     /// <param name="theS1">
     /// - First shape
     /// </param>
@@ -641,8 +645,9 @@ public:
     /// </param>
     BRepExtrema_DistanceSS(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, double theDstRef);
     /// <summary>
-    /// Returns true if the distance has been computed, false otherwise.
     /// </summary>
+    /// @name Results
+    /// Returns true if the distance has been computed, false otherwise.
     bool IsDone();
     /// <summary>
     /// Returns the distance value.
@@ -1497,7 +1502,7 @@ public:
 
 public:
     /// <summary>
-    /// Creates new unitialized proximity tool.
+    /// Creates new uninitialized proximity tool.
     /// </summary>
     BRepExtrema_ProximityValueTool();
     /* Method skipped due to unknown mapping: void BRepExtrema_ProximityValueTool(BRepExtrema_TriangleSet theSet1, BRepExtrema_TriangleSet theSet2, BRepExtrema_ShapeList theShapeList1, BRepExtrema_ShapeList theShapeList2, ) */

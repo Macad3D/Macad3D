@@ -94,44 +94,6 @@ public:
 }; // class TopoDS_ListOfShape
 
 //---------------------------------------------------------------------
-//  Class  TopoDS_ListIteratorOfListOfShape
-//---------------------------------------------------------------------
-public ref class TopoDS_ListIteratorOfListOfShape sealed
-    : public Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>
-{
-
-#ifdef Include_TopoDS_ListIteratorOfListOfShape_h
-public:
-    Include_TopoDS_ListIteratorOfListOfShape_h
-#endif
-
-public:
-    TopoDS_ListIteratorOfListOfShape(::TopoDS_ListIteratorOfListOfShape* nativeInstance)
-        : Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>( nativeInstance, true )
-    {}
-
-    TopoDS_ListIteratorOfListOfShape(::TopoDS_ListIteratorOfListOfShape& nativeInstance)
-        : Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>( &nativeInstance, false )
-    {}
-
-    property ::TopoDS_ListIteratorOfListOfShape* NativeInstance
-    {
-        ::TopoDS_ListIteratorOfListOfShape* get()
-        {
-            return static_cast<::TopoDS_ListIteratorOfListOfShape*>(_NativeInstance);
-        }
-    }
-
-public:
-    TopoDS_ListIteratorOfListOfShape();
-    TopoDS_ListIteratorOfListOfShape(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::TopoDS_Shape^ Value();
-    Macad::Occt::TopoDS_Shape^ ChangeValue();
-}; // class TopoDS_ListIteratorOfListOfShape
-
-//---------------------------------------------------------------------
 //  Class  TopoDS_Shape
 //---------------------------------------------------------------------
 /// <summary>
@@ -200,20 +162,50 @@ public:
     /// <summary>
     /// Sets the shape local coordinate system.
     /// </summary>
+    /// <param name="theLoc">
+    /// the new local coordinate system.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
     void Location(Macad::Occt::TopLoc_Location^ theLoc, bool theRaiseExc);
     /// <summary>
     /// Sets the shape local coordinate system.
     /// </summary>
+    /// <param name="theLoc">
+    /// the new local coordinate system.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
     void Location(Macad::Occt::TopLoc_Location^ theLoc);
     /// <summary>
-    /// Returns a  shape  similar to <me> with   the local
+    /// Returns a  shape  similar to <me> with the local
     /// coordinate system set to <Loc>.
     /// </summary>
+    /// <param name="theLoc">
+    /// the new local coordinate system.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
+    /// <returns>
+    /// the located shape.
+    /// </returns>
     Macad::Occt::TopoDS_Shape^ Located(Macad::Occt::TopLoc_Location^ theLoc, bool theRaiseExc);
     /// <summary>
-    /// Returns a  shape  similar to <me> with   the local
+    /// Returns a  shape  similar to <me> with the local
     /// coordinate system set to <Loc>.
     /// </summary>
+    /// <param name="theLoc">
+    /// the new local coordinate system.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
+    /// <returns>
+    /// the located shape.
+    /// </returns>
     Macad::Occt::TopoDS_Shape^ Located(Macad::Occt::TopLoc_Location^ theLoc);
     /// <summary>
     /// Returns the shape orientation.
@@ -307,18 +299,48 @@ public:
     /// <summary>
     /// Multiplies the Shape location by thePosition.
     /// </summary>
+    /// <param name="thePosition">
+    /// the transformation to apply.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
     void Move(Macad::Occt::TopLoc_Location^ thePosition, bool theRaiseExc);
     /// <summary>
     /// Multiplies the Shape location by thePosition.
     /// </summary>
+    /// <param name="thePosition">
+    /// the transformation to apply.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
     void Move(Macad::Occt::TopLoc_Location^ thePosition);
     /// <summary>
     /// Returns a shape similar to <me> with a location multiplied by thePosition.
     /// </summary>
+    /// <param name="thePosition">
+    /// the transformation to apply.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
+    /// <returns>
+    /// the moved shape.
+    /// </returns>
     Macad::Occt::TopoDS_Shape^ Moved(Macad::Occt::TopLoc_Location^ thePosition, bool theRaiseExc);
     /// <summary>
     /// Returns a shape similar to <me> with a location multiplied by thePosition.
     /// </summary>
+    /// <param name="thePosition">
+    /// the transformation to apply.
+    /// </param>
+    /// <param name="theRaiseExc">
+    /// flag to raise exception in case of transformation with scale or negative.
+    /// </param>
+    /// <returns>
+    /// the moved shape.
+    /// </returns>
     Macad::Occt::TopoDS_Shape^ Moved(Macad::Occt::TopLoc_Location^ thePosition);
     /// <summary>
     /// Reverses the orientation, using the Reverse method
@@ -404,6 +426,172 @@ public:
     bool Equals(System::Object^ obj) override;
     int GetHashCode() override;
 }; // class TopoDS_Shape
+
+//---------------------------------------------------------------------
+//  Class  TopoDS_TShape
+//---------------------------------------------------------------------
+/// <summary>
+/// A TShape  is a topological  structure describing a
+/// set of points in a 2D or 3D space.
+/// 
+/// A topological shape is a structure made from other
+/// shapes.  This is a deferred class  used to support
+/// topological objects.
+/// 
+/// TShapes are   defined   by  their  optional domain
+/// (geometry)  and  their  components  (other TShapes
+/// with  Locations and Orientations).  The components
+/// are stored in a List of Shapes.
+/// 
+/// A   TShape contains  the   following boolean flags :
+/// 
+/// - Free       : Free or Frozen.
+/// - Modified   : Has been modified.
+/// - Checked    : Has been checked.
+/// - Orientable : Can be oriented.
+/// - Closed     : Is closed (note that only Wires and Shells may be closed).
+/// - Infinite   : Is infinite.
+/// - Convex     : Is convex.
+/// 
+/// Users have no direct access to the classes derived
+/// from TShape.  They  handle them with   the classes
+/// derived from Shape.
+/// </summary>
+public ref class TopoDS_TShape
+    : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_TopoDS_TShape_h
+public:
+    Include_TopoDS_TShape_h
+#endif
+
+protected:
+    TopoDS_TShape(InitMode init)
+        : Macad::Occt::Standard_Transient( init )
+    {}
+
+public:
+    TopoDS_TShape(::TopoDS_TShape* nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    TopoDS_TShape(::TopoDS_TShape& nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    property ::TopoDS_TShape* NativeInstance
+    {
+        ::TopoDS_TShape* get()
+        {
+            return static_cast<::TopoDS_TShape*>(_NativeInstance);
+        }
+    }
+
+public:
+    //---------------------------------------------------------------------
+    //  Enum  TopoDS_TShape_Flags
+    //---------------------------------------------------------------------
+    enum class TopoDS_TShape_Flags
+    {
+        Free = 1,
+        Modified = 2,
+        Checked = 4,
+        Orientable = 8,
+        Closed = 16,
+        Infinite = 32,
+        Convex = 64,
+        Locked = 128
+    }; // enum  class TopoDS_TShape_Flags
+
+    /// <summary>
+    /// Returns the free flag.
+    /// </summary>
+    bool Free();
+    /// <summary>
+    /// Sets the free flag.
+    /// </summary>
+    void Free(bool theIsFree);
+    /// <summary>
+    /// Returns the locked flag.
+    /// </summary>
+    bool Locked();
+    /// <summary>
+    /// Sets the locked flag.
+    /// </summary>
+    void Locked(bool theIsLocked);
+    /// <summary>
+    /// Returns the modification flag.
+    /// </summary>
+    bool Modified();
+    /// <summary>
+    /// Sets the modification flag.
+    /// </summary>
+    void Modified(bool theIsModified);
+    /// <summary>
+    /// Returns the checked flag.
+    /// </summary>
+    bool Checked();
+    /// <summary>
+    /// Sets the checked flag.
+    /// </summary>
+    void Checked(bool theIsChecked);
+    /// <summary>
+    /// Returns the orientability flag.
+    /// </summary>
+    bool Orientable();
+    /// <summary>
+    /// Sets the orientability flag.
+    /// </summary>
+    void Orientable(bool theIsOrientable);
+    /// <summary>
+    /// Returns the closedness flag.
+    /// </summary>
+    bool Closed();
+    /// <summary>
+    /// Sets the closedness flag.
+    /// </summary>
+    void Closed(bool theIsClosed);
+    /// <summary>
+    /// Returns the infinity flag.
+    /// </summary>
+    bool Infinite();
+    /// <summary>
+    /// Sets the infinity flag.
+    /// </summary>
+    void Infinite(bool theIsInfinite);
+    /// <summary>
+    /// Returns the convexness flag.
+    /// </summary>
+    bool Convex();
+    /// <summary>
+    /// Sets the convexness flag.
+    /// </summary>
+    void Convex(bool theIsConvex);
+    /// <summary>
+    /// Returns the type as a term of the ShapeEnum enum :
+    /// VERTEX, EDGE, WIRE, FACE, ....
+    /// </summary>
+    Macad::Occt::TopAbs_ShapeEnum ShapeType();
+    /// <summary>
+    /// Returns a copy  of the  TShape  with no sub-shapes.
+    /// </summary>
+    Macad::Occt::TopoDS_TShape^ EmptyCopy();
+    /// <summary>
+    /// Returns the number of direct sub-shapes (children).
+    /// </summary>
+    /// @sa TopoDS_Iterator for accessing sub-shapes
+    int NbChildren();
+    /// <summary>
+    /// Dumps the content of me into the stream
+    /// </summary>
+    void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
+    /// <summary>
+    /// Dumps the content of me into the stream
+    /// </summary>
+    void DumpJson(System::IO::TextWriter^ theOStream);
+    static Macad::Occt::TopoDS_TShape^ CreateDowncasted(::TopoDS_TShape* instance);
+}; // class TopoDS_TShape
 
 //---------------------------------------------------------------------
 //  Class  TopoDS_Vertex
@@ -840,172 +1028,6 @@ public:
     Macad::Occt::TopoDS_Shape^ ChangeShape();
     static Macad::Occt::TopoDS_HShape^ CreateDowncasted(::TopoDS_HShape* instance);
 }; // class TopoDS_HShape
-
-//---------------------------------------------------------------------
-//  Class  TopoDS_TShape
-//---------------------------------------------------------------------
-/// <summary>
-/// A TShape  is a topological  structure describing a
-/// set of points in a 2D or 3D space.
-/// 
-/// A topological shape is a structure made from other
-/// shapes.  This is a deferred class  used to support
-/// topological objects.
-/// 
-/// TShapes are   defined   by  their  optional domain
-/// (geometry)  and  their  components  (other TShapes
-/// with  Locations and Orientations).  The components
-/// are stored in a List of Shapes.
-/// 
-/// A   TShape contains  the   following boolean flags :
-/// 
-/// - Free       : Free or Frozen.
-/// - Modified   : Has been modified.
-/// - Checked    : Has been checked.
-/// - Orientable : Can be oriented.
-/// - Closed     : Is closed (note that only Wires and Shells may be closed).
-/// - Infinite   : Is infinite.
-/// - Convex     : Is convex.
-/// 
-/// Users have no direct access to the classes derived
-/// from TShape.  They  handle them with   the classes
-/// derived from Shape.
-/// </summary>
-public ref class TopoDS_TShape
-    : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_TopoDS_TShape_h
-public:
-    Include_TopoDS_TShape_h
-#endif
-
-protected:
-    TopoDS_TShape(InitMode init)
-        : Macad::Occt::Standard_Transient( init )
-    {}
-
-public:
-    TopoDS_TShape(::TopoDS_TShape* nativeInstance)
-        : Macad::Occt::Standard_Transient( nativeInstance )
-    {}
-
-    TopoDS_TShape(::TopoDS_TShape& nativeInstance)
-        : Macad::Occt::Standard_Transient( nativeInstance )
-    {}
-
-    property ::TopoDS_TShape* NativeInstance
-    {
-        ::TopoDS_TShape* get()
-        {
-            return static_cast<::TopoDS_TShape*>(_NativeInstance);
-        }
-    }
-
-public:
-    //---------------------------------------------------------------------
-    //  Enum  TopoDS_TShape_Flags
-    //---------------------------------------------------------------------
-    enum class TopoDS_TShape_Flags
-    {
-        Free = 1,
-        Modified = 2,
-        Checked = 4,
-        Orientable = 8,
-        Closed = 16,
-        Infinite = 32,
-        Convex = 64,
-        Locked = 128
-    }; // enum  class TopoDS_TShape_Flags
-
-    /// <summary>
-    /// Returns the free flag.
-    /// </summary>
-    bool Free();
-    /// <summary>
-    /// Sets the free flag.
-    /// </summary>
-    void Free(bool theIsFree);
-    /// <summary>
-    /// Returns the locked flag.
-    /// </summary>
-    bool Locked();
-    /// <summary>
-    /// Sets the locked flag.
-    /// </summary>
-    void Locked(bool theIsLocked);
-    /// <summary>
-    /// Returns the modification flag.
-    /// </summary>
-    bool Modified();
-    /// <summary>
-    /// Sets the modification flag.
-    /// </summary>
-    void Modified(bool theIsModified);
-    /// <summary>
-    /// Returns the checked flag.
-    /// </summary>
-    bool Checked();
-    /// <summary>
-    /// Sets the checked flag.
-    /// </summary>
-    void Checked(bool theIsChecked);
-    /// <summary>
-    /// Returns the orientability flag.
-    /// </summary>
-    bool Orientable();
-    /// <summary>
-    /// Sets the orientability flag.
-    /// </summary>
-    void Orientable(bool theIsOrientable);
-    /// <summary>
-    /// Returns the closedness flag.
-    /// </summary>
-    bool Closed();
-    /// <summary>
-    /// Sets the closedness flag.
-    /// </summary>
-    void Closed(bool theIsClosed);
-    /// <summary>
-    /// Returns the infinity flag.
-    /// </summary>
-    bool Infinite();
-    /// <summary>
-    /// Sets the infinity flag.
-    /// </summary>
-    void Infinite(bool theIsInfinite);
-    /// <summary>
-    /// Returns the convexness flag.
-    /// </summary>
-    bool Convex();
-    /// <summary>
-    /// Sets the convexness flag.
-    /// </summary>
-    void Convex(bool theIsConvex);
-    /// <summary>
-    /// Returns the type as a term of the ShapeEnum enum :
-    /// VERTEX, EDGE, WIRE, FACE, ....
-    /// </summary>
-    Macad::Occt::TopAbs_ShapeEnum ShapeType();
-    /// <summary>
-    /// Returns a copy  of the  TShape  with no sub-shapes.
-    /// </summary>
-    Macad::Occt::TopoDS_TShape^ EmptyCopy();
-    /// <summary>
-    /// Returns the number of direct sub-shapes (children).
-    /// </summary>
-    /// @sa TopoDS_Iterator for accessing sub-shapes
-    int NbChildren();
-    /// <summary>
-    /// Dumps the content of me into the stream
-    /// </summary>
-    void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
-    /// <summary>
-    /// Dumps the content of me into the stream
-    /// </summary>
-    void DumpJson(System::IO::TextWriter^ theOStream);
-    static Macad::Occt::TopoDS_TShape^ CreateDowncasted(::TopoDS_TShape* instance);
-}; // class TopoDS_TShape
 
 //---------------------------------------------------------------------
 //  Class  TopoDS_TVertex
@@ -1628,95 +1650,6 @@ public:
     /// </summary>
     Macad::Occt::TopoDS_Shape^ Value();
 }; // class TopoDS_Iterator
-
-//---------------------------------------------------------------------
-//  Class  TopoDS
-//---------------------------------------------------------------------
-/// <summary>
-/// Provides methods to cast objects of class
-/// TopoDS_Shape to be objects of more specialized
-/// sub-classes. Types are verified, thus in the example
-/// below, the first two blocks are correct but the third is
-/// rejected by the compiler.
-/// </summary>
-public ref class TopoDS sealed
-    : public Macad::Occt::BaseClass<::TopoDS>
-{
-
-#ifdef Include_TopoDS_h
-public:
-    Include_TopoDS_h
-#endif
-
-public:
-    TopoDS(::TopoDS* nativeInstance)
-        : Macad::Occt::BaseClass<::TopoDS>( nativeInstance, true )
-    {}
-
-    TopoDS(::TopoDS& nativeInstance)
-        : Macad::Occt::BaseClass<::TopoDS>( &nativeInstance, false )
-    {}
-
-    property ::TopoDS* NativeInstance
-    {
-        ::TopoDS* get()
-        {
-            return static_cast<::TopoDS*>(_NativeInstance);
-        }
-    }
-
-public:
-    TopoDS();
-    /// <summary>
-    /// Basic tool to access the data structure.
-    /// Casts shape S to the more specialized return type, Vertex.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Vertex^ Vertex(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Edge
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Edge^ Edge(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Wire.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Wire^ Wire(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Face.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Face^ Face(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Shell.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Shell^ Shell(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Solid.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Solid^ Solid(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, CompSolid.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_CompSolid^ CompSolid(Macad::Occt::TopoDS_Shape^ S);
-    /// <summary>
-    /// Casts shape S to the more specialized return type, Compound.
-    /// Exceptions
-    /// Standard_TypeMismatch if S cannot be cast to this return type.
-    /// </summary>
-    static Macad::Occt::TopoDS_Compound^ Compound(Macad::Occt::TopoDS_Shape^ S);
-}; // class TopoDS
 
 //---------------------------------------------------------------------
 //  Class  TopoDS_FrozenShape

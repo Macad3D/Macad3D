@@ -116,10 +116,10 @@ public:
 /// done. For approximation some parameters are used, including
 /// required tolerance of approximation.
 /// Tolerance is maximal possible value of 3d deviation of 3d projection of projected curve from
-/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is computed
-/// from 3d tolerance with help of U,V resolutions of surface.
-/// 3d and 2d tolerances have sense only for curves on surface, it defines precision of projecting and approximation
-/// and have nothing to do with distance between the projected curve and the surface.
+/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is
+/// computed from 3d tolerance with help of U,V resolutions of surface. 3d and 2d tolerances have
+/// sense only for curves on surface, it defines precision of projecting and approximation and have
+/// nothing to do with distance between the projected curve and the surface.
 /// </summary>
 public ref class ProjLib_ProjectedCurve sealed
     : public Macad::Occt::Adaptor2d_Curve2d
@@ -158,8 +158,8 @@ public:
     ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S);
     /// <summary>
     /// Constructor, which performs projecting.
-    /// If projecting uses approximation, default parameters are used, in particular, 3d tolerance of approximation
-    /// is Precision::Confusion()
+    /// If projecting uses approximation, default parameters are used, in particular, 3d tolerance of
+    /// approximation is Precision::Confusion()
     /// </summary>
     ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C);
     /// <summary>
@@ -201,10 +201,10 @@ public:
     void SetMaxSegments(int theMaxSegments);
     /* Method skipped due to unknown mapping: void SetBndPnt(AppParCurves_Constraint theBndPnt, ) */
     /// <summary>
-    /// Set the parameter, which degines maximal possible distance between projected curve and surface.
-    /// It uses only for projecting on not analytical surfaces.
-    /// If theMaxDist < 0, algorithm uses default value 100.*Tolerance.
-    /// If real distance between curve and surface more then theMaxDist, algorithm stops working.
+    /// Set the parameter, which degines maximal possible distance between projected curve and
+    /// surface. It uses only for projecting on not analytical surfaces. If theMaxDist < 0, algorithm
+    /// uses default value 100.*Tolerance. If real distance between curve and surface more then
+    /// theMaxDist, algorithm stops working.
     /// </summary>
     void SetMaxDist(double theMaxDist);
     Macad::Occt::Adaptor3d_Surface^ GetSurface();
@@ -322,8 +322,8 @@ public:
 /// The ProjLib package first provides projection of curves on a plane along a given Direction.
 /// The result will be a 3D curve.
 /// 
-/// The ProjLib package provides projection of curves on surfaces to compute the curve in the parametric space.
-/// It is assumed that the curve is on the surface.
+/// The ProjLib package provides projection of curves on surfaces to compute the curve in the
+/// parametric space. It is assumed that the curve is on the surface.
 /// 
 /// It provides:
 /// 
@@ -702,15 +702,18 @@ public:
     /// </summary>
     void Bounds(int Index, double% Udeb, double% Ufin);
     /// <summary>
-    /// returns  True  if  part  of  projection with  number  Index is  a  single  point  and  writes  its  coordinates in  P
+    /// returns  True  if  part  of  projection with  number  Index is  a  single  point  and  writes
+    /// its  coordinates in  P
     /// </summary>
     bool IsSinglePnt(int Index, Macad::Occt::Pnt2d% P);
     /// <summary>
-    /// returns  True  if  part  of  projection with  number  Index is  an  u-isoparametric curve  of  input  surface
+    /// returns  True  if  part  of  projection with  number  Index is  an  u-isoparametric curve  of
+    /// input  surface
     /// </summary>
     bool IsUIso(int Index, double% U);
     /// <summary>
-    /// returns  True  if  part  of  projection with  number  Index is  an  v-isoparametric curve  of  input  surface
+    /// returns  True  if  part  of  projection with  number  Index is  an  v-isoparametric curve  of
+    /// input  surface
     /// </summary>
     bool IsVIso(int Index, double% V);
     /// <summary>
@@ -849,10 +852,10 @@ public:
 /// For approximation some parameters are used, including
 /// required tolerance of approximation.
 /// Tolerance is maximal possible value of 3d deviation of 3d projection of projected curve from
-/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is computed
-/// from 3d tolerance with help of U,V resolutions of surface.
-/// 3d and 2d tolerances have sense only for curves on surface, it defines precision of projecting and approximation
-/// and have nothing to do with distance between the projected curve and the surface.
+/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is
+/// computed from 3d tolerance with help of U,V resolutions of surface. 3d and 2d tolerances have
+/// sense only for curves on surface, it defines precision of projecting and approximation and have
+/// nothing to do with distance between the projected curve and the surface.
 /// </summary>
 public ref class ProjLib_ComputeApprox sealed
     : public Macad::Occt::BaseClass<::ProjLib_ComputeApprox>
@@ -935,10 +938,10 @@ public:
 /// For approximation some parameters are used, including
 /// required tolerance of approximation.
 /// Tolerance is maximal possible value of 3d deviation of 3d projection of projected curve from
-/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is computed
-/// from 3d tolerance with help of U,V resolutions of surface.
-/// 3d and 2d tolerances have sense only for curves on surface, it defines precision of projecting and approximation
-/// and have nothing to do with distance between the projected curve and the surface.
+/// "exact" 3d projection. Since algorithm searches 2d curve on surface, required 2d tolerance is
+/// computed from 3d tolerance with help of U,V resolutions of surface. 3d and 2d tolerances have
+/// sense only for curves on surface, it defines precision of projecting and approximation and have
+/// nothing to do with distance between the projected curve and the surface.
 /// </summary>
 public ref class ProjLib_ComputeApproxOnPolarSurface sealed
     : public Macad::Occt::BaseClass<::ProjLib_ComputeApproxOnPolarSurface>
@@ -980,14 +983,14 @@ public:
     /// </summary>
     ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S);
     /// <summary>
-    /// Constructor, which performs projecting, using initial curve 2d InitCurve2d, which is any rough approximation of result curve.
-    /// Parameter Tol is 3d tolerance of approximation.
+    /// Constructor, which performs projecting, using initial curve 2d InitCurve2d, which is any rough
+    /// approximation of result curve. Parameter Tol is 3d tolerance of approximation.
     /// </summary>
     ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
     /// <summary>
-    /// Constructor, which performs projecting, using two initial curves 2d: InitCurve2d and InitCurve2dBis that are any rough approximations of result curves.
-    /// This constructor is used to get two pcurves for seem edge.
-    /// Parameter Tol is 3d tolerance of approximation.
+    /// Constructor, which performs projecting, using two initial curves 2d: InitCurve2d and
+    /// InitCurve2dBis that are any rough approximations of result curves. This constructor is used to
+    /// get two pcurves for seem edge. Parameter Tol is 3d tolerance of approximation.
     /// </summary>
     ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
     /// <summary>
@@ -1003,10 +1006,10 @@ public:
     void SetMaxSegments(int theMaxSegments);
     /* Method skipped due to unknown mapping: void SetBndPnt(AppParCurves_Constraint theBndPnt, ) */
     /// <summary>
-    /// Set the parameter, which defines maximal possible distance between projected curve and surface.
-    /// It is used only for projecting on not analytical surfaces.
-    /// If theMaxDist < 0, algorithm uses default value 100.*Tolerance.
-    /// If real distance between curve and surface more then theMaxDist, algorithm stops working.
+    /// Set the parameter, which defines maximal possible distance between projected curve and
+    /// surface. It is used only for projecting on not analytical surfaces. If theMaxDist < 0,
+    /// algorithm uses default value 100.*Tolerance. If real distance between curve and surface more
+    /// then theMaxDist, algorithm stops working.
     /// </summary>
     void SetMaxDist(double theMaxDist);
     /// <summary>

@@ -151,47 +151,6 @@ Macad::Occt::SelectMgr_Filter^ Macad::Occt::SelectMgr_ListOfFilter::Iterator::Ch
 
 
 //---------------------------------------------------------------------
-//  Class  SelectMgr_ListIteratorOfListOfFilter
-//---------------------------------------------------------------------
-
-Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::SelectMgr_ListIteratorOfListOfFilter()
-    : Macad::Occt::BaseClass<::SelectMgr_ListIteratorOfListOfFilter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_ListIteratorOfListOfFilter();
-}
-
-Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::SelectMgr_ListIteratorOfListOfFilter(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::SelectMgr_ListIteratorOfListOfFilter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_ListIteratorOfListOfFilter(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::More()
-{
-    bool _result = ((::SelectMgr_ListIteratorOfListOfFilter*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::Next()
-{
-    ((::SelectMgr_ListIteratorOfListOfFilter*)_NativeInstance)->Next();
-}
-
-Macad::Occt::SelectMgr_Filter^ Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::Value()
-{
-    Handle(::SelectMgr_Filter) _result = ((::SelectMgr_ListIteratorOfListOfFilter*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_Filter::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::SelectMgr_Filter^ Macad::Occt::SelectMgr_ListIteratorOfListOfFilter::ChangeValue()
-{
-    Handle(::SelectMgr_Filter) _result = ((::SelectMgr_ListIteratorOfListOfFilter*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_Filter::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  SelectMgr_Vec3
 //---------------------------------------------------------------------
 
@@ -1816,68 +1775,6 @@ int Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Size()
 //  Class  SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator();
-}
-
-bool Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::More()
-{
-    bool _result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::Next()
-{
-    ((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::Value()
-{
-    ::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
-    *_result = (::SelectMgr_SortCriterion)((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
-}
-
-Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::ChangeValue()
-{
-    ::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
-    *_result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
-}
-
-Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::Key()
-{
-    Handle(::SelectMgr_EntityOwner) _result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->Key();
-    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted(_result.get());
-}
-
-bool Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::IsEqual(Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator^ theOther)
-{
-    bool _result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)_NativeInstance)->IsEqual(*(::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1974,154 +1871,6 @@ Macad::Occt::SelectMgr_SelectableObject^ Macad::Occt::SelectMgr_MapOfObjectSensi
 {
     Handle(::SelectMgr_SelectableObject) _result = ((::SelectMgr_MapOfObjectSensitives::Iterator*)_NativeInstance)->Key();
     return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SelectableObject::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_FrustumCache
-//---------------------------------------------------------------------
-
-Macad::Occt::SelectMgr_FrustumCache::SelectMgr_FrustumCache()
-    : Macad::Occt::BaseClass<::SelectMgr_FrustumCache>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_FrustumCache();
-}
-
-Macad::Occt::SelectMgr_FrustumCache::SelectMgr_FrustumCache(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-    : Macad::Occt::BaseClass<::SelectMgr_FrustumCache>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_FrustumCache(theNbBuckets, Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::SelectMgr_FrustumCache::SelectMgr_FrustumCache(int theNbBuckets)
-    : Macad::Occt::BaseClass<::SelectMgr_FrustumCache>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_FrustumCache(theNbBuckets, 0L);
-}
-
-void Macad::Occt::SelectMgr_FrustumCache::Exchange(Macad::Occt::SelectMgr_FrustumCache^ theOther)
-{
-    ((::SelectMgr_FrustumCache*)_NativeInstance)->Exchange(*(::SelectMgr_FrustumCache*)theOther->NativeInstance);
-}
-
-Macad::Occt::SelectMgr_FrustumCache^ Macad::Occt::SelectMgr_FrustumCache::Assign(Macad::Occt::SelectMgr_FrustumCache^ theOther)
-{
-    ::SelectMgr_FrustumCache* _result = new ::SelectMgr_FrustumCache();
-    *_result = ((::SelectMgr_FrustumCache*)_NativeInstance)->Assign(*(::SelectMgr_FrustumCache*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_FrustumCache(_result);
-}
-
-void Macad::Occt::SelectMgr_FrustumCache::ReSize(int N)
-{
-    ((::SelectMgr_FrustumCache*)_NativeInstance)->ReSize(N);
-}
-
-bool Macad::Occt::SelectMgr_FrustumCache::Bind(int theKey, Macad::Occt::SelectMgr_SelectingVolumeManager^ theItem)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    bool _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->Bind(*(int*)pp_theKey, *(::SelectMgr_SelectingVolumeManager*)theItem->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::Bound(int theKey, Macad::Occt::SelectMgr_SelectingVolumeManager^ theItem)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    ::SelectMgr_SelectingVolumeManager* _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->Bound(*(int*)pp_theKey, *(::SelectMgr_SelectingVolumeManager*)theItem->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SelectingVolumeManager(_result);
-}
-
-bool Macad::Occt::SelectMgr_FrustumCache::IsBound(int theKey)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    bool _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->IsBound(*(int*)pp_theKey);
-    return _result;
-}
-
-bool Macad::Occt::SelectMgr_FrustumCache::UnBind(int theKey)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    bool _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->UnBind(*(int*)pp_theKey);
-    return _result;
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::Seek(int theKey)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    const ::SelectMgr_SelectingVolumeManager* _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->Seek(*(int*)pp_theKey);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SelectingVolumeManager((::SelectMgr_SelectingVolumeManager*)_result);
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::Find(int theKey)
-{
-    throw gcnew System::NotImplementedException();
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::ChangeSeek(int theKey)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    ::SelectMgr_SelectingVolumeManager* _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->ChangeSeek(*(int*)pp_theKey);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SelectingVolumeManager(_result);
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::ChangeFind(int theKey)
-{
-    throw gcnew System::NotImplementedException();
-}
-
-void Macad::Occt::SelectMgr_FrustumCache::Clear(bool doReleaseMemory)
-{
-    ((::SelectMgr_FrustumCache*)_NativeInstance)->Clear(doReleaseMemory);
-}
-
-void Macad::Occt::SelectMgr_FrustumCache::Clear()
-{
-    ((::SelectMgr_FrustumCache*)_NativeInstance)->Clear(false);
-}
-
-int Macad::Occt::SelectMgr_FrustumCache::Size()
-{
-    int _result = ((::SelectMgr_FrustumCache*)_NativeInstance)->Size();
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_FrustumCache::Iterator
-//---------------------------------------------------------------------
-
-Macad::Occt::SelectMgr_FrustumCache::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::SelectMgr_FrustumCache::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_FrustumCache::Iterator();
-}
-
-bool Macad::Occt::SelectMgr_FrustumCache::Iterator::More()
-{
-    bool _result = ((::SelectMgr_FrustumCache::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::SelectMgr_FrustumCache::Iterator::Next()
-{
-    ((::SelectMgr_FrustumCache::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::Iterator::Value()
-{
-    throw gcnew System::NotImplementedException();
-}
-
-Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_FrustumCache::Iterator::ChangeValue()
-{
-    throw gcnew System::NotImplementedException();
-}
-
-int Macad::Occt::SelectMgr_FrustumCache::Iterator::Key()
-{
-    int _result = ((::SelectMgr_FrustumCache::Iterator*)_NativeInstance)->Key();
-    return _result;
 }
 
 
@@ -2236,54 +1985,6 @@ int Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Size()
 //---------------------------------------------------------------------
 //  Class  SelectMgr_IndexedMapOfHSensitive::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::SelectMgr_IndexedMapOfHSensitive::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectMgr_IndexedMapOfHSensitive::Iterator();
-}
-
-bool Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::More()
-{
-    bool _result = ((::SelectMgr_IndexedMapOfHSensitive::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::Next()
-{
-    ((::SelectMgr_IndexedMapOfHSensitive::Iterator*)_NativeInstance)->Next();
-}
-
-Macad::Occt::SelectMgr_SensitiveEntity^ Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::Value()
-{
-    Handle(::SelectMgr_SensitiveEntity) _result = ((::SelectMgr_IndexedMapOfHSensitive::Iterator*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SensitiveEntity::CreateDowncasted(_result.get());
-}
-
-bool Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::IsEqual(Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator^ theOther)
-{
-    bool _result = ((::SelectMgr_IndexedMapOfHSensitive::Iterator*)_NativeInstance)->IsEqual(*(::SelectMgr_IndexedMapOfHSensitive::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-bool Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::Equals(System::Object^ obj)
-{
-    if(ReferenceEquals(this, obj))
-    {
-        return true;
-    }
-    if(ReferenceEquals(nullptr, obj))
-    {
-        return false;
-    }
-    System::Type^ myType = Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Iterator::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
-    }
-    return false;
-}
 
 
 
@@ -3255,6 +2956,12 @@ Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_BaseIntersector::
     return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
 }
 
+Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_BaseIntersector::CopyWithBuilder(Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
+{
+    Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_BaseIntersector*)_NativeInstance)->CopyWithBuilder(Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
+    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
+}
+
 Macad::Occt::Graphic3d_Camera^ Macad::Occt::SelectMgr_BaseIntersector::Camera()
 {
     Handle(::Graphic3d_Camera) _result = ((::SelectMgr_BaseIntersector*)_NativeInstance)->Camera();
@@ -3521,6 +3228,12 @@ bool Macad::Occt::SelectMgr_AxisIntersector::IsScalable()
 Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_AxisIntersector::ScaleAndTransform(int theScaleFactor, Macad::Occt::gp_GTrsf^ theTrsf, Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
 {
     Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_AxisIntersector*)_NativeInstance)->ScaleAndTransform(theScaleFactor, *(::gp_GTrsf*)theTrsf->NativeInstance, Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
+    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_AxisIntersector::CopyWithBuilder(Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
+{
+    Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_AxisIntersector*)_NativeInstance)->CopyWithBuilder(Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
 }
 
@@ -3814,6 +3527,11 @@ int Macad::Occt::SelectMgr_SelectingVolumeManager::GetActiveSelectionType()
 }
 
 Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_SelectingVolumeManager::ScaleAndTransform(int theScaleFactor, Macad::Occt::gp_GTrsf^ theTrsf, Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
+{
+    throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::SelectMgr_SelectingVolumeManager^ Macad::Occt::SelectMgr_SelectingVolumeManager::CopyWithBuilder(Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
 {
     throw gcnew System::NotImplementedException();
 }
@@ -4469,6 +4187,12 @@ bool Macad::Occt::SelectMgr_RectangularFrustum::IsScalable()
 Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_RectangularFrustum::ScaleAndTransform(int theScaleFactor, Macad::Occt::gp_GTrsf^ theTrsf, Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
 {
     Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_RectangularFrustum*)_NativeInstance)->ScaleAndTransform(theScaleFactor, *(::gp_GTrsf*)theTrsf->NativeInstance, Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
+    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_RectangularFrustum::CopyWithBuilder(Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
+{
+    Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_RectangularFrustum*)_NativeInstance)->CopyWithBuilder(Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
 }
 
@@ -5292,6 +5016,12 @@ bool Macad::Occt::SelectMgr_TriangularFrustum::IsScalable()
 Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_TriangularFrustum::ScaleAndTransform(int theScale, Macad::Occt::gp_GTrsf^ theTrsf, Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
 {
     Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_TriangularFrustum*)_NativeInstance)->ScaleAndTransform(theScale, *(::gp_GTrsf*)theTrsf->NativeInstance, Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
+    return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::SelectMgr_BaseIntersector^ Macad::Occt::SelectMgr_TriangularFrustum::CopyWithBuilder(Macad::Occt::SelectMgr_FrustumBuilder^ theBuilder)
+{
+    Handle(::SelectMgr_BaseIntersector) _result = ((::SelectMgr_TriangularFrustum*)_NativeInstance)->CopyWithBuilder(Handle(::SelectMgr_FrustumBuilder)(theBuilder->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_BaseIntersector::CreateDowncasted(_result.get());
 }
 

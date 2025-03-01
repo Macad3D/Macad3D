@@ -137,44 +137,6 @@ public:
 }; // class BRepCheck_ListOfStatus
 
 //---------------------------------------------------------------------
-//  Class  BRepCheck_ListIteratorOfListOfStatus
-//---------------------------------------------------------------------
-public ref class BRepCheck_ListIteratorOfListOfStatus sealed
-    : public Macad::Occt::BaseClass<::BRepCheck_ListIteratorOfListOfStatus>
-{
-
-#ifdef Include_BRepCheck_ListIteratorOfListOfStatus_h
-public:
-    Include_BRepCheck_ListIteratorOfListOfStatus_h
-#endif
-
-public:
-    BRepCheck_ListIteratorOfListOfStatus(::BRepCheck_ListIteratorOfListOfStatus* nativeInstance)
-        : Macad::Occt::BaseClass<::BRepCheck_ListIteratorOfListOfStatus>( nativeInstance, true )
-    {}
-
-    BRepCheck_ListIteratorOfListOfStatus(::BRepCheck_ListIteratorOfListOfStatus& nativeInstance)
-        : Macad::Occt::BaseClass<::BRepCheck_ListIteratorOfListOfStatus>( &nativeInstance, false )
-    {}
-
-    property ::BRepCheck_ListIteratorOfListOfStatus* NativeInstance
-    {
-        ::BRepCheck_ListIteratorOfListOfStatus* get()
-        {
-            return static_cast<::BRepCheck_ListIteratorOfListOfStatus*>(_NativeInstance);
-        }
-    }
-
-public:
-    BRepCheck_ListIteratorOfListOfStatus();
-    BRepCheck_ListIteratorOfListOfStatus(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::BRepCheck_Status Value();
-    Macad::Occt::BRepCheck_Status ChangeValue();
-}; // class BRepCheck_ListIteratorOfListOfStatus
-
-//---------------------------------------------------------------------
 //  Class  BRepCheck_HListOfStatus
 //---------------------------------------------------------------------
 public ref class BRepCheck_HListOfStatus sealed
@@ -315,8 +277,8 @@ public:
         Iterator();
         bool More();
         void Next();
-        /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Value() */
-        /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void ChangeValue() */
+        /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status Value() */
+        /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status ChangeValue() */
         Macad::Occt::TopoDS_Shape^ Key();
     }; // class Iterator
 
@@ -326,14 +288,14 @@ public:
     void Exchange(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther);
     Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ Assign(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther);
     void ReSize(int N);
-    /* Method skipped due to unknown mapping: bool Bind(TopoDS_Shape theKey, NCollection_Shared<NCollection_List<BRepCheck_Status>, void theItem, ) */
-    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Bound(TopoDS_Shape theKey, NCollection_Shared<NCollection_List<BRepCheck_Status>, void theItem, ) */
+    /* Method skipped due to unknown mapping: bool Bind(TopoDS_Shape theKey, NCollection_Shared<NCollection_List<BRepCheck_Status theItem, ) */
+    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status Bound(TopoDS_Shape theKey, NCollection_Shared<NCollection_List<BRepCheck_Status theItem, ) */
     bool IsBound(Macad::Occt::TopoDS_Shape^ theKey);
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
-    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Seek(TopoDS_Shape theKey, ) */
-    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Find(TopoDS_Shape theKey, ) */
-    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void ChangeSeek(TopoDS_Shape theKey, ) */
-    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void ChangeFind(TopoDS_Shape theKey, ) */
+    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status Seek(TopoDS_Shape theKey, ) */
+    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status Find(TopoDS_Shape theKey, ) */
+    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status ChangeSeek(TopoDS_Shape theKey, ) */
+    /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status ChangeFind(TopoDS_Shape theKey, ) */
     void Clear(bool doReleaseMemory);
     void Clear();
     int Size();
@@ -396,14 +358,6 @@ public:
         }
 
     public:
-        Iterator();
-        bool More();
-        void Next();
-        Macad::Occt::BRepCheck_Result^ Value();
-        Macad::Occt::BRepCheck_Result^ ChangeValue();
-        Macad::Occt::TopoDS_Shape^ Key();
-        bool IsEqual(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Iterator^ theOther);
-        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     BRepCheck_IndexedDataMapOfShapeResult();

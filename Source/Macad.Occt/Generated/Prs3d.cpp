@@ -146,47 +146,6 @@ Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListOfSequenceOfPnt::Ite
 
 
 //---------------------------------------------------------------------
-//  Class  Prs3d_NListIteratorOfListOfSequenceOfPnt
-//---------------------------------------------------------------------
-
-Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Prs3d_NListIteratorOfListOfSequenceOfPnt()
-    : Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListIteratorOfListOfSequenceOfPnt();
-}
-
-Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Prs3d_NListIteratorOfListOfSequenceOfPnt(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListIteratorOfListOfSequenceOfPnt(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::More()
-{
-    bool _result = ((::Prs3d_NListIteratorOfListOfSequenceOfPnt*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Next()
-{
-    ((::Prs3d_NListIteratorOfListOfSequenceOfPnt*)_NativeInstance)->Next();
-}
-
-Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Value()
-{
-    Handle(::TColgp_HSequenceOfPnt) _result = ((::Prs3d_NListIteratorOfListOfSequenceOfPnt*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::ChangeValue()
-{
-    Handle(::TColgp_HSequenceOfPnt) _result = ((::Prs3d_NListIteratorOfListOfSequenceOfPnt*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Prs3d_DimensionUnits
 //---------------------------------------------------------------------
 

@@ -88,7 +88,7 @@ public sealed class SnapOnCurve2D : SnapBase
             && InteractiveContext.Current.EditorState.SnapToEdgeSelected
             && shapeToSnap?.ShapeType() == TopAbs_ShapeEnum.EDGE)
         {
-            var edge = TopoDS.Edge(shapeToSnap);
+            var edge = shapeToSnap.ToEdge();
             double umin = 0, umax = 0;
             var edgeCurve = BRep_Tool.Curve(edge, ref umin, ref umax);
             if (edgeCurve == null && BRepLib.BuildCurve3d(edge))

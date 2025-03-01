@@ -171,8 +171,9 @@ public:
 /// Warning: All the methods are virtual and implemented with a
 /// raise to allow to redefined only the methods really used.
 /// 
-/// Polynomial coefficients of BSpline surfaces used for their evaluation are cached for better performance.
-/// Therefore these evaluations are not thread-safe and parallel evaluations need to be prevented.
+/// Polynomial coefficients of BSpline surfaces used for their evaluation are cached for better
+/// performance. Therefore these evaluations are not thread-safe and parallel evaluations need to be
+/// prevented.
 /// </summary>
 public ref class Adaptor3d_Surface
     : public Macad::Occt::Standard_Transient
@@ -896,32 +897,32 @@ public:
     bool DomainIsInfinite();
     System::IntPtr Edge();
     /// <summary>
-    /// Compute the sample-points for the intersections algorithms by adaptive algorithm for BSpline surfaces.
-    /// For other surfaces algorithm is the same as in method ComputeSamplePoints(),
-    /// but only fill arrays of U and V sample parameters;
+    /// Compute the sample-points for the intersections algorithms by adaptive algorithm for BSpline
+    /// surfaces. For other surfaces algorithm is the same as in method ComputeSamplePoints(), but
+    /// only fill arrays of U and V sample parameters;
     /// </summary>
-    /// <param name="theDefl">
-    ///  [in] a required deflection
+    /// <param name="in]">
+    /// theDefl   a required deflection
     /// </param>
-    /// <param name="theNUmin">
-    /// [in] minimal nb points for U
+    /// <param name="in]">
+    /// theNUmin  minimal nb points for U
     /// </param>
-    /// <param name="theNVmin">
-    /// [in] minimal nb points for V
+    /// <param name="in]">
+    /// theNVmin  minimal nb points for V
     /// </param>
     void SamplePnts(double theDefl, int theNUmin, int theNVmin);
     /// <summary>
     /// Compute the sample-points for the intersections algorithms
     /// by adaptive algorithm for BSpline surfaces - is used in SamplePnts
     /// </summary>
-    /// <param name="theDefl">
-    ///  [in] required deflection
+    /// <param name="in]">
+    /// theDefl   required deflection
     /// </param>
-    /// <param name="theNUmin">
-    /// [in] minimal nb points for U
+    /// <param name="in]">
+    /// theNUmin  minimal nb points for U
     /// </param>
-    /// <param name="theNVmin">
-    /// [in] minimal nb points for V
+    /// <param name="in]">
+    /// theNVmin  minimal nb points for V
     /// </param>
     void BSplSamplePnts(double theDefl, int theNUmin, int theNVmin);
     /// <summary>

@@ -143,47 +143,6 @@ Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListOfPointRepresentati
 
 
 //---------------------------------------------------------------------
-//  Class  BRep_ListIteratorOfListOfPointRepresentation
-//---------------------------------------------------------------------
-
-Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::BRep_ListIteratorOfListOfPointRepresentation()
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfPointRepresentation();
-}
-
-Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::BRep_ListIteratorOfListOfPointRepresentation(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfPointRepresentation(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::More()
-{
-    bool _result = ((::BRep_ListIteratorOfListOfPointRepresentation*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::Next()
-{
-    ((::BRep_ListIteratorOfListOfPointRepresentation*)_NativeInstance)->Next();
-}
-
-Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::Value()
-{
-    Handle(::BRep_PointRepresentation) _result = ((::BRep_ListIteratorOfListOfPointRepresentation*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::ChangeValue()
-{
-    Handle(::BRep_PointRepresentation) _result = ((::BRep_ListIteratorOfListOfPointRepresentation*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  BRep_ListOfCurveRepresentation
 //---------------------------------------------------------------------
 
@@ -305,47 +264,6 @@ Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentati
 Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentation::Iterator::ChangeValue()
 {
     Handle(::BRep_CurveRepresentation) _result = ((::BRep_ListOfCurveRepresentation::Iterator*)_NativeInstance)->ChangeValue();
-    return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRep_ListIteratorOfListOfCurveRepresentation
-//---------------------------------------------------------------------
-
-Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::BRep_ListIteratorOfListOfCurveRepresentation()
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfCurveRepresentation();
-}
-
-Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::BRep_ListIteratorOfListOfCurveRepresentation(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfCurveRepresentation(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-bool Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::More()
-{
-    bool _result = ((::BRep_ListIteratorOfListOfCurveRepresentation*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::Next()
-{
-    ((::BRep_ListIteratorOfListOfCurveRepresentation*)_NativeInstance)->Next();
-}
-
-Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::Value()
-{
-    Handle(::BRep_CurveRepresentation) _result = ((::BRep_ListIteratorOfListOfCurveRepresentation*)_NativeInstance)->Value();
-    return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::ChangeValue()
-{
-    Handle(::BRep_CurveRepresentation) _result = ((::BRep_ListIteratorOfListOfCurveRepresentation*)_NativeInstance)->ChangeValue();
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
 }
 

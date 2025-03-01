@@ -6,22 +6,64 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 class SSIndex
 {
-    Dictionary<string, string> svnItems = new Dictionary<string, string>();
+    string VerCtrl;
+    string ExtractTarget;
+    string ExtractCmd;
+    Dictionary<string, string> sourceItems = new Dictionary<string, string>();
 
     public bool Init(string rootPath)
     {
-        var svnPath = Packages.FindPackageFile($"Subversion", @"bin\svn.exe");
-        if(string.IsNullOrEmpty(svnPath))
+        if( Directory.Exists( Path.Combine( rootPath, ".svn" )))
+        {
+            Printer.Line("Subversion repository detected.");
+            if(!InitSubversion(rootPath))
+            {
+                return false;
+            }
+        }
+        else if( Directory.Exists( Path.Combine( rootPath, ".git" )))
+        {
+            Printer.Line("Git repository detected.");
+            if(!InitGit(rootPath))
+            {
+                return false;  
+            }
+        }
+        else
+        {
+            Printer.Error("Unknown repository format.");
             return false;
+        }
+
+        // Check for items
+        if (sourceItems.Keys.Count == 0)
+        {
+            Printer.Error("No file infos received from VCS.");
+            return false;
+        }
+        else
+        {
+            Printer.Success($"Gathered infos for {sourceItems.Keys.Count} files from VCS.");
+            return true;
+        }
+    }
+
+    public bool InitSubversion(string rootPath)
+    {
+        VerCtrl = "Subversion";
+        ExtractTarget = @"%targ%\%fnbksl%(%var3%)\%var4%\%fnfile%(%var1%)";
+        ExtractCmd = @"cmd /c svn.exe cat ""%var2%%var3%@%var4%"" --non-interactive > ""%svn_extract_target%""";
 
         Printer.Line($"Gathering information from Subversion...");
         var commandLine = $"info -R {rootPath}";
         var svnOutput = new List<string>();
 
-        if (Common.Run(svnPath, commandLine, output: svnOutput) != 0)
+        if (Common.Run("svn.exe", commandLine, output: svnOutput) != 0)
         {
             Printer.Error("Starting SVN.EXE failed.");
             return false;
@@ -59,24 +101,73 @@ class SSIndex
                     var uri = new Uri(itemUrl);
                     var path = uri.AbsolutePath.TrimStart('/');
                     var server = uri.AbsoluteUri.Substring(0, uri.AbsoluteUri.Length - path.Length);
-                    svnItems.Add(itemPath.ToLower(), $"{server}*{path}*{itemRevision}");
+                    sourceItems.Add(Path.GetFullPath(itemPath).ToLower(), $"{server}*{path}*{itemRevision}");
                 }
                 itemPath = "";
                 itemUrl = "";
                 itemRevision = "";
             }
         }
+        return true;
+    }
 
-        if (svnItems.Keys.Count == 0)
+    public bool InitGit(string rootPath)
+    {
+        var baseOptions = $"--git-dir={Path.Combine( rootPath, ".git" )}";
+        Printer.Line($"Gathering information from Git...");
+        
+        var commandLine = $"{baseOptions} rev-parse HEAD";
+        var gitOutput = new List<string>();
+        if (Common.Run("git.exe", commandLine, output: gitOutput) != 0)
         {
-            Printer.Error("No file infos received from Subversion.");
+            Printer.Error("Starting GIT.EXE failed.");
             return false;
         }
-        else
+        var gitCommit = gitOutput.FirstOrDefault();
+        Printer.Line($"Commit: {gitCommit}");
+
+        commandLine = $"{baseOptions} config --get remote.origin.url";
+        gitOutput = new List<string>();
+        if (Common.Run("git.exe", commandLine, output: gitOutput) != 0)
         {
-            Printer.Success($"Gathered infos for {svnItems.Keys.Count} files from subversion.");
-            return true;
+            Printer.Error("Starting GIT.EXE failed.");
+            return false;
         }
+
+        var gitUrl = gitOutput.FirstOrDefault();
+        if( !gitUrl.StartsWith("https://github.com/") )
+        {
+            Printer.Error($"Detected non-GitHub repo, this is not supported.");
+            return false;
+        }
+        gitUrl = gitUrl.Replace(".git", $"/{gitCommit}/")
+                       .Replace("https://github.com/", "https://raw.githubusercontent.com/");
+        Printer.Line($"Repo URL: {gitUrl}");
+
+        VerCtrl = "http";
+        ExtractTarget = @$"{gitUrl}%var2%";
+
+        // Enumerate files
+        commandLine = $"{baseOptions} ls-tree --name-only --full-tree -r {gitCommit}";
+        gitOutput = new List<string>();
+        if (Common.Run("git.exe", commandLine, output: gitOutput) != 0)
+        {
+            Printer.Error("Starting GIT.EXE failed.");
+            return false;
+        }
+
+        foreach(string file in gitOutput)
+        {
+            if( string.IsNullOrEmpty(file) )
+            {
+                continue;
+            }
+
+            string fullPath = Path.GetFullPath(Path.Combine( rootPath, file )).ToLower();
+            sourceItems.Add(fullPath, file);
+        }
+
+        return true;
     }
 
     public bool ProcessPdb(string pdbFile)
@@ -104,12 +195,20 @@ class SSIndex
 
         for (int i = 0; i < sourceCount; i++)
         {
-            string sourceName = srcToolOutput[i].ToLower();
+            string sourceName = Path.GetFullPath(srcToolOutput[i]).ToLower();
             string sourceIndex = "";
 
-            if (svnItems.TryGetValue(sourceName, out sourceIndex))
+            if (sourceItems.TryGetValue(sourceName, out sourceIndex))
             {
                 sourceIndices.Add($"{sourceName}*{sourceIndex}");
+            }
+            else if(TryFollowSymLink(sourceName, out var linkTarget))
+            {
+                linkTarget =  Path.GetFullPath(linkTarget.ToLower());
+                if (sourceItems.TryGetValue(linkTarget, out sourceIndex))
+                {
+                    sourceIndices.Add($"{sourceName}*{sourceIndex}");
+                }
             }
         }
 
@@ -154,13 +253,19 @@ class SSIndex
         writer.WriteLine("SRCSRV: ini ------------------------------------------------");
         writer.WriteLine("VERSION=1");
         writer.WriteLine("INDEXVERSION=2");
-        writer.WriteLine("VERCTRL=Subversion");
+        writer.WriteLine($"VERCTRL={VerCtrl}");
         writer.WriteLine("DATETIME={0:R}", DateTime.Now);
         writer.WriteLine("SRCSRV: variables ------------------------------------------");
-        writer.WriteLine("SVN_EXTRACT_TARGET=%targ%\\%fnbksl%(%var3%)\\%var4%\\%fnfile%(%var1%)");
-        writer.WriteLine("SVN_EXTRACT_CMD=cmd /c svn.exe cat \"%var2%%var3%@%var4%\" --non-interactive > \"%svn_extract_target%\"");
-        writer.WriteLine("SRCSRVTRG=%SVN_extract_target%");
-        writer.WriteLine("SRCSRVCMD=%SVN_extract_cmd%");
+        if(!string.IsNullOrEmpty(ExtractTarget))
+        {
+            writer.WriteLine($"VCS_EXTRACT_TARGET={ExtractTarget}");
+        }
+        if(!string.IsNullOrEmpty(ExtractCmd))
+        {
+            writer.WriteLine($"VCS_EXTRACT_CMD={ExtractCmd}");
+        }
+        writer.WriteLine("SRCSRVTRG=%VCS_EXTRACT_TARGET%");
+        writer.WriteLine("SRCSRVCMD=%VCS_EXTRACT_CMD%");
         writer.WriteLine("SRCSRV: source files ---------------------------------------");
     }
 
@@ -190,5 +295,64 @@ class SSIndex
         File.Delete(streamFilePath);
 
         return true;
+    }
+
+    private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+
+    private const uint FILE_READ_EA = 0x0008;
+    private const uint FILE_FLAG_BACKUP_SEMANTICS = 0x2000000;
+
+    [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool CloseHandle(IntPtr hObject);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern IntPtr CreateFile( [MarshalAs(UnmanagedType.LPTStr)] string filename, [MarshalAs(UnmanagedType.U4)] uint access, [MarshalAs(UnmanagedType.U4)] FileShare share, 
+                                            IntPtr securityAttributes, // optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
+                                            [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition, [MarshalAs(UnmanagedType.U4)] uint flagsAndAttributes, IntPtr templateFile);
+
+    public static bool TryFollowSymLink(string path, out string finalPath)
+    {
+        finalPath = "";
+        IntPtr fileHandle = IntPtr.Zero;
+
+        try
+        {
+            var fileAttr = System.IO.File.GetAttributes(path);
+            if ((fileAttr & FileAttributes.ReparsePoint) == 0)
+            {
+                return false;
+            }
+
+            fileHandle = CreateFile(path, FILE_READ_EA, FileShare.ReadWrite | FileShare.Delete, IntPtr.Zero, FileMode.Open, FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
+            if (fileHandle == INVALID_HANDLE_VALUE)
+            {
+                return false;
+            }
+
+            var sb = new StringBuilder(1024);
+            var res = GetFinalPathNameByHandle(fileHandle, sb, 1024, 0);
+            if (res > 0)
+            {
+                finalPath = sb.ToString();
+                if( finalPath.StartsWith(@"\\?\") )
+                {
+                    finalPath = finalPath.Substring( 4 );
+                }
+            }
+        }
+        catch(Exception _)
+        {}
+        finally
+        {
+            if( fileHandle != IntPtr.Zero )
+            {
+                CloseHandle(fileHandle);
+            }
+        }
+        return !string.IsNullOrEmpty(finalPath);
     }
 }

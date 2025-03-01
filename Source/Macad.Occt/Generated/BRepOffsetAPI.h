@@ -446,7 +446,7 @@ public:
 /// - define if necessary a new tolerance
 /// - set if necessary analysis of degenerated shapes off
 /// - add shapes to be controlled -> Add
-/// - compute -> Perfom
+/// - compute -> Perform
 /// - output couples of connected edges for control
 /// - output the problems if any
 /// </summary>
@@ -1610,7 +1610,7 @@ public:
     void Init();
     /// <summary>
     /// Set approximation flag
-    /// for convertion input contours into ones consisting of
+    /// for conversion input contours into ones consisting of
     /// 2D circular arcs and 2D linear segments only.
     /// </summary>
     void SetApprox(bool ToApprox);
@@ -1710,7 +1710,8 @@ public:
     /// </summary>
     BRepOffsetAPI_MakeOffsetShape();
     /// <summary>
-    /// Constructs offset shape for the given one using simple algorithm without intersections computation.
+    /// Constructs offset shape for the given one using simple algorithm without intersections
+    /// computation.
     /// </summary>
     void PerformBySimple(Macad::Occt::TopoDS_Shape^ theS, double theOffsetValue);
     /// <summary>
@@ -2120,7 +2121,7 @@ public:
     /// </summary>
     void PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol);
     /// <summary>
-    /// Returns instance of the unrelying intersection / arc algorithm.
+    /// Returns instance of the underlying intersection / arc algorithm.
     /// </summary>
     Macad::Occt::BRepOffset_MakeOffset^ MakeOffset();
     /// <summary>
@@ -2345,7 +2346,7 @@ public:
     /// along the path.
     /// Give section to sweep.
     /// Possibilities are :
-    /// - Give one or sevral section
+    /// - Give one or several section
     /// - Give one profile and an homotetic law.
     /// - Automatic compute of correspondence between spine, and section
     /// on the sweeped shape

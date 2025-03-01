@@ -14,7 +14,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.COMPSOLID, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var compSolid = TopoDS.CompSolid(exp.Current());
+            var compSolid = exp.Current().ToCompSolid();
             exp.Next();
 
             if (distinct)
@@ -36,7 +36,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.SOLID, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var solid = TopoDS.Solid(exp.Current());
+            var solid = exp.Current().ToSolid();
             exp.Next();
 
             if (distinct)
@@ -58,7 +58,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.SHELL, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var shell = TopoDS.Shell(exp.Current());
+            var shell = exp.Current().ToShell();
             exp.Next();
 
             if (distinct)
@@ -82,7 +82,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.FACE, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var face = TopoDS.Face(exp.Current());
+            var face = exp.Current().ToFace();
             exp.Next();
 
             if (distinct)
@@ -115,7 +115,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.WIRE, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var wire = TopoDS.Wire(exp.Current());
+            var wire = exp.Current().ToWire();
             exp.Next();
 
             if (distinct)
@@ -149,7 +149,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var edge = TopoDS.Edge(exp.Current());
+            var edge = exp.Current().ToEdge();
             exp.Next();
 
             if (distinct)
@@ -183,7 +183,7 @@ public static class TopoDSShapeExtensions
         var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.VERTEX, TopAbs_ShapeEnum.SHAPE);
         while (exp.More())
         {
-            var vertex = TopoDS.Vertex(exp.Current());
+            var vertex = exp.Current().ToVertex();
             exp.Next();
 
             if (distinct)
@@ -230,48 +230,6 @@ public static class TopoDSShapeExtensions
         var bb = new Bnd_Box();
         BRepBndLib.Add(shape, bb);
         return bb;
-    }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Vertex ToVertex(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Vertex(shape);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Edge ToEdge(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Edge(shape);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Wire ToWire(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Wire(shape);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Face ToFace(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Face(shape);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Shell ToShell(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Shell(shape);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static TopoDS_Solid ToSolid(this TopoDS_Shape shape)
-    {
-        return shape == null ? null : TopoDS.Solid(shape);
     }
 
     //--------------------------------------------------------------------------------------------------

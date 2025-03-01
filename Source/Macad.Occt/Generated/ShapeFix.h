@@ -465,12 +465,12 @@ public:
     Macad::Occt::TopAbs_Orientation Orientation();
     /// <summary>
     /// Returns first vertex of the first edge in the wire
-    /// (no dependance on Orientation()).
+    /// (no dependence on Orientation()).
     /// </summary>
     Macad::Occt::TopoDS_Vertex^ FirstVertex();
     /// <summary>
     /// Returns last vertex of the last edge in the wire
-    /// (no dependance on Orientation()).
+    /// (no dependence on Orientation()).
     /// </summary>
     Macad::Occt::TopoDS_Vertex^ LastVertex();
     /// <summary>
@@ -2743,7 +2743,7 @@ public:
     /// isAccountMultiConex - mode for account cases of multiconnexity.
     /// If this mode is equal to Standard_True, separate shells will be created
     /// in the cases of multiconnexity. If this mode is equal to Standard_False,
-    /// one shell will be created without account of multiconnexity.By defautt - Standard_True;
+    /// one shell will be created without account of multiconnexity.By default - Standard_True;
     /// NonManifold - mode for creation of non-manifold shells.
     /// If this mode is equal to Standard_True one non-manifold will be created from shell
     /// contains multishared edges. Else if this mode is equal to Standard_False only
@@ -2760,7 +2760,7 @@ public:
     /// isAccountMultiConex - mode for account cases of multiconnexity.
     /// If this mode is equal to Standard_True, separate shells will be created
     /// in the cases of multiconnexity. If this mode is equal to Standard_False,
-    /// one shell will be created without account of multiconnexity.By defautt - Standard_True;
+    /// one shell will be created without account of multiconnexity.By default - Standard_True;
     /// NonManifold - mode for creation of non-manifold shells.
     /// If this mode is equal to Standard_True one non-manifold will be created from shell
     /// contains multishared edges. Else if this mode is equal to Standard_False only
@@ -2777,7 +2777,7 @@ public:
     /// isAccountMultiConex - mode for account cases of multiconnexity.
     /// If this mode is equal to Standard_True, separate shells will be created
     /// in the cases of multiconnexity. If this mode is equal to Standard_False,
-    /// one shell will be created without account of multiconnexity.By defautt - Standard_True;
+    /// one shell will be created without account of multiconnexity.By default - Standard_True;
     /// NonManifold - mode for creation of non-manifold shells.
     /// If this mode is equal to Standard_True one non-manifold will be created from shell
     /// contains multishared edges. Else if this mode is equal to Standard_False only

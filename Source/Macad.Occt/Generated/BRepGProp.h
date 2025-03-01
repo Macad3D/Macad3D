@@ -1088,13 +1088,14 @@ public:
     //  Enum  BRepGProp_GaussType
     //---------------------------------------------------------------------
     /// <summary>
+    /// </summary>
+    /// @name public API
     /// Describes types of geometric objects.
     /// - Vinert is 3D closed region of space delimited with:
     /// -- Surface;
     /// -- Point and Surface;
     /// -- Plane and Surface.
     /// - Sinert is face in 3D space.
-    /// </summary>
     enum class BRepGProp_GaussType
     {
         Vinert = 0,
@@ -1125,14 +1126,14 @@ public:
     /// <param name="theIsByPoint">
     /// - flag of restricition (point/plane);
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     void Compute(Macad::Occt::BRepGProp_Face^ theSurface, Macad::Occt::Pnt theLocation, double theCoeff, bool theIsByPoint, double% theOutMass, Macad::Occt::Pnt% theOutGravityCenter, Macad::Occt::Mat% theOutInertia);
     /// <summary>
@@ -1148,14 +1149,14 @@ public:
     /// <param name="theLocation">
     /// - surface location;
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     void Compute(Macad::Occt::BRepGProp_Face^ theSurface, Macad::Occt::Pnt theLocation, double% theOutMass, Macad::Occt::Pnt% theOutGravityCenter, Macad::Occt::Mat% theOutInertia);
     /// <summary>
@@ -1181,14 +1182,14 @@ public:
     /// <param name="theIsByPoint">
     /// - flag of restricition (point/plane);
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     void Compute(Macad::Occt::BRepGProp_Face^ theSurface, Macad::Occt::BRepGProp_Domain^ theDomain, Macad::Occt::Pnt theLocation, double theCoeff, bool theIsByPoint, double% theOutMass, Macad::Occt::Pnt% theOutGravityCenter, Macad::Occt::Mat% theOutInertia);
     /// <summary>
@@ -1207,14 +1208,14 @@ public:
     /// <param name="theLocation">
     /// - surface location;
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     void Compute(Macad::Occt::BRepGProp_Face^ theSurface, Macad::Occt::BRepGProp_Domain^ theDomain, Macad::Occt::Pnt theLocation, double% theOutMass, Macad::Occt::Pnt% theOutGravityCenter, Macad::Occt::Mat% theOutInertia);
     /// <summary>
@@ -1241,14 +1242,14 @@ public:
     /// <param name="theIsByPoint">
     /// - flag of restricition (point/plane);
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     /// <returns>
     /// value of error which is calculated as
@@ -1272,14 +1273,14 @@ public:
     /// <param name="theEps">
     /// - maximal relative error of computed mass (square) for face;
     /// </param>
-    /// <param name="theOutMass[out]">
-    /// - mass (volume) of region;
+    /// <param name="out]">
+    /// theOutMass - mass (volume) of region;
     /// </param>
-    /// <param name="theOutGravityCenter[out]">
-    /// - garvity center of region;
+    /// <param name="out]">
+    /// theOutGravityCenter - garvity center of region;
     /// </param>
-    /// <param name="theOutInertia[out]">
-    /// - matrix of inertia;
+    /// <param name="out]">
+    /// theOutInertia - matrix of inertia;
     /// </param>
     /// <returns>
     /// value of error which is calculated as

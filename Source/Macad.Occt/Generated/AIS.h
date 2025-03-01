@@ -56,9 +56,10 @@ public enum class AIS_KindOfInteractive
 public enum class AIS_DragAction
 {
     Start = 0,
-    Update = 1,
-    Stop = 2,
-    Abort = 3
+    Confirmed = 1,
+    Update = 2,
+    Stop = 3,
+    Abort = 4
 }; // enum  class AIS_DragAction
 
 //---------------------------------------------------------------------
@@ -90,7 +91,8 @@ public enum class AIS_SelectStatus
 //  Enum  AIS_SelectionModesConcurrency
 //---------------------------------------------------------------------
 /// <summary>
-/// The mode specifying how multiple active Selection Modes should be treated during activation of new one.
+/// The mode specifying how multiple active Selection Modes should be treated during activation of
+/// new one.
 /// </summary>
 public enum class AIS_SelectionModesConcurrency
 {
@@ -202,11 +204,12 @@ public enum class AIS_MouseGesture
     SelectRectangle = 1,
     SelectLasso = 2,
     Zoom = 3,
-    ZoomWindow = 4,
-    Pan = 5,
-    RotateOrbit = 6,
-    RotateView = 7,
-    Drag = 8
+    ZoomVertical = 4,
+    ZoomWindow = 5,
+    Pan = 6,
+    RotateOrbit = 7,
+    RotateView = 8,
+    Drag = 9
 }; // enum  class AIS_MouseGesture
 
 //---------------------------------------------------------------------
@@ -481,44 +484,6 @@ public:
     Macad::Occt::AIS_InteractiveObject^ InsertAfter(Macad::Occt::AIS_InteractiveObject^ theItem, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
     void Reverse();
 }; // class AIS_ListOfInteractive
-
-//---------------------------------------------------------------------
-//  Class  AIS_ListIteratorOfListOfInteractive
-//---------------------------------------------------------------------
-public ref class AIS_ListIteratorOfListOfInteractive sealed
-    : public Macad::Occt::BaseClass<::AIS_ListIteratorOfListOfInteractive>
-{
-
-#ifdef Include_AIS_ListIteratorOfListOfInteractive_h
-public:
-    Include_AIS_ListIteratorOfListOfInteractive_h
-#endif
-
-public:
-    AIS_ListIteratorOfListOfInteractive(::AIS_ListIteratorOfListOfInteractive* nativeInstance)
-        : Macad::Occt::BaseClass<::AIS_ListIteratorOfListOfInteractive>( nativeInstance, true )
-    {}
-
-    AIS_ListIteratorOfListOfInteractive(::AIS_ListIteratorOfListOfInteractive& nativeInstance)
-        : Macad::Occt::BaseClass<::AIS_ListIteratorOfListOfInteractive>( &nativeInstance, false )
-    {}
-
-    property ::AIS_ListIteratorOfListOfInteractive* NativeInstance
-    {
-        ::AIS_ListIteratorOfListOfInteractive* get()
-        {
-            return static_cast<::AIS_ListIteratorOfListOfInteractive*>(_NativeInstance);
-        }
-    }
-
-public:
-    AIS_ListIteratorOfListOfInteractive();
-    AIS_ListIteratorOfListOfInteractive(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::AIS_InteractiveObject^ Value();
-    Macad::Occt::AIS_InteractiveObject^ ChangeValue();
-}; // class AIS_ListIteratorOfListOfInteractive
 
 //---------------------------------------------------------------------
 //  Class  AIS_NArray1OfEntityOwner
@@ -1192,52 +1157,60 @@ public:
 //  Class  AIS
 //---------------------------------------------------------------------
 /// <summary>
-/// Application Interactive Services provide the means to create links between an application GUI viewer and
-/// the packages which are used to manage selection and presentation.
-/// The tools AIS defined in order to do this include different sorts of entities:
-/// both the selectable viewable objects themselves and the context and attribute managers to define their selection and display.
-/// To orient the user as he works in a modeling environment, views and selections must be comprehensible.
-/// There must be several different sorts of selectable and viewable object defined.
-/// These must also be interactive, that is, connecting graphic representation and the underlying reference geometry.
-/// These entities are called Interactive Objects, and are divided into four types:
+/// Application Interactive Services provide the means to create links between an application GUI
+/// viewer and the packages which are used to manage selection and presentation. The tools AIS
+/// defined in order to do this include different sorts of entities: both the selectable viewable
+/// objects themselves and the context and attribute managers to define their selection and display.
+/// To orient the user as he works in a modeling environment, views and selections must be
+/// comprehensible. There must be several different sorts of selectable and viewable object defined.
+/// These must also be interactive, that is, connecting graphic representation and the underlying
+/// reference geometry. These entities are called Interactive Objects, and are divided into four
+/// types:
 /// -   the Datum
 /// -   the Relation
 /// -   the Object
 /// -   None.
-/// The Datum groups together the construction elements such as lines, circles, points, trihedra, plane trihedra, planes and axes.
-/// The Relation is made up of constraints on one or more interactive shapes and the corresponding reference geometry.
-/// For example, you might want to constrain two edges in a parallel relation.
-/// This contraint is considered as an object in its own right, and is shown as a sensitive primitive.
-/// This takes the graphic form of a perpendicular arrow marked with the || symbol and lying between the two edges.
-/// The Object type includes topological shapes, and connections between shapes.
-/// None, in order not to eliminate the object, tells the application to look further until it finds an object definition in its generation which is accepted.
-/// Inside these categories, you have the possibility of an additional characterization by means of a signature.
-/// The signature provides an index to the further characterization.
-/// By default, the Interactive Object has a None type and a signature of 0 (equivalent to None.)
-/// If you want to give a particular type and signature to your interactive object, you must redefine the two virtual methods: Type and Signature.
-/// In the C++ inheritance structure of the package, each class representing a specific Interactive Object inherits AIS_InteractiveObject.
-/// Among these inheriting classes, AIS_Relation functions as the abstract mother class for tinheriting classes defining display of specific relational constraints and types of dimension.
-/// Some of these include:
-/// -   display of constraints based on relations of symmetry, tangency, parallelism and concentricity
+/// The Datum groups together the construction elements such as lines, circles, points, trihedra,
+/// plane trihedra, planes and axes. The Relation is made up of constraints on one or more
+/// interactive shapes and the corresponding reference geometry. For example, you might want to
+/// constrain two edges in a parallel relation. This constraint is considered as an object in its
+/// own right, and is shown as a sensitive primitive. This takes the graphic form of a perpendicular
+/// arrow marked with the || symbol and lying between the two edges. The Object type includes
+/// topological shapes, and connections between shapes. None, in order not to eliminate the object,
+/// tells the application to look further until it finds an object definition in its generation
+/// which is accepted. Inside these categories, you have the possibility of an additional
+/// characterization by means of a signature. The signature provides an index to the further
+/// characterization. By default, the Interactive Object has a None type and a signature of 0
+/// (equivalent to None.) If you want to give a particular type and signature to your interactive
+/// object, you must redefine the two virtual methods: Type and Signature. In the C++ inheritance
+/// structure of the package, each class representing a specific Interactive Object inherits
+/// AIS_InteractiveObject. Among these inheriting classes, AIS_Relation functions as the abstract
+/// mother class for tinheriting classes defining display of specific relational constraints and
+/// types of dimension. Some of these include:
+/// -   display of constraints based on relations of symmetry, tangency, parallelism and
+/// concentricity
 /// -   display of dimensions for angles, offsets, diameters, radii and chamfers.
 /// No viewer can show everything at once with any coherence or clarity.
 /// Views must be managed carefully both sequentially and at any given instant.
 /// Another function of the view is that of a context to carry out design in.
-/// The design changes are applied to the objects in the view and then extended to the underlying reference geometry by a solver.
-/// To make sense of this complicated visual data, several display and selection tools are required.
-/// To facilitate management, each object and each construction element has a selection priority.
-/// There are also means to modify the default priority.
-/// To define an environment of dynamic detection, you can use standard filter classes or create your own.
-/// A filter questions the owner of the sensitive primitive to determine if it has the desired qualities.
-/// If it answers positively, it is kept. If not, it is rejected.
-/// The standard filters supplied in AIS include:
+/// The design changes are applied to the objects in the view and then extended to the underlying
+/// reference geometry by a solver. To make sense of this complicated visual data, several display
+/// and selection tools are required. To facilitate management, each object and each construction
+/// element has a selection priority. There are also means to modify the default priority. To define
+/// an environment of dynamic detection, you can use standard filter classes or create your own. A
+/// filter questions the owner of the sensitive primitive to determine if it has the desired
+/// qualities. If it answers positively, it is kept. If not, it is rejected. The standard filters
+/// supplied in AIS include:
 /// - AIS_AttributeFilter
 /// - AIS_SignatureFilter
 /// - AIS_TypeFilter.
-/// A set of functions allows you to choose the interactive objects which you want to act on, the selection modes which you want to activate.
-/// An interactive object can have a certain number of graphic attributes which are specific to it, such as visualization mode, color, and material.
-/// By the same token, the interactive context has a set of graphic attributes, the Drawer which is valid by default for the objects it controls.
-/// When an interactive object is visualized, the required graphic attributes are first taken from the object's own Drawer if one exists, or from the context drawer for the others.
+/// A set of functions allows you to choose the interactive objects which you want to act on, the
+/// selection modes which you want to activate. An interactive object can have a certain number of
+/// graphic attributes which are specific to it, such as visualization mode, color, and material. By
+/// the same token, the interactive context has a set of graphic attributes, the Drawer which is
+/// valid by default for the objects it controls. When an interactive object is visualized, the
+/// required graphic attributes are first taken from the object's own Drawer if one exists, or from
+/// the context drawer for the others.
 /// </summary>
 public ref class AIS sealed
     : public Macad::Occt::BaseClass<::AIS>
@@ -1273,10 +1246,11 @@ public:
 //  Class  AIS_InteractiveContext
 //---------------------------------------------------------------------
 /// <summary>
-/// The Interactive Context allows you to manage graphic behavior and selection of Interactive Objects in one or more viewers.
-/// Class methods make this highly transparent.
-/// It is essential to remember that an Interactive Object which is already known by the Interactive Context must be modified using Context methods.
-/// You can only directly call the methods available for an Interactive Object if it has not been loaded into an Interactive Context.
+/// The Interactive Context allows you to manage graphic behavior and selection of Interactive
+/// Objects in one or more viewers. Class methods make this highly transparent. It is essential to
+/// remember that an Interactive Object which is already known by the Interactive Context must be
+/// modified using Context methods. You can only directly call the methods available for an
+/// Interactive Object if it has not been loaded into an Interactive Context.
 /// 
 /// Each selectable object must specify the selection mode that is
 /// responsible for selection of object as a whole (global selection mode).
@@ -1311,8 +1285,9 @@ public:
 
 public:
     /// <summary>
-    /// Constructs the interactive context object defined by the principal viewer MainViewer.
     /// </summary>
+    /// @name object display management
+    /// Constructs the interactive context object defined by the principal viewer MainViewer.
     AIS_InteractiveContext(Macad::Occt::V3d_Viewer^ MainViewer);
     /// <summary>
     /// Returns the display status of the entity anIobj.
@@ -1337,45 +1312,51 @@ public:
     /// </summary>
     void SetAutoActivateSelection(bool theIsAuto);
     /// <summary>
-    /// Manages displaying the new object should also automatically activate default selection mode; TRUE by default.
+    /// Manages displaying the new object should also automatically activate default selection mode;
+    /// TRUE by default.
     /// </summary>
     bool GetAutoActivateSelection();
     /// <summary>
     /// Displays the object in this Context using default Display Mode.
-    /// This will be the object's default display mode, if there is one. Otherwise, it will be the context mode.
-    /// The Interactive Object's default selection mode is activated if GetAutoActivateSelection() is TRUE. In general, this is 0.
+    /// This will be the object's default display mode, if there is one. Otherwise, it will be the
+    /// context mode. The Interactive Object's default selection mode is activated if
+    /// GetAutoActivateSelection() is TRUE. In general, this is 0.
     /// </summary>
     void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
     /// Sets status, display mode and selection mode for specified Object
-    /// If theSelectionMode equals -1, theIObj will not be activated: it will be displayed but will not be selectable.
+    /// If theSelectionMode equals -1, theIObj will not be activated: it will be displayed but will
+    /// not be selectable.
     /// </summary>
     void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, Macad::Occt::PrsMgr_DisplayStatus theDispStatus);
     /// <summary>
     /// Sets status, display mode and selection mode for specified Object
-    /// If theSelectionMode equals -1, theIObj will not be activated: it will be displayed but will not be selectable.
+    /// If theSelectionMode equals -1, theIObj will not be activated: it will be displayed but will
+    /// not be selectable.
     /// </summary>
     void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer);
     /// <summary>
     /// Allows you to load the Interactive Object with a given selection mode,
     /// and/or with the desired decomposition option, whether the object is visualized or not.
-    /// The loaded objects will be selectable but displayable in highlighting only when detected by the Selector.
+    /// The loaded objects will be selectable but displayable in highlighting only when detected by
+    /// the Selector.
     /// </summary>
     void Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode);
     /// <summary>
     /// Allows you to load the Interactive Object with a given selection mode,
     /// and/or with the desired decomposition option, whether the object is visualized or not.
-    /// The loaded objects will be selectable but displayable in highlighting only when detected by the Selector.
+    /// The loaded objects will be selectable but displayable in highlighting only when detected by
+    /// the Selector.
     /// </summary>
     void Load(Macad::Occt::AIS_InteractiveObject^ theObj);
     /// <summary>
-    /// Hides the object. The object's presentations are simply flagged as invisible and therefore excluded from redrawing.
-    /// To show hidden objects, use Display().
+    /// Hides the object. The object's presentations are simply flagged as invisible and therefore
+    /// excluded from redrawing. To show hidden objects, use Display().
     /// </summary>
     void Erase(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
-    /// Hides all objects. The object's presentations are simply flagged as invisible and therefore excluded from redrawing.
-    /// To show all hidden objects, use DisplayAll().
+    /// Hides all objects. The object's presentations are simply flagged as invisible and therefore
+    /// excluded from redrawing. To show all hidden objects, use DisplayAll().
     /// </summary>
     void EraseAll(bool theToUpdateViewer);
     /// <summary>
@@ -1383,8 +1364,8 @@ public:
     /// </summary>
     void DisplayAll(bool theToUpdateViewer);
     /// <summary>
-    /// Hides selected objects. The object's presentations are simply flagged as invisible and therefore excluded from redrawing.
-    /// To show hidden objects, use Display().
+    /// Hides selected objects. The object's presentations are simply flagged as invisible and
+    /// therefore excluded from redrawing. To show hidden objects, use Display().
     /// </summary>
     void EraseSelected(bool theToUpdateViewer);
     /// <summary>
@@ -1435,16 +1416,20 @@ public:
     /// </summary>
     void RecomputeSelectionOnly(Macad::Occt::AIS_InteractiveObject^ anIObj);
     /// <summary>
-    /// Updates displayed interactive object by checking and recomputing its flagged as "to be recomputed" presentation and selection structures.
-    /// This method does not force any recomputation on its own.
-    /// The method recomputes selections even if they are loaded without activation in particular selector.
+    /// Updates displayed interactive object by checking and recomputing its flagged as "to be
+    /// recomputed" presentation and selection structures. This method does not force any
+    /// recomputation on its own. The method recomputes selections even if they are loaded without
+    /// activation in particular selector.
     /// </summary>
     void Update(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theUpdateViewer);
     /// <summary>
+    /// </summary>
+    /// @name highlighting management
     /// Returns default highlight style settings (could be overridden by PrsMgr_PresentableObject).
     /// 
     /// Tip: although highlighting style is defined by Prs3d_Drawer,
-    /// only a small set of properties derived from it's base class Graphic3d_PresentationAttributes will be actually used in most cases.
+    /// only a small set of properties derived from it's base class Graphic3d_PresentationAttributes
+    /// will be actually used in most cases.
     /// 
     /// Default highlight style for all types is Aspect_TOHM_COLOR. Other defaults:
     /// - Prs3d_TypeOfHighlight_Dynamic
@@ -1461,9 +1446,9 @@ public:
     /// * Color: Quantity_NOC_GRAY80;
     /// * Layer: Graphic3d_ZLayerId_UNKNOWN,
     /// object highlighting is drawn on top of main scene within the same layer
-    /// as object itself (e.g. Graphic3d_ZLayerId_Default by default) and increased priority.
+    /// as object itself (e.g. Graphic3d_ZLayerId_Default by default) and increased
+    /// priority.
     /// 
-    /// </summary>
     /// <param name="in]">
     /// theStyleType highlight style to modify
     /// </param>
@@ -1472,9 +1457,12 @@ public:
     /// 
     /// </returns>
     /// @sa MoveTo() using Prs3d_TypeOfHighlight_Dynamic and Prs3d_TypeOfHighlight_LocalDynamic types
-    /// @sa SelectDetected() using Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected types
-    /// @sa PrsMgr_PresentableObject::DynamicHilightAttributes() overriding Prs3d_TypeOfHighlight_Dynamic and Prs3d_TypeOfHighlight_LocalDynamic defaults on object level
-    /// @sa PrsMgr_PresentableObject::HilightAttributes() overriding Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected defaults on object level
+    /// @sa SelectDetected() using Prs3d_TypeOfHighlight_Selected and
+    /// Prs3d_TypeOfHighlight_LocalSelected types
+    /// @sa PrsMgr_PresentableObject::DynamicHilightAttributes() overriding
+    /// Prs3d_TypeOfHighlight_Dynamic and Prs3d_TypeOfHighlight_LocalDynamic defaults on object level
+    /// @sa PrsMgr_PresentableObject::HilightAttributes() overriding Prs3d_TypeOfHighlight_Selected
+    /// and Prs3d_TypeOfHighlight_LocalSelected defaults on object level
     Macad::Occt::Prs3d_Drawer^ HighlightStyle(Macad::Occt::Prs3d_TypeOfHighlight theStyleType);
     /// <summary>
     /// Setup highlight style settings.
@@ -1486,8 +1474,9 @@ public:
     /// </summary>
     void SetHighlightStyle(Macad::Occt::Prs3d_TypeOfHighlight theStyleType, Macad::Occt::Prs3d_Drawer^ theStyle);
     /// <summary>
-    /// Returns current dynamic highlight style settings corresponding to Prs3d_TypeOfHighlight_Dynamic.
-    /// This is just a short-cut to HighlightStyle(Prs3d_TypeOfHighlight_Dynamic).
+    /// Returns current dynamic highlight style settings corresponding to
+    /// Prs3d_TypeOfHighlight_Dynamic. This is just a short-cut to
+    /// HighlightStyle(Prs3d_TypeOfHighlight_Dynamic).
     /// </summary>
     Macad::Occt::Prs3d_Drawer^ HighlightStyle();
     /// <summary>
@@ -1508,29 +1497,29 @@ public:
     /// <summary>
     /// Returns highlight style of the object if it is marked as highlighted via global status
     /// </summary>
-    /// <param name="theObj">
-    /// [in] the object to check
+    /// <param name="in]">
+    /// theObj  the object to check
     /// </param>
     bool HighlightStyle(Macad::Occt::AIS_InteractiveObject^ theObj, Macad::Occt::Prs3d_Drawer^ theStyle);
     /// <summary>
     /// Returns highlight style of the owner if it is selected
     /// </summary>
-    /// <param name="theOwner">
-    /// [in] the owner to check
+    /// <param name="in]">
+    /// theOwner  the owner to check
     /// </param>
     bool HighlightStyle(Macad::Occt::SelectMgr_EntityOwner^ theOwner, Macad::Occt::Prs3d_Drawer^ theStyle);
     /// <summary>
     /// Returns true if the object is marked as highlighted via its global status
     /// </summary>
-    /// <param name="theObj">
-    /// [in] the object to check
+    /// <param name="in]">
+    /// theObj  the object to check
     /// </param>
     bool IsHilighted(Macad::Occt::AIS_InteractiveObject^ theObj);
     /// <summary>
     /// Returns true if the owner is marked as selected
     /// </summary>
-    /// <param name="theOwner">
-    /// [in] the owner to check
+    /// <param name="in]">
+    /// theOwner  the owner to check
     /// </param>
     bool IsHilighted(Macad::Occt::SelectMgr_EntityOwner^ theOwner);
     /// <summary>
@@ -1542,8 +1531,9 @@ public:
     /// </summary>
     void Unhilight(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
-    /// Returns the display priority of the Object.
     /// </summary>
+    /// @name object presence management (View affinity, Layer, Priority)
+    /// Returns the display priority of the Object.
     Macad::Occt::Graphic3d_DisplayPriority DisplayPriority(Macad::Occt::AIS_InteractiveObject^ theIObj);
     /// <summary>
     /// Sets the display priority of the seen parts presentation of the Object.
@@ -1556,8 +1546,8 @@ public:
     int GetZLayer(Macad::Occt::AIS_InteractiveObject^ theIObj);
     /// <summary>
     /// Set Z layer id for interactive object.
-    /// The Z layers can be used to display temporarily presentations of some object in front of the other objects in the scene.
-    /// The ids for Z layers are generated by V3d_Viewer.
+    /// The Z layers can be used to display temporarily presentations of some object in front of the
+    /// other objects in the scene. The ids for Z layers are generated by V3d_Viewer.
     /// </summary>
     void SetZLayer(Macad::Occt::AIS_InteractiveObject^ theIObj, int theLayerId);
     /// <summary>
@@ -1566,8 +1556,9 @@ public:
     /// </summary>
     void SetViewAffinity(Macad::Occt::AIS_InteractiveObject^ theIObj, Macad::Occt::V3d_View^ theView, bool theIsVisible);
     /// <summary>
-    /// Returns the Display Mode setting to be used by default.
     /// </summary>
+    /// @name Display Mode management
+    /// Returns the Display Mode setting to be used by default.
     int DisplayMode();
     /// <summary>
     /// Sets the display mode of seen Interactive Objects (which have no overridden Display Mode).
@@ -1583,8 +1574,9 @@ public:
     /// </summary>
     void UnsetDisplayMode(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
-    /// Puts the location on the initial graphic representation and the selection for the Object.
     /// </summary>
+    /// @name object local transformation management
+    /// Puts the location on the initial graphic representation and the selection for the Object.
     void SetLocation(Macad::Occt::AIS_InteractiveObject^ theObject, Macad::Occt::TopLoc_Location^ theLocation);
     /// <summary>
     /// Puts the Object back into its initial position.
@@ -1603,19 +1595,22 @@ public:
     /// </summary>
     void SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObject, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
     /// <summary>
-    /// Setup pixel tolerance for MoveTo() operation.
     /// </summary>
+    /// @name mouse picking logic (detection and dynamic highlighting of entities under cursor)
+    /// Setup pixel tolerance for MoveTo() operation.
     /// @sa MoveTo().
     void SetPixelTolerance(int thePrecision);
     /// <summary>
-    /// Setup pixel tolerance for MoveTo() operation.
     /// </summary>
+    /// @name mouse picking logic (detection and dynamic highlighting of entities under cursor)
+    /// Setup pixel tolerance for MoveTo() operation.
     /// @sa MoveTo().
     void SetPixelTolerance();
     /// <summary>
     /// Returns the pixel tolerance, default is 2.
     /// Pixel Tolerance extends sensitivity within MoveTo() operation (picking by point)
-    /// and can be adjusted by application based on user input precision (e.g. screen pixel density, input device precision, etc.).
+    /// and can be adjusted by application based on user input precision (e.g. screen pixel density,
+    /// input device precision, etc.).
     /// </summary>
     int PixelTolerance();
     /// <summary>
@@ -1631,17 +1626,20 @@ public:
     /// <summary>
     /// Relays mouse position in pixels theXPix and theYPix to the interactive context selectors.
     /// This is done by the view theView passing this position to the main viewer and updating it.
-    /// If theToRedrawOnUpdate is set to false, callee should call RedrawImmediate() to highlight detected object.
+    /// If theToRedrawOnUpdate is set to false, callee should call RedrawImmediate() to highlight
+    /// detected object.
     /// </summary>
     /// @sa PickingStrategy()
     /// @sa HighlightStyle() defining default dynamic highlight styles of detected owners
     /// (Prs3d_TypeOfHighlight_Dynamic and Prs3d_TypeOfHighlight_LocalDynamic)
-    /// @sa PrsMgr_PresentableObject::DynamicHilightAttributes() defining per-object dynamic highlight style of detected owners (overrides defaults)
+    /// @sa PrsMgr_PresentableObject::DynamicHilightAttributes() defining per-object dynamic highlight
+    /// style of detected owners (overrides defaults)
     Macad::Occt::AIS_StatusOfDetection MoveTo(int theXPix, int theYPix, Macad::Occt::V3d_View^ theView, bool theToRedrawOnUpdate);
     /// <summary>
     /// Relays axis theAxis to the interactive context selectors.
     /// This is done by the view theView passing this axis to the main viewer and updating it.
-    /// If theToRedrawOnUpdate is set to false, callee should call RedrawImmediate() to highlight detected object.
+    /// If theToRedrawOnUpdate is set to false, callee should call RedrawImmediate() to highlight
+    /// detected object.
     /// </summary>
     /// @sa PickingStrategy()
     Macad::Occt::AIS_StatusOfDetection MoveTo(Macad::Occt::Ax1 theAxis, Macad::Occt::V3d_View^ theView, bool theToRedrawOnUpdate);
@@ -1652,7 +1650,8 @@ public:
     /// if TRUE, the main Viewer will be redrawn on update
     /// </param>
     /// <returns>
-    /// TRUE if viewer needs to be updated (e.g. there were actually dynamically highlighted entities)
+    /// TRUE if viewer needs to be updated (e.g. there were actually dynamically highlighted
+    /// entities)
     /// </returns>
     bool ClearDetected(bool theToRedrawImmediate);
     /// <summary>
@@ -1662,7 +1661,8 @@ public:
     /// if TRUE, the main Viewer will be redrawn on update
     /// </param>
     /// <returns>
-    /// TRUE if viewer needs to be updated (e.g. there were actually dynamically highlighted entities)
+    /// TRUE if viewer needs to be updated (e.g. there were actually dynamically highlighted
+    /// entities)
     /// </returns>
     bool ClearDetected();
     /// <summary>
@@ -1671,14 +1671,16 @@ public:
     /// @sa DetectedOwner(), HasNextDetected(), HilightPreviousDetected(), HilightNextDetected().
     bool HasDetected();
     /// <summary>
-    /// Returns the owner of the detected sensitive primitive which is currently dynamically highlighted.
-    /// WARNING! This method is irrelevant to InitDetected()/MoreDetected()/NextDetected().
+    /// Returns the owner of the detected sensitive primitive which is currently dynamically
+    /// highlighted. WARNING! This method is irrelevant to
+    /// InitDetected()/MoreDetected()/NextDetected().
     /// </summary>
     /// @sa HasDetected(), HasNextDetected(), HilightPreviousDetected(), HilightNextDetected().
     Macad::Occt::SelectMgr_EntityOwner^ DetectedOwner();
     /// <summary>
     /// Returns the interactive objects last detected in context.
-    /// In general this is just a wrapper for Handle(AIS_InteractiveObject)::DownCast(DetectedOwner()->Selectable()).
+    /// In general this is just a wrapper for
+    /// Handle(AIS_InteractiveObject)::DownCast(DetectedOwner()->Selectable()).
     /// </summary>
     /// @sa DetectedOwner()
     Macad::Occt::AIS_InteractiveObject^ DetectedInteractive();
@@ -1698,10 +1700,11 @@ public:
     /// @sa HilightPreviousDetected(), HilightNextDetected().
     bool HasNextDetected();
     /// <summary>
-    /// If more than 1 object is detected by the selector, only the "best" owner is hilighted at the mouse position.
-    /// This Method allows the user to hilight one after another the other detected entities.
-    /// If The method select is called, the selected entity will be the hilighted one!
-    /// WARNING: Loop Method. When all the detected entities have been hilighted, the next call will hilight the first one again.
+    /// If more than 1 object is detected by the selector, only the "best" owner is hilighted at the
+    /// mouse position. This Method allows the user to hilight one after another the other detected
+    /// entities. If The method select is called, the selected entity will be the hilighted one!
+    /// WARNING: Loop Method. When all the detected entities have been hilighted, the next call will
+    /// hilight the first one again.
     /// </summary>
     /// <returns>
     /// the Rank of hilighted entity
@@ -1709,10 +1712,11 @@ public:
     /// @sa HasNextDetected(), HilightPreviousDetected().
     int HilightNextDetected(Macad::Occt::V3d_View^ theView, bool theToRedrawImmediate);
     /// <summary>
-    /// If more than 1 object is detected by the selector, only the "best" owner is hilighted at the mouse position.
-    /// This Method allows the user to hilight one after another the other detected entities.
-    /// If The method select is called, the selected entity will be the hilighted one!
-    /// WARNING: Loop Method. When all the detected entities have been hilighted, the next call will hilight the first one again.
+    /// If more than 1 object is detected by the selector, only the "best" owner is hilighted at the
+    /// mouse position. This Method allows the user to hilight one after another the other detected
+    /// entities. If The method select is called, the selected entity will be the hilighted one!
+    /// WARNING: Loop Method. When all the detected entities have been hilighted, the next call will
+    /// hilight the first one again.
     /// </summary>
     /// <returns>
     /// the Rank of hilighted entity
@@ -1730,9 +1734,10 @@ public:
     /// @sa HasNextDetected(), HilightNextDetected().
     int HilightPreviousDetected(Macad::Occt::V3d_View^ theView);
     /// <summary>
+    /// </summary>
+    /// @name iteration through detected entities
     /// Initialization for iteration through mouse-detected objects in
     /// interactive context or in local context if it is opened.
-    /// </summary>
     /// @sa DetectedCurrentOwner(), MoreDetected(), NextDetected().
     void InitDetected();
     /// <summary>
@@ -1748,13 +1753,15 @@ public:
     void NextDetected();
     /// <summary>
     /// Returns the owner from detected list pointed by current iterator position.
-    /// WARNING! This method is irrelevant to DetectedOwner() which returns last picked Owner regardless of iterator position!
+    /// WARNING! This method is irrelevant to DetectedOwner() which returns last picked Owner
+    /// regardless of iterator position!
     /// </summary>
     /// @sa InitDetected(), MoreDetected(), NextDetected().
     Macad::Occt::SelectMgr_EntityOwner^ DetectedCurrentOwner();
     /// <summary>
-    /// Adds object in the selection.
     /// </summary>
+    /// @name Selection management
+    /// Adds object in the selection.
     Macad::Occt::AIS_StatusOfPick AddSelect(Macad::Occt::SelectMgr_EntityOwner^ theObject);
     /// <summary>
     /// Adds object in the selection.
@@ -1764,17 +1771,17 @@ public:
     /// Selects objects within the bounding rectangle.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePntMin">
-    /// [in] rectangle lower point (in pixels)
+    /// <param name="in]">
+    /// thePntMin  rectangle lower point (in pixels)
     /// </param>
-    /// <param name="thePntMax">
-    /// [in] rectangle upper point (in pixels)
+    /// <param name="in]">
+    /// thePntMax  rectangle upper point (in pixels)
     /// </param>
-    /// <param name="theView">
-    ///   [in] active view where rectangle is defined
+    /// <param name="in]">
+    /// theView    active view where rectangle is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1785,17 +1792,17 @@ public:
     /// Selects objects within the bounding rectangle.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePntMin">
-    /// [in] rectangle lower point (in pixels)
+    /// <param name="in]">
+    /// thePntMin  rectangle lower point (in pixels)
     /// </param>
-    /// <param name="thePntMax">
-    /// [in] rectangle upper point (in pixels)
+    /// <param name="in]">
+    /// thePntMax  rectangle upper point (in pixels)
     /// </param>
-    /// <param name="theView">
-    ///   [in] active view where rectangle is defined
+    /// <param name="in]">
+    /// theView    active view where rectangle is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1806,14 +1813,14 @@ public:
     /// Select everything found in the polygon defined by bounding polyline.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePolyline">
-    ///  [in] polyline defining polygon bounds (in pixels)
+    /// <param name="in]">
+    /// thePolyline   polyline defining polygon bounds (in pixels)
     /// </param>
-    /// <param name="theView">
-    ///      [in] active view where polyline is defined
+    /// <param name="in]">
+    /// theView       active view where polyline is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1823,14 +1830,14 @@ public:
     /// Select everything found in the polygon defined by bounding polyline.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePolyline">
-    ///  [in] polyline defining polygon bounds (in pixels)
+    /// <param name="in]">
+    /// thePolyline   polyline defining polygon bounds (in pixels)
     /// </param>
-    /// <param name="theView">
-    ///      [in] active view where polyline is defined
+    /// <param name="in]">
+    /// theView       active view where polyline is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1840,14 +1847,14 @@ public:
     /// Selects the topmost object picked by the point in the view,
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePnt">
-    ///  [in] point pixel coordinates within the view
+    /// <param name="in]">
+    /// thePnt   point pixel coordinates within the view
     /// </param>
-    /// <param name="theView">
-    /// [in] active view where point is defined
+    /// <param name="in]">
+    /// theView  active view where point is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1857,14 +1864,14 @@ public:
     /// Selects the topmost object picked by the point in the view,
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="thePnt">
-    ///  [in] point pixel coordinates within the view
+    /// <param name="in]">
+    /// thePnt   point pixel coordinates within the view
     /// </param>
-    /// <param name="theView">
-    /// [in] active view where point is defined
+    /// <param name="in]">
+    /// theView  active view where point is defined
     /// </param>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
@@ -1875,30 +1882,34 @@ public:
     /// unhilights the previous picked.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
     /// 
     /// </returns>
-    /// @sa HighlightStyle() defining default highlight styles of selected owners (Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected)
-    /// @sa PrsMgr_PresentableObject::HilightAttributes() defining per-object highlight style of selected owners (overrides defaults)
+    /// @sa HighlightStyle() defining default highlight styles of selected owners
+    /// (Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected)
+    /// @sa PrsMgr_PresentableObject::HilightAttributes() defining per-object highlight style of
+    /// selected owners (overrides defaults)
     Macad::Occt::AIS_StatusOfPick SelectDetected(Macad::Occt::AIS_SelectionScheme theSelScheme);
     /// <summary>
     /// Select and hilights the previous detected via AIS_InteractiveContext::MoveTo() method;
     /// unhilights the previous picked.
     /// Viewer should be explicitly redrawn after selection.
     /// </summary>
-    /// <param name="theSelScheme">
-    /// [in] selection scheme
+    /// <param name="in]">
+    /// theSelScheme  selection scheme
     /// </param>
     /// <returns>
     /// picking status
     /// 
     /// </returns>
-    /// @sa HighlightStyle() defining default highlight styles of selected owners (Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected)
-    /// @sa PrsMgr_PresentableObject::HilightAttributes() defining per-object highlight style of selected owners (overrides defaults)
+    /// @sa HighlightStyle() defining default highlight styles of selected owners
+    /// (Prs3d_TypeOfHighlight_Selected and Prs3d_TypeOfHighlight_LocalSelected)
+    /// @sa PrsMgr_PresentableObject::HilightAttributes() defining per-object highlight style of
+    /// selected owners (overrides defaults)
     Macad::Occt::AIS_StatusOfPick SelectDetected();
     /// <summary>
     /// Returns bounding box of selected objects.
@@ -1929,13 +1940,15 @@ public:
     /// </summary>
     void FitSelected(Macad::Occt::V3d_View^ theView);
     /// <summary>
-    /// Return value specified whether selected object must be hilighted when mouse cursor is moved above it
+    /// Return value specified whether selected object must be hilighted when mouse cursor is moved
+    /// above it
     /// </summary>
     /// @sa MoveTo()
     bool ToHilightSelected();
     /// <summary>
-    /// Specify whether selected object must be hilighted when mouse cursor is moved above it (in MoveTo method).
-    /// By default this value is false and selected object is not hilighted in this case.
+    /// Specify whether selected object must be hilighted when mouse cursor is moved above it (in
+    /// MoveTo method). By default this value is false and selected object is not hilighted in this
+    /// case.
     /// </summary>
     /// @sa MoveTo()
     void SetToHilightSelected(bool toHilight);
@@ -1976,7 +1989,8 @@ public:
     void AddOrRemoveSelected(Macad::Occt::AIS_InteractiveObject^ theObject, bool theToUpdateViewer);
     /// <summary>
     /// Updates Selected state of specified owner without calling HilightSelected().
-    /// Has no effect if Selected state is not changed, and redirects to AddOrRemoveSelected() otherwise.
+    /// Has no effect if Selected state is not changed, and redirects to AddOrRemoveSelected()
+    /// otherwise.
     /// </summary>
     /// <param name="theOwner">
     /// owner object to set selected state
@@ -2003,7 +2017,8 @@ public:
     /// @sa HilightSelected().
     void UpdateSelected(bool theToUpdateViewer);
     /// <summary>
-    /// Empties previous selected objects in order to get the selected objects detected by the selector using UpdateSelected.
+    /// Empties previous selected objects in order to get the selected objects detected by the
+    /// selector using UpdateSelected.
     /// </summary>
     void ClearSelected(bool theToUpdateViewer);
     /// <summary>
@@ -2023,7 +2038,8 @@ public:
     /// </summary>
     Macad::Occt::AIS_InteractiveObject^ FirstSelectedObject();
     /// <summary>
-    /// Count a number of selected entities using InitSelected()+MoreSelected()+NextSelected() iterator.
+    /// Count a number of selected entities using InitSelected()+MoreSelected()+NextSelected()
+    /// iterator.
     /// </summary>
     /// @sa SelectedOwner(), InitSelected(), MoreSelected(), NextSelected().
     int NbSelected();
@@ -2059,12 +2075,13 @@ public:
     bool HasSelectedShape();
     /// <summary>
     /// Returns the selected shape.
-    /// Basically it is just a shape returned stored by StdSelect_BRepOwner with graphic transformation being applied:
+    /// Basically it is just a shape returned stored by StdSelect_BRepOwner with graphic
+    /// transformation being applied:
     /// </summary>
     /// @code
-    /// const Handle(StdSelect_BRepOwner) aBRepOwner = Handle(StdSelect_BRepOwner)::DownCast (SelectedOwner());
-    /// TopoDS_Shape aSelShape     = aBRepOwner->Shape();
-    /// TopoDS_Shape aLocatedShape = aSelShape.Located (aBRepOwner->Location() * aSelShape.Location());
+    /// const Handle(StdSelect_BRepOwner) aBRepOwner = Handle(StdSelect_BRepOwner)::DownCast
+    /// (SelectedOwner()); TopoDS_Shape aSelShape     = aBRepOwner->Shape(); TopoDS_Shape
+    /// aLocatedShape = aSelShape.Located (aBRepOwner->Location() * aSelShape.Location());
     /// @endcode
     /// @sa SelectedOwner(), HasSelectedShape().
     Macad::Occt::TopoDS_Shape^ SelectedShape();
@@ -2079,9 +2096,10 @@ public:
     /// @sa SelectedOwner().
     Macad::Occt::Standard_Transient^ Applicative();
     /// <summary>
+    /// </summary>
+    /// @name immediate mode rendering
     /// initializes the list of presentations to be displayed
     /// returns False if no local context is opened.
-    /// </summary>
     bool BeginImmediateDraw();
     /// <summary>
     /// returns True if <anIObj> has been stored in the list.
@@ -2102,103 +2120,125 @@ public:
     bool EndImmediateDraw();
     bool IsImmediateModeOn();
     /// <summary>
-    /// Redraws immediate structures in all views of the viewer given taking into account its visibility.
+    /// Redraws immediate structures in all views of the viewer given taking into account its
+    /// visibility.
     /// </summary>
     void RedrawImmediate(Macad::Occt::V3d_Viewer^ theViewer);
     /// <summary>
+    /// </summary>
+    /// @name management of active Selection Modes
     /// Activates or deactivates the selection mode for specified object.
     /// Has no effect if selection mode was already active/deactivated.
-    /// </summary>
     /// <param name="theObj">
     ///         object to activate/deactivate selection mode
     /// </param>
     /// <param name="theMode">
     ///        selection mode to activate/deactivate;
-    /// deactivation of -1 selection mode will effectively deactivate all selection modes;
-    /// activation of -1 selection mode with AIS_SelectionModesConcurrency_Single
-    /// will deactivate all selection modes, and will has no effect otherwise
+    /// deactivation of -1 selection mode will effectively deactivate all
+    /// selection modes; activation of -1 selection mode with
+    /// AIS_SelectionModesConcurrency_Single will deactivate all selection
+    /// modes, and will has no effect otherwise
     /// </param>
     /// <param name="theToActivate">
     ///  activation/deactivation flag
     /// </param>
     /// <param name="theConcurrency">
     /// specifies how to handle already activated selection modes;
-    /// default value (AIS_SelectionModesConcurrency_Multiple) means active selection modes should be left as is,
-    /// AIS_SelectionModesConcurrency_Single can be used if only one selection mode is expected to be active
-    /// and AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either AIS_InteractiveObject::GlobalSelectionMode()
-    /// or any combination of Local selection modes is acceptable;
-    /// this value is considered only if theToActivate set to TRUE
+    /// default value (AIS_SelectionModesConcurrency_Multiple) means active
+    /// selection modes should be left as is,
+    /// AIS_SelectionModesConcurrency_Single can be used if only one selection
+    /// mode is expected to be active and
+    /// AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either
+    /// AIS_InteractiveObject::GlobalSelectionMode() or any combination of Local
+    /// selection modes is acceptable; this value is considered only if
+    /// theToActivate set to TRUE
     /// </param>
     /// <param name="theIsForce">
-    ///     when set to TRUE, the display status will be ignored while activating selection mode
+    ///     when set to TRUE, the display status will be ignored while activating
+    /// selection mode
     /// </param>
     void SetSelectionModeActive(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode, bool theToActivate, Macad::Occt::AIS_SelectionModesConcurrency theConcurrency, bool theIsForce);
     /// <summary>
+    /// </summary>
+    /// @name management of active Selection Modes
     /// Activates or deactivates the selection mode for specified object.
     /// Has no effect if selection mode was already active/deactivated.
-    /// </summary>
     /// <param name="theObj">
     ///         object to activate/deactivate selection mode
     /// </param>
     /// <param name="theMode">
     ///        selection mode to activate/deactivate;
-    /// deactivation of -1 selection mode will effectively deactivate all selection modes;
-    /// activation of -1 selection mode with AIS_SelectionModesConcurrency_Single
-    /// will deactivate all selection modes, and will has no effect otherwise
+    /// deactivation of -1 selection mode will effectively deactivate all
+    /// selection modes; activation of -1 selection mode with
+    /// AIS_SelectionModesConcurrency_Single will deactivate all selection
+    /// modes, and will has no effect otherwise
     /// </param>
     /// <param name="theToActivate">
     ///  activation/deactivation flag
     /// </param>
     /// <param name="theConcurrency">
     /// specifies how to handle already activated selection modes;
-    /// default value (AIS_SelectionModesConcurrency_Multiple) means active selection modes should be left as is,
-    /// AIS_SelectionModesConcurrency_Single can be used if only one selection mode is expected to be active
-    /// and AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either AIS_InteractiveObject::GlobalSelectionMode()
-    /// or any combination of Local selection modes is acceptable;
-    /// this value is considered only if theToActivate set to TRUE
+    /// default value (AIS_SelectionModesConcurrency_Multiple) means active
+    /// selection modes should be left as is,
+    /// AIS_SelectionModesConcurrency_Single can be used if only one selection
+    /// mode is expected to be active and
+    /// AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either
+    /// AIS_InteractiveObject::GlobalSelectionMode() or any combination of Local
+    /// selection modes is acceptable; this value is considered only if
+    /// theToActivate set to TRUE
     /// </param>
     /// <param name="theIsForce">
-    ///     when set to TRUE, the display status will be ignored while activating selection mode
+    ///     when set to TRUE, the display status will be ignored while activating
+    /// selection mode
     /// </param>
     void SetSelectionModeActive(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode, bool theToActivate, Macad::Occt::AIS_SelectionModesConcurrency theConcurrency);
     /// <summary>
+    /// </summary>
+    /// @name management of active Selection Modes
     /// Activates or deactivates the selection mode for specified object.
     /// Has no effect if selection mode was already active/deactivated.
-    /// </summary>
     /// <param name="theObj">
     ///         object to activate/deactivate selection mode
     /// </param>
     /// <param name="theMode">
     ///        selection mode to activate/deactivate;
-    /// deactivation of -1 selection mode will effectively deactivate all selection modes;
-    /// activation of -1 selection mode with AIS_SelectionModesConcurrency_Single
-    /// will deactivate all selection modes, and will has no effect otherwise
+    /// deactivation of -1 selection mode will effectively deactivate all
+    /// selection modes; activation of -1 selection mode with
+    /// AIS_SelectionModesConcurrency_Single will deactivate all selection
+    /// modes, and will has no effect otherwise
     /// </param>
     /// <param name="theToActivate">
     ///  activation/deactivation flag
     /// </param>
     /// <param name="theConcurrency">
     /// specifies how to handle already activated selection modes;
-    /// default value (AIS_SelectionModesConcurrency_Multiple) means active selection modes should be left as is,
-    /// AIS_SelectionModesConcurrency_Single can be used if only one selection mode is expected to be active
-    /// and AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either AIS_InteractiveObject::GlobalSelectionMode()
-    /// or any combination of Local selection modes is acceptable;
-    /// this value is considered only if theToActivate set to TRUE
+    /// default value (AIS_SelectionModesConcurrency_Multiple) means active
+    /// selection modes should be left as is,
+    /// AIS_SelectionModesConcurrency_Single can be used if only one selection
+    /// mode is expected to be active and
+    /// AIS_SelectionModesConcurrency_GlobalOrLocal can be used if either
+    /// AIS_InteractiveObject::GlobalSelectionMode() or any combination of Local
+    /// selection modes is acceptable; this value is considered only if
+    /// theToActivate set to TRUE
     /// </param>
     /// <param name="theIsForce">
-    ///     when set to TRUE, the display status will be ignored while activating selection mode
+    ///     when set to TRUE, the display status will be ignored while activating
+    /// selection mode
     /// </param>
     void SetSelectionModeActive(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode, bool theToActivate);
     /// <summary>
-    /// Activates the selection mode aMode whose index is given, for the given interactive entity anIobj.
+    /// Activates the selection mode aMode whose index is given, for the given interactive entity
+    /// anIobj.
     /// </summary>
     void Activate(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode, bool theIsForce);
     /// <summary>
-    /// Activates the selection mode aMode whose index is given, for the given interactive entity anIobj.
+    /// Activates the selection mode aMode whose index is given, for the given interactive entity
+    /// anIobj.
     /// </summary>
     void Activate(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode);
     /// <summary>
-    /// Activates the selection mode aMode whose index is given, for the given interactive entity anIobj.
+    /// Activates the selection mode aMode whose index is given, for the given interactive entity
+    /// anIobj.
     /// </summary>
     void Activate(Macad::Occt::AIS_InteractiveObject^ theObj);
     /// <summary>
@@ -2214,7 +2254,8 @@ public:
     /// </summary>
     void Deactivate(Macad::Occt::AIS_InteractiveObject^ theObj);
     /// <summary>
-    /// Deactivates all the activated selection modes of the interactive object anIobj with a given selection mode aMode.
+    /// Deactivates all the activated selection modes of the interactive object anIobj with a given
+    /// selection mode aMode.
     /// </summary>
     void Deactivate(Macad::Occt::AIS_InteractiveObject^ theObj, int theMode);
     /// <summary>
@@ -2229,10 +2270,11 @@ public:
     /// Returns the list of activated selection modes.
     /// </summary>
     void ActivatedModes(Macad::Occt::AIS_InteractiveObject^ anIobj, Macad::Occt::TColStd_ListOfInteger^ theList);
-    /* Method skipped due to unknown mapping: void EntityOwners(NCollection_Shared<NCollection_IndexedMap<opencascade::SelectMgr_EntityOwner>, NCollection_DefaultHasher<opencascade::SelectMgr_EntityOwner>>>, void theOwners, AIS_InteractiveObject theIObj, int theMode, ) */
-    /* Method skipped due to unknown mapping: void EntityOwners(NCollection_Shared<NCollection_IndexedMap<opencascade::SelectMgr_EntityOwner>, NCollection_DefaultHasher<opencascade::SelectMgr_EntityOwner>>>, void theOwners, AIS_InteractiveObject theIObj, int theMode, ) */
+    /* Method skipped due to unknown mapping: void EntityOwners(NCollection_Shared<NCollection_IndexedMap<opencascade::SelectMgr_EntityOwner theOwners, AIS_InteractiveObject theIObj, int theMode, ) */
+    /* Method skipped due to unknown mapping: void EntityOwners(NCollection_Shared<NCollection_IndexedMap<opencascade::SelectMgr_EntityOwner theOwners, AIS_InteractiveObject theIObj, int theMode, ) */
     /// <summary>
     /// </summary>
+    /// @name Selection Filters management
     /// <returns>
     /// the context selection filter type.
     /// </returns>
@@ -2273,24 +2315,28 @@ public:
     /// @sa MoveTo(), Filters()
     Macad::Occt::SelectMgr_PickingStrategy PickingStrategy();
     /// <summary>
-    /// Setup picking strategy - which entities detected by picking line will be accepted, considering Selection Filters.
-    /// By default (SelectMgr_PickingStrategy_FirstAcceptable), Selection Filters reduce the list of entities
-    /// so that the context accepts topmost in remaining.
+    /// Setup picking strategy - which entities detected by picking line will be accepted, considering
+    /// Selection Filters. By default (SelectMgr_PickingStrategy_FirstAcceptable), Selection Filters
+    /// reduce the list of entities so that the context accepts topmost in remaining.
     /// 
     /// This means that entities behind non-selectable (by filters) parts can be picked by user.
     /// If this behavior is undesirable, and user wants that non-selectable (by filters) parts
-    /// should remain an obstacle for picking, SelectMgr_PickingStrategy_OnlyTopmost can be set instead.
+    /// should remain an obstacle for picking, SelectMgr_PickingStrategy_OnlyTopmost can be set
+    /// instead.
     /// 
     /// Notice, that since Selection Manager operates only objects registered in it,
     /// SelectMgr_PickingStrategy_OnlyTopmost will NOT prevent picking entities behind
     /// visible by unregistered in Selection Manager presentations (e.g. deactivated).
-    /// Hence, SelectMgr_PickingStrategy_OnlyTopmost changes behavior only with Selection Filters enabled.
+    /// Hence, SelectMgr_PickingStrategy_OnlyTopmost changes behavior only with Selection Filters
+    /// enabled.
     /// </summary>
     void SetPickingStrategy(Macad::Occt::SelectMgr_PickingStrategy theStrategy);
     /// <summary>
-    /// Returns the default attribute manager.
-    /// This contains all the color and line attributes which can be used by interactive objects which do not have their own attributes.
     /// </summary>
+    /// @name common properties
+    /// Returns the default attribute manager.
+    /// This contains all the color and line attributes which can be used by interactive objects which
+    /// do not have their own attributes.
     Macad::Occt::Prs3d_Drawer^ DefaultDrawer();
     /// <summary>
     /// Sets the default attribute manager; should be set at context creation time.
@@ -2309,8 +2355,9 @@ public:
     /// </summary>
     void UpdateCurrentViewer();
     /// <summary>
-    /// Returns the list of displayed objects of a particular Type WhichKind and Signature WhichSignature.
-    /// By Default, WhichSignature equals -1. This means that there is a check on type only.
+    /// Returns the list of displayed objects of a particular Type WhichKind and Signature
+    /// WhichSignature. By Default, WhichSignature equals -1. This means that there is a check on type
+    /// only.
     /// </summary>
     void DisplayedObjects(Macad::Occt::AIS_ListOfInteractive^ aListOfIO);
     /// <summary>
@@ -2319,8 +2366,9 @@ public:
     /// </summary>
     void DisplayedObjects(Macad::Occt::AIS_KindOfInteractive theWhichKind, int theWhichSignature, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
     /// <summary>
-    /// Returns the list theListOfIO of erased objects (hidden objects) particular Type WhichKind and Signature WhichSignature.
-    /// By Default, WhichSignature equals 1. This means that there is a check on type only.
+    /// Returns the list theListOfIO of erased objects (hidden objects) particular Type WhichKind and
+    /// Signature WhichSignature. By Default, WhichSignature equals 1. This means that there is a
+    /// check on type only.
     /// </summary>
     void ErasedObjects(Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
     /// <summary>
@@ -2329,8 +2377,9 @@ public:
     /// </summary>
     void ErasedObjects(Macad::Occt::AIS_KindOfInteractive theWhichKind, int theWhichSignature, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
     /// <summary>
-    /// Returns the list theListOfIO of objects with indicated display status particular Type WhichKind and Signature WhichSignature.
-    /// By Default, WhichSignature equals 1. This means that there is a check on type only.
+    /// Returns the list theListOfIO of objects with indicated display status particular Type
+    /// WhichKind and Signature WhichSignature. By Default, WhichSignature equals 1. This means that
+    /// there is a check on type only.
     /// </summary>
     void ObjectsByDisplayStatus(Macad::Occt::PrsMgr_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
     /// <summary>
@@ -2339,21 +2388,24 @@ public:
     /// </summary>
     void ObjectsByDisplayStatus(Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature, Macad::Occt::PrsMgr_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
     /// <summary>
-    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of display status.
-    /// by Default, <WhichSignature> = -1 means control only on <WhichKind>.
-    /// if <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put into the list.
+    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of
+    /// display status. by Default, <WhichSignature> = -1 means control only on <WhichKind>. if
+    /// <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put
+    /// into the list.
     /// </summary>
     void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO, Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature);
     /// <summary>
-    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of display status.
-    /// by Default, <WhichSignature> = -1 means control only on <WhichKind>.
-    /// if <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put into the list.
+    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of
+    /// display status. by Default, <WhichSignature> = -1 means control only on <WhichKind>. if
+    /// <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put
+    /// into the list.
     /// </summary>
     void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO, Macad::Occt::AIS_KindOfInteractive WhichKind);
     /// <summary>
-    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of display status.
-    /// by Default, <WhichSignature> = -1 means control only on <WhichKind>.
-    /// if <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put into the list.
+    /// fills <aListOfIO> with objects of a particular Type and Signature with no consideration of
+    /// display status. by Default, <WhichSignature> = -1 means control only on <WhichKind>. if
+    /// <WhichKind> = AIS_KindOfInteractive_None and <WhichSignature> = -1, all the objects are put
+    /// into the list.
     /// </summary>
     void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO);
     /* Method skipped due to unknown mapping: Iterator ObjectIterator() */
@@ -2382,8 +2434,9 @@ public:
     /// </summary>
     Macad::Occt::Pnt GravityPoint(Macad::Occt::V3d_View^ theView);
     /// <summary>
-    /// Visualization of sensitives - for debugging purposes!
     /// </summary>
+    /// @name debug visualization
+    /// Visualization of sensitives - for debugging purposes!
     void DisplayActiveSensitive(Macad::Occt::V3d_View^ aView);
     /// <summary>
     /// Clear visualization of sensitives.
@@ -2394,21 +2447,25 @@ public:
     /// </summary>
     void DisplayActiveSensitive(Macad::Occt::AIS_InteractiveObject^ anObject, Macad::Occt::V3d_View^ aView);
     /// <summary>
-    /// Sets the graphic attributes of the interactive object, such as visualization mode, color, and material.
     /// </summary>
+    /// @name common object display attributes
+    /// Sets the graphic attributes of the interactive object, such as visualization mode, color, and
+    /// material.
     void SetLocalAttributes(Macad::Occt::AIS_InteractiveObject^ theIObj, Macad::Occt::Prs3d_Drawer^ theDrawer, bool theToUpdateViewer);
     /// <summary>
     /// Removes the settings for local attributes of the Object and returns to defaults.
     /// </summary>
     void UnsetLocalAttributes(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
-    /// change the current facing model apply on polygons for SetColor(), SetTransparency(), SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE.
-    /// This mean that attributes is applying both on the front and back face.
+    /// change the current facing model apply on polygons for SetColor(), SetTransparency(),
+    /// SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE. This mean that attributes
+    /// is applying both on the front and back face.
     /// </summary>
     void SetCurrentFacingModel(Macad::Occt::AIS_InteractiveObject^ aniobj, Macad::Occt::Aspect_TypeOfFacingModel aModel);
     /// <summary>
-    /// change the current facing model apply on polygons for SetColor(), SetTransparency(), SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE.
-    /// This mean that attributes is applying both on the front and back face.
+    /// change the current facing model apply on polygons for SetColor(), SetTransparency(),
+    /// SetMaterial() methods default facing model is Aspect_TOFM_TWO_SIDE. This mean that attributes
+    /// is applying both on the front and back face.
     /// </summary>
     void SetCurrentFacingModel(Macad::Occt::AIS_InteractiveObject^ aniobj);
     /// <summary>
@@ -2470,42 +2527,48 @@ public:
     /// </summary>
     void PolygonOffsets(Macad::Occt::AIS_InteractiveObject^ anObj, int% aMode, float% aFactor, float% aUnits);
     /// <summary>
+    /// </summary>
+    /// @name trihedron display attributes
     /// Sets the size aSize of the trihedron.
     /// Is used to change the default value 100 mm for display of trihedra.
-    /// Use of this function in one of your own interactive objects requires a call to the Compute function of the new class.
-    /// This will recalculate the presentation for every trihedron displayed.
-    /// </summary>
+    /// Use of this function in one of your own interactive objects requires a call to the Compute
+    /// function of the new class. This will recalculate the presentation for every trihedron
+    /// displayed.
     void SetTrihedronSize(double theSize, bool theToUpdateViewer);
     /// <summary>
     /// returns the current value of trihedron size.
     /// </summary>
     double TrihedronSize();
     /// <summary>
-    /// Sets the plane size defined by the length in the X direction XSize and that in the Y direction YSize.
     /// </summary>
+    /// @name plane display attributes
+    /// Sets the plane size defined by the length in the X direction XSize and that in the Y direction
+    /// YSize.
     void SetPlaneSize(double theSizeX, double theSizeY, bool theToUpdateViewer);
     /// <summary>
     /// Sets the plane size aSize.
     /// </summary>
     void SetPlaneSize(double theSize, bool theToUpdateViewer);
     /// <summary>
-    /// Returns true if the length in the X direction XSize is the same as that in the Y direction YSize.
+    /// Returns true if the length in the X direction XSize is the same as that in the Y direction
+    /// YSize.
     /// </summary>
     bool PlaneSize(double% XSize, double% YSize);
     /// <summary>
+    /// </summary>
+    /// @name tessellation deviation properties for automatic triangulation
     /// Sets the deviation coefficient theCoefficient.
     /// Drawings of curves or patches are made with respect to a maximal chordal deviation.
     /// A Deviation coefficient is used in the shading display mode.
     /// The shape is seen decomposed into triangles.
     /// These are used to calculate reflection of light from the surface of the object.
     /// The triangles are formed from chords of the curves in the shape.
-    /// The deviation coefficient theCoefficient gives the highest value of the angle with which a chord can deviate from a tangent to a curve.
-    /// If this limit is reached, a new triangle is begun.
-    /// This deviation is absolute and is set through the method: SetMaximalChordialDeviation.
+    /// The deviation coefficient theCoefficient gives the highest value of the angle with which a
+    /// chord can deviate from a tangent to a curve. If this limit is reached, a new triangle is
+    /// begun. This deviation is absolute and is set through the method: SetMaximalChordialDeviation.
     /// The default value is 0.001.
     /// In drawing shapes, however, you are allowed to ask for a relative deviation.
     /// This deviation will be: SizeOfObject * DeviationCoefficient.
-    /// </summary>
     void SetDeviationCoefficient(Macad::Occt::AIS_InteractiveObject^ theIObj, double theCoefficient, bool theToUpdateViewer);
     void SetDeviationAngle(Macad::Occt::AIS_InteractiveObject^ theIObj, double theAngle, bool theToUpdateViewer);
     /// <summary>
@@ -2519,9 +2582,9 @@ public:
     /// The shape is seen decomposed into triangles.
     /// These are used to calculate reflection of light from the surface of the object.
     /// The triangles are formed from chords of the curves in the shape.
-    /// The deviation coefficient theCoefficient gives the highest value of the angle with which a chord can deviate from a tangent to a curve.
-    /// If this limit is reached, a new triangle is begun.
-    /// This deviation is absolute and is set through the method: SetMaximalChordialDeviation.
+    /// The deviation coefficient theCoefficient gives the highest value of the angle with which a
+    /// chord can deviate from a tangent to a curve. If this limit is reached, a new triangle is
+    /// begun. This deviation is absolute and is set through the method: SetMaximalChordialDeviation.
     /// The default value is 0.001.
     /// In drawing shapes, however, you are allowed to ask for a relative deviation.
     /// This deviation will be: SizeOfObject * DeviationCoefficient.
@@ -2534,12 +2597,11 @@ public:
     /// The shape is seen decomposed into triangles.
     /// These are used to calculate reflection of light from the surface of the object.
     /// The triangles are formed from chords of the curves in the shape.
-    /// The deviation coefficient gives the highest value of the angle with which a chord can deviate from a tangent to a curve.
-    /// If this limit is reached, a new triangle is begun.
-    /// This deviation is absolute and is set through Prs3d_Drawer::SetMaximalChordialDeviation.
-    /// The default value is 0.001.
-    /// In drawing shapes, however, you are allowed to ask for a relative deviation.
-    /// This deviation will be: SizeOfObject * DeviationCoefficient.
+    /// The deviation coefficient gives the highest value of the angle with which a chord can deviate
+    /// from a tangent to a curve. If this limit is reached, a new triangle is begun. This deviation
+    /// is absolute and is set through Prs3d_Drawer::SetMaximalChordialDeviation. The default value is
+    /// 0.001. In drawing shapes, however, you are allowed to ask for a relative deviation. This
+    /// deviation will be: SizeOfObject * DeviationCoefficient.
     /// </summary>
     double DeviationCoefficient();
     /// <summary>
@@ -2548,12 +2610,13 @@ public:
     void SetDeviationAngle(double theAngle);
     double DeviationAngle();
     /// <summary>
+    /// </summary>
+    /// @name HLR (Hidden Line Removal) display attributes
     /// Initializes hidden line aspect in the default drawing tool, or Drawer.
     /// The default values are:
     /// Color: Quantity_NOC_YELLOW
     /// Type of line: Aspect_TOL_DASH
     /// Width: 1.
-    /// </summary>
     Macad::Occt::Prs3d_LineAspect^ HiddenLineAspect();
     /// <summary>
     /// Sets the hidden line aspect anAspect.
@@ -2568,12 +2631,14 @@ public:
     void EnableDrawHiddenLine();
     void DisableDrawHiddenLine();
     /// <summary>
-    /// Sets the number of U and V isoparameters displayed.
     /// </summary>
+    /// @name iso-line display attributes
+    /// Sets the number of U and V isoparameters displayed.
     void SetIsoNumber(int NbIsos, Macad::Occt::AIS_TypeOfIso WhichIsos);
     /// <summary>
-    /// Sets the number of U and V isoparameters displayed.
     /// </summary>
+    /// @name iso-line display attributes
+    /// Sets the number of U and V isoparameters displayed.
     void SetIsoNumber(int NbIsos);
     /// <summary>
     /// Returns the number of U and V isoparameters displayed.
@@ -2594,12 +2659,14 @@ public:
     bool IsoOnPlane();
     /// <summary>
     /// Enables or disables on-triangulation build for isolines for a particular object.
-    /// In case if on-triangulation builder is disabled, default on-plane builder will compute isolines for the object given.
+    /// In case if on-triangulation builder is disabled, default on-plane builder will compute
+    /// isolines for the object given.
     /// </summary>
     void IsoOnTriangulation(bool theIsEnabled, Macad::Occt::AIS_InteractiveObject^ theObject);
     /// <summary>
     /// Enables or disables on-triangulation build for isolines for default drawer.
-    /// In case if on-triangulation builder is disabled, default on-plane builder will compute isolines for the object given.
+    /// In case if on-triangulation builder is disabled, default on-plane builder will compute
+    /// isolines for the object given.
     /// </summary>
     void IsoOnTriangulation(bool theToSwitchOn);
     /// <summary>
@@ -2626,8 +2693,9 @@ public:
     /// </summary>
     void SetSelectedAspect(Macad::Occt::Prs3d_BasicAspect^ theAspect, bool theToUpdateViewer);
     /// <summary>
-    /// Selects everything found in the bounding rectangle defined by the pixel minima and maxima, XPMin, YPMin, XPMax, and YPMax in the view.
-    /// The objects detected are passed to the main viewer, which is then updated.
+    /// Selects everything found in the bounding rectangle defined by the pixel minima and maxima,
+    /// XPMin, YPMin, XPMax, and YPMax in the view. The objects detected are passed to the main
+    /// viewer, which is then updated.
     /// </summary>
     Macad::Occt::AIS_StatusOfPick Select(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
     /// <summary>
@@ -2657,19 +2725,21 @@ public:
     Macad::Occt::AIS_StatusOfPick ShiftSelect(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
     /// <summary>
     /// Updates the view of the current object in open context.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     void SetCurrentObject(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
-    /// Allows to add or remove the object given to the list of current and highlight/unhighlight it correspondingly.
-    /// Is valid for global context only; for local context use method AddOrRemoveSelected.
-    /// Since this method makes sense only for neutral point selection of a whole object,
-    /// if 0 selection of the object is empty this method simply does nothing.
+    /// Allows to add or remove the object given to the list of current and highlight/unhighlight it
+    /// correspondingly. Is valid for global context only; for local context use method
+    /// AddOrRemoveSelected. Since this method makes sense only for neutral point selection of a whole
+    /// object, if 0 selection of the object is empty this method simply does nothing.
     /// </summary>
     void AddOrRemoveCurrentObject(Macad::Occt::AIS_InteractiveObject^ theObj, bool theIsToUpdateViewer);
     /// <summary>
-    /// Updates the list of current objects, i.e. hilights new current objects, removes hilighting from former current objects.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Updates the list of current objects, i.e. hilights new current objects, removes hilighting
+    /// from former current objects. Objects selected when there is no open local context are called
+    /// current objects; those selected in open local context, selected objects.
     /// </summary>
     void UpdateCurrent();
     /// <summary>
@@ -2680,38 +2750,45 @@ public:
     bool IsCurrent(Macad::Occt::AIS_InteractiveObject^ theObject);
     /// <summary>
     /// Initializes a scan of the current selected objects in Neutral Point.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     void InitCurrent();
     /// <summary>
     /// Returns true if there is another object found by the scan of the list of current objects.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     bool MoreCurrent();
     /// <summary>
     /// Continues the scan to the next object in the list of current objects.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     void NextCurrent();
     /// <summary>
     /// Returns the current interactive object.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     Macad::Occt::AIS_InteractiveObject^ Current();
     int NbCurrents();
     /// <summary>
     /// Highlights current objects.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     void HilightCurrents(bool theToUpdateViewer);
     /// <summary>
     /// Removes highlighting from current objects.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Objects selected when there is no open local context are called current objects; those
+    /// selected in open local context, selected objects.
     /// </summary>
     void UnhilightCurrents(bool theToUpdateViewer);
     /// <summary>
-    /// Empties previous current objects in order to get the current objects detected by the selector using UpdateCurrent.
-    /// Objects selected when there is no open local context are called current objects; those selected in open local context, selected objects.
+    /// Empties previous current objects in order to get the current objects detected by the selector
+    /// using UpdateCurrent. Objects selected when there is no open local context are called current
+    /// objects; those selected in open local context, selected objects.
     /// </summary>
     void ClearCurrents(bool theToUpdateViewer);
     /// <summary>
@@ -2725,34 +2802,37 @@ public:
     /// <summary>
     /// </summary>
     /// <returns>
-    /// current mouse-detected interactive object or null object, if there is no currently detected interactives
+    /// current mouse-detected interactive object or null object, if there is no currently
+    /// detected interactives
     /// </returns>
     /// @sa DetectedCurrentOwner(), InitDetected(), MoreDetected(), NextDetected().
     Macad::Occt::AIS_InteractiveObject^ DetectedCurrentObject();
     /// <summary>
-    /// Sub-intensity allows temporary highlighting of particular objects with specified color in a manner of selection highlight,
-    /// but without actual selection (e.g., global status and owner's selection state will not be updated).
-    /// The method returns the color of such highlighting.
-    /// By default, it is Quantity_NOC_GRAY40.
     /// </summary>
+    /// @name sub-intensity management (deprecated)
+    /// Sub-intensity allows temporary highlighting of particular objects with specified color in a
+    /// manner of selection highlight, but without actual selection (e.g., global status and owner's
+    /// selection state will not be updated). The method returns the color of such highlighting. By
+    /// default, it is Quantity_NOC_GRAY40.
     Macad::Occt::Quantity_Color^ SubIntensityColor();
     /// <summary>
-    /// Sub-intensity allows temporary highlighting of particular objects with specified color in a manner of selection highlight,
-    /// but without actual selection (e.g., global status and owner's selection state will not be updated).
-    /// The method sets up the color for such highlighting.
-    /// By default, this is Quantity_NOC_GRAY40.
+    /// Sub-intensity allows temporary highlighting of particular objects with specified color in a
+    /// manner of selection highlight, but without actual selection (e.g., global status and owner's
+    /// selection state will not be updated). The method sets up the color for such highlighting. By
+    /// default, this is Quantity_NOC_GRAY40.
     /// </summary>
     void SetSubIntensityColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
-    /// Highlights, and removes highlights from, the displayed object which is displayed at Neutral Point with subintensity color.
-    /// Available only for active local context.
-    /// There is no effect if there is no local context.
-    /// If a local context is open, the presentation of the Interactive Object activates the selection mode.
+    /// Highlights, and removes highlights from, the displayed object which is displayed at Neutral
+    /// Point with subintensity color. Available only for active local context. There is no effect if
+    /// there is no local context. If a local context is open, the presentation of the Interactive
+    /// Object activates the selection mode.
     /// </summary>
     void SubIntensityOn(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
     /// Removes the subintensity option for the entity.
-    /// If a local context is open, the presentation of the Interactive Object activates the selection mode.
+    /// If a local context is open, the presentation of the Interactive Object activates the selection
+    /// mode.
     /// </summary>
     void SubIntensityOff(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
     /// <summary>
@@ -2783,17 +2863,20 @@ public:
 /// <summary>
 /// Defines a class of objects with display and selection services.
 /// Entities which are visualized and selected are Interactive Objects.
-/// Specific attributes of entities such as arrow aspect for dimensions must be loaded in a Prs3d_Drawer.
+/// Specific attributes of entities such as arrow aspect for dimensions must be loaded in a
+/// Prs3d_Drawer.
 /// 
-/// You can make use of classes of standard Interactive Objects for which all necessary methods have already been programmed,
-/// or you can implement your own classes of Interactive Objects.
-/// Key interface methods to be implemented by every Interactive Object:
+/// You can make use of classes of standard Interactive Objects for which all necessary methods have
+/// already been programmed, or you can implement your own classes of Interactive Objects. Key
+/// interface methods to be implemented by every Interactive Object:
 /// * Presentable Object (PrsMgr_PresentableObject)
-/// Consider defining an enumeration of supported Display Mode indexes for particular Interactive Object or class of Interactive Objects.
+/// Consider defining an enumeration of supported Display Mode indexes for particular Interactive
+/// Object or class of Interactive Objects.
 /// - AcceptDisplayMode() accepting display modes implemented by this object;
 /// - Compute() computing presentation for the given display mode index;
 /// * Selectable Object (SelectMgr_SelectableObject)
-/// Consider defining an enumeration of supported Selection Mode indexes for particular Interactive Object or class of Interactive Objects.
+/// Consider defining an enumeration of supported Selection Mode indexes for particular
+/// Interactive Object or class of Interactive Objects.
 /// - ComputeSelection() computing selectable entities for the given selection mode index.
 /// </summary>
 public ref class AIS_InteractiveObject
@@ -2878,7 +2961,8 @@ public:
     void SetContext(Macad::Occt::AIS_InteractiveContext^ aCtx);
     /// <summary>
     /// Returns true if the object has an owner attributed to it.
-    /// The owner can be a shape for a set of sub-shapes or a sub-shape for sub-shapes which it is composed of, and takes the form of a transient.
+    /// The owner can be a shape for a set of sub-shapes or a sub-shape for sub-shapes which it is
+    /// composed of, and takes the form of a transient.
     /// </summary>
     bool HasOwner();
     /// <summary>
@@ -2901,30 +2985,30 @@ public:
     /// </summary>
     void SetOwner(Macad::Occt::Standard_Transient^ theApplicativeEntity);
     /// <summary>
-    /// Each Interactive Object has methods which allow us to attribute an Owner to it in the form of a Transient.
-    /// This method removes the owner from the graphic entity.
+    /// Each Interactive Object has methods which allow us to attribute an Owner to it in the form of
+    /// a Transient. This method removes the owner from the graphic entity.
     /// </summary>
     void ClearOwner();
     /// <summary>
     /// Drag object in the viewer.
     /// </summary>
-    /// <param name="theCtx">
-    ///      [in] interactive context
+    /// <param name="in]">
+    /// theCtx       interactive context
     /// </param>
-    /// <param name="theView">
-    ///     [in] active View
+    /// <param name="in]">
+    /// theView      active View
     /// </param>
-    /// <param name="theOwner">
-    ///    [in] the owner of detected entity
+    /// <param name="in]">
+    /// theOwner     the owner of detected entity
     /// </param>
-    /// <param name="theDragFrom">
-    /// [in] drag start point
+    /// <param name="in]">
+    /// theDragFrom  drag start point
     /// </param>
-    /// <param name="theDragTo">
-    ///   [in] drag end point
+    /// <param name="in]">
+    /// theDragTo    drag end point
     /// </param>
-    /// <param name="theAction">
-    ///   [in] drag action
+    /// <param name="in]">
+    /// theAction    drag action
     /// </param>
     /// <returns>
     /// FALSE if object rejects dragging action (e.g. AIS_DragAction_Start)
@@ -2966,31 +3050,37 @@ public:
 /// 
 /// - Animation Implementor
 /// Sub-classes should override method AIS_Animation::update() to perform specific animation.
-/// AIS package provides limited number of such animation atoms - classes AIS_AnimationObject and AIS_AnimationCamera, which could be enough for defining a simple animation.
-/// In general case, application is expected defining own AIS_Animation sub-classes implementing application-specific animation logic
-/// (e.g. another interpolation or another kind of transformations - like color transition and others).
-/// The basic conception of AIS_Animation::update() is defining an exact scene state for the current presentation timestamp,
-/// providing a smooth and continuous animation well defined at any time step and in any direction.
-/// So that a time difference between two sequential drawn Viewer frames can vary from frame to frame without visual artifacts,
-/// increasing rendering framerate would not lead to animation being executed too fast
-/// and low framerate (on slow hardware) would not lead to animation played longer than defined duration.
-/// Hence, implementation should avoid usage of incremental step logic or should apply it very carefully.
+/// AIS package provides limited number of such animation atoms - classes AIS_AnimationObject and
+/// AIS_AnimationCamera, which could be enough for defining a simple animation. In general case,
+/// application is expected defining own AIS_Animation sub-classes implementing
+/// application-specific animation logic (e.g. another interpolation or another kind of
+/// transformations - like color transition and others). The basic conception of
+/// AIS_Animation::update() is defining an exact scene state for the current presentation
+/// timestamp, providing a smooth and continuous animation well defined at any time step and in
+/// any direction. So that a time difference between two sequential drawn Viewer frames can vary
+/// from frame to frame without visual artifacts, increasing rendering framerate would not lead to
+/// animation being executed too fast and low framerate (on slow hardware) would not lead to
+/// animation played longer than defined duration. Hence, implementation should avoid usage of
+/// incremental step logic or should apply it very carefully.
 /// 
 /// - Animation Container
-/// AIS_Animation (no sub-classing) can be used to aggregate a sequence of Animation items (children).
-/// Each children should be defined with its own duration and start time (presentation timestamp).
-/// It is possible defining collection of nested AIS_Animation items, so that within each container level
-/// children define start playback time relative to its holder.
+/// AIS_Animation (no sub-classing) can be used to aggregate a sequence of Animation items
+/// (children). Each children should be defined with its own duration and start time (presentation
+/// timestamp). It is possible defining collection of nested AIS_Animation items, so that within
+/// each container level children define start playback time relative to its holder.
 /// 
 /// - Animation playback Controller
-/// It is suggested that application would define a single AIS_Animation instance (optional sub-classing) for controlling animation playback as whole.
-/// Such controller should be filled in by other AIS_Animation as children objects,
-/// and will be managed by application by calling StartTimer(), UpdateTimer() and IsStopped() methods.
+/// It is suggested that application would define a single AIS_Animation instance (optional
+/// sub-classing) for controlling animation playback as whole. Such controller should be filled in
+/// by other AIS_Animation as children objects, and will be managed by application by calling
+/// StartTimer(), UpdateTimer() and IsStopped() methods.
 /// 
-/// Note, that AIS_Animation::StartTimer() defines a timer calculating an elapsed time, not a multimedia timer executing Viewer updates at specific intervals!
-/// Application should avoid using implicit and immediate Viewer updates to ensure that AIS_Animation::UpdateTimer() is called before each redrawing of a Viewer content.
-/// Redrawing logic should be also managed at application level for managing a smooth animation
-/// (by defining a multimedia timer provided by used GUI framework executing updates at desired framerate, or as continuous redraws in loop).
+/// Note, that AIS_Animation::StartTimer() defines a timer calculating an elapsed time, not a
+/// multimedia timer executing Viewer updates at specific intervals! Application should avoid using
+/// implicit and immediate Viewer updates to ensure that AIS_Animation::UpdateTimer() is called
+/// before each redrawing of a Viewer content. Redrawing logic should be also managed at application
+/// level for managing a smooth animation (by defining a multimedia timer provided by used GUI
+/// framework executing updates at desired framerate, or as continuous redraws in loop).
 /// </summary>
 public ref class AIS_Animation
     : public Macad::Occt::Standard_Transient
@@ -3112,9 +3202,11 @@ public:
     /// Start animation with internally defined timer instance.
     /// Calls ::Start() internally.
     /// 
-    /// Note, that this method initializes a timer calculating an elapsed time (presentation timestamps within AIS_Animation::UpdateTimer()),
-    /// not a multimedia timer executing Viewer updates at specific intervals!
-    /// Viewer redrawing should be managed at application level, so that AIS_Animation::UpdateTimer() is called once right before each redrawing of a Viewer content.
+    /// Note, that this method initializes a timer calculating an elapsed time (presentation
+    /// timestamps within AIS_Animation::UpdateTimer()), not a multimedia timer executing Viewer
+    /// updates at specific intervals! Viewer redrawing should be managed at application level, so
+    /// that AIS_Animation::UpdateTimer() is called once right before each redrawing of a Viewer
+    /// content.
     /// 
     /// </summary>
     /// <param name="theStartPts">
@@ -3134,9 +3226,11 @@ public:
     /// Start animation with internally defined timer instance.
     /// Calls ::Start() internally.
     /// 
-    /// Note, that this method initializes a timer calculating an elapsed time (presentation timestamps within AIS_Animation::UpdateTimer()),
-    /// not a multimedia timer executing Viewer updates at specific intervals!
-    /// Viewer redrawing should be managed at application level, so that AIS_Animation::UpdateTimer() is called once right before each redrawing of a Viewer content.
+    /// Note, that this method initializes a timer calculating an elapsed time (presentation
+    /// timestamps within AIS_Animation::UpdateTimer()), not a multimedia timer executing Viewer
+    /// updates at specific intervals! Viewer redrawing should be managed at application level, so
+    /// that AIS_Animation::UpdateTimer() is called once right before each redrawing of a Viewer
+    /// content.
     /// 
     /// </summary>
     /// <param name="theStartPts">
@@ -3192,8 +3286,8 @@ public:
     /// <summary>
     /// Update single frame of animation, update timer state
     /// </summary>
-    /// <param name="thePts">
-    /// [in] the time moment within [0; Duration()]
+    /// <param name="in]">
+    /// thePts  the time moment within [0; Duration()]
     /// </param>
     /// <returns>
     /// True if timeline is in progress
@@ -3629,7 +3723,8 @@ public:
     /// theObject        object to apply local transformation
     /// </param>
     /// <param name="in]">
-    /// theTrsfStart     local transformation at the start of animation (e.g. theObject->LocalTransformation())
+    /// theTrsfStart     local transformation at the start of animation (e.g.
+    /// theObject->LocalTransformation())
     /// </param>
     /// <param name="in]">
     /// theTrsfEnd       local transformation at the end   of animation
@@ -4267,15 +4362,17 @@ public:
 /// true indicating that there is a local setting available
 /// for the specific object.
 /// 
-/// This class allows to map textures on shapes using native UV parametric space of underlying surface of each Face
-/// (this means that texture will be visually duplicated on all Faces).
-/// To generate texture coordinates, appropriate shading attribute should be set before computing presentation in AIS_Shaded display mode:
+/// This class allows to map textures on shapes using native UV parametric space of underlying
+/// surface of each Face (this means that texture will be visually duplicated on all Faces). To
+/// generate texture coordinates, appropriate shading attribute should be set before computing
+/// presentation in AIS_Shaded display mode:
 /// </summary>
 /// @code
 /// Handle(AIS_Shape) aPrs = new AIS_Shape();
 /// aPrs->Attributes()->SetupOwnShadingAspect();
 /// aPrs->Attributes()->ShadingAspect()->Aspect()->SetTextureMapOn();
-/// aPrs->Attributes()->ShadingAspect()->Aspect()->SetTextureMap (new Graphic3d_Texture2Dmanual (Graphic3d_NOT_2D_ALUMINUM));
+/// aPrs->Attributes()->ShadingAspect()->Aspect()->SetTextureMap (new Graphic3d_Texture2Dmanual
+/// (Graphic3d_NOT_2D_ALUMINUM));
 /// @endcode
 /// The texture itself is parametrized in (0,1)x(0,1).
 public ref class AIS_Shape
@@ -4468,12 +4565,14 @@ public:
     /// </summary>
     static int SelectionMode(Macad::Occt::TopAbs_ShapeEnum theShapeType);
     /// <summary>
-    /// Return texture repeat UV values; (1, 1) by default.
     /// </summary>
+    /// @name methods to alter texture mapping properties
+    /// Return texture repeat UV values; (1, 1) by default.
     Macad::Occt::Pnt2d TextureRepeatUV();
     /// <summary>
-    /// Sets the number of occurrences of the texture on each face. The texture itself is parameterized in (0,1) by (0,1).
-    /// Each face of the shape to be textured is parameterized in UV space (Umin,Umax) by (Vmin,Vmax).
+    /// Sets the number of occurrences of the texture on each face. The texture itself is
+    /// parameterized in (0,1) by (0,1). Each face of the shape to be textured is parameterized in UV
+    /// space (Umin,Umax) by (Vmin,Vmax).
     /// </summary>
     void SetTextureRepeatUV(Macad::Occt::Pnt2d theRepeatUV);
     /// <summary>
@@ -4553,10 +4652,11 @@ public:
     /// </summary>
     AIS_ColoredShape(Macad::Occt::AIS_Shape^ theShape);
     /// <summary>
+    /// </summary>
+    /// @name sub-shape aspects
     /// Customize properties of specified sub-shape.
     /// The shape will be stored in the map but ignored, if it is not sub-shape of main Shape!
     /// This method can be used to mark sub-shapes with customizable properties.
-    /// </summary>
     Macad::Occt::AIS_ColoredDrawer^ CustomAspects(Macad::Occt::TopoDS_Shape^ theShape);
     /// <summary>
     /// Reset the map of custom sub-shape aspects.
@@ -4597,8 +4697,9 @@ public:
     /// </summary>
     Macad::Occt::AIS_DataMapOfShapeDrawer^ ChangeCustomAspectsMap();
     /// <summary>
-    /// Setup color of entire shape.
     /// </summary>
+    /// @name global aspects
+    /// Setup color of entire shape.
     void SetColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
     /// Setup line width of entire shape.
@@ -4679,7 +4780,8 @@ public:
     /// <summary>
     /// Shift hue into valid range.
     /// Lightness and Saturation should be specified in valid range [0.0, 1.0],
-    /// however Hue might be given out of Quantity_Color range to specify desired range for interpolation.
+    /// however Hue might be given out of Quantity_Color range to specify desired range for
+    /// interpolation.
     /// </summary>
     static double hueToValidRange(double theHue);
     /// <summary>
@@ -4708,7 +4810,8 @@ public:
     void GetRange(double% theMin, double% theMax);
     /// <summary>
     /// Sets the minimal and maximal value of color scale.
-    /// Note that values order will be ignored - the minimum and maximum values will be swapped if needed.
+    /// Note that values order will be ignored - the minimum and maximum values will be swapped if
+    /// needed.
     /// ::SetReversed() should be called to swap displaying order.
     /// </summary>
     void SetRange(double theMin, double theMax);
@@ -4721,7 +4824,8 @@ public:
     /// </summary>
     double HueMax();
     /// <summary>
-    /// Returns the hue angle range corresponding to minimum and maximum values, 230 to 0 by default (blue to red).
+    /// Returns the hue angle range corresponding to minimum and maximum values, 230 to 0 by default
+    /// (blue to red).
     /// </summary>
     void HueRange(double% theMinAngle, double% theMaxAngle);
     /// <summary>
@@ -4825,11 +4929,11 @@ public:
     Macad::Occt::TColStd_SequenceOfExtendedString^ Labels();
     /// <summary>
     /// Sets the color scale labels.
-    /// The length of the sequence should be equal to GetNumberOfIntervals() or to GetNumberOfIntervals() + 1 if IsLabelAtBorder() is true.
-    /// If length of the sequence does not much the number of intervals,
-    /// then these labels will be considered as "free" and will be located
-    /// at the virtual intervals corresponding to the number of labels
-    /// (with flag IsLabelAtBorder() having the same effect as in normal case).
+    /// The length of the sequence should be equal to GetNumberOfIntervals() or to
+    /// GetNumberOfIntervals() + 1 if IsLabelAtBorder() is true. If length of the sequence does not
+    /// much the number of intervals, then these labels will be considered as "free" and will be
+    /// located at the virtual intervals corresponding to the number of labels (with flag
+    /// IsLabelAtBorder() having the same effect as in normal case).
     /// </summary>
     void SetLabels(Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
     /// <summary>
@@ -4879,7 +4983,8 @@ public:
     /// </param>
     static Macad::Occt::Aspect_SequenceOfColor^ MakeUniformColors(int theNbColors, double theLightness, double theHueFrom, double theHueTo);
     /// <summary>
-    /// Returns the position of labels concerning color filled rectangles, Aspect_TOCSP_RIGHT by default.
+    /// Returns the position of labels concerning color filled rectangles, Aspect_TOCSP_RIGHT by
+    /// default.
     /// </summary>
     Macad::Occt::Aspect_TypeOfColorScalePosition GetLabelPosition();
     /// <summary>
@@ -4941,7 +5046,8 @@ public:
     /// new label text
     /// </param>
     /// <param name="theIndex">
-    /// index in range [1, GetNumberOfIntervals()] or [1, GetNumberOfIntervals() + 1] if IsLabelAtBorder() is true;
+    /// index in range [1, GetNumberOfIntervals()] or [1, GetNumberOfIntervals() + 1]
+    /// if IsLabelAtBorder() is true;
     /// label is appended to the end of list if negative index is specified
     /// </param>
     void SetLabel(Macad::Occt::TCollection_ExtendedString^ theLabel, int theIndex);
@@ -5007,15 +5113,15 @@ public:
     /// <summary>
     /// Returns the width of text.
     /// </summary>
-    /// <param name="theText">
-    /// [in] the text of which to calculate width.
+    /// <param name="in]">
+    /// theText  the text of which to calculate width.
     /// </param>
     int TextWidth(Macad::Occt::TCollection_ExtendedString^ theText);
     /// <summary>
     /// Returns the height of text.
     /// </summary>
-    /// <param name="theText">
-    /// [in] the text of which to calculate height.
+    /// <param name="in]">
+    /// theText  the text of which to calculate height.
     /// </param>
     int TextHeight(Macad::Occt::TCollection_ExtendedString^ theText);
     void TextSize(Macad::Occt::TCollection_ExtendedString^ theText, int theHeight, int% theWidth, int% theAscent, int% theDescent);
@@ -5160,7 +5266,7 @@ public:
 /// except those of the types and signatures stored
 /// in the filter framework
 /// -   Exclusion flag off
-/// -   the funciton IsOk answers true for all objects
+/// -   the function IsOk answers true for all objects
 /// which have the same type and signature as the stored ones.
 /// </summary>
 public ref class AIS_ExclusionFilter sealed
@@ -5294,7 +5400,8 @@ public:
 /// - Positional light is represented by a sphere or marker;
 /// - Spot light is represented by a cone;
 /// - Directional light is represented by a set of arrows at the corner of view.
-/// In addition, light source name could be displayed, and clicking on presentation will enable/disable light.
+/// In addition, light source name could be displayed, and clicking on presentation will
+/// enable/disable light.
 /// </summary>
 public ref class AIS_LightSource sealed
     : public Macad::Occt::AIS_InteractiveObject
@@ -5336,16 +5443,17 @@ public:
     /// </summary>
     void SetLight(Macad::Occt::Graphic3d_CLight^ theLight);
     /// <summary>
-    /// Returns TRUE if the light source name should be displayed; TRUE by default.
     /// </summary>
+    /// @name Light properties
+    /// Returns TRUE if the light source name should be displayed; TRUE by default.
     bool ToDisplayName();
     /// <summary>
     /// Show/hide light source name.
     /// </summary>
     void SetDisplayName(bool theToDisplay);
     /// <summary>
-    /// Returns TRUE to display light source range as sphere (positional light) or cone (spot light); TRUE by default.
-    /// Has no effect for non-zoomable presentation.
+    /// Returns TRUE to display light source range as sphere (positional light) or cone (spot light);
+    /// TRUE by default. Has no effect for non-zoomable presentation.
     /// </summary>
     bool ToDisplayRange();
     /// <summary>
@@ -5401,15 +5509,15 @@ public:
     /// <summary>
     /// Returns light source icon.
     /// </summary>
-    /// <param name="theIsEnabled">
-    /// [in] marker index for enabled/disabled light source states
+    /// <param name="in]">
+    /// theIsEnabled  marker index for enabled/disabled light source states
     /// </param>
     Macad::Occt::Graphic3d_MarkerImage^ MarkerImage(bool theIsEnabled);
     /// <summary>
     /// Returns light source icon.
     /// </summary>
-    /// <param name="theIsEnabled">
-    /// [in] marker index for enabled/disabled light source states
+    /// <param name="in]">
+    /// theIsEnabled  marker index for enabled/disabled light source states
     /// </param>
     Macad::Occt::Aspect_TypeOfMarker MarkerType(bool theIsEnabled);
     /// <summary>
@@ -5489,9 +5597,10 @@ public:
     /// </summary>
     bool HandleMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick);
     /// <summary>
-    /// Highlights selectable object's presentation with display mode in presentation manager with given highlight style.
-    /// Also a check for auto-highlight is performed - if selectable object manages highlighting on its own,
-    /// execution will be passed to SelectMgr_SelectableObject::HilightOwnerWithColor method.
+    /// Highlights selectable object's presentation with display mode in presentation manager with
+    /// given highlight style. Also a check for auto-highlight is performed - if selectable object
+    /// manages highlighting on its own, execution will be passed to
+    /// SelectMgr_SelectableObject::HilightOwnerWithColor method.
     /// </summary>
     void HilightWithColor(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Prs3d_Drawer^ theStyle, int theMode);
     /// <summary>
@@ -5691,357 +5800,6 @@ public:
 }; // class AIS_ManipulatorObjectSequence
 
 //---------------------------------------------------------------------
-//  Class  AIS_Manipulator
-//---------------------------------------------------------------------
-/// <summary>
-/// Interactive object class to manipulate local transformation of another interactive
-/// object or a group of objects via mouse.
-/// It manages three types of manipulations in 3D space:
-/// - translation through axis
-/// - scaling within axis
-/// - rotation around axis
-/// To enable one of this modes, selection mode (from 1 to 3) is to be activated.
-/// There are three orthogonal transformation axes defined by position property of
-/// the manipulator. Particular transformation mode can be disabled for each
-/// of the axes or all of them. Furthermore each of the axes can be hidden or
-/// made visible.
-/// The following steps demonstrate how to attach, configure and use manipulator
-/// for an interactive object:
-/// Step 1. Create manipulator object and adjust it appearance:
-/// </summary>
-/// @code
-/// Handle(AIS_Manipulator) aManipulator = new AIS_Manipulator();
-/// aManipulator->SetPart (0, AIS_Manipulator::Scaling, Standard_False);
-/// aManipulator->SetPart (1, AIS_Manipulator::Rotation, Standard_False);
-/// // Attach manipulator to already displayed object and manage manipulation modes
-/// aManipulator->AttachToObject (anAISObject);
-/// aManipulator->EnableMode (AIS_Manipulator::Translation);
-/// aManipulator->EnableMode (AIS_Manipulator::Rotation);
-/// aManipulator->EnableMode (AIS_Manipulator::Scaling);
-/// @endcode
-/// Note that you can enable only one manipulation mode but have all visual parts displayed.
-/// This code allows you to view manipulator and select its manipulation parts.
-/// Note that manipulator activates mode on part selection.
-/// If this mode is activated, no selection will be performed for manipulator.
-/// It can be activated with highlighting. To enable this:
-/// @code
-/// aManipulator->SetModeActivationOnDetection (Standard_True);
-/// @endcode
-/// Step 2. To perform transformation of object use next code in your event processing chain:
-/// @code
-/// // catch mouse button down event
-/// if (aManipulator->HasActiveMode())
-/// {
-/// aManipulator->StartTransform (anXPix, anYPix, aV3dView);
-/// }
-/// ...
-/// // or track mouse move event
-/// if (aManipulator->HasActiveMode())
-/// {
-/// aManipulator->Transform (anXPix, anYPix, aV3dView);
-/// aV3dView->Redraw();
-/// }
-/// ...
-/// // or catch mouse button up event (apply) or escape event (cancel)
-/// aManipulator->StopTransform(/*Standard_Boolean toApply*/);
-/// @endcode
-/// Step 3. To deactivate current manipulation mode use:
-/// @code aManipulator->DeactivateCurrentMode();
-/// @endcode
-/// Step 4. To detach manipulator from object use:
-/// @code
-/// aManipulator->Detach();
-/// @endcode
-/// The last method erases manipulator object.
-public ref class AIS_Manipulator sealed
-    : public Macad::Occt::AIS_InteractiveObject
-{
-
-#ifdef Include_AIS_Manipulator_h
-public:
-    Include_AIS_Manipulator_h
-#endif
-
-public:
-    AIS_Manipulator(::AIS_Manipulator* nativeInstance)
-        : Macad::Occt::AIS_InteractiveObject( nativeInstance )
-    {}
-
-    AIS_Manipulator(::AIS_Manipulator& nativeInstance)
-        : Macad::Occt::AIS_InteractiveObject( nativeInstance )
-    {}
-
-    property ::AIS_Manipulator* NativeInstance
-    {
-        ::AIS_Manipulator* get()
-        {
-            return static_cast<::AIS_Manipulator*>(_NativeInstance);
-        }
-    }
-
-public:
-    /// <summary>
-    /// Constructs a manipulator object with default placement and all parts to be displayed.
-    /// </summary>
-    AIS_Manipulator();
-    /// <summary>
-    /// Constructs a manipulator object with input location and positions of axes and all parts to be displayed.
-    /// </summary>
-    AIS_Manipulator(Macad::Occt::Ax2 thePosition);
-    /// <summary>
-    /// Disable or enable visual parts for translation, rotation or scaling for some axis.
-    /// By default all parts are enabled (will be displayed).
-    /// </summary>
-    /// @warning Enabling or disabling of visual parts of manipulator does not manage the manipulation (selection) mode.
-    /// @warning Raises program error if axis index is < 0 or > 2.
-    void SetPart(int theAxisIndex, Macad::Occt::AIS_ManipulatorMode theMode, bool theIsEnabled);
-    /// <summary>
-    /// Disable or enable visual parts for translation, rotation or scaling for ALL axes.
-    /// By default all parts are enabled (will be displayed).
-    /// </summary>
-    /// @warning Enabling or disabling of visual parts of manipulator does not manage the manipulation (selection) mode.
-    /// @warning Raises program error if axis index is < 0 or > 2.
-    void SetPart(Macad::Occt::AIS_ManipulatorMode theMode, bool theIsEnabled);
-    /* Method skipped due to unknown mapping: void Attach(AIS_InteractiveObject theObject, OptionsForAttach theOptions, ) */
-    /// <summary>
-    /// Attaches himself to the input interactive object and become displayed in the same context.
-    /// It is placed in the center of object bounding box, and its size is adjusted to the object bounding box.
-    /// </summary>
-    void Attach(Macad::Occt::AIS_InteractiveObject^ theObject);
-    /* Method skipped due to unknown mapping: void Attach(AIS_ManipulatorObjectSequence theObject, OptionsForAttach theOptions, ) */
-    /// <summary>
-    /// Attaches himself to the input interactive object group and become displayed in the same context.
-    /// It become attached to the first object, baut manage manipulation of the whole group.
-    /// It is placed in the center of object bounding box, and its size is adjusted to the object bounding box.
-    /// </summary>
-    void Attach(Macad::Occt::AIS_ManipulatorObjectSequence^ theObject);
-    /// <summary>
-    /// Enable manipualtion mode.
-    /// </summary>
-    /// @warning It activates selection mode in the current context.
-    /// If manipulator is not displayed, no mode will be activated.
-    void EnableMode(Macad::Occt::AIS_ManipulatorMode theMode);
-    /// <summary>
-    /// Enables mode activation on detection (highlighting).
-    /// By default, mode is activated on selection of manipulator part.
-    /// </summary>
-    /// @warning If this mode is enabled, selection of parts does nothing.
-    void SetModeActivationOnDetection(bool theToEnable);
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// true if manual mode activation is enabled.
-    /// </returns>
-    bool IsModeActivationOnDetection();
-    /// <summary>
-    /// Drag object in the viewer.
-    /// </summary>
-    /// <param name="theCtx">
-    ///      [in] interactive context
-    /// </param>
-    /// <param name="theView">
-    ///     [in] active View
-    /// </param>
-    /// <param name="theOwner">
-    ///    [in] the owner of detected entity
-    /// </param>
-    /// <param name="theDragFrom">
-    /// [in] drag start point
-    /// </param>
-    /// <param name="theDragTo">
-    ///   [in] drag end point
-    /// </param>
-    /// <param name="theAction">
-    ///   [in] drag action
-    /// </param>
-    /// <returns>
-    /// FALSE if object rejects dragging action (e.g. AIS_DragAction_Start)
-    /// </returns>
-    bool ProcessDragging(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::SelectMgr_EntityOwner^ theOwner, Macad::Occt::Graphic3d_Vec2i^ theDragFrom, Macad::Occt::Graphic3d_Vec2i^ theDragTo, Macad::Occt::AIS_DragAction theAction);
-    /// <summary>
-    /// Init start (reference) transformation.
-    /// </summary>
-    /// @warning It is used in chain with StartTransform-Transform(gp_Trsf)-StopTransform
-    /// and is used only for custom transform set. If Transform(const Standard_Integer, const Standard_Integer) is used,
-    /// initial data is set automatically, and it is reset on DeactivateCurrentMode call if it is not reset yet.
-    void StartTransform(int theX, int theY, Macad::Occt::V3d_View^ theView);
-    /// <summary>
-    /// Apply to the owning objects the input transformation.
-    /// </summary>
-    /// @remark The transformation is set using SetLocalTransformation for owning objects.
-    /// The location of the manipulator is stored also in Local Transformation,
-    /// so that there's no need to redisplay objects.
-    /// @warning It is used in chain with StartTransform-Transform(gp_Trsf)-StopTransform
-    /// and is used only for custom transform set.
-    /// @warning It will does nothing if transformation is not initiated (with StartTransform() call).
-    void Transform(Macad::Occt::Trsf aTrsf);
-    /// <summary>
-    /// Reset start (reference) transformation.
-    /// </summary>
-    /// <param name="theToApply">
-    /// [in] option to apply or to cancel the started transformation.
-    /// </param>
-    /// @warning It is used in chain with StartTransform-Transform(gp_Trsf)-StopTransform
-    /// and is used only for custom transform set.
-    void StopTransform(bool theToApply);
-    /// <summary>
-    /// Reset start (reference) transformation.
-    /// </summary>
-    /// <param name="theToApply">
-    /// [in] option to apply or to cancel the started transformation.
-    /// </param>
-    /// @warning It is used in chain with StartTransform-Transform(gp_Trsf)-StopTransform
-    /// and is used only for custom transform set.
-    void StopTransform();
-    /// <summary>
-    /// Apply transformation made from mouse moving from start position
-    /// (save on the first Transform() call and reset on DeactivateCurrentMode() call.)
-    /// to the in/out mouse position (theX, theY)
-    /// </summary>
-    Macad::Occt::Trsf Transform(int theX, int theY, Macad::Occt::V3d_View^ theView);
-    /// <summary>
-    /// Computes transformation of parent object according to the active mode and input motion vector.
-    /// You can use this method to get object transformation according to current mode or use own algorithm
-    /// to implement any other transformation for modes.
-    /// </summary>
-    /// <returns>
-    /// transformation of parent object.
-    /// </returns>
-    bool ObjectTransformation(int theX, int theY, Macad::Occt::V3d_View^ theView, Macad::Occt::Trsf% theTrsf);
-    /// <summary>
-    /// Make inactive the current selected manipulator part and reset current axis index and current mode.
-    /// After its call HasActiveMode() returns false.
-    /// </summary>
-    /// @sa HasActiveMode()
-    void DeactivateCurrentMode();
-    /// <summary>
-    /// Detaches himself from the owner object, and removes itself from context.
-    /// </summary>
-    void Detach();
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// all owning objects.
-    /// </returns>
-    Macad::Occt::AIS_ManipulatorObjectSequence^ Objects();
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// the first (leading) object of the owning objects.
-    /// </returns>
-    Macad::Occt::AIS_InteractiveObject^ Object();
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// one of the owning objects.
-    /// </returns>
-    /// @warning raises program error if theIndex is more than owning objects count or less than 1.
-    Macad::Occt::AIS_InteractiveObject^ Object(int theIndex);
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// true if manipulator is attached to some interactive object (has owning object).
-    /// </returns>
-    bool IsAttached();
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// true if some part of manipulator is selected (transformation mode is active, and owning object can be transformed).
-    /// </returns>
-    bool HasActiveMode();
-    bool HasActiveTransformation();
-    Macad::Occt::Trsf StartTransformation();
-    Macad::Occt::Trsf StartTransformation(int theIndex);
-    /// <summary>
-    /// Enable or disable zoom persistence mode for the manipulator. With
-    /// this mode turned on the presentation will keep fixed screen size.
-    /// </summary>
-    /// @warning when turned on this option overrides transform persistence
-    /// properties and local transformation to achieve necessary visual effect.
-    /// @warning revise use of AdjustSize argument of of \sa AttachToObjects method
-    /// when enabling zoom persistence.
-    void SetZoomPersistence(bool theToEnable);
-    /// <summary>
-    /// Returns state of zoom persistence mode, whether it turned on or off.
-    /// </summary>
-    bool ZoomPersistence();
-    /// <summary>
-    /// Redefines transform persistence management to setup transformation for sub-presentation of axes.
-    /// </summary>
-    /// @warning this interactive object does not support custom transformation persistence when
-    /// using \sa ZoomPersistence mode. In this mode the transformation persistence flags for
-    /// presentations are overridden by this class.
-    /// @warning Invokes debug assertion to catch incompatible usage of the method with \sa ZoomPersistence mode,
-    /// silently does nothing in release mode.
-    /// @warning revise use of AdjustSize argument of of \sa AttachToObjects method
-    /// when enabling zoom persistence.
-    void SetTransformPersistence(Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
-    /// <summary>
-    /// </summary>
-    /// @name Setters for parameters
-    Macad::Occt::AIS_ManipulatorMode ActiveMode();
-    int ActiveAxisIndex();
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// poition of manipulator interactive object.
-    /// </returns>
-    Macad::Occt::Ax2 Position();
-    /// <summary>
-    /// Sets position of the manipulator object.
-    /// </summary>
-    void SetPosition(Macad::Occt::Ax2 thePosition);
-    float Size();
-    /// <summary>
-    /// Sets size (length of side of the manipulator cubic bounding box.
-    /// </summary>
-    void SetSize(float theSideLength);
-    /// <summary>
-    /// Sets gaps between translator, scaler and rotator sub-presentations.
-    /// </summary>
-    void SetGap(float theValue);
-    /* Method skipped due to unknown mapping: void SetTransformBehavior(BehaviorOnTransform theSettings, ) */
-    /* Method skipped due to unknown mapping: BehaviorOnTransform ChangeTransformBehavior() */
-    /* Method skipped due to unknown mapping: BehaviorOnTransform TransformBehavior() */
-    /// <summary>
-    /// Fills presentation.
-    /// </summary>
-    /// @note Manipulator presentation does not use display mode and for all modes has the same presentation.
-    void Compute(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Graphic3d_Structure^ thePrs, int theMode);
-    /// <summary>
-    /// Fills presentation.
-    /// </summary>
-    /// @note Manipulator presentation does not use display mode and for all modes has the same presentation.
-    void Compute(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Graphic3d_Structure^ thePrs);
-    /// <summary>
-    /// Computes selection sensitive zones (triangulation) for manipulator.
-    /// </summary>
-    /// <param name="theNode">
-    /// [in] Selection mode that is treated as transformation mode.
-    /// </param>
-    void ComputeSelection(Macad::Occt::SelectMgr_Selection^ theSelection, int theMode);
-    /// <summary>
-    /// Disables auto highlighting to use HilightSelected() and HilightOwnerWithColor() overridden methods.
-    /// </summary>
-    bool IsAutoHilight();
-    /// <summary>
-    /// Method which clear all selected owners belonging
-    /// to this selectable object ( for fast presentation draw ).
-    /// </summary>
-    void ClearSelected();
-    /// <summary>
-    /// Method which draws selected owners ( for fast presentation draw ).
-    /// </summary>
-    void HilightSelected(Macad::Occt::PrsMgr_PresentationManager^ thePM, Macad::Occt::SelectMgr_SequenceOfOwner^ theSeq);
-    /// <summary>
-    /// Method which hilight an owner belonging to
-    /// this selectable object  ( for fast presentation draw ).
-    /// </summary>
-    void HilightOwnerWithColor(Macad::Occt::PrsMgr_PresentationManager^ thePM, Macad::Occt::Prs3d_Drawer^ theStyle, Macad::Occt::SelectMgr_EntityOwner^ theOwner);
-    static Macad::Occt::AIS_Manipulator^ CreateDowncasted(::AIS_Manipulator* instance);
-}; // class AIS_Manipulator
-
-//---------------------------------------------------------------------
 //  Class  AIS_ManipulatorOwner
 //---------------------------------------------------------------------
 /// <summary>
@@ -6193,8 +5951,9 @@ public:
     /// </summary>
     AIS_MultipleConnectedInteractive();
     /// <summary>
-    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its reference.
-    /// Locates instance in theLocation and applies specified transformation persistence mode.
+    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its
+    /// reference. Locates instance in theLocation and applies specified transformation persistence
+    /// mode.
     /// </summary>
     /// <returns>
     /// created instance object (AIS_ConnectedInteractive or AIS_MultipleConnectedInteractive)
@@ -6232,24 +5991,27 @@ public:
     /// </summary>
     void SetContext(Macad::Occt::AIS_InteractiveContext^ theCtx);
     /// <summary>
-    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its reference.
-    /// Copies local transformation and transformation persistence mode from theInteractive.
+    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its
+    /// reference. Copies local transformation and transformation persistence mode from
+    /// theInteractive.
     /// </summary>
     /// <returns>
     /// created instance object (AIS_ConnectedInteractive or AIS_MultipleConnectedInteractive)
     /// </returns>
     Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj);
     /// <summary>
-    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its reference.
-    /// Locates instance in theLocation and copies transformation persistence mode from theInteractive.
+    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its
+    /// reference. Locates instance in theLocation and copies transformation persistence mode from
+    /// theInteractive.
     /// </summary>
     /// <returns>
     /// created instance object (AIS_ConnectedInteractive or AIS_MultipleConnectedInteractive)
     /// </returns>
     Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::Trsf theLocation);
     /// <summary>
-    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its reference.
-    /// Locates instance in theLocation and applies specified transformation persistence mode.
+    /// Establishes the connection between the Connected Interactive Object, theInteractive, and its
+    /// reference. Locates instance in theLocation and applies specified transformation persistence
+    /// mode.
     /// </summary>
     /// <returns>
     /// created instance object (AIS_ConnectedInteractive or AIS_MultipleConnectedInteractive)
@@ -6710,8 +6472,8 @@ public:
     /// Sets the points from array of points.
     /// Method will not copy the input data - array will be stored as handle.
     /// </summary>
-    /// <param name="thePoints">
-    /// [in] the array of points
+    /// <param name="in]">
+    /// thePoints  the array of points
     /// </param>
     void SetPoints(Macad::Occt::Graphic3d_ArrayOfPoints^ thePoints);
     /// <summary>
@@ -6720,14 +6482,14 @@ public:
     /// The input arrays should have equal length, otherwise
     /// the presentation will not be computed and displayed.
     /// </summary>
-    /// <param name="theCoords">
-    ///  [in] the array of coordinates
+    /// <param name="in]">
+    /// theCoords   the array of coordinates
     /// </param>
-    /// <param name="theColors">
-    ///  [in] optional array of colors
+    /// <param name="in]">
+    /// theColors   optional array of colors
     /// </param>
-    /// <param name="theNormals">
-    /// [in] optional array of normals
+    /// <param name="in]">
+    /// theNormals  optional array of normals
     /// </param>
     void SetPoints(Macad::Occt::TColgp_HArray1OfPnt^ theCoords, Macad::Occt::Quantity_HArray1OfColor^ theColors, Macad::Occt::TColgp_HArray1OfDir^ theNormals);
     /// <summary>
@@ -6736,14 +6498,14 @@ public:
     /// The input arrays should have equal length, otherwise
     /// the presentation will not be computed and displayed.
     /// </summary>
-    /// <param name="theCoords">
-    ///  [in] the array of coordinates
+    /// <param name="in]">
+    /// theCoords   the array of coordinates
     /// </param>
-    /// <param name="theColors">
-    ///  [in] optional array of colors
+    /// <param name="in]">
+    /// theColors   optional array of colors
     /// </param>
-    /// <param name="theNormals">
-    /// [in] optional array of normals
+    /// <param name="in]">
+    /// theNormals  optional array of normals
     /// </param>
     void SetPoints(Macad::Occt::TColgp_HArray1OfPnt^ theCoords, Macad::Occt::Quantity_HArray1OfColor^ theColors);
     /// <summary>
@@ -6752,19 +6514,20 @@ public:
     /// The input arrays should have equal length, otherwise
     /// the presentation will not be computed and displayed.
     /// </summary>
-    /// <param name="theCoords">
-    ///  [in] the array of coordinates
+    /// <param name="in]">
+    /// theCoords   the array of coordinates
     /// </param>
-    /// <param name="theColors">
-    ///  [in] optional array of colors
+    /// <param name="in]">
+    /// theColors   optional array of colors
     /// </param>
-    /// <param name="theNormals">
-    /// [in] optional array of normals
+    /// <param name="in]">
+    /// theNormals  optional array of normals
     /// </param>
     void SetPoints(Macad::Occt::TColgp_HArray1OfPnt^ theCoords);
     /// <summary>
     /// Get the points array.
-    /// Method might be overridden to fill in points array dynamically from application data structures.
+    /// Method might be overridden to fill in points array dynamically from application data
+    /// structures.
     /// </summary>
     /// <returns>
     /// the array of points
@@ -6775,7 +6538,8 @@ public:
     /// </summary>
     Macad::Occt::Bnd_Box^ GetBoundingBox();
     /// <summary>
-    /// Setup custom color. Affects presentation only when no per-point color attribute has been assigned.
+    /// Setup custom color. Affects presentation only when no per-point color attribute has been
+    /// assigned.
     /// </summary>
     void SetColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
@@ -6832,12 +6596,14 @@ public:
     AIS_PointCloudOwner(Macad::Occt::AIS_PointCloud^ theOrigin);
     /// <summary>
     /// Return selected points.
-    /// WARNING! Indexation starts with 0 (shifted by -1 comparing to Graphic3d_ArrayOfPoints::Vertice()).
+    /// WARNING! Indexation starts with 0 (shifted by -1 comparing to
+    /// Graphic3d_ArrayOfPoints::Vertice()).
     /// </summary>
     Macad::Occt::TColStd_HPackedMapOfInteger^ SelectedPoints();
     /// <summary>
     /// Return last detected points.
-    /// WARNING! Indexation starts with 0 (shifted by -1 comparing to Graphic3d_ArrayOfPoints::Vertice()).
+    /// WARNING! Indexation starts with 0 (shifted by -1 comparing to
+    /// Graphic3d_ArrayOfPoints::Vertice()).
     /// </summary>
     Macad::Occt::TColStd_HPackedMapOfInteger^ DetectedPoints();
     /// <summary>
@@ -6903,124 +6669,128 @@ public:
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand();
     /// <summary>
-    /// Consructs the rubber band with empty filling and defined line style.
+    /// Constructs the rubber band with empty filling and defined line style.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, double theLineWidth, bool theIsPolygonClosed);
     /// <summary>
-    /// Consructs the rubber band with empty filling and defined line style.
+    /// Constructs the rubber band with empty filling and defined line style.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, double theLineWidth);
     /// <summary>
-    /// Consructs the rubber band with empty filling and defined line style.
+    /// Constructs the rubber band with empty filling and defined line style.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType);
     /// <summary>
     /// Constructs the rubber band with defined filling and line parameters.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theFillColor">
-    /// [in] color of rubber band filling
+    /// <param name="in]">
+    /// theFillColor  color of rubber band filling
     /// </param>
-    /// <param name="theTransparency">
-    /// [in] transparency of the filling. 0 is for opaque filling. By default it is transparent.
+    /// <param name="in]">
+    /// theTransparency  transparency of the filling. 0 is for opaque filling. By default
+    /// it is transparent.
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, Macad::Occt::Quantity_Color^ theFillColor, double theTransparency, double theLineWidth, bool theIsPolygonClosed);
     /// <summary>
     /// Constructs the rubber band with defined filling and line parameters.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theFillColor">
-    /// [in] color of rubber band filling
+    /// <param name="in]">
+    /// theFillColor  color of rubber band filling
     /// </param>
-    /// <param name="theTransparency">
-    /// [in] transparency of the filling. 0 is for opaque filling. By default it is transparent.
+    /// <param name="in]">
+    /// theTransparency  transparency of the filling. 0 is for opaque filling. By default
+    /// it is transparent.
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, Macad::Occt::Quantity_Color^ theFillColor, double theTransparency, double theLineWidth);
     /// <summary>
     /// Constructs the rubber band with defined filling and line parameters.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theFillColor">
-    /// [in] color of rubber band filling
+    /// <param name="in]">
+    /// theFillColor  color of rubber band filling
     /// </param>
-    /// <param name="theTransparency">
-    /// [in] transparency of the filling. 0 is for opaque filling. By default it is transparent.
+    /// <param name="in]">
+    /// theTransparency  transparency of the filling. 0 is for opaque filling. By default
+    /// it is transparent.
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, Macad::Occt::Quantity_Color^ theFillColor, double theTransparency);
     /// <summary>
     /// Constructs the rubber band with defined filling and line parameters.
     /// </summary>
-    /// <param name="theLineColor">
-    /// [in] color of rubber band lines
+    /// <param name="in]">
+    /// theLineColor  color of rubber band lines
     /// </param>
-    /// <param name="theType">
-    /// [in] type of rubber band lines
+    /// <param name="in]">
+    /// theType  type of rubber band lines
     /// </param>
-    /// <param name="theFillColor">
-    /// [in] color of rubber band filling
+    /// <param name="in]">
+    /// theFillColor  color of rubber band filling
     /// </param>
-    /// <param name="theTransparency">
-    /// [in] transparency of the filling. 0 is for opaque filling. By default it is transparent.
+    /// <param name="in]">
+    /// theTransparency  transparency of the filling. 0 is for opaque filling. By default
+    /// it is transparent.
     /// </param>
-    /// <param name="theLineWidth">
-    /// [in] width of rubber band line. By default it is 1.
+    /// <param name="in]">
+    /// theLineWidth  width of rubber band line. By default it is 1.
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, Macad::Occt::Quantity_Color^ theFillColor);
@@ -7086,8 +6856,8 @@ public:
     /// <summary>
     /// Sets fill transparency.
     /// </summary>
-    /// <param name="theValue">
-    /// [in] the transparency value. 1.0 is for transparent background
+    /// <param name="in]">
+    /// theValue  the transparency value. 1.0 is for transparent background
     /// </param>
     void SetFillTransparency(double theValue);
     /// <summary>
@@ -7103,11 +6873,11 @@ public:
     /// <summary>
     /// Enable filling of rubber band with defined parameters.
     /// </summary>
-    /// <param name="theColor">
-    /// [in] color of filling
+    /// <param name="in]">
+    /// theColor  color of filling
     /// </param>
-    /// <param name="theTransparency">
-    /// [in] transparency of the filling. 0 is for opaque filling.
+    /// <param name="in]">
+    /// theTransparency  transparency of the filling. 0 is for opaque filling.
     /// </param>
     void SetFilling(Macad::Occt::Quantity_Color^ theColor, double theTransparency);
     /// <summary>
@@ -7431,8 +7201,8 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// This class allows to map textures on shapes.
-/// Presentations modes AIS_WireFrame (0) and AIS_Shaded (1) behave in the same manner as in AIS_Shape,
-/// whilst new modes 2 (bounding box) and 3 (texture mapping) extends it functionality.
+/// Presentations modes AIS_WireFrame (0) and AIS_Shaded (1) behave in the same manner as in
+/// AIS_Shape, whilst new modes 2 (bounding box) and 3 (texture mapping) extends it functionality.
 /// 
 /// The texture itself is parametrized in (0,1)x(0,1).
 /// Each face of a shape located in UV space is provided with these parameters:
@@ -7475,20 +7245,23 @@ public:
 
 public:
     /// <summary>
-    /// Initializes the textured shape.
     /// </summary>
+    /// @name main methods
+    /// Initializes the textured shape.
     AIS_TexturedShape(Macad::Occt::TopoDS_Shape^ theShape);
     /// <summary>
-    /// Sets the texture source. <theTextureFileName> can specify path to texture image or one of the standard predefined textures.
-    /// The accepted file types are those used in Image_AlienPixMap with extensions such as rgb, png, jpg and more.
-    /// To specify the standard predefined texture, the <theTextureFileName> should contain integer - the Graphic3d_NameOfTexture2D enumeration index.
+    /// Sets the texture source. <theTextureFileName> can specify path to texture image or one of the
+    /// standard predefined textures. The accepted file types are those used in Image_AlienPixMap with
+    /// extensions such as rgb, png, jpg and more. To specify the standard predefined texture, the
+    /// <theTextureFileName> should contain integer - the Graphic3d_NameOfTexture2D enumeration index.
     /// Setting texture source using this method resets the source pixmap (if was set previously).
     /// </summary>
     void SetTextureFileName(Macad::Occt::TCollection_AsciiString^ theTextureFileName);
     /// <summary>
     /// Sets the texture source. <theTexturePixMap> specifies image data.
-    /// Please note that the data should be in Bottom-Up order, the flag of Image_PixMap::IsTopDown() will be ignored by graphic driver.
-    /// Setting texture source using this method resets the source by filename (if was set previously).
+    /// Please note that the data should be in Bottom-Up order, the flag of Image_PixMap::IsTopDown()
+    /// will be ignored by graphic driver. Setting texture source using this method resets the source
+    /// by filename (if was set previously).
     /// </summary>
     void SetTexturePixMap(Macad::Occt::Image_PixMap^ theTexturePixMap);
     /// <summary>
@@ -7518,10 +7291,12 @@ public:
     /// </returns>
     Macad::Occt::Image_PixMap^ TexturePixMap();
     /// <summary>
+    /// </summary>
+    /// @name methods to alter texture mapping properties
     /// Use this method to display the textured shape without recomputing the whole presentation.
     /// Use this method when ONLY the texture content has been changed.
-    /// If other parameters (ie: scale factors, texture origin, texture repeat...) have changed, the whole presentation has to be recomputed:
-    /// </summary>
+    /// If other parameters (ie: scale factors, texture origin, texture repeat...) have changed, the
+    /// whole presentation has to be recomputed:
     /// @code
     /// if (myShape->DisplayMode() == 3)
     /// {
@@ -7577,21 +7352,24 @@ public:
     /// </returns>
     double VRepeat();
     /// <summary>
-    /// Sets the number of occurrences of the texture on each face. The texture itself is parameterized in (0,1) by (0,1).
-    /// Each face of the shape to be textured is parameterized in UV space (Umin,Umax) by (Vmin,Vmax).
-    /// If RepeatYN is set to false, texture coordinates are clamped in the range (0,1)x(0,1) of the face.
+    /// Sets the number of occurrences of the texture on each face. The texture itself is
+    /// parameterized in (0,1) by (0,1). Each face of the shape to be textured is parameterized in UV
+    /// space (Umin,Umax) by (Vmin,Vmax). If RepeatYN is set to false, texture coordinates are clamped
+    /// in the range (0,1)x(0,1) of the face.
     /// </summary>
     void SetTextureRepeat(bool theToRepeat, double theURepeat, double theVRepeat);
     /// <summary>
-    /// Sets the number of occurrences of the texture on each face. The texture itself is parameterized in (0,1) by (0,1).
-    /// Each face of the shape to be textured is parameterized in UV space (Umin,Umax) by (Vmin,Vmax).
-    /// If RepeatYN is set to false, texture coordinates are clamped in the range (0,1)x(0,1) of the face.
+    /// Sets the number of occurrences of the texture on each face. The texture itself is
+    /// parameterized in (0,1) by (0,1). Each face of the shape to be textured is parameterized in UV
+    /// space (Umin,Umax) by (Vmin,Vmax). If RepeatYN is set to false, texture coordinates are clamped
+    /// in the range (0,1)x(0,1) of the face.
     /// </summary>
     void SetTextureRepeat(bool theToRepeat, double theURepeat);
     /// <summary>
-    /// Sets the number of occurrences of the texture on each face. The texture itself is parameterized in (0,1) by (0,1).
-    /// Each face of the shape to be textured is parameterized in UV space (Umin,Umax) by (Vmin,Vmax).
-    /// If RepeatYN is set to false, texture coordinates are clamped in the range (0,1)x(0,1) of the face.
+    /// Sets the number of occurrences of the texture on each face. The texture itself is
+    /// parameterized in (0,1) by (0,1). Each face of the shape to be textured is parameterized in UV
+    /// space (Umin,Umax) by (Vmin,Vmax). If RepeatYN is set to false, texture coordinates are clamped
+    /// in the range (0,1)x(0,1) of the face.
     /// </summary>
     void SetTextureRepeat(bool theToRepeat);
     /// <summary>
@@ -7613,15 +7391,18 @@ public:
     /// </returns>
     double TextureVOrigin();
     /// <summary>
-    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the surface (UOrigin,VOrigin)
+    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the
+    /// surface (UOrigin,VOrigin)
     /// </summary>
     void SetTextureOrigin(bool theToSetTextureOrigin, double theUOrigin, double theVOrigin);
     /// <summary>
-    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the surface (UOrigin,VOrigin)
+    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the
+    /// surface (UOrigin,VOrigin)
     /// </summary>
     void SetTextureOrigin(bool theToSetTextureOrigin, double theUOrigin);
     /// <summary>
-    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the surface (UOrigin,VOrigin)
+    /// Use this method to change the origin of the texture. The texel (0,0) will be mapped to the
+    /// surface (UOrigin,VOrigin)
     /// </summary>
     void SetTextureOrigin(bool theToSetTextureOrigin);
     /// <summary>
@@ -8161,7 +7942,8 @@ public:
 /// Class implements the following features:
 /// - Buffers storing the state of user input (mouse, touches and keyboard).
 /// - Mapping mouse/multi-touch input to View camera manipulations (panning/rotating/zooming).
-/// - Input events are not applied immediately but queued for separate processing from two working threads
+/// - Input events are not applied immediately but queued for separate processing from two working
+/// threads
 /// UI thread receiving user input and Rendering thread for OCCT 3D Viewer drawing.
 /// </summary>
 public ref class AIS_ViewController sealed
@@ -8233,7 +8015,8 @@ public:
     void SetPauseObjectsAnimation(bool theToPause);
     /// <summary>
     /// Return TRUE if continuous redrawing is enabled; FALSE by default.
-    /// This option would request a next viewer frame to be completely redrawn right after current frame is finished.
+    /// This option would request a next viewer frame to be completely redrawn right after current
+    /// frame is finished.
     /// </summary>
     bool IsContinuousRedraw();
     /// <summary>
@@ -8241,8 +8024,9 @@ public:
     /// </summary>
     void SetContinuousRedraw(bool theToEnable);
     /// <summary>
-    /// Return camera rotation mode, AIS_RotationMode_BndBoxActive by default.
     /// </summary>
+    /// @name global parameters
+    /// Return camera rotation mode, AIS_RotationMode_BndBoxActive by default.
     Macad::Occt::AIS_RotationMode RotationMode();
     /// <summary>
     /// Set camera rotation mode.
@@ -8273,7 +8057,8 @@ public:
     /// </summary>
     void SetOrbitAcceleration(float theRatio);
     /// <summary>
-    /// Return TRUE if panning anchor point within perspective projection should be displayed in 3D Viewer; TRUE by default.
+    /// Return TRUE if panning anchor point within perspective projection should be displayed in 3D
+    /// Viewer; TRUE by default.
     /// </summary>
     bool ToShowPanAnchorPoint();
     /// <summary>
@@ -8289,11 +8074,13 @@ public:
     /// </summary>
     void SetShowRotateCenter(bool theToShow);
     /// <summary>
-    /// Return TRUE if camera up orientation within AIS_NavigationMode_Orbit rotation mode should be forced Z up; FALSE by default.
+    /// Return TRUE if camera up orientation within AIS_NavigationMode_Orbit rotation mode should be
+    /// forced Z up; FALSE by default.
     /// </summary>
     bool ToLockOrbitZUp();
     /// <summary>
-    /// Set if camera up orientation within AIS_NavigationMode_Orbit rotation mode should be forced Z up.
+    /// Set if camera up orientation within AIS_NavigationMode_Orbit rotation mode should be forced Z
+    /// up.
     /// </summary>
     void SetLockOrbitZUp(bool theToForceUp);
     /// <summary>
@@ -8353,7 +8140,8 @@ public:
     /// </summary>
     void SetAllowDragging(bool theToEnable);
     /// <summary>
-    /// Return TRUE if picked point should be projected to picking ray on zooming at point; TRUE by default.
+    /// Return TRUE if picked point should be projected to picking ray on zooming at point; TRUE by
+    /// default.
     /// </summary>
     bool ToStickToRayOnZoom();
     /// <summary>
@@ -8361,7 +8149,8 @@ public:
     /// </summary>
     void SetStickToRayOnZoom(bool theToEnable);
     /// <summary>
-    /// Return TRUE if picked point should be projected to picking ray on rotating around point; TRUE by default.
+    /// Return TRUE if picked point should be projected to picking ray on rotating around point; TRUE
+    /// by default.
     /// </summary>
     bool ToStickToRayOnRotation();
     /// <summary>
@@ -8369,7 +8158,8 @@ public:
     /// </summary>
     void SetStickToRayOnRotation(bool theToEnable);
     /// <summary>
-    /// Return TRUE if pitch direction should be inverted while processing Aspect_VKey_NavLookUp/Aspect_VKey_NavLookDown; FALSE by default.
+    /// Return TRUE if pitch direction should be inverted while processing
+    /// Aspect_VKey_NavLookUp/Aspect_VKey_NavLookDown; FALSE by default.
     /// </summary>
     bool ToInvertPitch();
     /// <summary>
@@ -8471,8 +8261,9 @@ public:
     /// </summary>
     Macad::Occt::AIS_WalkDelta^ FetchNavigationKeys(double theCrouchRatio, double theRunRatio);
     /// <summary>
-    /// Return map defining mouse gestures.
     /// </summary>
+    /// @name mouse input
+    /// Return map defining mouse gestures.
     Macad::Occt::AIS_MouseGestureMap^ MouseGestureMap();
     /// <summary>
     /// Return map defining mouse gestures.
@@ -8615,10 +8406,10 @@ public:
     /// </returns>
     bool UpdateMousePosition(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated);
     /// <summary>
-    /// Handle mouse button click event (emulated by UpdateMouseButtons() while releasing single button).
-    /// Note that as this method is called by UpdateMouseButtons(), it should be executed from UI thread.
-    /// Default implementation redirects to SelectInViewer().
-    /// This method is expected to be called from UI thread.
+    /// Handle mouse button click event (emulated by UpdateMouseButtons() while releasing single
+    /// button). Note that as this method is called by UpdateMouseButtons(), it should be executed
+    /// from UI thread. Default implementation redirects to SelectInViewer(). This method is expected
+    /// to be called from UI thread.
     /// </summary>
     /// <param name="thePoint">
     ///      mouse cursor position
@@ -8637,9 +8428,10 @@ public:
     /// </returns>
     bool UpdateMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick);
     /// <summary>
+    /// </summary>
+    /// @name multi-touch input
     /// Return scale factor for adjusting tolerances for starting multi-touch gestures; 1.0 by default
     /// This scale factor is expected to be computed from touch screen resolution.
-    /// </summary>
     float TouchToleranceScale();
     /// <summary>
     /// Set scale factor for adjusting tolerances for starting multi-touch gestures.
@@ -8715,9 +8507,10 @@ public:
     void UpdateTouchPoint(long long unsigned int theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
     /* Method skipped due to unknown mapping: bool Update3dMouse(WNT_HIDSpaceMouse theEvent, ) */
     /// <summary>
+    /// </summary>
+    /// @name resize events
     /// Handle expose event (window content has been invalidation and should be redrawn).
     /// Default implementation does nothing.
-    /// </summary>
     void ProcessExpose();
     /// <summary>
     /// Handle window resize event.
@@ -8726,7 +8519,8 @@ public:
     void ProcessConfigure(bool theIsResized);
     /// <summary>
     /// Handle window input event immediately.
-    /// Default implementation does nothing - input events are accumulated in internal buffer until explicit FlushViewEvents() call.
+    /// Default implementation does nothing - input events are accumulated in internal buffer until
+    /// explicit FlushViewEvents() call.
     /// </summary>
     void ProcessInput();
     /// <summary>
@@ -8802,20 +8596,20 @@ public:
     /// Pick closest point under mouse cursor.
     /// This method is expected to be called from rendering thread.
     /// </summary>
-    /// <param name="thePnt">
-    ///   [out] result point
+    /// <param name="out]">
+    /// thePnt    result point
     /// </param>
-    /// <param name="theCtx">
-    ///    [in] interactive context
+    /// <param name="in]">
+    /// theCtx     interactive context
     /// </param>
-    /// <param name="theView">
-    ///   [in] active view
+    /// <param name="in]">
+    /// theView    active view
     /// </param>
-    /// <param name="theCursor">
-    /// [in] mouse cursor
+    /// <param name="in]">
+    /// theCursor  mouse cursor
     /// </param>
-    /// <param name="theToStickToPickRay">
-    /// [in] when TRUE, the result point will lie on picking ray
+    /// <param name="in]">
+    /// theToStickToPickRay  when TRUE, the result point will lie on picking ray
     /// </param>
     /// <returns>
     /// TRUE if result has been found
@@ -8825,17 +8619,17 @@ public:
     /// Pick closest point by axis.
     /// This method is expected to be called from rendering thread.
     /// </summary>
-    /// <param name="theTopPnt">
-    /// [out] result point
+    /// <param name="out]">
+    /// theTopPnt  result point
     /// </param>
-    /// <param name="theCtx">
-    ///    [in] interactive context
+    /// <param name="in]">
+    /// theCtx     interactive context
     /// </param>
-    /// <param name="theView">
-    ///   [in] active view
+    /// <param name="in]">
+    /// theView    active view
     /// </param>
-    /// <param name="theAxis">
-    ///   [in] selection axis
+    /// <param name="in]">
+    /// theAxis    selection axis
     /// </param>
     /// <returns>
     /// TRUE if result has been found
@@ -8848,13 +8642,15 @@ public:
     Macad::Occt::Pnt GravityPoint(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
     /// <summary>
     /// Modify view camera to fit all objects.
-    /// Default implementation fits either all visible and all selected objects (swapped on each call).
+    /// Default implementation fits either all visible and all selected objects (swapped on each
+    /// call).
     /// </summary>
     void FitAllAuto(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
     /// <summary>
     /// Handle hot-keys defining new camera orientation (Aspect_VKey_ViewTop and similar keys).
-    /// Default implementation starts an animated transaction from the current to the target camera orientation, when specific action key was pressed.
-    /// This method is expected to be called from rendering thread.
+    /// Default implementation starts an animated transaction from the current to the target camera
+    /// orientation, when specific action key was pressed. This method is expected to be called from
+    /// rendering thread.
     /// </summary>
     void handleViewOrientationKeys(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
     /// <summary>
@@ -8932,7 +8728,8 @@ public:
     /// 3D point to rotate around
     /// </param>
     /// <param name="theToLockZUp">
-    /// amend camera to exclude roll angle (put camera Up vector to plane containing global Z and view direction)
+    /// amend camera to exclude roll angle (put camera Up vector to plane
+    /// containing global Z and view direction)
     /// </param>
     void handleOrbitRotation(Macad::Occt::V3d_View^ theView, Macad::Occt::Pnt thePnt, bool theToLockZUp);
     /// <summary>
@@ -9065,7 +8862,8 @@ public:
 /// 
 /// The object is expected to behave like a trihedron in the view corner,
 /// therefore its position should be defined using transformation persistence flags:
-/// @code SetTransformPersistence (new Graphic3d_TransformPers (Graphic3d_TMF_TriedronPers, Aspect_TOTP_LEFT_LOWER, Graphic3d_Vec2i (100, 100)); @endcode
+/// @code SetTransformPersistence (new Graphic3d_TransformPers (Graphic3d_TMF_TriedronPers,
+/// Aspect_TOTP_LEFT_LOWER, Graphic3d_Vec2i (100, 100)); @endcode
 /// 
 /// View Cube parts are sensitive to detection, or dynamic highlighting (but not selection),
 /// and every its owner AIS_ViewCubeOwner corresponds to camera transformation.
@@ -9079,8 +8877,8 @@ public:
 /// or
 /// @code aViewCube->HandleClick (aDetectedOwner); @endcode
 /// that includes transformation loop.
-/// This loop allows external actions like application updating. For this purpose AIS_ViewCube has virtual interface onAfterAnimation(),
-/// that is to be redefined on application level.
+/// This loop allows external actions like application updating. For this purpose AIS_ViewCube has
+/// virtual interface onAfterAnimation(), that is to be redefined on application level.
 public ref class AIS_ViewCube
     : public Macad::Occt::AIS_InteractiveObject
 {
@@ -9138,7 +8936,8 @@ public:
     /// </summary>
     void SetViewAnimation(Macad::Occt::AIS_AnimationCamera^ theAnimation);
     /// <summary>
-    /// Return TRUE if automatic camera transformation on selection (highlighting) is enabled; TRUE by default.
+    /// Return TRUE if automatic camera transformation on selection (highlighting) is enabled; TRUE by
+    /// default.
     /// </summary>
     bool ToAutoStartAnimation();
     /// <summary>
@@ -9162,6 +8961,7 @@ public:
     void ResetStyles();
     /// <summary>
     /// </summary>
+    /// @name Geometry management API
     /// <returns>
     /// size (width and height) of View cube sides; 100 by default.
     /// </returns>
@@ -9295,8 +9095,9 @@ public:
     /// </summary>
     void SetYup(bool theIsYup);
     /// <summary>
-    /// Return shading style of box sides.
     /// </summary>
+    /// @name Style management API
+    /// Return shading style of box sides.
     Macad::Occt::Prs3d_ShadingAspect^ BoxSideStyle();
     /// <summary>
     /// Return shading style of box edges.
@@ -9313,8 +9114,8 @@ public:
     /// <summary>
     /// Set new value of front color for the 3D part of object.
     /// </summary>
-    /// <param name="theColor">
-    /// [in] input color value.
+    /// <param name="in]">
+    /// theColor  input color value.
     /// </param>
     void SetBoxColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
@@ -9324,8 +9125,8 @@ public:
     /// <summary>
     /// Set new value of transparency for 3D part of object.
     /// </summary>
-    /// <param name="theValue">
-    /// [in] input transparency value
+    /// <param name="in]">
+    /// theValue  input transparency value
     /// </param>
     void SetBoxTransparency(double theValue);
     /// <summary>
@@ -9386,8 +9187,8 @@ public:
     /// <summary>
     /// Set new value of color for the whole object.
     /// </summary>
-    /// <param name="theColor">
-    /// [in] input color value.
+    /// <param name="in]">
+    /// theColor  input color value.
     /// </param>
     void SetColor(Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
@@ -9397,8 +9198,8 @@ public:
     /// <summary>
     /// Set new value of transparency for the whole object.
     /// </summary>
-    /// <param name="theValue">
-    /// [in] input transparency value.
+    /// <param name="in]">
+    /// theValue  input transparency value.
     /// </param>
     void SetTransparency(double theValue);
     /// <summary>
@@ -9414,28 +9215,31 @@ public:
     /// </summary>
     void UnsetMaterial();
     /// <summary>
-    /// Return duration of animation in seconds; 0.5 sec by default
     /// </summary>
+    /// @name animation methods
+    /// Return duration of animation in seconds; 0.5 sec by default
     double Duration();
     /// <summary>
     /// Set duration of animation.
     /// </summary>
-    /// <param name="theValue">
-    /// [in] input value of duration in seconds
+    /// <param name="in]">
+    /// theValue  input value of duration in seconds
     /// </param>
     void SetDuration(double theValue);
     /// <summary>
-    /// Return TRUE if new camera Up direction should be always set to default value for a new camera Direction; FALSE by default.
-    /// When this flag is FALSE, the new camera Up will be set as current Up orthogonalized to the new camera Direction,
-    /// and will set to default Up on second click.
+    /// Return TRUE if new camera Up direction should be always set to default value for a new camera
+    /// Direction; FALSE by default. When this flag is FALSE, the new camera Up will be set as current
+    /// Up orthogonalized to the new camera Direction, and will set to default Up on second click.
     /// </summary>
     bool ToResetCameraUp();
     /// <summary>
-    /// Set if new camera Up direction should be always set to default value for a new camera Direction.
+    /// Set if new camera Up direction should be always set to default value for a new camera
+    /// Direction.
     /// </summary>
     void SetResetCamera(bool theToReset);
     /// <summary>
-    /// Return TRUE if animation should fit selected objects and FALSE to fit entire scene; TRUE by default.
+    /// Return TRUE if animation should fit selected objects and FALSE to fit entire scene; TRUE by
+    /// default.
     /// </summary>
     bool ToFitSelected();
     /// <summary>
@@ -9451,13 +9255,13 @@ public:
     /// <summary>
     /// Start camera transformation corresponding to the input detected owner.
     /// </summary>
-    /// <param name="theOwner">
-    /// [in] detected owner.
+    /// <param name="in]">
+    /// theOwner  detected owner.
     /// </param>
     void StartAnimation(Macad::Occt::AIS_ViewCubeOwner^ theOwner);
     /// <summary>
     /// Perform one step of current camera transformation.
-    /// theToUpdate [in] enable/disable update of view.
+    /// theToUpdate[in]  enable/disable update of view.
     /// </summary>
     /// <returns>
     /// TRUE if animation is not stopped.
@@ -9468,8 +9272,9 @@ public:
     /// </summary>
     void HandleClick(Macad::Occt::AIS_ViewCubeOwner^ theOwner);
     /// <summary>
-    /// Return TRUE for supported display mode.
     /// </summary>
+    /// @name Presentation computation
+    /// Return TRUE for supported display mode.
     bool AcceptDisplayMode(int theMode);
     /// <summary>
     /// Global selection has no meaning for this class.
@@ -9478,44 +9283,45 @@ public:
     /// <summary>
     /// Compute 3D part of View Cube.
     /// </summary>
-    /// <param name="thePrsMgr">
-    /// [in] presentation manager.
+    /// <param name="in]">
+    /// thePrsMgr  presentation manager.
     /// </param>
-    /// <param name="thePrs">
-    /// [in] input presentation that is to be filled with flat presentation primitives.
+    /// <param name="in]">
+    /// thePrs  input presentation that is to be filled with flat presentation primitives.
     /// </param>
-    /// <param name="theMode">
-    /// [in] display mode.
+    /// <param name="in]">
+    /// theMode  display mode.
     /// </param>
     /// @warning this object accept only 0 display mode.
     void Compute(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Graphic3d_Structure^ thePrs, int theMode);
     /// <summary>
     /// Compute 3D part of View Cube.
     /// </summary>
-    /// <param name="thePrsMgr">
-    /// [in] presentation manager.
+    /// <param name="in]">
+    /// thePrsMgr  presentation manager.
     /// </param>
-    /// <param name="thePrs">
-    /// [in] input presentation that is to be filled with flat presentation primitives.
+    /// <param name="in]">
+    /// thePrs  input presentation that is to be filled with flat presentation primitives.
     /// </param>
-    /// <param name="theMode">
-    /// [in] display mode.
+    /// <param name="in]">
+    /// theMode  display mode.
     /// </param>
     /// @warning this object accept only 0 display mode.
     void Compute(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Graphic3d_Structure^ thePrs);
     /// <summary>
     /// Redefine computing of sensitive entities for View Cube.
     /// </summary>
-    /// <param name="theSelection">
-    /// [in] input selection object that is to be filled with sensitive entities.
+    /// <param name="in]">
+    /// theSelection  input selection object that is to be filled with sensitive entities.
     /// </param>
-    /// <param name="theMode">
-    /// [in] selection mode.
+    /// <param name="in]">
+    /// theMode  selection mode.
     /// </param>
     /// @warning object accepts only 0 selection mode.
     void ComputeSelection(Macad::Occt::SelectMgr_Selection^ theSelection, int theMode);
     /// <summary>
-    /// Disables auto highlighting to use HilightSelected() and HilightOwnerWithColor() overridden methods.
+    /// Disables auto highlighting to use HilightSelected() and HilightOwnerWithColor() overridden
+    /// methods.
     /// </summary>
     bool IsAutoHilight();
     /// <summary>
@@ -9526,14 +9332,14 @@ public:
     /// <summary>
     /// Method which highlights input owner belonging to this selectable object.
     /// </summary>
-    /// <param name="thePM">
-    /// [in] presentation manager
+    /// <param name="in]">
+    /// thePM  presentation manager
     /// </param>
-    /// <param name="theStyle">
-    /// [in] style for dynamic highlighting.
+    /// <param name="in]">
+    /// theStyle  style for dynamic highlighting.
     /// </param>
-    /// <param name="theOwner">
-    /// [in] input entity owner.
+    /// <param name="in]">
+    /// theOwner  input entity owner.
     /// </param>
     void HilightOwnerWithColor(Macad::Occt::PrsMgr_PresentationManager^ thePM, Macad::Occt::Prs3d_Drawer^ theStyle, Macad::Occt::SelectMgr_EntityOwner^ theOwner);
     /// <summary>

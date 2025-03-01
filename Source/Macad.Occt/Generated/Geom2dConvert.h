@@ -429,11 +429,11 @@ public:
     /// </summary>
     Geom2dConvert_PPoint(double theParameter, Macad::Occt::Adaptor2d_Curve2d^ theAdaptor);
     /// <summary>
-    /// Compute the distance betwwen two 2d points.
+    /// Compute the distance between two 2d points.
     /// </summary>
     double Dist(Macad::Occt::Geom2dConvert_PPoint^ theOth);
     /// <summary>
-    /// Query the parmeter value.
+    /// Query the parameter value.
     /// </summary>
     double Parameter();
     /// <summary>
@@ -854,7 +854,7 @@ public:
     /// Append a curve in the BSpline
     /// Return False if the curve is not G0 with the BSplineCurve.
     /// Tolerance is used to check continuity and decrease
-    /// Multiplicty at the common Knot
+    /// Multiplicity at the common Knot
     /// After is useful if BasisCurve is a closed curve .
     /// </summary>
     bool Add(Macad::Occt::Geom2d_BoundedCurve^ NewCurve, double Tolerance, bool After);
@@ -862,7 +862,7 @@ public:
     /// Append a curve in the BSpline
     /// Return False if the curve is not G0 with the BSplineCurve.
     /// Tolerance is used to check continuity and decrease
-    /// Multiplicty at the common Knot
+    /// Multiplicity at the common Knot
     /// After is useful if BasisCurve is a closed curve .
     /// </summary>
     bool Add(Macad::Occt::Geom2d_BoundedCurve^ NewCurve, double Tolerance);

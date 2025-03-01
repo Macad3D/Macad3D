@@ -68,14 +68,15 @@ public:
 /// on the special cases, in which some sub-shapes are coinciding.
 /// - *Disabling the check for inverted solids* - Disables/Enables the check of the input solids
 /// for inverted status (holes in the space). The default value is TRUE,
-/// i.e. the check is performed. Setting this flag to FALSE for inverted solids,
-/// most likely will lead to incorrect results.
+/// i.e. the check is performed. Setting this flag to FALSE for inverted
+/// solids, most likely will lead to incorrect results.
 /// - *Disabling history collection* - allows disabling the collection of the history
 /// of shapes modifications during the operation.
 /// 
 /// It returns the following Error statuses:<br>
 /// - 0 - in case of success;<br>
-/// - *BOPAlgo_AlertTooFewArguments* - in case there are no enough arguments to perform the operation;<br>
+/// - *BOPAlgo_AlertTooFewArguments* - in case there are no enough arguments to perform the
+/// operation;<br>
 /// - *BOPAlgo_AlertIntersectionFailed* - in case the intersection of the arguments has failed;<br>
 /// - *BOPAlgo_AlertBuilderFailed* - in case building of the result shape has failed.<br>
 /// 
@@ -120,23 +121,26 @@ public:
 
 public:
     /// <summary>
-    /// Empty constructor
     /// </summary>
+    /// @name Constructors
+    /// Empty constructor
     BRepAlgoAPI_BuilderAlgo();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_BuilderAlgo(BOPAlgo_PaveFiller thePF, ) */
     /// <summary>
-    /// Sets the arguments
     /// </summary>
+    /// @name Setting/Getting data for the algorithm
+    /// Sets the arguments
     void SetArguments(Macad::Occt::TopTools_ListOfShape^ theLS);
     /// <summary>
     /// Gets the arguments
     /// </summary>
     Macad::Occt::TopTools_ListOfShape^ Arguments();
     /// <summary>
+    /// </summary>
+    /// @name Setting options
     /// Sets the flag that defines the mode of treatment.
     /// In non-destructive mode the argument shapes are not modified. Instead
     /// a copy of a sub-shape is created in the result if it is needed to be updated.
-    /// </summary>
     void SetNonDestructive(bool theFlag);
     /// <summary>
     /// Returns the flag that defines the mode of treatment.
@@ -164,14 +168,18 @@ public:
     /// </summary>
     bool CheckInverted();
     /// <summary>
-    /// Performs the algorithm
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the algorithm
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
-    /// Performs the algorithm
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the algorithm
     void Build();
     /// <summary>
+    /// </summary>
+    /// @name Result simplification
     /// Simplification of the result shape is performed by the means of
     /// *ShapeUpgrade_UnifySameDomain* algorithm. The result of the operation will
     /// be overwritten with the simplified result.
@@ -191,7 +199,6 @@ public:
     /// - Fuzzy tolerance of the operation is given to the Unifier as the linear tolerance.
     /// - Non destructive mode here controls the safe input mode in Unifier.
     /// 
-    /// </summary>
     /// <param name="theUnifyEdges">
     /// Controls the edges unification. TRUE by default.
     /// </param>
@@ -204,6 +211,8 @@ public:
     /// </param>
     void SimplifyResult(bool theUnifyEdges, bool theUnifyFaces, double theAngularTol);
     /// <summary>
+    /// </summary>
+    /// @name Result simplification
     /// Simplification of the result shape is performed by the means of
     /// *ShapeUpgrade_UnifySameDomain* algorithm. The result of the operation will
     /// be overwritten with the simplified result.
@@ -223,7 +232,6 @@ public:
     /// - Fuzzy tolerance of the operation is given to the Unifier as the linear tolerance.
     /// - Non destructive mode here controls the safe input mode in Unifier.
     /// 
-    /// </summary>
     /// <param name="theUnifyEdges">
     /// Controls the edges unification. TRUE by default.
     /// </param>
@@ -236,6 +244,8 @@ public:
     /// </param>
     void SimplifyResult(bool theUnifyEdges, bool theUnifyFaces);
     /// <summary>
+    /// </summary>
+    /// @name Result simplification
     /// Simplification of the result shape is performed by the means of
     /// *ShapeUpgrade_UnifySameDomain* algorithm. The result of the operation will
     /// be overwritten with the simplified result.
@@ -255,7 +265,6 @@ public:
     /// - Fuzzy tolerance of the operation is given to the Unifier as the linear tolerance.
     /// - Non destructive mode here controls the safe input mode in Unifier.
     /// 
-    /// </summary>
     /// <param name="theUnifyEdges">
     /// Controls the edges unification. TRUE by default.
     /// </param>
@@ -268,6 +277,8 @@ public:
     /// </param>
     void SimplifyResult(bool theUnifyEdges);
     /// <summary>
+    /// </summary>
+    /// @name Result simplification
     /// Simplification of the result shape is performed by the means of
     /// *ShapeUpgrade_UnifySameDomain* algorithm. The result of the operation will
     /// be overwritten with the simplified result.
@@ -287,7 +298,6 @@ public:
     /// - Fuzzy tolerance of the operation is given to the Unifier as the linear tolerance.
     /// - Non destructive mode here controls the safe input mode in Unifier.
     /// 
-    /// </summary>
     /// <param name="theUnifyEdges">
     /// Controls the edges unification. TRUE by default.
     /// </param>
@@ -300,10 +310,11 @@ public:
     /// </param>
     void SimplifyResult();
     /// <summary>
+    /// </summary>
+    /// @name History support
     /// Returns the shapes modified from the shape <theS>.
     /// If any, the list will contain only those splits of the
     /// given shape, contained in the result.
-    /// </summary>
     Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ theS);
     /// <summary>
     /// Returns the list  of shapes generated from the shape <theS>.
@@ -335,17 +346,19 @@ public:
     /// </summary>
     bool HasDeleted();
     /// <summary>
-    /// Allows disabling the history collection
     /// </summary>
+    /// @name Enabling/Disabling the history collection.
+    /// Allows disabling the history collection
     void SetToFillHistory(bool theHistFlag);
     /// <summary>
     /// Returns flag of history availability
     /// </summary>
     bool HasHistory();
     /// <summary>
+    /// </summary>
+    /// @name Getting the section edges
     /// Returns a list of section edges.
     /// The edges represent the result of intersection between arguments of operation.
-    /// </summary>
     Macad::Occt::TopTools_ListOfShape^ SectionEdges();
     /* Method skipped due to unknown mapping: BOPAlgo_PaveFiller DSFiller() */
     /// <summary>
@@ -418,14 +431,16 @@ public:
 
 public:
     /// <summary>
-    /// Empty constructor
     /// </summary>
+    /// @name Constructors
+    /// Empty constructor
     BRepAlgoAPI_BooleanOperation();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_BooleanOperation(BOPAlgo_PaveFiller thePF, ) */
     /// <summary>
+    /// </summary>
+    /// @name Setting/getting arguments
     /// Returns the first argument involved in this Boolean operation.
     /// Obsolete
-    /// </summary>
     Macad::Occt::TopoDS_Shape^ Shape1();
     /// <summary>
     /// Returns the second argument involved in this Boolean operation.
@@ -441,20 +456,23 @@ public:
     /// </summary>
     Macad::Occt::TopTools_ListOfShape^ Tools();
     /// <summary>
-    /// Sets the type of Boolean operation
     /// </summary>
+    /// @name Setting/Getting the type of Boolean operation
+    /// Sets the type of Boolean operation
     void SetOperation(Macad::Occt::BOPAlgo_Operation theBOP);
     /// <summary>
     /// Returns the type of Boolean Operation
     /// </summary>
     Macad::Occt::BOPAlgo_Operation Operation();
     /// <summary>
-    /// Performs the Boolean operation.
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the Boolean operation.
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
-    /// Performs the Boolean operation.
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the Boolean operation.
     void Build();
 }; // class BRepAlgoAPI_BooleanOperation
 
@@ -509,83 +527,84 @@ public:
 
 public:
     /// <summary>
-    /// Empty constructor.
     /// </summary>
+    /// @name Constructors
+    /// Empty constructor.
     BRepAlgoAPI_Check();
     /// <summary>
     /// Constructor for checking single shape.
     /// 
     /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI, Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
     /// Constructor for checking single shape.
     /// 
     /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI);
     /// <summary>
     /// Constructor for checking single shape.
     /// 
     /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE);
     /// <summary>
     /// Constructor for checking single shape.
     /// 
     /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS);
     /// <summary>
@@ -595,26 +614,26 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE, bool bTestSI, Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
@@ -624,26 +643,26 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE, bool bTestSI);
     /// <summary>
@@ -653,26 +672,26 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE);
     /// <summary>
@@ -682,26 +701,26 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp);
     /// <summary>
@@ -711,73 +730,76 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="theRange">
-    /// [in] - parameter to use progress indicator
+    /// <param name="in]">
+    /// theRange  - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2);
     /// <summary>
+    /// </summary>
+    /// @name Initializing the algorithm
     /// Initializes the algorithm with single shape.
     /// 
-    /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI);
     /// <summary>
+    /// </summary>
+    /// @name Initializing the algorithm
     /// Initializes the algorithm with single shape.
     /// 
-    /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE);
     /// <summary>
+    /// </summary>
+    /// @name Initializing the algorithm
     /// Initializes the algorithm with single shape.
     /// 
-    /// </summary>
-    /// <param name="theS">
-    /// [in] - the shape to check;
+    /// <param name="in]">
+    /// theS  - the shape to check;
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS);
@@ -788,22 +810,22 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE, bool bTestSI);
@@ -814,22 +836,22 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE);
@@ -840,22 +862,22 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp);
@@ -866,36 +888,39 @@ public:
     /// for Boolean operation of given type.
     /// 
     /// </summary>
-    /// <param name="theS1">
-    /// [in] - the first shape to check;
+    /// <param name="in]">
+    /// theS1  - the first shape to check;
     /// </param>
-    /// <param name="theS2">
-    /// [in] - the second shape to check;
+    /// <param name="in]">
+    /// theS2  - the second shape to check;
     /// </param>
-    /// <param name="theOp">
-    /// [in] - the type of Boolean Operation for which the validity
+    /// <param name="in]">
+    /// theOp  - the type of Boolean Operation for which the validity
     /// of given shapes should be checked.
     /// </param>
-    /// <param name="bTestSE">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSE  - flag which specifies whether to check the shape
     /// on small edges or not; by default it is set to TRUE;
     /// </param>
-    /// <param name="bTestSI">
-    /// [in] - flag which specifies whether to check the shape
+    /// <param name="in]">
+    /// bTestSI  - flag which specifies whether to check the shape
     /// on self-interference or not; by default it is set to TRUE;
     /// </param>
     void SetData(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2);
     /// <summary>
-    /// Performs the check.
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the check.
     void Perform(Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
-    /// Performs the check.
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the check.
     void Perform();
     /// <summary>
-    /// Shows whether shape(s) valid or not.
     /// </summary>
+    /// @name Getting the results.
+    /// Shows whether shape(s) valid or not.
     bool IsValid();
     /* Method skipped due to unknown mapping: BOPAlgo_ListOfCheckResult Result() */
 }; // class BRepAlgoAPI_Check
@@ -1127,14 +1152,16 @@ public:
 
 public:
     /// <summary>
-    /// Empty constructor
     /// </summary>
+    /// @name Constructors
+    /// Empty constructor
     BRepAlgoAPI_Defeaturing();
     /// <summary>
-    /// Sets the shape for processing.
     /// </summary>
-    /// <param name="theShape">
-    /// [in] The shape to remove the features from.
+    /// @name Setting input data for the algorithm
+    /// Sets the shape for processing.
+    /// <param name="in]">
+    /// theShape  The shape to remove the features from.
     /// It should either be the SOLID, COMPSOLID or COMPOUND of Solids.
     /// </param>
     void SetShape(Macad::Occt::TopoDS_Shape^ theShape);
@@ -1145,15 +1172,15 @@ public:
     /// <summary>
     /// Adds the features to remove from the input shape.
     /// </summary>
-    /// <param name="theFace">
-    /// [in] The shape to extract the faces for removal.
+    /// <param name="in]">
+    /// theFace  The shape to extract the faces for removal.
     /// </param>
     void AddFaceToRemove(Macad::Occt::TopoDS_Shape^ theFace);
     /// <summary>
     /// Adds the faces to remove from the input shape.
     /// </summary>
-    /// <param name="theFaces">
-    /// [in] The list of shapes to extract the faces for removal.
+    /// <param name="in]">
+    /// theFaces  The list of shapes to extract the faces for removal.
     /// </param>
     void AddFacesToRemove(Macad::Occt::TopTools_ListOfShape^ theFaces);
     /// <summary>
@@ -1162,16 +1189,19 @@ public:
     /// </summary>
     Macad::Occt::TopTools_ListOfShape^ FacesToRemove();
     /// <summary>
-    /// Performs the operation
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the operation
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
-    /// Performs the operation
     /// </summary>
+    /// @name Performing the operation
+    /// Performs the operation
     void Build();
     /// <summary>
-    /// Defines whether to track the modification of the shapes or not.
     /// </summary>
+    /// @name History Methods
+    /// Defines whether to track the modification of the shapes or not.
     void SetToFillHistory(bool theFlag);
     /// <summary>
     /// Returns whether the history was requested or not.
@@ -1537,7 +1567,8 @@ public:
 /// 
 /// The algorithm returns the following Error statuses:<br>
 /// - 0 - in case of success;<br>
-/// - *BOPAlgo_AlertTooFewArguments*    - in case there is no enough arguments for the operation;<br>
+/// - *BOPAlgo_AlertTooFewArguments*    - in case there is no enough arguments for the
+/// operation;<br>
 /// - *BOPAlgo_AlertIntersectionFailed* - in case the Intersection of the arguments has failed;<br>
 /// - *BOPAlgo_AlertBuilderFailed*      - in case the Building of the result has failed.
 /// </summary>
@@ -1569,29 +1600,33 @@ public:
 
 public:
     /// <summary>
-    /// Empty constructor
     /// </summary>
+    /// @name Constructors
+    /// Empty constructor
     BRepAlgoAPI_Splitter();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Splitter(BOPAlgo_PaveFiller thePF, ) */
     /// <summary>
-    /// Sets the Tool arguments
     /// </summary>
+    /// @name Setters/Getters for the Tools
+    /// Sets the Tool arguments
     void SetTools(Macad::Occt::TopTools_ListOfShape^ theLS);
     /// <summary>
     /// Returns the Tool arguments
     /// </summary>
     Macad::Occt::TopTools_ListOfShape^ Tools();
     /// <summary>
+    /// </summary>
+    /// @name Performing the operation
     /// Performs the Split operation.
     /// Performs the intersection of the argument shapes (both objects and tools)
     /// and splits objects by the tools.
-    /// </summary>
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     /// <summary>
+    /// </summary>
+    /// @name Performing the operation
     /// Performs the Split operation.
     /// Performs the intersection of the argument shapes (both objects and tools)
     /// and splits objects by the tools.
-    /// </summary>
     void Build();
 }; // class BRepAlgoAPI_Splitter
 

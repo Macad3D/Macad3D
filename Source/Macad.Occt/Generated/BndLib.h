@@ -305,8 +305,9 @@ public:
     /// Note: depending on the type of curve, one of the following
     /// algorithms  is used to include it in the bounding box B:
     /// -   an exact analytical if C is built from a line, a circle or a conic curve,
-    /// -   numerical calculation of bounding box sizes, based on minimization algorithm,  for other types of curve
-    /// If Tol = < Precision::PConfusion(), Precision::PConfusion is used as tolerance for calculation
+    /// -   numerical calculation of bounding box sizes, based on minimization algorithm,  for other
+    /// types of curve If Tol = < Precision::PConfusion(), Precision::PConfusion is used as tolerance
+    /// for calculation
     /// </summary>
     static void AddOptimal(Macad::Occt::Geom2d_Curve^ C, double U1, double U2, double Tol, Macad::Occt::Bnd_Box2d^ B);
 }; // class BndLib_Add2dCurve

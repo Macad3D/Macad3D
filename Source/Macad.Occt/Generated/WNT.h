@@ -133,27 +133,32 @@ public:
 public:
     /// <summary>
     /// Creates a Window defined by his position and size in pixels from the Parent Window.
-    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window creation failed.
+    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window
+    /// creation failed.
     /// </summary>
     WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, long unsigned int theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent, System::IntPtr theMenu, System::IntPtr theClientStruct);
     /// <summary>
     /// Creates a Window defined by his position and size in pixels from the Parent Window.
-    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window creation failed.
+    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window
+    /// creation failed.
     /// </summary>
     WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, long unsigned int theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent, System::IntPtr theMenu);
     /// <summary>
     /// Creates a Window defined by his position and size in pixels from the Parent Window.
-    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window creation failed.
+    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window
+    /// creation failed.
     /// </summary>
     WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, long unsigned int theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent);
     /// <summary>
     /// Creates a Window defined by his position and size in pixels from the Parent Window.
-    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window creation failed.
+    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window
+    /// creation failed.
     /// </summary>
     WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, long unsigned int theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor);
     /// <summary>
     /// Creates a Window defined by his position and size in pixels from the Parent Window.
-    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window creation failed.
+    /// Trigger: Raises WindowDefinitionError if the Position out of the Screen Space or the window
+    /// creation failed.
     /// </summary>
     WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, long unsigned int theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight);
     /// <summary>
@@ -196,8 +201,8 @@ public:
     /// Opens a window according to the map mode.
     /// This method is specific to Windows NT.
     /// </summary>
-    /// <param name="theMapMode">
-    /// [in] can be one of SW_xxx constants defined in <windows.h>
+    /// <param name="in]">
+    /// theMapMode  can be one of SW_xxx constants defined in <windows.h>
     /// </param>
     void Map(int theMapMode);
     /// <summary>
@@ -249,8 +254,9 @@ public:
     void SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle);
     /* Method skipped due to unknown mapping: void InvalidateContent(Aspect_DisplayConnection theDisp, ) */
     /// <summary>
-    /// Invalidate entire window content by calling InvalidateRect() WinAPI function, resulting in WM_PAINT event put into window message loop.
-    /// Method can be called from non-window thread, and system will also automatically aggregate multiple events into single one.
+    /// Invalidate entire window content by calling InvalidateRect() WinAPI function, resulting in
+    /// WM_PAINT event put into window message loop. Method can be called from non-window thread, and
+    /// system will also automatically aggregate multiple events into single one.
     /// </summary>
     void InvalidateContent();
     /// <summary>
@@ -264,8 +270,8 @@ public:
     /// <summary>
     /// RegisterRawInputDevices() wrapper.
     /// </summary>
-    /// <param name="theRawDeviceMask">
-    /// [in] mask of RawInputMask flags
+    /// <param name="in]">
+    /// theRawDeviceMask  mask of RawInputMask flags
     /// </param>
     /// <returns>
     /// number of actually registered device types

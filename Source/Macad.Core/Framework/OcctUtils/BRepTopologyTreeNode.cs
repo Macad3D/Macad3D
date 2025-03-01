@@ -260,23 +260,23 @@ public class BRepTopologyTreeNode
             switch (BrepShape.ShapeType())
             {
                 case TopAbs_ShapeEnum.SHELL:
-                    _AddShellProperties(BrepShape as TopoDS_Shell ?? TopoDS.Shell(BrepShape));
+                    _AddShellProperties(BrepShape as TopoDS_Shell ?? BrepShape.ToShell());
                     break;
 
                 case TopAbs_ShapeEnum.FACE:
-                    _AddFaceProperties(BrepShape as TopoDS_Face ?? TopoDS.Face(BrepShape));
+                    _AddFaceProperties(BrepShape as TopoDS_Face ?? BrepShape.ToFace());
                     break;
 
                 case TopAbs_ShapeEnum.WIRE:
-                    _AddWireProperties(BrepShape as TopoDS_Wire ?? TopoDS.Wire(BrepShape));
+                    _AddWireProperties(BrepShape as TopoDS_Wire ?? BrepShape.ToWire());
                     break;
 
                 case TopAbs_ShapeEnum.EDGE:
-                    _AddEdgeProperties(BrepShape as TopoDS_Edge ?? TopoDS.Edge(BrepShape));
+                    _AddEdgeProperties(BrepShape as TopoDS_Edge ?? BrepShape.ToEdge());
                     break;
 
                 case TopAbs_ShapeEnum.VERTEX:
-                    _AddVertexProperties(BrepShape as TopoDS_Vertex ?? TopoDS.Vertex(BrepShape));
+                    _AddVertexProperties(BrepShape as TopoDS_Vertex ?? BrepShape.ToVertex());
                     break;
             }
         }

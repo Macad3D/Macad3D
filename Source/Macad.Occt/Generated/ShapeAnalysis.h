@@ -330,7 +330,7 @@ public:
 /// <summary>
 /// This class provides operators for analysis surfaces and curves of shapes
 /// in order to find out more simple geometry entities, which could replace
-/// existing complex (for exampe, BSpline) geometry objects with given tolerance.
+/// existing complex (for example, BSpline) geometry objects with given tolerance.
 /// </summary>
 public ref class ShapeAnalysis_CanonicalRecognition sealed
     : public Macad::Occt::BaseClass<::ShapeAnalysis_CanonicalRecognition>
@@ -401,8 +401,8 @@ public:
     /// </summary>
     bool IsPlane(double theTol, Macad::Occt::Pln% thePln);
     /// <summary>
-    /// Returns true if the underlined surface can be represent by cylindrical one with tolerance theTol
-    /// and sets in theCyl the result cylinrical surface.
+    /// Returns true if the underlined surface can be represent by cylindrical one with tolerance
+    /// theTol and sets in theCyl the result cylinrical surface.
     /// </summary>
     bool IsCylinder(double theTol, Macad::Occt::gp_Cylinder^ theCyl);
     /// <summary>
@@ -886,14 +886,14 @@ public:
     /// </summary>
     bool HasCurve3d(Macad::Occt::TopoDS_Edge^ edge);
     /// <summary>
-    /// Returns the 3d curve and bounding parameteres for the edge
+    /// Returns the 3d curve and bounding parameters for the edge
     /// Returns False if no 3d curve.
     /// If <orient> is True (default), takes orientation into account:
     /// if the edge is reversed, cf and cl are toggled
     /// </summary>
     bool Curve3d(Macad::Occt::TopoDS_Edge^ edge, Macad::Occt::Geom_Curve^ C3d, double% cf, double% cl, bool orient);
     /// <summary>
-    /// Returns the 3d curve and bounding parameteres for the edge
+    /// Returns the 3d curve and bounding parameters for the edge
     /// Returns False if no 3d curve.
     /// If <orient> is True (default), takes orientation into account:
     /// if the edge is reversed, cf and cl are toggled
@@ -915,7 +915,7 @@ public:
     bool PCurve(Macad::Occt::TopoDS_Edge^ edge, Macad::Occt::TopoDS_Face^ face, Macad::Occt::Geom2d_Curve^ C2d, double% cf, double% cl, bool orient);
     bool PCurve(Macad::Occt::TopoDS_Edge^ edge, Macad::Occt::TopoDS_Face^ face, Macad::Occt::Geom2d_Curve^ C2d, double% cf, double% cl);
     /// <summary>
-    /// Returns the pcurve and bounding parameteres for the edge
+    /// Returns the pcurve and bounding parameters for the edge
     /// lying on the surface.
     /// Returns False if the edge has no pcurve on this surface.
     /// If <orient> is True (default), takes orientation into account:
@@ -923,7 +923,7 @@ public:
     /// </summary>
     bool PCurve(Macad::Occt::TopoDS_Edge^ edge, Macad::Occt::Geom_Surface^ surface, Macad::Occt::TopLoc_Location^ location, Macad::Occt::Geom2d_Curve^ C2d, double% cf, double% cl, bool orient);
     /// <summary>
-    /// Returns the pcurve and bounding parameteres for the edge
+    /// Returns the pcurve and bounding parameters for the edge
     /// lying on the surface.
     /// Returns False if the edge has no pcurve on this surface.
     /// If <orient> is True (default), takes orientation into account:
@@ -1411,7 +1411,7 @@ public:
     /// </summary>
     Macad::Occt::TopoDS_Compound^ GetOpenWires();
     /// <summary>
-    /// Builds sequnce of <wires> out of sequence of not sorted
+    /// Builds sequence of <wires> out of sequence of not sorted
     /// <edges>.
     /// Tries to build wires of maximum length. Building a wire is
     /// stopped when no edges can be connected to it at its head or
@@ -1426,7 +1426,7 @@ public:
     static void ConnectEdgesToWires(Macad::Occt::TopTools_HSequenceOfShape^ edges, double toler, bool shared, Macad::Occt::TopTools_HSequenceOfShape^ wires);
     static void ConnectWiresToWires(Macad::Occt::TopTools_HSequenceOfShape^ iwires, double toler, bool shared, Macad::Occt::TopTools_HSequenceOfShape^ owires);
     /// <summary>
-    /// Builds sequnce of <owires> out of sequence of not sorted
+    /// Builds sequence of <owires> out of sequence of not sorted
     /// <iwires>.
     /// Tries to build wires of maximum length. Building a wire is
     /// stopped when no wires can be connected to it at its head or
@@ -2419,7 +2419,7 @@ public:
     /// also says this. Otherwise additional analysis is performed,
     /// comparing given precision with the following distances:
     /// - periodic B-Splines are closed,
-    /// - polinomial B-Spline with boundary multiplicities degree+1
+    /// - polynomial B-Spline with boundary multiplicities degree+1
     /// and Bezier - maximum distance between poles,
     /// - rational B-Spline or one with boundary multiplicities not
     /// degree+1 - maximum distance computed at knots and their
@@ -2437,7 +2437,7 @@ public:
     /// also says this. Otherwise additional analysis is performed,
     /// comparing given precision with the following distances:
     /// - periodic B-Splines are closed,
-    /// - polinomial B-Spline with boundary multiplicities degree+1
+    /// - polynomial B-Spline with boundary multiplicities degree+1
     /// and Bezier - maximum distance between poles,
     /// - rational B-Spline or one with boundary multiplicities not
     /// degree+1 - maximum distance computed at knots and their
@@ -2455,7 +2455,7 @@ public:
     /// also says this. Otherwise additional analysis is performed,
     /// comparing given precision with the following distances:
     /// - periodic B-Splines are closed,
-    /// - polinomial B-Spline with boundary multiplicities degree+1
+    /// - polynomial B-Spline with boundary multiplicities degree+1
     /// and Bezier - maximum distance between poles,
     /// - rational B-Spline or one with boundary multiplicities not
     /// degree+1 - maximum distance computed at knots and their
@@ -2473,7 +2473,7 @@ public:
     /// also says this. Otherwise additional analysis is performed,
     /// comparing given precision with the following distances:
     /// - periodic B-Splines are closed,
-    /// - polinomial B-Spline with boundary multiplicities degree+1
+    /// - polynomial B-Spline with boundary multiplicities degree+1
     /// and Bezier - maximum distance between poles,
     /// - rational B-Spline or one with boundary multiplicities not
     /// degree+1 - maximum distance computed at knots and their

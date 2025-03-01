@@ -49,7 +49,8 @@ public:
     /// otherwise surface is not restricted.
     /// If UseBToler = false then the 2d-point of intersection is classified with null-tolerance
     /// (relative to face);
-    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds (edges).
+    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds
+    /// (edges).
     /// </summary>
     IntCurvesFace_Intersector(Macad::Occt::TopoDS_Face^ F, double aTol, bool aRestr, bool UseBToler);
     /// <summary>
@@ -64,7 +65,8 @@ public:
     /// otherwise surface is not restricted.
     /// If UseBToler = false then the 2d-point of intersection is classified with null-tolerance
     /// (relative to face);
-    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds (edges).
+    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds
+    /// (edges).
     /// </summary>
     IntCurvesFace_Intersector(Macad::Occt::TopoDS_Face^ F, double aTol, bool aRestr);
     /// <summary>
@@ -79,7 +81,8 @@ public:
     /// otherwise surface is not restricted.
     /// If UseBToler = false then the 2d-point of intersection is classified with null-tolerance
     /// (relative to face);
-    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds (edges).
+    /// otherwise it's using maximum between input tolerance(aTol) and tolerances of face bounds
+    /// (edges).
     /// </summary>
     IntCurvesFace_Intersector(Macad::Occt::TopoDS_Face^ F, double aTol);
     /// <summary>

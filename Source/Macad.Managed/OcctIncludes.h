@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma managed(push, off)
+#pragma managed( push, off )
 
 #include <Standard.hxx>
 #include <Standard_DefineHandle.hxx>
@@ -118,6 +118,7 @@
 #include <Graphic3d_Texture2Dmanual.hxx>
 
 #include <V3d.hxx>
+#pragma warning( suppress: 4996 ) // Deprecation warning for Handle_Graphic3d_CLight
 #include <V3d_View.hxx>
 
 #include <SelectMgr_Selection.hxx>
@@ -160,4 +161,4 @@
 
 #include <WNT_Window.hxx>
 
-#pragma managed(pop)
+#pragma managed( pop )

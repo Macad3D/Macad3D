@@ -25,7 +25,6 @@ if(!ssindex.Init(pathToSource))
     return -1;
 
 Printer.Line("Starting source indexing of pdb files...");
-
 foreach (var file in Directory.GetFiles(pathToPdbs, "*.pdb"))
 {
     if (!ssindex.ProcessPdb(file))

@@ -1525,7 +1525,7 @@ public:
     /// </summary>
     Macad::Occt::GeomConvert_ConvType GetConvType();
     /// <summary>
-    /// Sets type of convertion
+    /// Sets type of conversion
     /// </summary>
     void SetConvType(Macad::Occt::GeomConvert_ConvType theConvType);
     /// <summary>
@@ -1542,9 +1542,9 @@ public:
 //  Class  GeomConvert_SurfToAnaSurf
 //---------------------------------------------------------------------
 /// <summary>
-/// Converts a surface to the analitical form with given
+/// Converts a surface to the analytical form with given
 /// precision. Conversion is done only the surface is bspline
-/// of bezier and this can be approximed by some analytical
+/// of bezier and this can be approximated by some analytical
 /// surface with that precision.
 /// </summary>
 public ref class GeomConvert_SurfToAnaSurf sealed

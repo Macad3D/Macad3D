@@ -11,7 +11,7 @@ namespace Occt
 //  Enum  NCollection_CellFilter_Action
 //---------------------------------------------------------------------
 /// <summary>
-/// Auxiliary enumeration serving as responce from method Inspect
+/// Auxiliary enumeration serving as response from method Inspect
 /// </summary>
 public enum class NCollection_CellFilter_Action
 {
@@ -322,7 +322,7 @@ public:
     /// </summary>
     System::IntPtr GetArray();
     /// <summary>
-    /// Gets value by index, no acess validation
+    /// Gets value by index, no access validation
     /// </summary>
     System::IntPtr Value(long long unsigned int theInd);
     /// <summary>
@@ -673,8 +673,8 @@ public:
 
     /// <summary>
     /// Constructor.
-    /// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
-    /// see SetThreadSafe() method.
+    /// Note that this constructor does NOT setup mutex for using allocator concurrently from
+    /// different threads, see SetThreadSafe() method.
     /// 
     /// The default size of the memory blocks is 12KB.
     /// It is not recommended to use memory blocks larger than 16KB on Windows
@@ -685,8 +685,8 @@ public:
     NCollection_IncAllocator(long long unsigned int theBlockSize);
     /// <summary>
     /// Constructor.
-    /// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
-    /// see SetThreadSafe() method.
+    /// Note that this constructor does NOT setup mutex for using allocator concurrently from
+    /// different threads, see SetThreadSafe() method.
     /// 
     /// The default size of the memory blocks is 12KB.
     /// It is not recommended to use memory blocks larger than 16KB on Windows
@@ -790,10 +790,10 @@ public:
 /// to the system.
 /// 
 /// This allocator can also be created per each working thread
-/// hovewer it real multi-threading performance is dubious.
+/// however its real multi-threading performance is dubious.
 /// 
 /// Notice that this also means that existing pointers will be broken
-/// and you shoould control that allocator is alive along all objects
+/// and you should control that allocator is alive along all objects
 /// allocated with him.
 /// </summary>
 public ref class NCollection_WinHeapAllocator sealed

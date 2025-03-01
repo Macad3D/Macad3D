@@ -32,7 +32,8 @@ if(Args[0].ToLower() == "config")
 	{
 		_ConfigOcctPaths("");
 		Printer.Success("The pre-built package will be used again.");
-	} else
+	} 
+	else
 	{
 		if(!_ConfigOcctPaths(Args[1]))
 			return -1;
@@ -111,8 +112,8 @@ bool _ConfigOcctPaths(string occtPath)
 
 const string _CachePath = @".intermediate\Macad.Occt\CastXml";
 const string _WrapperBinPath = @"bin\{0}\WrapperGenerator.exe";
-const string _WrapperProjectName = @"WrapperGenerator";
-const string _TargetProjectName = @"Macad.Occt";
+const string _WrapperProjectName = @"Tools\WrapperGenerator";
+const string _TargetProjectName = @"Source\Macad.Occt";
 const string _GeneratedSourcePath = @"Source\Macad.Occt\Generated";
 
 bool _GenerateWrapper()

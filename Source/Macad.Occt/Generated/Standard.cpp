@@ -1204,13 +1204,6 @@ Macad::Occt::Standard_Dump::Standard_Dump()
     _NativeInstance = new ::Standard_Dump();
 }
 
-Macad::Occt::TColStd_ListOfInteger^ Macad::Occt::Standard_Dump::HierarchicalValueIndices(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theValues)
-{
-    ::TColStd_ListOfInteger* _result = new ::TColStd_ListOfInteger();
-    *_result = ::Standard_Dump::HierarchicalValueIndices(*(::TColStd_IndexedDataMapOfStringString*)theValues->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_ListOfInteger(_result);
-}
-
 bool Macad::Occt::Standard_Dump::HasChildKey(Macad::Occt::TCollection_AsciiString^ theSourceValue)
 {
     bool _result = ::Standard_Dump::HasChildKey(*(::TCollection_AsciiString*)theSourceValue->NativeInstance);

@@ -16,14 +16,17 @@ namespace Occt
 //---------------------------------------------------------------------
 /// <summary>
 /// Determines the type of orientation as a combination of standard DX/DY/DZ directions.
-/// This enumeration defines a model orientation looking towards the user's eye, which is an opposition to Camera main direction.
-/// For example, V3d_Xneg defines +X Camera main direction.
+/// This enumeration defines a model orientation looking towards the user's eye, which is an
+/// opposition to Camera main direction. For example, V3d_Xneg defines +X Camera main direction.
 /// 
-/// This enumeration defines only main Camera direction, so that the Camera up direction should be defined elsewhere for unambiguous Camera definition.
-/// Open CASCADE does not force application using specific coordinate system, although Draw Harness and samples define +Z-up +Y-forward coordinate system for camera view manipulation.
-/// Therefore, this enumeration also defines V3d_TypeOfOrientation_Zup_* aliases defining front/back/left/top camera orientations for +Z-up convention
-/// as well as V3d_TypeOfOrientation_Yup_* aliases for another commonly used in other systems +Y-up convention.
-/// Applications using other coordinate system can define their own enumeration, when found suitable.
+/// This enumeration defines only main Camera direction, so that the Camera up direction should be
+/// defined elsewhere for unambiguous Camera definition. Open CASCADE does not force application
+/// using specific coordinate system, although Draw Harness and samples define +Z-up +Y-forward
+/// coordinate system for camera view manipulation. Therefore, this enumeration also defines
+/// V3d_TypeOfOrientation_Zup_* aliases defining front/back/left/top camera orientations for +Z-up
+/// convention as well as V3d_TypeOfOrientation_Yup_* aliases for another commonly used in other
+/// systems +Y-up convention. Applications using other coordinate system can define their own
+/// enumeration, when found suitable.
 /// </summary>
 public enum class V3d_TypeOfOrientation
 {
@@ -206,44 +209,6 @@ public:
 }; // class V3d_ListOfLight
 
 //---------------------------------------------------------------------
-//  Class  V3d_ListOfLightIterator
-//---------------------------------------------------------------------
-public ref class V3d_ListOfLightIterator sealed
-    : public Macad::Occt::BaseClass<::V3d_ListOfLightIterator>
-{
-
-#ifdef Include_V3d_ListOfLightIterator_h
-public:
-    Include_V3d_ListOfLightIterator_h
-#endif
-
-public:
-    V3d_ListOfLightIterator(::V3d_ListOfLightIterator* nativeInstance)
-        : Macad::Occt::BaseClass<::V3d_ListOfLightIterator>( nativeInstance, true )
-    {}
-
-    V3d_ListOfLightIterator(::V3d_ListOfLightIterator& nativeInstance)
-        : Macad::Occt::BaseClass<::V3d_ListOfLightIterator>( &nativeInstance, false )
-    {}
-
-    property ::V3d_ListOfLightIterator* NativeInstance
-    {
-        ::V3d_ListOfLightIterator* get()
-        {
-            return static_cast<::V3d_ListOfLightIterator*>(_NativeInstance);
-        }
-    }
-
-public:
-    V3d_ListOfLightIterator();
-    V3d_ListOfLightIterator(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::Graphic3d_CLight^ Value();
-    Macad::Occt::Graphic3d_CLight^ ChangeValue();
-}; // class V3d_ListOfLightIterator
-
-//---------------------------------------------------------------------
 //  Class  V3d_ListOfView
 //---------------------------------------------------------------------
 public ref class V3d_ListOfView sealed
@@ -325,44 +290,6 @@ public:
 }; // class V3d_ListOfView
 
 //---------------------------------------------------------------------
-//  Class  V3d_ListOfViewIterator
-//---------------------------------------------------------------------
-public ref class V3d_ListOfViewIterator sealed
-    : public Macad::Occt::BaseClass<::V3d_ListOfViewIterator>
-{
-
-#ifdef Include_V3d_ListOfViewIterator_h
-public:
-    Include_V3d_ListOfViewIterator_h
-#endif
-
-public:
-    V3d_ListOfViewIterator(::V3d_ListOfViewIterator* nativeInstance)
-        : Macad::Occt::BaseClass<::V3d_ListOfViewIterator>( nativeInstance, true )
-    {}
-
-    V3d_ListOfViewIterator(::V3d_ListOfViewIterator& nativeInstance)
-        : Macad::Occt::BaseClass<::V3d_ListOfViewIterator>( &nativeInstance, false )
-    {}
-
-    property ::V3d_ListOfViewIterator* NativeInstance
-    {
-        ::V3d_ListOfViewIterator* get()
-        {
-            return static_cast<::V3d_ListOfViewIterator*>(_NativeInstance);
-        }
-    }
-
-public:
-    V3d_ListOfViewIterator();
-    V3d_ListOfViewIterator(Macad::Occt::NCollection_BaseList^ theList);
-    bool More();
-    void Next();
-    Macad::Occt::V3d_View^ Value();
-    Macad::Occt::V3d_View^ ChangeValue();
-}; // class V3d_ListOfViewIterator
-
-//---------------------------------------------------------------------
 //  Class  V3d_ImageDumpOptions
 //---------------------------------------------------------------------
 /// <summary>
@@ -396,7 +323,7 @@ public:
 
 public:
     /// <summary>
-    /// < width  of image dump to allocate an image, 0 by default (meaning that image should be already allocated)
+    /// < Width  of image dump to allocate an image, 0 by default (meaning that image should be already allocated).
     /// </summary>
     property int Width {
         int get() {
@@ -408,7 +335,7 @@ public:
     }
 
     /// <summary>
-    /// < height of image dump to allocate an image, 0 by default (meaning that image should be already allocated)
+    /// < Height of image dump to allocate an image, 0 by default (meaning that image should be already allocated).
     /// </summary>
     property int Height {
         int get() {
@@ -420,7 +347,7 @@ public:
     }
 
     /// <summary>
-    /// < which buffer to dump (color / depth), Graphic3d_BT_RGB by default
+    /// < Which buffer to dump (color / depth), Graphic3d_BT_RGB by default.
     /// </summary>
     property Macad::Occt::Graphic3d_BufferType BufferType {
         Macad::Occt::Graphic3d_BufferType get() {
@@ -432,7 +359,7 @@ public:
     }
 
     /// <summary>
-    /// < dumping stereoscopic camera, V3d_SDO_MONO by default (middle-point monographic projection)
+    /// < Dumping stereoscopic camera, V3d_SDO_MONO by default (middle-point monographic projection).
     /// </summary>
     property Macad::Occt::V3d_StereoDumpOptions StereoOptions {
         Macad::Occt::V3d_StereoDumpOptions get() {
@@ -444,7 +371,7 @@ public:
     }
 
     /// <summary>
-    /// < the view dimension limited for tiled dump, 0 by default (automatic tiling depending on hardware capabilities)
+    /// < The view dimension limited for tiled dump, 0 by default (automatic tiling depending on hardware capabilities).
     /// </summary>
     property int TileSize {
         int get() {
@@ -456,7 +383,7 @@ public:
     }
 
     /// <summary>
-    /// < flag to override active view aspect ratio by (Width / Height) defined for image dump (TRUE by default)
+    /// < Flag to override active view aspect ratio by (Width / Height) defined for image dump (TRUE by default).
     /// </summary>
     property bool ToAdjustAspect {
         bool get() {
@@ -464,6 +391,27 @@ public:
         }
         void set(bool value) {
             ((::V3d_ImageDumpOptions*)_NativeInstance)->ToAdjustAspect = value;
+        }
+    }
+
+    /// <summary>
+    /// < Target z layer id which defines the last layer to be drawn before image dump.
+    /// </summary>
+    property int TargetZLayerId {
+        int get() {
+            return ((::V3d_ImageDumpOptions*)_NativeInstance)->TargetZLayerId;
+        }
+        void set(int value) {
+            ((::V3d_ImageDumpOptions*)_NativeInstance)->TargetZLayerId = value;
+        }
+    }
+
+    property bool IsSingleLayer {
+        bool get() {
+            return ((::V3d_ImageDumpOptions*)_NativeInstance)->IsSingleLayer;
+        }
+        void set(bool value) {
+            ((::V3d_ImageDumpOptions*)_NativeInstance)->IsSingleLayer = value;
         }
     }
 
@@ -573,7 +521,8 @@ public:
     /// theMargins subview margins in pixels
     /// 
     /// Example: to split parent view horizontally into 2 subview,
-    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with Size=(0.5,1.0),Offset=(5.0,0.0);
+    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with
+    /// Size=(0.5,1.0),Offset=(5.0,0.0);
     /// </param>
     void SetWindow(Macad::Occt::V3d_View^ theParentView, Macad::Occt::Graphic3d_Vec2d^ theSize, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2d^ theOffset, Macad::Occt::Graphic3d_Vec2i^ theMargins);
     /// <summary>
@@ -599,7 +548,8 @@ public:
     /// theMargins subview margins in pixels
     /// 
     /// Example: to split parent view horizontally into 2 subview,
-    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with Size=(0.5,1.0),Offset=(5.0,0.0);
+    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with
+    /// Size=(0.5,1.0),Offset=(5.0,0.0);
     /// </param>
     void SetWindow(Macad::Occt::V3d_View^ theParentView, Macad::Occt::Graphic3d_Vec2d^ theSize, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2d^ theOffset);
     /// <summary>
@@ -625,7 +575,8 @@ public:
     /// theMargins subview margins in pixels
     /// 
     /// Example: to split parent view horizontally into 2 subview,
-    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with Size=(0.5,1.0),Offset=(5.0,0.0);
+    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with
+    /// Size=(0.5,1.0),Offset=(5.0,0.0);
     /// </param>
     void SetWindow(Macad::Occt::V3d_View^ theParentView, Macad::Occt::Graphic3d_Vec2d^ theSize, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner);
     /// <summary>
@@ -651,7 +602,8 @@ public:
     /// theMargins subview margins in pixels
     /// 
     /// Example: to split parent view horizontally into 2 subview,
-    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with Size=(0.5,1.0),Offset=(5.0,0.0);
+    /// define one subview with Size=(0.5,1.0),Offset=(0.0,0.0), and 2nd with
+    /// Size=(0.5,1.0),Offset=(5.0,0.0);
     /// </param>
     void SetWindow(Macad::Occt::V3d_View^ theParentView, Macad::Occt::Graphic3d_Vec2d^ theSize);
     void SetMagnify(Macad::Occt::Aspect_Window^ theWindow, Macad::Occt::V3d_View^ thePreviousView, int theX1, int theY1, int theX2, int theY2);
@@ -719,8 +671,8 @@ public:
     /// to ensure that the size of viewing volume will be sufficiently large to cover
     /// the depth of unmanaged objects, for example, transformation persistent ones.
     /// </summary>
-    /// <param name="theScaleFactor">
-    /// [in] the scale factor for Z-range.
+    /// <param name="in]">
+    /// theScaleFactor  the scale factor for Z-range.
     /// The range between Z-min, Z-max projection volume planes
     /// evaluated by z fitting method will be scaled using this coefficient.
     /// Program error exception is thrown if negative or zero value
@@ -733,8 +685,8 @@ public:
     /// to ensure that the size of viewing volume will be sufficiently large to cover
     /// the depth of unmanaged objects, for example, transformation persistent ones.
     /// </summary>
-    /// <param name="theScaleFactor">
-    /// [in] the scale factor for Z-range.
+    /// <param name="in]">
+    /// theScaleFactor  the scale factor for Z-range.
     /// The range between Z-min, Z-max projection volume planes
     /// evaluated by z fitting method will be scaled using this coefficient.
     /// Program error exception is thrown if negative or zero value
@@ -765,7 +717,8 @@ public:
     /// </summary>
     void ZFitAll();
     /// <summary>
-    /// Defines the background color of the view by the color definition type and the three corresponding values.
+    /// Defines the background color of the view by the color definition type and the three
+    /// corresponding values.
     /// </summary>
     void SetBackgroundColor(Macad::Occt::Quantity_TypeOfColor theType, double theV1, double theV2, double theV3);
     /// <summary>
@@ -815,15 +768,18 @@ public:
     /// </summary>
     void SetBackgroundImage(System::String^ theFileName);
     /// <summary>
-    /// Defines the background texture of the view by supplying the texture and fill method (centered by default)
+    /// Defines the background texture of the view by supplying the texture and fill method (centered
+    /// by default)
     /// </summary>
     void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate);
     /// <summary>
-    /// Defines the background texture of the view by supplying the texture and fill method (centered by default)
+    /// Defines the background texture of the view by supplying the texture and fill method (centered
+    /// by default)
     /// </summary>
     void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle);
     /// <summary>
-    /// Defines the background texture of the view by supplying the texture and fill method (centered by default)
+    /// Defines the background texture of the view by supplying the texture and fill method (centered
+    /// by default)
     /// </summary>
     void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture);
     /// <summary>
@@ -841,7 +797,8 @@ public:
     /// cubemap source to be set as background
     /// </param>
     /// <param name="theToUpdatePBREnv">
-    /// defines whether IBL maps will be generated or not (see 'GeneratePBREnvironment')
+    /// defines whether IBL maps will be generated or not (see
+    /// 'GeneratePBREnvironment')
     /// </param>
     void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv, bool theToUpdate);
     /// <summary>
@@ -851,7 +808,8 @@ public:
     /// cubemap source to be set as background
     /// </param>
     /// <param name="theToUpdatePBREnv">
-    /// defines whether IBL maps will be generated or not (see 'GeneratePBREnvironment')
+    /// defines whether IBL maps will be generated or not (see
+    /// 'GeneratePBREnvironment')
     /// </param>
     void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv);
     /// <summary>
@@ -861,7 +819,8 @@ public:
     /// cubemap source to be set as background
     /// </param>
     /// <param name="theToUpdatePBREnv">
-    /// defines whether IBL maps will be generated or not (see 'GeneratePBREnvironment')
+    /// defines whether IBL maps will be generated or not (see
+    /// 'GeneratePBREnvironment')
     /// </param>
     void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap);
     /// <summary>
@@ -923,11 +882,13 @@ public:
     /// </summary>
     void GeneratePBREnvironment();
     /// <summary>
-    /// Disables IBL from background cubemap; fills PBR specular probe and irradiance map with white color.
+    /// Disables IBL from background cubemap; fills PBR specular probe and irradiance map with white
+    /// color.
     /// </summary>
     void ClearPBREnvironment(bool theToUpdate);
     /// <summary>
-    /// Disables IBL from background cubemap; fills PBR specular probe and irradiance map with white color.
+    /// Disables IBL from background cubemap; fills PBR specular probe and irradiance map with white
+    /// color.
     /// </summary>
     void ClearPBREnvironment();
     /// <summary>
@@ -1379,17 +1340,19 @@ public:
     /// In that case the DXv, DXy parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXv">
-    /// [in] the relative panning on "x" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDXv  the relative panning on "x" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theDYv">
-    /// [in] the relative panning on "y" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDYv  the relative panning on "y" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. If panning is started,
     /// passing {0, 0} for {theDXv, theDYv} will return view to initial state.
     /// Performs update of view.
@@ -1401,17 +1364,19 @@ public:
     /// In that case the DXv, DXy parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXv">
-    /// [in] the relative panning on "x" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDXv  the relative panning on "x" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theDYv">
-    /// [in] the relative panning on "y" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDYv  the relative panning on "y" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. If panning is started,
     /// passing {0, 0} for {theDXv, theDYv} will return view to initial state.
     /// Performs update of view.
@@ -1423,17 +1388,19 @@ public:
     /// In that case the DXv, DXy parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXv">
-    /// [in] the relative panning on "x" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDXv  the relative panning on "x" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theDYv">
-    /// [in] the relative panning on "y" axis of view projection, in view space coordinates.
+    /// <param name="in]">
+    /// theDYv  the relative panning on "y" axis of view projection, in view space
+    /// coordinates.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. If panning is started,
     /// passing {0, 0} for {theDXv, theDYv} will return view to initial state.
     /// Performs update of view.
@@ -1445,11 +1412,11 @@ public:
     /// screen. To calculate pixel coordinates for any point from world
     /// coordinate space, it can be projected using "Project".
     /// </summary>
-    /// <param name="theXp">
-    /// [in] the x coordinate.
+    /// <param name="in]">
+    /// theXp  the x coordinate.
     /// </param>
-    /// <param name="theYp">
-    /// [in] the y coordinate.
+    /// <param name="in]">
+    /// theYp  the y coordinate.
     /// </param>
     void SetCenter(int theXp, int theYp);
     /// <summary>
@@ -1501,11 +1468,11 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll(double theMargin, bool theToUpdate);
     /// <summary>
@@ -1514,11 +1481,11 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll(double theMargin);
     /// <summary>
@@ -1527,11 +1494,11 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll();
     /// <summary>
@@ -1540,14 +1507,14 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theBox">
-    /// [in] the custom bounding box to fit.
+    /// <param name="in]">
+    /// theBox  the custom bounding box to fit.
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll(Macad::Occt::Bnd_Box^ theBox, double theMargin, bool theToUpdate);
     /// <summary>
@@ -1556,14 +1523,14 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theBox">
-    /// [in] the custom bounding box to fit.
+    /// <param name="in]">
+    /// theBox  the custom bounding box to fit.
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll(Macad::Occt::Bnd_Box^ theBox, double theMargin);
     /// <summary>
@@ -1572,14 +1539,14 @@ public:
     /// Throws program error exception if margin coefficient is < 0 or >= 1.
     /// Updates the view.
     /// </summary>
-    /// <param name="theBox">
-    /// [in] the custom bounding box to fit.
+    /// <param name="in]">
+    /// theBox  the custom bounding box to fit.
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders.
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders.
     /// </param>
-    /// <param name="theToUpdate">
-    /// [in] flag to perform view update.
+    /// <param name="in]">
+    /// theToUpdate  flag to perform view update.
     /// </param>
     void FitAll(Macad::Occt::Bnd_Box^ theBox);
     /// <summary>
@@ -1615,17 +1582,17 @@ public:
     /// the maximum space while respecting the initial height/width ratio.
     /// NOTE than the original Z size of the view is NOT modified.
     /// </summary>
-    /// <param name="theMinXp">
-    /// [in] pixel coordinates of minimal corner on x screen axis.
+    /// <param name="in]">
+    /// theMinXp  pixel coordinates of minimal corner on x screen axis.
     /// </param>
-    /// <param name="theMinYp">
-    /// [in] pixel coordinates of minimal corner on y screen axis.
+    /// <param name="in]">
+    /// theMinYp  pixel coordinates of minimal corner on y screen axis.
     /// </param>
-    /// <param name="theMaxXp">
-    /// [in] pixel coordinates of maximal corner on x screen axis.
+    /// <param name="in]">
+    /// theMaxXp  pixel coordinates of maximal corner on x screen axis.
     /// </param>
-    /// <param name="theMaxYp">
-    /// [in] pixel coordinates of maximal corner on y screen axis.
+    /// <param name="in]">
+    /// theMaxYp  pixel coordinates of maximal corner on y screen axis.
     /// </param>
     void WindowFit(int theMinXp, int theMinYp, int theMaxXp, int theMaxYp);
     /// <summary>
@@ -1838,17 +1805,17 @@ public:
     /// In that case the DXp, DXp parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXp">
-    /// [in] the relative panning on "x" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDXp  the relative panning on "x" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theDYp">
-    /// [in] the relative panning on "y" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDYp  the relative panning on "y" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. Passing 0 for relative
     /// panning parameter should return view panning to initial state.
     /// Performs update of view.
@@ -1860,17 +1827,17 @@ public:
     /// In that case the DXp, DXp parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXp">
-    /// [in] the relative panning on "x" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDXp  the relative panning on "x" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theDYp">
-    /// [in] the relative panning on "y" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDYp  the relative panning on "y" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. Passing 0 for relative
     /// panning parameter should return view panning to initial state.
     /// Performs update of view.
@@ -1882,17 +1849,17 @@ public:
     /// In that case the DXp, DXp parameters specify panning relative to the
     /// point where the operation is started.
     /// </summary>
-    /// <param name="theDXp">
-    /// [in] the relative panning on "x" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDXp  the relative panning on "x" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theDYp">
-    /// [in] the relative panning on "y" axis of view projection, in pixels.
+    /// <param name="in]">
+    /// theDYp  the relative panning on "y" axis of view projection, in pixels.
     /// </param>
-    /// <param name="theZoomFactor">
-    /// [in] the zooming factor.
+    /// <param name="in]">
+    /// theZoomFactor  the zooming factor.
     /// </param>
-    /// <param name="theToStart">
-    /// [in] pass TRUE when starting panning to remember view
+    /// <param name="in]">
+    /// theToStart  pass TRUE when starting panning to remember view
     /// state prior to panning for relative arguments. Passing 0 for relative
     /// panning parameter should return view panning to initial state.
     /// Performs update of view.
@@ -1902,27 +1869,27 @@ public:
     /// Zoom the view according to a zoom factor computed
     /// from the distance between the 2 mouse position.
     /// </summary>
-    /// <param name="theXp1">
-    /// [in] the x coordinate of first mouse position, in pixels.
+    /// <param name="in]">
+    /// theXp1  the x coordinate of first mouse position, in pixels.
     /// </param>
-    /// <param name="theYp1">
-    /// [in] the y coordinate of first mouse position, in pixels.
+    /// <param name="in]">
+    /// theYp1  the y coordinate of first mouse position, in pixels.
     /// </param>
-    /// <param name="theXp2">
-    /// [in] the x coordinate of second mouse position, in pixels.
+    /// <param name="in]">
+    /// theXp2  the x coordinate of second mouse position, in pixels.
     /// </param>
-    /// <param name="theYp2">
-    /// [in] the y coordinate of second mouse position, in pixels.
+    /// <param name="in]">
+    /// theYp2  the y coordinate of second mouse position, in pixels.
     /// </param>
     void Zoom(int theXp1, int theYp1, int theXp2, int theYp2);
     /// <summary>
     /// Defines starting point for ZoomAtPoint view operation.
     /// </summary>
-    /// <param name="theXp">
-    /// [in] the x mouse coordinate, in pixels.
+    /// <param name="in]">
+    /// theXp  the x mouse coordinate, in pixels.
     /// </param>
-    /// <param name="theYp">
-    /// [in] the y mouse coordinate, in pixels.
+    /// <param name="in]">
+    /// theYp  the y mouse coordinate, in pixels.
     /// </param>
     void StartZoomAtPoint(int theXp, int theYp);
     /// <summary>
@@ -1992,22 +1959,25 @@ public:
     /// <summary>
     /// Transform camera eye, center and scale to fit in the passed bounding box specified in WCS.
     /// </summary>
-    /// <param name="theCamera">
-    /// [in] the camera
+    /// <param name="in]">
+    /// theCamera  the camera
     /// </param>
-    /// <param name="theBox">
-    ///    [in] the bounding box
+    /// <param name="in]">
+    /// theBox     the bounding box
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders
     /// </param>
-    /// <param name="theResolution">
-    /// [in] the minimum size of projection of bounding box in Xv or Yv direction when it considered to be a thin plane or point (without a volume);
+    /// <param name="in]">
+    /// theResolution  the minimum size of projection of bounding box in Xv or Yv direction
+    /// when it considered to be a thin plane or point (without a volume);
     /// in this case only the center of camera is adjusted
     /// </param>
-    /// <param name="theToEnlargeIfLine">
-    /// [in] when TRUE - in cases when the whole bounding box projected into thin line going along Z-axis of screen,
-    /// the view plane is enlarged such thatwe see the whole line on rotation, otherwise only the center of camera is adjusted.
+    /// <param name="in]">
+    /// theToEnlargeIfLine  when TRUE - in cases when the whole bounding box projected into
+    /// thin line going along Z-axis of screen,
+    /// the view plane is enlarged such thatwe see the whole line on
+    /// rotation, otherwise only the center of camera is adjusted.
     /// </param>
     /// <returns>
     /// TRUE if the fit all operation can be done
@@ -2016,22 +1986,25 @@ public:
     /// <summary>
     /// Transform camera eye, center and scale to fit in the passed bounding box specified in WCS.
     /// </summary>
-    /// <param name="theCamera">
-    /// [in] the camera
+    /// <param name="in]">
+    /// theCamera  the camera
     /// </param>
-    /// <param name="theBox">
-    ///    [in] the bounding box
+    /// <param name="in]">
+    /// theBox     the bounding box
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders
     /// </param>
-    /// <param name="theResolution">
-    /// [in] the minimum size of projection of bounding box in Xv or Yv direction when it considered to be a thin plane or point (without a volume);
+    /// <param name="in]">
+    /// theResolution  the minimum size of projection of bounding box in Xv or Yv direction
+    /// when it considered to be a thin plane or point (without a volume);
     /// in this case only the center of camera is adjusted
     /// </param>
-    /// <param name="theToEnlargeIfLine">
-    /// [in] when TRUE - in cases when the whole bounding box projected into thin line going along Z-axis of screen,
-    /// the view plane is enlarged such thatwe see the whole line on rotation, otherwise only the center of camera is adjusted.
+    /// <param name="in]">
+    /// theToEnlargeIfLine  when TRUE - in cases when the whole bounding box projected into
+    /// thin line going along Z-axis of screen,
+    /// the view plane is enlarged such thatwe see the whole line on
+    /// rotation, otherwise only the center of camera is adjusted.
     /// </param>
     /// <returns>
     /// TRUE if the fit all operation can be done
@@ -2040,22 +2013,25 @@ public:
     /// <summary>
     /// Transform camera eye, center and scale to fit in the passed bounding box specified in WCS.
     /// </summary>
-    /// <param name="theCamera">
-    /// [in] the camera
+    /// <param name="in]">
+    /// theCamera  the camera
     /// </param>
-    /// <param name="theBox">
-    ///    [in] the bounding box
+    /// <param name="in]">
+    /// theBox     the bounding box
     /// </param>
-    /// <param name="theMargin">
-    /// [in] the margin coefficient for view borders
+    /// <param name="in]">
+    /// theMargin  the margin coefficient for view borders
     /// </param>
-    /// <param name="theResolution">
-    /// [in] the minimum size of projection of bounding box in Xv or Yv direction when it considered to be a thin plane or point (without a volume);
+    /// <param name="in]">
+    /// theResolution  the minimum size of projection of bounding box in Xv or Yv direction
+    /// when it considered to be a thin plane or point (without a volume);
     /// in this case only the center of camera is adjusted
     /// </param>
-    /// <param name="theToEnlargeIfLine">
-    /// [in] when TRUE - in cases when the whole bounding box projected into thin line going along Z-axis of screen,
-    /// the view plane is enlarged such thatwe see the whole line on rotation, otherwise only the center of camera is adjusted.
+    /// <param name="in]">
+    /// theToEnlargeIfLine  when TRUE - in cases when the whole bounding box projected into
+    /// thin line going along Z-axis of screen,
+    /// the view plane is enlarged such thatwe see the whole line on
+    /// rotation, otherwise only the center of camera is adjusted.
     /// </param>
     /// <returns>
     /// TRUE if the fit all operation can be done
@@ -2072,10 +2048,12 @@ public:
     /// </summary>
     void SetGridActivity(bool aFlag);
     /// <summary>
-    /// Dumps the full contents of the View into the image file. This is an alias for ToPixMap() with Image_AlienPixMap.
+    /// Dumps the full contents of the View into the image file. This is an alias for ToPixMap() with
+    /// Image_AlienPixMap.
     /// </summary>
     /// <param name="theFile">
-    /// destination image file (image format is determined by file extension like .png, .bmp, .jpg)
+    /// destination image file (image format is determined by file extension like .png,
+    /// .bmp, .jpg)
     /// </param>
     /// <param name="theBufferType">
     /// buffer to dump
@@ -2085,10 +2063,12 @@ public:
     /// </returns>
     bool Dump(System::String^ theFile, Macad::Occt::Graphic3d_BufferType theBufferType);
     /// <summary>
-    /// Dumps the full contents of the View into the image file. This is an alias for ToPixMap() with Image_AlienPixMap.
+    /// Dumps the full contents of the View into the image file. This is an alias for ToPixMap() with
+    /// Image_AlienPixMap.
     /// </summary>
     /// <param name="theFile">
-    /// destination image file (image format is determined by file extension like .png, .bmp, .jpg)
+    /// destination image file (image format is determined by file extension like .png,
+    /// .bmp, .jpg)
     /// </param>
     /// <param name="theBufferType">
     /// buffer to dump
@@ -2099,14 +2079,16 @@ public:
     bool Dump(System::String^ theFile);
     /// <summary>
     /// Dumps the full contents of the view to a pixmap with specified parameters.
-    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size (theWidth x theHeight),
-    /// so that there is no need resizing a window control for making a dump of different size.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
     /// </summary>
     bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::V3d_ImageDumpOptions^ theParams);
     /// <summary>
     /// Dumps the full contents of the view to a pixmap.
-    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size (theWidth x theHeight),
-    /// so that there is no need resizing a window control for making a dump of different size.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
     /// </summary>
     /// <param name="theImage">
     ///          target image, will be re-allocated to match theWidth x theHeight
@@ -2121,16 +2103,18 @@ public:
     ///     type of the view buffer to dump (color / depth)
     /// </param>
     /// <param name="theToAdjustAspect">
-    /// when true, active view aspect ratio will be overridden by (theWidth / theHeight)
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
     /// </param>
     /// <param name="theStereoOptions">
     ///  how to dump stereographic camera
     /// </param>
-    bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, Macad::Occt::V3d_StereoDumpOptions theStereoOptions);
+    bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer, Macad::Occt::V3d_StereoDumpOptions theStereoOptions, System::String^ theLightName);
     /// <summary>
     /// Dumps the full contents of the view to a pixmap.
-    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size (theWidth x theHeight),
-    /// so that there is no need resizing a window control for making a dump of different size.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
     /// </summary>
     /// <param name="theImage">
     ///          target image, will be re-allocated to match theWidth x theHeight
@@ -2145,7 +2129,86 @@ public:
     ///     type of the view buffer to dump (color / depth)
     /// </param>
     /// <param name="theToAdjustAspect">
-    /// when true, active view aspect ratio will be overridden by (theWidth / theHeight)
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
+    /// </param>
+    /// <param name="theStereoOptions">
+    ///  how to dump stereographic camera
+    /// </param>
+    bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer, Macad::Occt::V3d_StereoDumpOptions theStereoOptions);
+    /// <summary>
+    /// Dumps the full contents of the view to a pixmap.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
+    /// </summary>
+    /// <param name="theImage">
+    ///          target image, will be re-allocated to match theWidth x theHeight
+    /// </param>
+    /// <param name="theWidth">
+    ///          target image width
+    /// </param>
+    /// <param name="theHeight">
+    ///         target image height
+    /// </param>
+    /// <param name="theBufferType">
+    ///     type of the view buffer to dump (color / depth)
+    /// </param>
+    /// <param name="theToAdjustAspect">
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
+    /// </param>
+    /// <param name="theStereoOptions">
+    ///  how to dump stereographic camera
+    /// </param>
+    bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId, int theIsSingleLayer);
+    /// <summary>
+    /// Dumps the full contents of the view to a pixmap.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
+    /// </summary>
+    /// <param name="theImage">
+    ///          target image, will be re-allocated to match theWidth x theHeight
+    /// </param>
+    /// <param name="theWidth">
+    ///          target image width
+    /// </param>
+    /// <param name="theHeight">
+    ///         target image height
+    /// </param>
+    /// <param name="theBufferType">
+    ///     type of the view buffer to dump (color / depth)
+    /// </param>
+    /// <param name="theToAdjustAspect">
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
+    /// </param>
+    /// <param name="theStereoOptions">
+    ///  how to dump stereographic camera
+    /// </param>
+    bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect, int theTargetZLayerId);
+    /// <summary>
+    /// Dumps the full contents of the view to a pixmap.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
+    /// </summary>
+    /// <param name="theImage">
+    ///          target image, will be re-allocated to match theWidth x theHeight
+    /// </param>
+    /// <param name="theWidth">
+    ///          target image width
+    /// </param>
+    /// <param name="theHeight">
+    ///         target image height
+    /// </param>
+    /// <param name="theBufferType">
+    ///     type of the view buffer to dump (color / depth)
+    /// </param>
+    /// <param name="theToAdjustAspect">
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
     /// </param>
     /// <param name="theStereoOptions">
     ///  how to dump stereographic camera
@@ -2153,8 +2216,9 @@ public:
     bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType, bool theToAdjustAspect);
     /// <summary>
     /// Dumps the full contents of the view to a pixmap.
-    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size (theWidth x theHeight),
-    /// so that there is no need resizing a window control for making a dump of different size.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
     /// </summary>
     /// <param name="theImage">
     ///          target image, will be re-allocated to match theWidth x theHeight
@@ -2169,7 +2233,8 @@ public:
     ///     type of the view buffer to dump (color / depth)
     /// </param>
     /// <param name="theToAdjustAspect">
-    /// when true, active view aspect ratio will be overridden by (theWidth / theHeight)
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
     /// </param>
     /// <param name="theStereoOptions">
     ///  how to dump stereographic camera
@@ -2177,8 +2242,9 @@ public:
     bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType theBufferType);
     /// <summary>
     /// Dumps the full contents of the view to a pixmap.
-    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size (theWidth x theHeight),
-    /// so that there is no need resizing a window control for making a dump of different size.
+    /// Internally this method calls Redraw() with an offscreen render buffer of requested target size
+    /// (theWidth x theHeight), so that there is no need resizing a window control for making a dump
+    /// of different size.
     /// </summary>
     /// <param name="theImage">
     ///          target image, will be re-allocated to match theWidth x theHeight
@@ -2193,7 +2259,8 @@ public:
     ///     type of the view buffer to dump (color / depth)
     /// </param>
     /// <param name="theToAdjustAspect">
-    /// when true, active view aspect ratio will be overridden by (theWidth / theHeight)
+    /// when true, active view aspect ratio will be overridden by (theWidth /
+    /// theHeight)
     /// </param>
     /// <param name="theStereoOptions">
     ///  how to dump stereographic camera
@@ -2208,8 +2275,8 @@ public:
     /// </summary>
     void SetBackFacingModel();
     /// <summary>
-    /// Returns current state of the back faces display; Graphic3d_TypeOfBackfacingModel_Auto by default,
-    /// which means that backface culling is defined by each presentation.
+    /// Returns current state of the back faces display; Graphic3d_TypeOfBackfacingModel_Auto by
+    /// default, which means that backface culling is defined by each presentation.
     /// </summary>
     Macad::Occt::Graphic3d_TypeOfBackfacingModel BackFacingModel();
     /// <summary>
@@ -2218,15 +2285,15 @@ public:
     /// by PlaneLimit method of associated Graphic3d_GraphicDriver.
     /// Please be aware that the planes which exceed the limit are ignored during rendering.
     /// </summary>
-    /// <param name="thePlane">
-    /// [in] the clip plane to be added to view.
+    /// <param name="in]">
+    /// thePlane  the clip plane to be added to view.
     /// </param>
     void AddClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
     /// <summary>
     /// Removes clip plane from the view.
     /// </summary>
-    /// <param name="thePlane">
-    /// [in] the clip plane to be removed from view.
+    /// <param name="in]">
+    /// thePlane  the clip plane to be removed from view.
     /// </param>
     void RemoveClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
     /// <summary>
@@ -2244,8 +2311,8 @@ public:
     /// Graphic3d_GraphicDriver. Please be aware that the planes that
     /// exceed the limit are ignored during rendering.
     /// </summary>
-    /// <param name="thePlanes">
-    /// [in] the clip planes to set.
+    /// <param name="in]">
+    /// thePlanes  the clip planes to set.
     /// </param>
     void SetClipPlanes(Macad::Occt::Graphic3d_SequenceOfHClipPlane^ thePlanes);
     /// <summary>
@@ -2285,30 +2352,12 @@ public:
     /// Turn on/off automatic culling of objects outside frustum (ON by default)
     /// </summary>
     void SetFrustumCulling(bool theMode);
-    /// <summary>
-    /// Fill in the dictionary with diagnostic info.
-    /// Should be called within rendering thread.
-    /// 
-    /// This API should be used only for user output or for creating automated reports.
-    /// The format of returned information (e.g. key-value layout)
-    /// is NOT part of this API and can be changed at any time.
-    /// Thus application should not parse returned information to weed out specific parameters.
-    /// </summary>
-    /// <param name="theDict">
-    ///  destination map for information
-    /// </param>
-    /// <param name="theFlags">
-    /// defines the information to be retrieved
-    /// </param>
-    void DiagnosticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict, Macad::Occt::Graphic3d_DiagnosticInfo theFlags);
+    /* Method skipped due to unknown mapping: void DiagnosticInformation(TColStd_IndexedDataMapOfStringString theDict, Graphic3d_DiagnosticInfo theFlags, ) */
     /// <summary>
     /// Returns string with statistic performance info.
     /// </summary>
     Macad::Occt::TCollection_AsciiString^ StatisticInformation();
-    /// <summary>
-    /// Fills in the dictionary with statistic performance info.
-    /// </summary>
-    void StatisticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict);
+    /* Method skipped due to unknown mapping: void StatisticInformation(TColStd_IndexedDataMapOfStringString theDict, ) */
     /// <summary>
     /// Returns the Objects number and the gravity center of ALL viewable points in the view
     /// </summary>
@@ -2322,8 +2371,9 @@ public:
     /// </summary>
     void DumpJson(System::IO::TextWriter^ theOStream);
     /// <summary>
-    /// Return TRUE if this is a subview of another view.
     /// </summary>
+    /// @name subvew management
+    /// Return TRUE if this is a subview of another view.
     bool IsSubview();
     /// <summary>
     /// Return parent View or NULL if this is not a subview.
@@ -2343,9 +2393,10 @@ public:
     /// </summary>
     bool RemoveSubview(Macad::Occt::V3d_View^ theView);
     /// <summary>
+    /// </summary>
+    /// @name deprecated methods
     /// Returns True if One light more can be
     /// activated in this View.
-    /// </summary>
     bool IfMoreLights();
     /// <summary>
     /// initializes an iteration on the active Lights.
@@ -2430,7 +2481,8 @@ public:
     /// </returns>
     static System::String^ TypeOfOrientationToString(Macad::Occt::V3d_TypeOfOrientation theType);
     /// <summary>
-    /// Returns the orientation type from the given string identifier (using case-insensitive comparison).
+    /// Returns the orientation type from the given string identifier (using case-insensitive
+    /// comparison).
     /// </summary>
     /// <param name="theTypeString">
     /// string identifier
@@ -2440,7 +2492,8 @@ public:
     /// </returns>
     static Macad::Occt::V3d_TypeOfOrientation TypeOfOrientationFromString(System::String^ theTypeString);
     /// <summary>
-    /// Determines the shape type from the given string identifier (using case-insensitive comparison).
+    /// Determines the shape type from the given string identifier (using case-insensitive
+    /// comparison).
     /// </summary>
     /// <param name="theTypeString">
     /// string identifier
@@ -2705,11 +2758,13 @@ public:
     /// </summary>
     void SetDefaultShadingModel(Macad::Occt::Graphic3d_TypeOfShadingModel theType);
     /// <summary>
-    /// Returns the default type of View (orthographic or perspective projection) to be returned by CreateView() method.
+    /// Returns the default type of View (orthographic or perspective projection) to be returned by
+    /// CreateView() method.
     /// </summary>
     Macad::Occt::V3d_TypeOfView DefaultTypeOfView();
     /// <summary>
-    /// Set the default type of View (orthographic or perspective projection) to be returned by CreateView() method.
+    /// Set the default type of View (orthographic or perspective projection) to be returned by
+    /// CreateView() method.
     /// </summary>
     void SetDefaultTypeOfView(Macad::Occt::V3d_TypeOfView theType);
     /// <summary>
@@ -2721,20 +2776,21 @@ public:
     /// </summary>
     void DefaultBgGradientColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
     /// <summary>
-    /// Return all Z layer ids in sequence ordered by overlay level from lowest layer to highest ( foreground ).
-    /// The first layer ID in sequence is the default layer that can't be removed.
+    /// Return all Z layer ids in sequence ordered by overlay level from lowest layer to highest (
+    /// foreground ). The first layer ID in sequence is the default layer that can't be removed.
     /// </summary>
     void GetAllZLayers(Macad::Occt::TColStd_SequenceOfInteger^ theLayerSeq);
     /// <summary>
     /// Add a new top-level Z layer to all managed views and get its ID as <theLayerId> value.
-    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a particular view.
-    /// Custom layers will be inserted before Graphic3d_ZLayerId_Top (e.g. between Graphic3d_ZLayerId_Default and before Graphic3d_ZLayerId_Top).
+    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a
+    /// particular view. Custom layers will be inserted before Graphic3d_ZLayerId_Top (e.g. between
+    /// Graphic3d_ZLayerId_Default and before Graphic3d_ZLayerId_Top).
     /// </summary>
-    /// <param name="theLayerId">
-    /// [out] id of created layer
+    /// <param name="out]">
+    /// theLayerId  id of created layer
     /// </param>
-    /// <param name="theSettings">
-    /// [in] new layer settings
+    /// <param name="in]">
+    /// theSettings  new layer settings
     /// </param>
     /// <returns>
     /// FALSE if the layer can not be created
@@ -2742,14 +2798,15 @@ public:
     bool AddZLayer(int% theLayerId, Macad::Occt::Graphic3d_ZLayerSettings^ theSettings);
     /// <summary>
     /// Add a new top-level Z layer to all managed views and get its ID as <theLayerId> value.
-    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a particular view.
-    /// Custom layers will be inserted before Graphic3d_ZLayerId_Top (e.g. between Graphic3d_ZLayerId_Default and before Graphic3d_ZLayerId_Top).
+    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a
+    /// particular view. Custom layers will be inserted before Graphic3d_ZLayerId_Top (e.g. between
+    /// Graphic3d_ZLayerId_Default and before Graphic3d_ZLayerId_Top).
     /// </summary>
-    /// <param name="theLayerId">
-    /// [out] id of created layer
+    /// <param name="out]">
+    /// theLayerId  id of created layer
     /// </param>
-    /// <param name="theSettings">
-    /// [in] new layer settings
+    /// <param name="in]">
+    /// theSettings  new layer settings
     /// </param>
     /// <returns>
     /// FALSE if the layer can not be created
@@ -2757,18 +2814,20 @@ public:
     bool AddZLayer(int% theLayerId);
     /// <summary>
     /// Add a new top-level Z layer to all managed views and get its ID as <theLayerId> value.
-    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a particular view.
-    /// Layer rendering order is defined by its position in list (altered by theLayerAfter)
-    /// and IsImmediate() flag (all layers with IsImmediate() flag are drawn afterwards);
+    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a
+    /// particular view. Layer rendering order is defined by its position in list (altered by
+    /// theLayerAfter) and IsImmediate() flag (all layers with IsImmediate() flag are drawn
+    /// afterwards);
     /// </summary>
-    /// <param name="theNewLayerId">
-    /// [out] id of created layer; layer id is arbitrary and does not depend on layer position in the list
+    /// <param name="out]">
+    /// theNewLayerId  id of created layer; layer id is arbitrary and does not depend on
+    /// layer position in the list
     /// </param>
-    /// <param name="theSettings">
-    ///    [in] new layer settings
+    /// <param name="in]">
+    /// theSettings     new layer settings
     /// </param>
-    /// <param name="theLayerAfter">
-    ///  [in] id of layer to append new layer before
+    /// <param name="in]">
+    /// theLayerAfter   id of layer to append new layer before
     /// </param>
     /// <returns>
     /// FALSE if the layer can not be created
@@ -2776,18 +2835,20 @@ public:
     bool InsertLayerBefore(int% theNewLayerId, Macad::Occt::Graphic3d_ZLayerSettings^ theSettings, int theLayerAfter);
     /// <summary>
     /// Add a new top-level Z layer to all managed views and get its ID as <theLayerId> value.
-    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a particular view.
-    /// Layer rendering order is defined by its position in list (altered by theLayerAfter)
-    /// and IsImmediate() flag (all layers with IsImmediate() flag are drawn afterwards);
+    /// The Z layers are controlled entirely by viewer, it is not possible to add a layer to a
+    /// particular view. Layer rendering order is defined by its position in list (altered by
+    /// theLayerAfter) and IsImmediate() flag (all layers with IsImmediate() flag are drawn
+    /// afterwards);
     /// </summary>
-    /// <param name="theNewLayerId">
-    /// [out] id of created layer; layer id is arbitrary and does not depend on layer position in the list
+    /// <param name="out]">
+    /// theNewLayerId  id of created layer; layer id is arbitrary and does not depend on
+    /// layer position in the list
     /// </param>
-    /// <param name="theSettings">
-    ///    [in] new layer settings
+    /// <param name="in]">
+    /// theSettings     new layer settings
     /// </param>
-    /// <param name="theLayerBefore">
-    /// [in] id of layer to append new layer after
+    /// <param name="in]">
+    /// theLayerBefore  id of layer to append new layer after
     /// </param>
     /// <returns>
     /// FALSE if the layer can not be created
@@ -2822,12 +2883,13 @@ public:
     Macad::Occt::V3d_ListOfView^ DefinedViews();
     /* Method skipped due to unknown mapping: Iterator DefinedViewIterator() */
     /// <summary>
+    /// </summary>
+    /// @name lights management
     /// Defines default lights:
     /// positional-light 0.3 0. 0.
     /// directional-light V3d_XnegYposZpos
     /// directional-light V3d_XnegYneg
     /// ambient-light
-    /// </summary>
     void SetDefaultLights();
     /// <summary>
     /// Activates MyLight in the viewer.
@@ -2869,8 +2931,9 @@ public:
     Macad::Occt::V3d_ListOfLight^ DefinedLights();
     /* Method skipped due to unknown mapping: Iterator DefinedLightIterator() */
     /// <summary>
-    /// Erase all Objects in All the views.
     /// </summary>
+    /// @name objects management
+    /// Erase all Objects in All the views.
     void Erase();
     /// <summary>
     /// UnHighlight all Objects in All the views.
@@ -2900,8 +2963,9 @@ public:
     void DisplayPrivilegedPlane(bool theOnOff, double theSize);
     void DisplayPrivilegedPlane(bool theOnOff);
     /// <summary>
-    /// Activates the grid in all views of <me>.
     /// </summary>
+    /// @name grid management
+    /// Activates the grid in all views of <me>.
     void ActivateGrid(Macad::Occt::Aspect_GridType aGridType, Macad::Occt::Aspect_GridDrawMode aGridDrawMode);
     /// <summary>
     /// Deactivates the grid in all views of <me>.
@@ -3009,12 +3073,13 @@ public:
     /// </summary>
     void ShowGridEcho(Macad::Occt::V3d_View^ theView, Macad::Occt::Graphic3d_Vertex^ thePoint);
     /// <summary>
-    /// Temporarly hide grid echo.
+    /// Temporarily hide grid echo.
     /// </summary>
     void HideGridEcho(Macad::Occt::V3d_View^ theView);
     /// <summary>
-    /// Returns Standard_True if a grid is activated in <me>.
     /// </summary>
+    /// @name deprecated methods
+    /// Returns Standard_True if a grid is activated in <me>.
     bool IsActive();
     /// <summary>
     /// Initializes an internal iterator on the active views.
@@ -3372,8 +3437,8 @@ public:
     /// <summary>
     /// Return text aspect for specified axis.
     /// </summary>
-    /// <param name="theAxis">
-    /// [in] axis index
+    /// <param name="in]">
+    /// theAxis  axis index
     /// </param>
     /// <returns>
     /// text aspect
@@ -3390,8 +3455,8 @@ public:
     /// <summary>
     /// Return shading aspect for specified axis.
     /// </summary>
-    /// <param name="theAxis">
-    /// [in] axis index
+    /// <param name="in]">
+    /// theAxis  axis index
     /// </param>
     /// <returns>
     /// shading aspect
@@ -3408,8 +3473,8 @@ public:
     /// <summary>
     /// Return axis text.
     /// </summary>
-    /// <param name="theAxis">
-    /// [in] axis index
+    /// <param name="in]">
+    /// theAxis  axis index
     /// </param>
     /// <returns>
     /// text of the label
@@ -3548,8 +3613,9 @@ public:
 //---------------------------------------------------------------------
 /// <summary>
 /// Creation and modification of an isolated (positional) light source.
-/// It is also defined by the color and two attenuation factors ConstAttentuation() and LinearAttentuation().
-/// The resulting attenuation factor determining the illumination of a surface depends on the following formula:
+/// It is also defined by the color and two attenuation factors ConstAttentuation() and
+/// LinearAttentuation(). The resulting attenuation factor determining the illumination of a surface
+/// depends on the following formula:
 /// </summary>
 /// @code
 /// F = 1 / (ConstAttenuation() + LinearAttenuation() * Distance)
@@ -3605,7 +3671,8 @@ public:
 /// @endcode
 /// Where Distance is the distance from the source to the surface.
 /// The default values (1.0, 0.0) correspond to a minimum of attenuation.
-/// The concentration factor determines the dispersion of the light on the surface, the default value (1.0) corresponds to a minimum of dispersion.
+/// The concentration factor determines the dispersion of the light on the surface, the default
+/// value (1.0) corresponds to a minimum of dispersion.
 public ref class V3d_SpotLight sealed
     : public Macad::Occt::V3d_PositionLight
 {
@@ -3634,28 +3701,28 @@ public:
 
 public:
     /// <summary>
-    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0, 0.0),
-    /// concentration factor 1.0 and spot angle 30 degrees.
+    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0,
+    /// 0.0), concentration factor 1.0 and spot angle 30 degrees.
     /// </summary>
     V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
-    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0, 0.0),
-    /// concentration factor 1.0 and spot angle 30 degrees.
+    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0,
+    /// 0.0), concentration factor 1.0 and spot angle 30 degrees.
     /// </summary>
     V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::V3d_TypeOfOrientation theDirection);
     /// <summary>
-    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0, 0.0),
-    /// concentration factor 1.0 and spot angle 30 degrees.
+    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0,
+    /// 0.0), concentration factor 1.0 and spot angle 30 degrees.
     /// </summary>
     V3d_SpotLight(Macad::Occt::Pnt thePos);
     /// <summary>
-    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0, 0.0),
-    /// concentration factor 1.0 and spot angle 30 degrees.
+    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0,
+    /// 0.0), concentration factor 1.0 and spot angle 30 degrees.
     /// </summary>
     V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::Dir theDirection, Macad::Occt::Quantity_Color^ theColor);
     /// <summary>
-    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0, 0.0),
-    /// concentration factor 1.0 and spot angle 30 degrees.
+    /// Creates a light source of the Spot type in the viewer with default attenuation factors (1.0,
+    /// 0.0), concentration factor 1.0 and spot angle 30 degrees.
     /// </summary>
     V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::Dir theDirection);
     /// <summary>

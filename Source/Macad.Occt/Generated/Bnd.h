@@ -587,9 +587,10 @@ public:
     /// </summary>
     double SquareExtent();
     /// <summary>
-    /// Returns a finite part of an infinite bounding box (returns self if this is already finite box).
-    /// This can be a Void box in case if its sides has been defined as infinite (Open) without adding any finite points.
-    /// WARNING! This method relies on Open flags, the infinite points added using Add() method will be returned as is.
+    /// Returns a finite part of an infinite bounding box (returns self if this is already finite
+    /// box). This can be a Void box in case if its sides has been defined as infinite (Open) without
+    /// adding any finite points. WARNING! This method relies on Open flags, the infinite points added
+    /// using Add() method will be returned as is.
     /// </summary>
     Macad::Occt::Bnd_Box^ FinitePart();
     /// <summary>
@@ -628,7 +629,8 @@ public:
 /// A bounding box is defined by four bounds (Xmin, Xmax, Ymin and Ymax) which
 /// limit the bounding box if it is finite, six flags (OpenXmin, OpenXmax, OpenYmin,
 /// OpenYmax, WholeSpace and Void) which describe the bounding box if it is infinite or empty, and
-/// -   a gap, which is included on both sides in any direction when consulting the finite bounds of the box.
+/// -   a gap, which is included on both sides in any direction when consulting the finite bounds of
+/// the box.
 /// </summary>
 public ref class Bnd_Box2d sealed
     : public Macad::Occt::BaseClass<::Bnd_Box2d>
@@ -2051,7 +2053,8 @@ public:
     void SetZComponent(Macad::Occt::Dir theZDirection, double theHZSize);
     /// <summary>
     /// Returns the local coordinates system of this oriented box.
-    /// So that applying it to axis-aligned box ((-XHSize, -YHSize, -ZHSize), (XHSize, YHSize, ZHSize)) will produce this oriented box.
+    /// So that applying it to axis-aligned box ((-XHSize, -YHSize, -ZHSize), (XHSize, YHSize,
+    /// ZHSize)) will produce this oriented box.
     /// </summary>
     /// @code
     /// gp_Trsf aLoc;

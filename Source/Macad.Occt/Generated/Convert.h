@@ -18,10 +18,10 @@ namespace Occt
 /// coordinates of the point M are as follows:
 /// X   =   R *cos ( Theta )
 /// y   =   R * sin ( Theta )
-/// Similarly, for an ellipse with a center C, a major radius R and a minor radius r, the circle Circ
-/// with center C and radius R (and located in the same plane as the ellipse) lends its natural
-/// angular parameterization to the ellipse. This is achieved by an affine transformation in the plane
-/// of the ellipse, in the ratio r / R, about the 'X Axis' of its local coordinate system. The
+/// Similarly, for an ellipse with a center C, a major radius R and a minor radius r, the circle
+/// Circ with center C and radius R (and located in the same plane as the ellipse) lends its natural
+/// angular parameterization to the ellipse. This is achieved by an affine transformation in the
+/// plane of the ellipse, in the ratio r / R, about the 'X Axis' of its local coordinate system. The
 /// coordinates of the current point M are as follows:
 /// X   =   R * cos ( Theta )
 /// y   =   r * sin ( Theta )
@@ -36,21 +36,17 @@ namespace Occt
 /// The result of this definition is:
 /// cos ( Theta ) = ( 1. - t**2 ) / ( 1. + t**2 )
 /// sin ( Theta ) =      2. * t / ( 1. + t**2 )
-/// which ensures the rational parameterization of the circle or the ellipse. However, this is not the
-/// most suitable parameterization method where the arc of the circle or ellipse has a large opening
-/// angle. In such cases, the curve will be represented by a BSpline with intermediate knots. Each
-/// span, i.e. each portion of curve between two different knot values, will use parameterization of
-/// this type.
-/// The number of spans is calculated using the following rule:
-/// ( 1.2 * Delta / Pi ) + 1
-/// where Delta is equal to the opening angle (in radians) of the arc of the circle (Delta is
-/// equal to 2.* Pi in the case of a complete circle).
-/// The resulting BSpline curve is "exact", i.e. computing any point of parameter t on the BSpline
-/// curve gives an exact point on the circle or the ellipse.
-/// TgtThetaOver2_N
-/// Where N is equal to 1, 2, 3 or 4, this ensures the same type of parameterization as
-/// Convert_TgtThetaOver2 but sets the number of spans in the resulting BSpline curve to N
-/// rather than allowing the algorithm to make this calculation.
+/// which ensures the rational parameterization of the circle or the ellipse. However, this is not
+/// the most suitable parameterization method where the arc of the circle or ellipse has a large
+/// opening angle. In such cases, the curve will be represented by a BSpline with intermediate
+/// knots. Each span, i.e. each portion of curve between two different knot values, will use
+/// parameterization of this type. The number of spans is calculated using the following rule: ( 1.2
+/// * Delta / Pi ) + 1 where Delta is equal to the opening angle (in radians) of the arc of the
+/// circle (Delta is equal to 2.* Pi in the case of a complete circle). The resulting BSpline curve
+/// is "exact", i.e. computing any point of parameter t on the BSpline curve gives an exact point on
+/// the circle or the ellipse. TgtThetaOver2_N Where N is equal to 1, 2, 3 or 4, this ensures the
+/// same type of parameterization as Convert_TgtThetaOver2 but sets the number of spans in the
+/// resulting BSpline curve to N rather than allowing the algorithm to make this calculation.
 /// However, the opening angle Delta (parametric angle, given in radians) of the arc of the circle
 /// (or of the ellipse) must comply with the following:
 /// -   Delta <= 0.9999 * Pi for the Convert_TgtThetaOver2_1 method, or
@@ -71,9 +67,9 @@ namespace Occt
 /// curve gives an exact point on the circle or the ellipse.
 /// Polynomial
 /// The Convert_Polynomial method is used to produce polynomial (i.e. non-rational)
-/// parameterization of the resulting BSpline curve with 8 poles (i.e. a polynomial degree equal to 7).
-/// However, the result is an approximation of the circle or ellipse (i.e. computing the point of
-/// parameter t on the BSpline curve does not give an exact point on the circle or the ellipse).
+/// parameterization of the resulting BSpline curve with 8 poles (i.e. a polynomial degree equal to
+/// 7). However, the result is an approximation of the circle or ellipse (i.e. computing the point
+/// of parameter t on the BSpline curve does not give an exact point on the circle or the ellipse).
 /// </summary>
 public enum class Convert_ParameterisationType
 {
@@ -883,7 +879,7 @@ public:
 /// TrueIntervals : the nth polynomial has to be mapped linearly to be
 /// defined on the following interval :
 /// myTrueIntervals->Value(n) and myTrueIntervals->Value(n+1)
-/// so that it represent adequatly the function with the
+/// so that it adequately represents the function with the
 /// required continuity
 /// </summary>
 public ref class Convert_CompPolynomialToPoles sealed
@@ -940,7 +936,7 @@ public:
     /// </summary>
     Convert_CompPolynomialToPoles(int NumCurves, int Continuity, int Dimension, int MaxDegree, Macad::Occt::TColStd_HArray1OfInteger^ NumCoeffPerCurve, Macad::Occt::TColStd_HArray1OfReal^ Coefficients, Macad::Occt::TColStd_HArray2OfReal^ PolynomialIntervals, Macad::Occt::TColStd_HArray1OfReal^ TrueIntervals);
     /// <summary>
-    /// To Convert sevral span with different order of Continuity.
+    /// To Convert several span with different order of Continuity.
     /// Warning: The Length of Continuity have to be NumCurves-1
     /// </summary>
     Convert_CompPolynomialToPoles(int NumCurves, int Dimension, int MaxDegree, Macad::Occt::TColStd_Array1OfInteger^ Continuity, Macad::Occt::TColStd_Array1OfInteger^ NumCoeffPerCurve, Macad::Occt::TColStd_Array1OfReal^ Coefficients, Macad::Occt::TColStd_Array2OfReal^ PolynomialIntervals, Macad::Occt::TColStd_Array1OfReal^ TrueIntervals);

@@ -589,7 +589,6 @@ public:
 //---------------------------------------------------------------------
 public ref class Extrema_Array2OfPOnSurfParams sealed
     : public Macad::Occt::BaseClass<::Extrema_Array2OfPOnSurfParams>
-    , public IEnumerable<Macad::Occt::Extrema_POnSurfParams^>
 {
 
 #ifdef Include_Extrema_Array2OfPOnSurfParams_h
@@ -616,7 +615,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Extrema_POnSurfParams^, ::Extrema_Array2OfPOnSurfParams::Iterator>
+        : public Macad::Occt::BaseClass<::Extrema_Array2OfPOnSurfParams::Iterator>
     {
 
 #ifdef Include_Extrema_Array2OfPOnSurfParams_Iterator_h
@@ -626,11 +625,11 @@ public:
 
     public:
         Iterator(::Extrema_Array2OfPOnSurfParams::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Extrema_POnSurfParams^, ::Extrema_Array2OfPOnSurfParams::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::Extrema_Array2OfPOnSurfParams::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::Extrema_Array2OfPOnSurfParams::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Extrema_POnSurfParams^, ::Extrema_Array2OfPOnSurfParams::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::Extrema_Array2OfPOnSurfParams::Iterator>( &nativeInstance, false )
         {}
 
         property ::Extrema_Array2OfPOnSurfParams::Iterator* NativeInstance
@@ -643,14 +642,14 @@ public:
 
     public:
         void Init(Macad::Occt::Extrema_Array2OfPOnSurfParams^ theList);
-        bool More() override;
+        bool More();
         void Initialize(Macad::Occt::Extrema_Array2OfPOnSurfParams^ theList);
         /* Method skipped due to unknown mapping: iterator ValueIter() */
         /* Method skipped due to unknown mapping: iterator ChangeValueIter() */
         /* Method skipped due to unknown mapping: iterator EndIter() */
         /* Method skipped due to unknown mapping: iterator ChangeEndIter() */
-        void Next() override;
-        Macad::Occt::Extrema_POnSurfParams^ Value() override;
+        void Next();
+        Macad::Occt::Extrema_POnSurfParams^ Value();
         Macad::Occt::Extrema_POnSurfParams^ ChangeValue();
     }; // class Iterator
 
@@ -687,8 +686,6 @@ public:
     void UpdateLowerBound(int theLower);
     void UpdateUpperBound(int theUpper);
     bool IsDeletable();
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Extrema_POnSurfParams^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Extrema_Array2OfPOnSurfParams
 
 //---------------------------------------------------------------------
@@ -3329,7 +3326,7 @@ public:
     void Initialize(Macad::Occt::Adaptor3d_Surface^ S, double Uinf, double Usup, double Vinf, double Vsup, double TolC, double TolS);
     /// <summary>
     /// Computes the distances.
-    /// An exception is raised if the fieds have not been
+    /// An exception is raised if the fields have not been
     /// initialized.
     /// </summary>
     void Perform(Macad::Occt::Adaptor3d_Curve^ C, double Uinf, double Usup);
@@ -4188,7 +4185,7 @@ public:
     void Initialize(Macad::Occt::Adaptor3d_Surface^ S, double Uinf, double Usup, double Vinf, double Vsup, double TolU, double TolV);
     /// <summary>
     /// Computes the distances.
-    /// An exception is raised if the fieds have not been
+    /// An exception is raised if the fields have not been
     /// initialized.
     /// </summary>
     void Perform(Macad::Occt::Pnt P);
@@ -4274,7 +4271,7 @@ public:
     void Initialize(Macad::Occt::Adaptor3d_Surface^ S2, double Uinf2, double Usup2, double Vinf2, double Vsup2, double TolS1);
     /// <summary>
     /// Computes the distances.
-    /// An exception is raised if the fieds have not been
+    /// An exception is raised if the fields have not been
     /// initialized.
     /// </summary>
     void Perform(Macad::Occt::Adaptor3d_Surface^ S1, double Uinf1, double Usup1, double Vinf1, double Vsup1, double TolS1);

@@ -405,7 +405,8 @@ public:
     /// </param>
     bool IsActiveInMessenger();
     /// <summary>
-    /// Creates an instance of Message_PrinterToReport with the current report and register it in messenger
+    /// Creates an instance of Message_PrinterToReport with the current report and register it in
+    /// messenger
     /// </summary>
     /// <param name="toActivate">
     /// if true, activated else deactivated
@@ -415,7 +416,8 @@ public:
     /// </param>
     void ActivateInMessenger(bool toActivate, Macad::Occt::Message_Messenger^ theMessenger);
     /// <summary>
-    /// Creates an instance of Message_PrinterToReport with the current report and register it in messenger
+    /// Creates an instance of Message_PrinterToReport with the current report and register it in
+    /// messenger
     /// </summary>
     /// <param name="toActivate">
     /// if true, activated else deactivated
@@ -451,7 +453,7 @@ public:
     /// </summary>
     void Clear(Macad::Occt::Message_Gravity theGravity);
     /* Method skipped due to unknown mapping: void Clear(Standard_Type theType, ) */
-    /* Method skipped due to unknown mapping: NCollection_IndexedMap<Message_MetricType, NCollection_DefaultHasher<Message_MetricType>> ActiveMetrics() */
+    /* Method skipped due to unknown mapping: NCollection_IndexedMap<Message_MetricType> ActiveMetrics() */
     /// <summary>
     /// Sets metrics to compute when alerts are performed
     /// </summary>

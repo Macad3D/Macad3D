@@ -253,25 +253,25 @@ public:
     /// - Not implemented for Android, iOS, QNX and UWP platforms.
     /// - On non-Windows platform, this function is a wrapper to backtrace() system call.
     /// - On Windows (Win32) platform, the function loads DbgHelp.dll dynamically,
-    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.) will not be found;
-    /// .pdb symbols should be provided on Windows platform to retrieve a meaningful stack;
-    /// only x86_64 CPU architecture is currently implemented.
+    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.)
+    /// will not be found; .pdb symbols should be provided on Windows platform to retrieve a
+    /// meaningful stack; only x86_64 CPU architecture is currently implemented.
     /// </summary>
-    /// <param name="theBuffer">
-    /// [in] [out] message buffer to extend
+    /// <param name="in][out]">
+    /// theBuffer   message buffer to extend
     /// </param>
-    /// <param name="theBufferSize">
-    /// [in] message buffer size
+    /// <param name="in]">
+    /// theBufferSize  message buffer size
     /// </param>
-    /// <param name="theNbTraces">
-    /// [in] maximum number of stack traces
+    /// <param name="in]">
+    /// theNbTraces  maximum number of stack traces
     /// </param>
-    /// <param name="theContext">
-    /// [in] optional platform-dependent frame context;
+    /// <param name="in]">
+    /// theContext  optional platform-dependent frame context;
     /// in case of DbgHelp (Windows) should be a pointer to CONTEXT
     /// </param>
-    /// <param name="theNbTopSkip">
-    /// [in] number of traces on top of the stack to skip
+    /// <param name="in]">
+    /// theNbTopSkip  number of traces on top of the stack to skip
     /// </param>
     /// <returns>
     /// TRUE on success
@@ -284,25 +284,25 @@ public:
     /// - Not implemented for Android, iOS, QNX and UWP platforms.
     /// - On non-Windows platform, this function is a wrapper to backtrace() system call.
     /// - On Windows (Win32) platform, the function loads DbgHelp.dll dynamically,
-    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.) will not be found;
-    /// .pdb symbols should be provided on Windows platform to retrieve a meaningful stack;
-    /// only x86_64 CPU architecture is currently implemented.
+    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.)
+    /// will not be found; .pdb symbols should be provided on Windows platform to retrieve a
+    /// meaningful stack; only x86_64 CPU architecture is currently implemented.
     /// </summary>
-    /// <param name="theBuffer">
-    /// [in] [out] message buffer to extend
+    /// <param name="in][out]">
+    /// theBuffer   message buffer to extend
     /// </param>
-    /// <param name="theBufferSize">
-    /// [in] message buffer size
+    /// <param name="in]">
+    /// theBufferSize  message buffer size
     /// </param>
-    /// <param name="theNbTraces">
-    /// [in] maximum number of stack traces
+    /// <param name="in]">
+    /// theNbTraces  maximum number of stack traces
     /// </param>
-    /// <param name="theContext">
-    /// [in] optional platform-dependent frame context;
+    /// <param name="in]">
+    /// theContext  optional platform-dependent frame context;
     /// in case of DbgHelp (Windows) should be a pointer to CONTEXT
     /// </param>
-    /// <param name="theNbTopSkip">
-    /// [in] number of traces on top of the stack to skip
+    /// <param name="in]">
+    /// theNbTopSkip  number of traces on top of the stack to skip
     /// </param>
     /// <returns>
     /// TRUE on success
@@ -315,25 +315,25 @@ public:
     /// - Not implemented for Android, iOS, QNX and UWP platforms.
     /// - On non-Windows platform, this function is a wrapper to backtrace() system call.
     /// - On Windows (Win32) platform, the function loads DbgHelp.dll dynamically,
-    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.) will not be found;
-    /// .pdb symbols should be provided on Windows platform to retrieve a meaningful stack;
-    /// only x86_64 CPU architecture is currently implemented.
+    /// and no stack will be provided if this or companion libraries (SymSrv.dll, SrcSrv.dll, etc.)
+    /// will not be found; .pdb symbols should be provided on Windows platform to retrieve a
+    /// meaningful stack; only x86_64 CPU architecture is currently implemented.
     /// </summary>
-    /// <param name="theBuffer">
-    /// [in] [out] message buffer to extend
+    /// <param name="in][out]">
+    /// theBuffer   message buffer to extend
     /// </param>
-    /// <param name="theBufferSize">
-    /// [in] message buffer size
+    /// <param name="in]">
+    /// theBufferSize  message buffer size
     /// </param>
-    /// <param name="theNbTraces">
-    /// [in] maximum number of stack traces
+    /// <param name="in]">
+    /// theNbTraces  maximum number of stack traces
     /// </param>
-    /// <param name="theContext">
-    /// [in] optional platform-dependent frame context;
+    /// <param name="in]">
+    /// theContext  optional platform-dependent frame context;
     /// in case of DbgHelp (Windows) should be a pointer to CONTEXT
     /// </param>
-    /// <param name="theNbTopSkip">
-    /// [in] number of traces on top of the stack to skip
+    /// <param name="in]">
+    /// theNbTopSkip  number of traces on top of the stack to skip
     /// </param>
     /// <returns>
     /// TRUE on success
@@ -386,18 +386,18 @@ public:
     /// <summary>
     /// Creates a status object of type "Failure".
     /// </summary>
-    /// <param name="theDesc">
-    /// [in] exception description
+    /// <param name="in]">
+    /// theDesc  exception description
     /// </param>
     Standard_Failure(System::String^ theDesc);
     /// <summary>
     /// Creates a status object of type "Failure" with stack trace.
     /// </summary>
-    /// <param name="theDesc">
-    /// [in] exception description
+    /// <param name="in]">
+    /// theDesc  exception description
     /// </param>
-    /// <param name="theStackTrace">
-    /// [in] associated stack trace
+    /// <param name="in]">
+    /// theStackTrace  associated stack trace
     /// </param>
     Standard_Failure(System::String^ theDesc, System::String^ theStackTrace);
     /// <summary>
@@ -1082,11 +1082,8 @@ public:
     /* Method skipped due to unknown mapping: TCollection_AsciiString Text(stringstream theStream, ) */
     /* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, int theIndent, ) */
     /* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, int theIndent, ) */
-    /* Method skipped due to unknown mapping: bool SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue, NCollection_DefaultHasher<TCollection_AsciiString>> theKeyToValues, ) */
-    /// <summary>
-    /// Returns container of indices in values, that has hierarchical value
-    /// </summary>
-    static Macad::Occt::TColStd_ListOfInteger^ HierarchicalValueIndices(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theValues);
+    /* Method skipped due to unknown mapping: bool SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue> theKeyToValues, ) */
+    /* Method skipped due to unknown mapping: TColStd_ListOfInteger HierarchicalValueIndices(TColStd_IndexedDataMapOfStringString theValues, ) */
     /// <summary>
     /// Returns true if the value has bracket key
     /// </summary>
@@ -1106,11 +1103,13 @@ public:
     /// </param>
     static void AddValuesSeparator(System::IO::TextWriter^ theOStream);
     /// <summary>
-    /// Returns default prefix added for each pointer info string if short presentation of pointer used
+    /// Returns default prefix added for each pointer info string if short presentation of pointer
+    /// used
     /// </summary>
     static Macad::Occt::TCollection_AsciiString^ GetPointerPrefix();
     /// <summary>
-    /// Convert handle pointer to address of the pointer. If the handle is NULL, the result is an empty string.
+    /// Convert handle pointer to address of the pointer. If the handle is NULL, the result is an
+    /// empty string.
     /// </summary>
     /// <param name="thePointer">
     /// a pointer
@@ -1123,7 +1122,8 @@ public:
     /// </returns>
     static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo);
     /// <summary>
-    /// Convert handle pointer to address of the pointer. If the handle is NULL, the result is an empty string.
+    /// Convert handle pointer to address of the pointer. If the handle is NULL, the result is an
+    /// empty string.
     /// </summary>
     /// <param name="thePointer">
     /// a pointer
@@ -1136,7 +1136,8 @@ public:
     /// </returns>
     static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer);
     /// <summary>
-    /// Convert pointer to address of the pointer. If the handle is NULL, the result is an empty string.
+    /// Convert pointer to address of the pointer. If the handle is NULL, the result is an empty
+    /// string.
     /// </summary>
     /// <param name="thePointer">
     /// a pointer
@@ -1149,7 +1150,8 @@ public:
     /// </returns>
     static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(System::IntPtr thePointer, bool isShortInfo);
     /// <summary>
-    /// Convert pointer to address of the pointer. If the handle is NULL, the result is an empty string.
+    /// Convert pointer to address of the pointer. If the handle is NULL, the result is an empty
+    /// string.
     /// </summary>
     /// <param name="thePointer">
     /// a pointer
@@ -1164,8 +1166,8 @@ public:
     /// <summary>
     /// Append into output value: "Name": { Field }
     /// </summary>
-    /// <param name="theOStream">
-    /// [out] stream to be fill with values
+    /// <param name="out]">
+    /// theOStream  stream to be fill with values
     /// </param>
     /// <param name="theKey">
     /// a source value
@@ -1177,21 +1179,21 @@ public:
     /// <summary>
     /// Unite values in one value using template: "value_1", "value_2", ..., "value_n"
     /// </summary>
-    /// <param name="theOStream">
-    /// [out] stream to be fill with values
+    /// <param name="out]">
+    /// theOStream  stream to be fill with values
     /// </param>
-    /// <param name="theCount">
-    ///   [in]  number of values
+    /// <param name="in]">
+    /// theCount     number of values
     /// </param>
     static void DumpCharacterValues(System::IO::TextWriter^ theOStream, int theCount);
     /// <summary>
     /// Unite values in one value using template: value_1, value_2, ..., value_n
     /// </summary>
-    /// <param name="theOStream">
-    /// [out] stream to be fill with values
+    /// <param name="out]">
+    /// theOStream  stream to be fill with values
     /// </param>
-    /// <param name="theCount">
-    ///   [in]  number of values
+    /// <param name="in]">
+    /// theCount     number of values
     /// </param>
     static void DumpRealValues(System::IO::TextWriter^ theOStream, int theCount);
     /// <summary>
@@ -2214,31 +2216,35 @@ public:
     /// <summary>
     /// Initialize the buffer.
     /// </summary>
-    /// <param name="theDataLen">
-    ///  [in] the full length of input data to read from stream.
+    /// <param name="in]">
+    /// theDataLen   the full length of input data to read from stream.
     /// </param>
-    /// <param name="theChunkLen">
-    /// [in] the length of single chunk to read
+    /// <param name="in]">
+    /// theChunkLen  the length of single chunk to read
     /// </param>
-    /// <param name="theIsPartialPayload">
-    /// [in] when FALSE, theDataLen will be automatically aligned to the multiple of theChunkLen;
-    /// when TRUE, last chunk will be read from stream exactly till theDataLen
-    /// allowing portion of chunk to be uninitialized (useful for interleaved data)
+    /// <param name="in]">
+    /// theIsPartialPayload  when FALSE, theDataLen will be automatically aligned to the
+    /// multiple of theChunkLen;
+    /// when TRUE, last chunk will be read from stream exactly till
+    /// theDataLen allowing portion of chunk to be uninitialized
+    /// (useful for interleaved data)
     /// </param>
     void Init(long long int theDataLen, long long unsigned int theChunkLen, bool theIsPartialPayload);
     /// <summary>
     /// Initialize the buffer.
     /// </summary>
-    /// <param name="theDataLen">
-    ///  [in] the full length of input data to read from stream.
+    /// <param name="in]">
+    /// theDataLen   the full length of input data to read from stream.
     /// </param>
-    /// <param name="theChunkLen">
-    /// [in] the length of single chunk to read
+    /// <param name="in]">
+    /// theChunkLen  the length of single chunk to read
     /// </param>
-    /// <param name="theIsPartialPayload">
-    /// [in] when FALSE, theDataLen will be automatically aligned to the multiple of theChunkLen;
-    /// when TRUE, last chunk will be read from stream exactly till theDataLen
-    /// allowing portion of chunk to be uninitialized (useful for interleaved data)
+    /// <param name="in]">
+    /// theIsPartialPayload  when FALSE, theDataLen will be automatically aligned to the
+    /// multiple of theChunkLen;
+    /// when TRUE, last chunk will be read from stream exactly till
+    /// theDataLen allowing portion of chunk to be uninitialized
+    /// (useful for interleaved data)
     /// </param>
     void Init(long long int theDataLen, long long unsigned int theChunkLen);
     /// <summary>
@@ -2313,21 +2319,21 @@ public:
     /// <summary>
     /// Sets or unsets the multi-line mode.
     /// </summary>
-    /// <param name="theMultilineMode">
-    /// [in] multiline mode flag
+    /// <param name="in]">
+    /// theMultilineMode  multiline mode flag
     /// </param>
-    /// <param name="theToPutGap">
-    ///      [in] put gap space while connecting lines (no gap otherwise)
+    /// <param name="in]">
+    /// theToPutGap       put gap space while connecting lines (no gap otherwise)
     /// </param>
     void SetMultilineMode(bool theMultilineMode, bool theToPutGap);
     /// <summary>
     /// Sets or unsets the multi-line mode.
     /// </summary>
-    /// <param name="theMultilineMode">
-    /// [in] multiline mode flag
+    /// <param name="in]">
+    /// theMultilineMode  multiline mode flag
     /// </param>
-    /// <param name="theToPutGap">
-    ///      [in] put gap space while connecting lines (no gap otherwise)
+    /// <param name="in]">
+    /// theToPutGap       put gap space while connecting lines (no gap otherwise)
     /// </param>
     void SetMultilineMode(bool theMultilineMode);
 }; // class Standard_ReadLineBuffer

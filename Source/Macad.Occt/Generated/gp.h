@@ -289,7 +289,8 @@ public:
     /// <summary>
     /// A2 locates the circle and gives its orientation in 3D space.
     /// Warnings :
-    /// It is not forbidden to create a circle with theRadius = 0.0  Raises ConstructionError if theRadius < 0.0
+    /// It is not forbidden to create a circle with theRadius = 0.0  Raises ConstructionError if
+    /// theRadius < 0.0
     /// </summary>
     gp_Circ(Macad::Occt::Ax2 theA2, double theRadius);
     /// <summary>
@@ -487,15 +488,15 @@ public:
     /// <summary>
     /// The location point of theXAxis is the center of the circle.
     /// Warnings :
-    /// It is not forbidden to create a circle with theRadius = 0.0   Raises ConstructionError if theRadius < 0.0.
-    /// Raised if theRadius < 0.0.
+    /// It is not forbidden to create a circle with theRadius = 0.0   Raises ConstructionError if
+    /// theRadius < 0.0. Raised if theRadius < 0.0.
     /// </summary>
     gp_Circ2d(Macad::Occt::Ax2d theXAxis, double theRadius, bool theIsSense);
     /// <summary>
     /// The location point of theXAxis is the center of the circle.
     /// Warnings :
-    /// It is not forbidden to create a circle with theRadius = 0.0   Raises ConstructionError if theRadius < 0.0.
-    /// Raised if theRadius < 0.0.
+    /// It is not forbidden to create a circle with theRadius = 0.0   Raises ConstructionError if
+    /// theRadius < 0.0. Raised if theRadius < 0.0.
     /// </summary>
     gp_Circ2d(Macad::Occt::Ax2d theXAxis, double theRadius);
     /// <summary>
@@ -503,8 +504,8 @@ public:
     /// the origin and the sense of parametrization.
     /// The location point of theAxis is the center of the circle.
     /// Warnings :
-    /// It is not forbidden to create a circle with theRadius = 0.0 Raises ConstructionError if theRadius < 0.0.
-    /// Raised if theRadius < 0.0.
+    /// It is not forbidden to create a circle with theRadius = 0.0 Raises ConstructionError if
+    /// theRadius < 0.0. Raised if theRadius < 0.0.
     /// </summary>
     gp_Circ2d(Macad::Occt::Ax22d theAxis, double theRadius);
     /// <summary>
@@ -752,7 +753,8 @@ public:
     /// Changes the semi-angle of the cone.
     /// Semi-angle can be negative. Its absolute value
     /// Abs(theAng) is in range ]0,PI/2[.
-    /// Raises ConstructionError if Abs(theAng) < Resolution from gp or Abs(theAng) >= PI/2 - Resolution
+    /// Raises ConstructionError if Abs(theAng) < Resolution from gp or Abs(theAng) >= PI/2 -
+    /// Resolution
     /// </summary>
     void SetSemiAngle(double theAng);
     /// <summary>
@@ -918,12 +920,13 @@ public:
     gp_Cylinder();
     /// <summary>
     /// Creates a cylinder of radius Radius, whose axis is the "main
-    /// Axis" of theA3. theA3 is the local coordinate system of the cylinder.   Raises ConstructionErrord if theRadius < 0.0
+    /// Axis" of theA3. theA3 is the local coordinate system of the cylinder.   Raises
+    /// ConstructionErrord if theRadius < 0.0
     /// </summary>
     gp_Cylinder(Macad::Occt::Ax3 theA3, double theRadius);
     /// <summary>
-    /// Changes the symmetry axis of the cylinder. Raises ConstructionError if the direction of theA1 is parallel to the "XDirection"
-    /// of the coordinate system of the cylinder.
+    /// Changes the symmetry axis of the cylinder. Raises ConstructionError if the direction of theA1
+    /// is parallel to the "XDirection" of the coordinate system of the cylinder.
     /// </summary>
     void SetAxis(Macad::Occt::Ax1 theA1);
     /// <summary>
@@ -2110,14 +2113,16 @@ public:
     /// In the local coordinate system of the hyperbola the equation of
     /// the hyperbola is (X*X)/(A*A) - (Y*Y)/(B*B) = 1.0 and the
     /// equation of the first asymptote is Y = (B/A)*X
-    /// where A is the major radius and B is the minor radius. Raises ConstructionError if MajorRadius = 0.0
+    /// where A is the major radius and B is the minor radius. Raises ConstructionError if MajorRadius
+    /// = 0.0
     /// </summary>
     Macad::Occt::Ax1 Asymptote1();
     /// <summary>
     /// In the local coordinate system of the hyperbola the equation of
     /// the hyperbola is (X*X)/(A*A) - (Y*Y)/(B*B) = 1.0 and the
     /// equation of the first asymptote is Y = -(B/A)*X.
-    /// where A is the major radius and B is the minor radius. Raises ConstructionError if MajorRadius = 0.0
+    /// where A is the major radius and B is the minor radius. Raises ConstructionError if MajorRadius
+    /// = 0.0
     /// </summary>
     Macad::Occt::Ax1 Asymptote2();
     /// <summary>
@@ -2154,7 +2159,8 @@ public:
     /// <summary>
     /// Returns the eccentricity of the hyperbola (e > 1).
     /// If f is the distance between the location of the hyperbola
-    /// and the Focus1 then the eccentricity e = f / MajorRadius. Raises DomainError if MajorRadius = 0.0
+    /// and the Focus1 then the eccentricity e = f / MajorRadius. Raises DomainError if MajorRadius =
+    /// 0.0
     /// </summary>
     double Eccentricity();
     /// <summary>
@@ -2476,7 +2482,8 @@ public:
     /// <summary>
     /// Returns the eccentricity of the hyperbola (e > 1).
     /// If f is the distance between the location of the hyperbola
-    /// and the Focus1 then the eccentricity e = f / MajorRadius. Raises DomainError if MajorRadius = 0.0.
+    /// and the Focus1 then the eccentricity e = f / MajorRadius. Raises DomainError if MajorRadius =
+    /// 0.0.
     /// </summary>
     double Eccentricity();
     /// <summary>
@@ -2850,8 +2857,9 @@ public:
     /// </summary>
     gp_Lin2d(Macad::Occt::Pnt2d theP, Macad::Occt::Dir2d theV);
     /// <summary>
-    /// Creates the line from the equation theA*X + theB*Y + theC = 0.0 Raises ConstructionError if Sqrt(theA*theA + theB*theB) <= Resolution from gp.
-    /// Raised if Sqrt(theA*theA + theB*theB) <= Resolution from gp.
+    /// Creates the line from the equation theA*X + theB*Y + theC = 0.0 Raises ConstructionError if
+    /// Sqrt(theA*theA + theB*theB) <= Resolution from gp. Raised if Sqrt(theA*theA + theB*theB) <=
+    /// Resolution from gp.
     /// </summary>
     gp_Lin2d(double theA, double theB, double theC);
     void Reverse();

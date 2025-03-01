@@ -13,11 +13,11 @@ namespace Occt
 /// <summary>
 /// Computes the intersection between a face and a
 /// curve. To intersect one curve with shape method
-/// Init(Shape, curve, tTol) should be used.  To
+/// Init(Shape, curve, tTol) should be used. To
 /// intersect a few curves with specified shape it is
 /// necessary to load shape one time using method
 /// Load(shape, tol) and find intersection points for
-/// each curve using method Init(curve).  For
+/// each curve using method Init(curve). For
 /// iteration by intersection points method More() and
 /// Next() should be used.
 /// 
@@ -64,17 +64,17 @@ public:
     /// </summary>
     BRepIntCurveSurface_Inter();
     /// <summary>
-    /// Load the Shape, the curve  and initialize the
+    /// Load the Shape, the curve and initialize the
     /// tolerance used for the classification.
     /// </summary>
     void Init(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::GeomAdaptor_Curve^ theCurve, double theTol);
     /// <summary>
-    /// Load the Shape, the curve  and initialize the
+    /// Load the Shape, the curve and initialize the
     /// tolerance used for the classification.
     /// </summary>
     void Init(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::gp_Lin^ theLine, double theTol);
     /// <summary>
-    /// Load the Shape,   and initialize the
+    /// Load the Shape, and initialize the
     /// tolerance used for the classification.
     /// </summary>
     void Load(Macad::Occt::TopoDS_Shape^ theShape, double theTol);
@@ -106,12 +106,12 @@ public:
     /// </summary>
     double V();
     /// <summary>
-    /// returns the  parameter of the current point
+    /// returns the parameter of the current point
     /// on the curve.
     /// </summary>
     double W();
     /// <summary>
-    /// returns the current state  (IN or ON)
+    /// returns the current state (IN or ON)
     /// </summary>
     Macad::Occt::TopAbs_State State();
     /* Method skipped due to unknown mapping: IntCurveSurface_TransitionOnCurve Transition() */

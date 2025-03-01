@@ -1355,7 +1355,8 @@ public:
     /// <summary>
     /// If specified sequence of shape contains -
     /// 1.wires then these wires will be removed if they have area less than allowed min area.
-    /// 2.faces than internal wires from these faces will be removed if they have area less than allowed min area.
+    /// 2.faces than internal wires from these faces will be removed if they have area less than
+    /// allowed min area.
     /// </summary>
     bool Perform(Macad::Occt::TopTools_SequenceOfShape^ theSeqShapes);
     /// <summary>
@@ -1412,7 +1413,7 @@ public:
     /// </summary>
     ShapeUpgrade_RemoveLocations();
     /// <summary>
-    /// Removes all location correspodingly to RemoveLevel.
+    /// Removes all location correspondingly to RemoveLevel.
     /// </summary>
     bool Remove(Macad::Occt::TopoDS_Shape^ theShape);
     /// <summary>
@@ -1435,6 +1436,10 @@ public:
     /// Returns modified shape obtained from initial shape.
     /// </summary>
     Macad::Occt::TopoDS_Shape^ ModifiedShape(Macad::Occt::TopoDS_Shape^ theInitShape);
+    /// <summary>
+    /// Returns map of modified shapes.
+    /// </summary>
+    Macad::Occt::TopTools_DataMapOfShapeShape^ GetModifiedShapesMap();
     static Macad::Occt::ShapeUpgrade_RemoveLocations^ CreateDowncasted(::ShapeUpgrade_RemoveLocations* instance);
 }; // class ShapeUpgrade_RemoveLocations
 
