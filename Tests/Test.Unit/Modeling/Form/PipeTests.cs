@@ -416,4 +416,25 @@ public class PipeTests
         Assert.AreEqual(2, pipe.Operands.Count);
         AssertHelper.IsSameModel2D(pipe.Operands[1].GetBRep(Ax3.XOY), Path.Combine(_BasePath, "InitCustomProfile01"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void AutoBendRadiusWithSymmetric()
+    {
+        var sketch = Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.StartPath(-2.00, -0.54);
+        sb.LineTo(-3.00, -0.50);
+        sb.LineTo(-3.17, -0.06);
+        sb.LineTo(-3.18, 0.06);
+        sb.LineTo(-3.00, 0.52);
+        sb.LineTo(-2.00, 0.55);
+        var body = Body.Create(sketch);
+        var pipe = Pipe.Create(body);
+        pipe.SizeX = 0.05;
+        pipe.Flags = Pipe.PipeFlags.SymmetricProfile | Pipe.PipeFlags.AutoBendRadius;
+        Assert.IsTrue(pipe.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(ModelCompare.CompareShape(pipe, Path.Combine(_BasePath, "AutoBendRadiusWithSymmetric01")));
+    }
 }

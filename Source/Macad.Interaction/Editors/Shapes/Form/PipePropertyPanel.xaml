@@ -11,7 +11,7 @@
                    Style="{DynamicResource Macad.Styles.PropertyPanel}"
                    Header="Pipe"
                    mmp:Help.TopicId="69425fd0-ff1a-4dc3-9014-12860684e057">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
@@ -102,7 +102,7 @@
                   Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}"
                   IsChecked="{Binding Pipe.Flags, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=SymmetricProfile, Mode=OneWay}"
                   Command="{Binding ToggleFlagCommand}" CommandParameter="SymmetricProfile"
-                  AutomationProperties.AutomationId="SymmetricProfile"/>    
+                  AutomationProperties.AutomationId="SymmetricProfile"/>
 
         <!-- Rotation -->
         <TextBlock Grid.Row="3" Grid.Column="0" 
@@ -141,7 +141,7 @@
                   Content="Automatic"
                   IsChecked="{Binding Pipe.Flags, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=AutoBendRadius, Mode=OneWay}"
                   Command="{Binding ToggleFlagCommand}" CommandParameter="AutoBendRadius"
-                  AutomationProperties.AutomationId="AutoBendRadius"/>    
+                  AutomationProperties.AutomationId="AutoBendRadius"/>
 
         <!-- Length -->
         <TextBlock Grid.Row="9" Grid.Column="0" 

@@ -468,7 +468,9 @@ public class Pipe : ModifierBase
     TopoDS_Edge _CreateFillArc(SpineParams spine)
     {
         // https://math.stackexchange.com/a/797891
-        double bendRadius = _Flags.HasFlag(PipeFlags.AutoBendRadius) ? Math.Max(_SizeX, _SizeY) : _BendRadius;
+        double bendRadius = _Flags.HasFlag(PipeFlags.AutoBendRadius) 
+                                ? _Flags.HasFlag(PipeFlags.SymmetricProfile) ? _SizeX : Math.Max(_SizeX, _SizeY) 
+                                : _BendRadius;
         double distToArcCenter = bendRadius / Math.Sin((Maths.PI - spine.Angle) / 2);
         spine.Center = spine.Location.Translated((spine.Edges[1].Tangent.Normalized() + spine.Edges[0].Tangent.Normalized()).Normalized() * distToArcCenter);
         Dir normal = spine.Edges[1].Tangent.Crossed(spine.Edges[0].Tangent).ToDir();
