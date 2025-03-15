@@ -74,6 +74,7 @@ public class Pipe : ModifierBase
                 _SizeX = Math.Max(0.01, value);
                 Invalidate();
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(EffectiveBendRadius));
             }
         }
     }
@@ -92,6 +93,7 @@ public class Pipe : ModifierBase
                 _SizeY = Math.Max(0.01, value);
                 Invalidate();
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(EffectiveBendRadius));
             }
         }
     }
@@ -146,6 +148,7 @@ public class Pipe : ModifierBase
                 _BendRadius = Math.Max(0.01, value);
                 Invalidate();
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(EffectiveBendRadius));
             }
         }
     }
@@ -164,6 +167,7 @@ public class Pipe : ModifierBase
                 _Flags = value;
                 Invalidate();
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(EffectiveBendRadius));
             }
         }
     }
@@ -174,7 +178,7 @@ public class Pipe : ModifierBase
     public double MeasuredOverallLength
     {
         get { return _MeasuredOverallLength; }
-        set
+        private set
         {
             if (_MeasuredOverallLength != value)
             {
@@ -183,7 +187,19 @@ public class Pipe : ModifierBase
             }
         }
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public double EffectiveBendRadius
+    {
+        get
+        {
+            return _Flags.HasFlag(PipeFlags.AutoBendRadius)
+                ? _Flags.HasFlag(PipeFlags.SymmetricProfile) ? _SizeX : Math.Max(_SizeX, _SizeY)
+                : _BendRadius;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public override ShapeType ShapeType
@@ -468,9 +484,7 @@ public class Pipe : ModifierBase
     TopoDS_Edge _CreateFillArc(SpineParams spine)
     {
         // https://math.stackexchange.com/a/797891
-        double bendRadius = _Flags.HasFlag(PipeFlags.AutoBendRadius) 
-                                ? _Flags.HasFlag(PipeFlags.SymmetricProfile) ? _SizeX : Math.Max(_SizeX, _SizeY) 
-                                : _BendRadius;
+        double bendRadius = EffectiveBendRadius;
         double distToArcCenter = bendRadius / Math.Sin((Maths.PI - spine.Angle) / 2);
         spine.Center = spine.Location.Translated((spine.Edges[1].Tangent.Normalized() + spine.Edges[0].Tangent.Normalized()).Normalized() * distToArcCenter);
         Dir normal = spine.Edges[1].Tangent.Crossed(spine.Edges[0].Tangent).ToDir();

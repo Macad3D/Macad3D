@@ -31,4 +31,11 @@ public static class BindingHelper
 
     //--------------------------------------------------------------------------------------------------
 
+    public static bool HasBinding(DependencyObject target, System.Windows.DependencyProperty dp)
+    {
+        return BindingOperations.GetBindingBase(target, dp) != null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

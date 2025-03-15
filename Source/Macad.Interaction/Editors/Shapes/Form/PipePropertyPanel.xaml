@@ -89,9 +89,16 @@
                               AutomationProperties.AutomationId="DimensionX"/>
             <mmp:ValueEditBox mmp:GroupControls.Position="Right"
                               Units="Length" MinValue="0.01" 
-                              Value="{Binding Pipe.SizeY, NotifyOnSourceUpdated=True}"
                               IsEnabled="{Binding Pipe.Flags, Converter={mmp:HasFlagToNotBoolConverter}, ConverterParameter=SymmetricProfile}"
-                              AutomationProperties.AutomationId="DimensionY"/>
+                              AutomationProperties.AutomationId="DimensionY">
+                <mmp:ValueEditBox.Value>
+                    <MultiBinding Converter="{mmp:BooleanConditionalMultiConverter}" ConverterParameter="UpdateSecond" NotifyOnSourceUpdated="True">
+                        <Binding Path="Pipe.Flags" Converter="{mmp:HasFlagToBoolConverter}" ConverterParameter="SymmetricProfile"/>
+                        <Binding Path="Pipe.SizeX" Mode="OneWay"/>
+                        <Binding Path="Pipe.SizeY"/>
+                    </MultiBinding>
+                </mmp:ValueEditBox.Value>
+            </mmp:ValueEditBox>
         </StackPanel>
 
         <!-- Symmetric -->
@@ -132,9 +139,17 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
         <mmp:ValueEditBox Grid.Row="6" Grid.Column="1" 
                           Units="Length" MinValue="0.01"
-                          Value="{Binding Pipe.BendRadius, NotifyOnSourceUpdated=True}"
                           IsEnabled="{Binding Pipe.Flags, Converter={mmp:HasFlagToNotBoolConverter}, ConverterParameter=AutoBendRadius}"
-                          AutomationProperties.AutomationId="BendRadius"/>
+                          AutomationProperties.AutomationId="BendRadius">
+            <mmp:ValueEditBox.Value>
+                <MultiBinding Converter="{mmp:BooleanConditionalMultiConverter}" ConverterParameter="UpdateSecond" NotifyOnSourceUpdated="True">
+                    <Binding Path="Pipe.Flags" Converter="{mmp:HasFlagToBoolConverter}" ConverterParameter="AutoBendRadius"/>
+                    <Binding Path="Pipe.EffectiveBendRadius" Mode="OneWay"/>
+                    <Binding Path="Pipe.BendRadius"/>
+                </MultiBinding>
+            </mmp:ValueEditBox.Value>
+        </mmp:ValueEditBox>
+
         <CheckBox Grid.Row="7" Grid.Column="1"
                   Margin="0,4,0,4"
                   VerticalAlignment="Center" HorizontalAlignment="Left"

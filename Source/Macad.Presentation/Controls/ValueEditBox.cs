@@ -275,14 +275,12 @@ public class ValueEditBox : TextBox
         BindingExpression exp = GetBindingExpression(TextBox.TextProperty);
         exp?.UpdateSource();
 
-        exp = GetBindingExpression(ValueProperty);
-        if (exp != null)
+        if (BindingHelper.HasBinding(this, ValueProperty))
         {
             double newValue = Value;
             if (Text.StartsWith("="))
             {
                 // Evaluate Expression
-                //string error;
                 double? result = _EvaluateExpression();
                 if (!result.HasValue)
                 {
@@ -315,8 +313,7 @@ public class ValueEditBox : TextBox
         if (Text.StartsWith("="))
         {
             // Evaluate Expression
-            string error;
-            double? result = Common.Evaluator.Evaluator.EvaluateExpression(Text.Remove(0, 1), out error);
+            double? result = Common.Evaluator.Evaluator.EvaluateExpression(Text.Remove(0, 1), out _);
             EvaluationError = !result.HasValue;
             return result;
         }
