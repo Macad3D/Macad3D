@@ -32,7 +32,7 @@ public class CrossSectionUITests : UITestBase
 
         // Create imprint on any face
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateCrossSection"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateCrossSection"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -56,13 +56,13 @@ public class CrossSectionUITests : UITestBase
         var panel = MainWindow.PropertyView.FindPanelByClass("CrossSectionPropertyPanel");
         Assert.That(panel, Is.Not.Null);
 
-        panel.ClickButton("FilterOuter");
+        panel.Click("FilterOuter");
         Assert.AreEqual("Outer", Pipe.GetValue("$Selected.Shape.Filter"));
 
-        panel.ClickButton("FilterInner");
+        panel.Click("FilterInner");
         Assert.AreEqual("Inner", Pipe.GetValue("$Selected.Shape.Filter"));
 
-        panel.ClickButton("FilterAll");
+        panel.Click("FilterAll");
         Assert.AreEqual("All", Pipe.GetValue("$Selected.Shape.Filter"));
     }
 
@@ -115,7 +115,7 @@ public class CrossSectionUITests : UITestBase
 
         var panel = MainWindow.PropertyView.FindPanelByClass("CrossSectionPropertyPanel");
         Assert.That(panel, Is.Not.Null);
-        panel.ClickButton("TakeWorkingPlane");
+        panel.Click("TakeWorkingPlane");
         Assert.AreNotEqual(wpln, Pipe.GetValue("$Selected.Shape.Plane"));
     }
 
@@ -129,7 +129,7 @@ public class CrossSectionUITests : UITestBase
 
         // Create imprint on any face
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateCrossSection"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateCrossSection"));
         MainWindow.Ribbon.ClickButton("CreateCrossSection");
     }
 }

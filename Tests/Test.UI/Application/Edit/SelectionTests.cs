@@ -20,7 +20,7 @@ public class SelectionTests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Duplicate"));
         MainWindow.Ribbon.ClickButton("Duplicate");
 
         // Check that box is duplicated

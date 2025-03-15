@@ -20,14 +20,7 @@ public class WindowAdaptor : FormAdaptor
     {
         get { return Window?.Name; }
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public bool IsEnabled
-    {
-        get { return Window?.IsEnabled ?? false; }
-    }
-
+    
     //--------------------------------------------------------------------------------------------------
 
     protected WindowAdaptor(WindowAdaptor mainWindow, Func<ConditionFactory, ConditionBase> conditionFunc)
@@ -82,6 +75,13 @@ public class WindowAdaptor : FormAdaptor
     public static bool IsWindowOpen(MainWindowAdaptor mainWindow, string automationId)
     {
         return mainWindow.Window.FindFirstChild(automationId)?.AsWindow() != null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsWindowEnabled()
+    {
+        return Window?.IsEnabled ?? false;
     }
 
     //--------------------------------------------------------------------------------------------------

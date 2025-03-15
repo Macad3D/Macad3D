@@ -56,7 +56,7 @@ public class LayersAdaptor : FormAdaptor
 
     public TreeItemAdaptor AddLayer()
     {
-        ClickButton("CreateLayer");
+        Click("CreateLayer");
         return GetLayerItems().Last();
     }
 

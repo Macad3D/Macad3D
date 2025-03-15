@@ -21,7 +21,7 @@ public class ExportPipeDrawingTests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("ExportPipeDrawing"));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -35,11 +35,11 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ExportPipeDrawing"));
         MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
         var fileDlg = new FileDialogAdaptor(MainWindow);
@@ -49,7 +49,7 @@ public class ExportPipeDrawingTests : UITestBase
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.IsTrue(System.IO.File.Exists(path));
@@ -67,11 +67,11 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ExportPipeDrawing"));
         MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
         var fileDlg = new FileDialogAdaptor(MainWindow);
@@ -81,7 +81,7 @@ public class ExportPipeDrawingTests : UITestBase
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.IsFalse(System.IO.File.Exists(path));
@@ -97,11 +97,11 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ExportPipeDrawing"));
         MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
         var fileDlg = new FileDialogAdaptor(MainWindow);

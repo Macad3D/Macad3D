@@ -38,7 +38,7 @@ public class TaskDialogAdaptor : WindowAdaptor
 
     public void ClickButton(Button button, bool jump = true)
     {
-        ClickButton(((int) button).ToString());
+        Click(((int) button).ToString());
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ public static class TestDataGenerator
         // Start tool
         mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         mainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreateBox"));
 
         // Three point creation
         var viewport = mainWindow.Viewport;
@@ -26,7 +26,7 @@ public static class TestDataGenerator
         // Start tool
         mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         mainWindow.Ribbon.ClickButton("CreateCylinder");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateCylinder"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreateCylinder"));
 
         // Three point creation
         var viewport = mainWindow.Viewport;
@@ -44,21 +44,21 @@ public static class TestDataGenerator
         // Create Box
         mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         mainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreateBox"));
         viewport.ClickRelative(0.3, 0.3);
         viewport.ClickRelative(0.6, 0.6);
         viewport.ClickRelative(0.6, 0.3);
 
         // Create Second Box
         mainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreateBox"));
         viewport.ClickRelative(0.4, 0.6);
         viewport.ClickRelative(0.5, 0.5);
         viewport.ClickRelative(0.5, 0.4);
 
         // Bool Op
         mainWindow.Ribbon.ClickButton("CreateBooleanCut");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBooleanCut"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreateBooleanCut"));
         viewport.ClickRelative(0.33, 0.33);
     }
 
@@ -76,13 +76,13 @@ public static class TestDataGenerator
         // Draw
         mainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
         mainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
-        Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsTrue(mainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
         viewport.ClickRelative(0.3, 0.3);
         viewport.ClickRelative(0.3, 0.6);
         viewport.ClickRelative(0.6, 0.6);
         viewport.ClickRelative(0.6, 0.3);
         viewport.ClickRelative(0.3, 0.3);
-        Assert.IsFalse(mainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsFalse(mainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
     }
 
     //--------------------------------------------------------------------------------------------------

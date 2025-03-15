@@ -37,11 +37,11 @@ public class WelcomeDialogTests
     [Test]
     public void CreateNewModel()
     {
-        WelcomeDialog.ClickButton("CreateNewButton");
+        WelcomeDialog.Click("CreateNewButton");
         Wait.UntilResponsive(WelcomeDialog.Window);
         Wait.UntilResponsive(MainWindow.Window);
 
-        Assert.IsFalse(WelcomeDialog.IsEnabled);
+        Assert.IsFalse(WelcomeDialog.IsWindowEnabled());
         Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
     }
 
@@ -50,20 +50,20 @@ public class WelcomeDialogTests
     [Test]
     public void OpenExistingModel()
     {
-        WelcomeDialog.ClickButton("OpenExistingButton");
+        WelcomeDialog.Click("OpenExistingButton");
         var fileDlg = new FileDialogAdaptor(WelcomeDialog);
         Assert.AreEqual("Open Model...", fileDlg.Title);
         fileDlg.ClickButton(FileDialogAdaptor.Button.Cancel);
-        Assert.IsTrue(WelcomeDialog.IsEnabled);
+        Assert.IsTrue(WelcomeDialog.IsWindowEnabled());
 
-        WelcomeDialog.ClickButton("OpenExistingButton");
+        WelcomeDialog.Click("OpenExistingButton");
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Cylinder.model"));
         FileDialogAdaptor.DoLoadModel(WelcomeDialog, path);
 
         Wait.UntilResponsive(WelcomeDialog.Window);
         Wait.UntilResponsive(MainWindow.Window);
 
-        Assert.IsFalse(WelcomeDialog.IsEnabled);
+        Assert.IsFalse(WelcomeDialog.IsWindowEnabled());
         Assert.Greater(MainWindow.Document.GetItems().Count(), 0);
     }
 
@@ -72,14 +72,14 @@ public class WelcomeDialogTests
     [Test]
     public void OpenSampleModel()
     {
-        WelcomeDialog.ClickButton("OpenSampleButton");
+        WelcomeDialog.Click("OpenSampleButton");
         string path = "WoodpeckerCase.model";
         FileDialogAdaptor.DoLoadModel(WelcomeDialog, path);
 
         Wait.UntilResponsive(WelcomeDialog.Window);
         Wait.UntilResponsive(MainWindow.Window);
 
-        Assert.IsFalse(WelcomeDialog.IsEnabled);
+        Assert.IsFalse(WelcomeDialog.IsWindowEnabled());
         Assert.Greater(MainWindow.Document.GetItems().Count(), 0);
     }
 

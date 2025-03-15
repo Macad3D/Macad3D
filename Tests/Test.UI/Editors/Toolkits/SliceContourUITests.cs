@@ -27,7 +27,7 @@ public class SliceContourUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateSliceContour");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSliceContour"));
 
         Assert.AreEqual("\"SliceContourEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
@@ -35,7 +35,7 @@ public class SliceContourUITests : UITestBase
 
         // Click button to stop tool
         MainWindow.Ribbon.ClickButton("CreateSliceContour");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSliceContour"));
 
         Assert.AreEqual("?null", Pipe.GetValue("$Context.WorkspaceController.CurrentTool"));
         propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
@@ -55,13 +55,13 @@ public class SliceContourUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateSliceContour");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSliceContour"));
 
         Assert.AreEqual("\"SliceContourEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
         Assert.IsNotNull(propPanel);
 
-        propPanel.ClickButton("ExportVectorFile");
+        propPanel.Click("ExportVectorFile");
             
         var fileDlg = new FileDialogAdaptor(MainWindow);
         Assert.That(fileDlg.Title, Is.EqualTo("Export..."));
@@ -81,7 +81,7 @@ public class SliceContourUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateSliceContour");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSliceContour"));
 
         Assert.AreEqual("\"SliceContourEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
@@ -89,26 +89,26 @@ public class SliceContourUITests : UITestBase
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Complete reselection
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
         viewport.ClickRelative(0.5, 0.5);
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Cancel by button
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Cancel by Escape, tool should still be active
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
         viewport.ClickRelative(0.1, 0.1);
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
         Assert.AreEqual("\"SliceContourEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Second Escape cancels tool
@@ -129,7 +129,7 @@ public class SliceContourUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateSliceContour");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSliceContour"));
 
         Assert.AreEqual("\"SliceContourEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
@@ -176,14 +176,14 @@ public class SliceContourUITests : UITestBase
         Assert.IsNotNull(propPanel);
 
         // Select Custom
-        propPanel.ClickButton("CustomInterval");
+        propPanel.Click("CustomInterval");
         Assert.IsNotNull(Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval"));
-        Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue0"));
+        Assert.IsTrue(propPanel.Exists("CustomIntervalValue0"));
 
         // Select Auto
-        propPanel.ClickButton("AutoInterval");
+        propPanel.Click("AutoInterval");
         Assert.IsNull(Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval"));
-        Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue0"));
+        Assert.IsFalse(propPanel.Exists("CustomIntervalValue0"));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -201,20 +201,20 @@ public class SliceContourUITests : UITestBase
         Assert.IsNotNull(propPanel);
 
         // Select Custom
-        propPanel.ClickButton("CustomInterval");
+        propPanel.Click("CustomInterval");
         Assert.AreEqual(1, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
-        Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue0"));
-        Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue1"));
+        Assert.IsTrue(propPanel.Exists("CustomIntervalValue0"));
+        Assert.IsFalse(propPanel.Exists("CustomIntervalValue1"));
 
         // Inc 
         propPanel.EnterValue("LayerCount", 2);
         Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
-        Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue1"));
+        Assert.IsTrue(propPanel.Exists("CustomIntervalValue1"));
 
         // Dec
         propPanel.EnterValue("LayerCount", 1);
         Assert.AreEqual(1, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
-        Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue1"));
+        Assert.IsFalse(propPanel.Exists("CustomIntervalValue1"));
     }
                 
     //--------------------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ public class SliceContourUITests : UITestBase
 
         // Select Custom
         propPanel.EnterValue("LayerCount", 2);
-        propPanel.ClickButton("CustomInterval");
+        propPanel.Click("CustomInterval");
         Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
 
         // Set Values
@@ -270,15 +270,15 @@ public class SliceContourUITests : UITestBase
         Assert.IsNotNull(propPanel);
 
         Assert.IsTrue(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
-        Assert.IsTrue(propPanel.GetToggle("ShowReconstruction"));
+        Assert.IsTrue(propPanel.IsChecked("ShowReconstruction"));
 
-        propPanel.ClickToggle("ShowReconstruction");
+        propPanel.Click("ShowReconstruction");
         Assert.IsFalse(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
-        Assert.IsFalse(propPanel.GetToggle("ShowReconstruction"));
+        Assert.IsFalse(propPanel.IsChecked("ShowReconstruction"));
 
-        propPanel.ClickToggle("ShowReconstruction");
+        propPanel.Click("ShowReconstruction");
         Assert.IsTrue(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
-        Assert.IsTrue(propPanel.GetToggle("ShowReconstruction"));
+        Assert.IsTrue(propPanel.IsChecked("ShowReconstruction"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -296,13 +296,13 @@ public class SliceContourUITests : UITestBase
 
         var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
         Assert.IsNotNull(propPanel);
-        propPanel.ClickButton("ShapeGuidSelectButton");
+        propPanel.Click("ShapeGuidSelectButton");
         var buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectCurrent");
         Assert.That(Pipe.GetValue<Guid>("$Selected.Components.[0].ShapeGuid"), Is.EqualTo(boxGuid));
 
-        propPanel.ClickButton("ShapeGuidSelectButton");
+        propPanel.Click("ShapeGuidSelectButton");
         buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectTop");
@@ -319,7 +319,7 @@ public class SliceContourUITests : UITestBase
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateBox"), Is.True);
 
         // Three point creation
         var viewport = MainWindow.Viewport;

@@ -18,17 +18,17 @@ public class WorkspaceTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         var enabled = Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled");
-        Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+        Assert.AreEqual(enabled, MainWindow.Ribbon.IsChecked("ShowGrid"));
 
         enabled = !enabled;
         MainWindow.Ribbon.ClickButton("ShowGrid");
         Assert.AreEqual(enabled, Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled"));
-        Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+        Assert.AreEqual(enabled, MainWindow.Ribbon.IsChecked("ShowGrid"));
 
         enabled = !enabled;
         MainWindow.Ribbon.ClickButton("ShowGrid");
         Assert.AreEqual(enabled, Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled"));
-        Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+        Assert.AreEqual(enabled, MainWindow.Ribbon.IsChecked("ShowGrid"));
     }
 
     //--------------------------------------------------------------------------------------------------

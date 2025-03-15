@@ -71,7 +71,7 @@ public class OpenByCommandlineTests
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         var pipe = new DebugPipeClient();
@@ -92,7 +92,7 @@ public class OpenByCommandlineTests
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         var pipe = new DebugPipeClient();
@@ -113,7 +113,7 @@ public class OpenByCommandlineTests
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         var pipe = new DebugPipeClient();

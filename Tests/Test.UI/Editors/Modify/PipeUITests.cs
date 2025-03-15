@@ -44,7 +44,7 @@ public class PipeUITests : UITestBase
         var _Panel = MainWindow.PropertyView.FindPanelByClass("PipePropertyPanel");
         Assert.That(_Panel, Is.Not.Null);
 
-        _Panel.ClickButton("ProfileCustom");
+        _Panel.Click("ProfileCustom");
         Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
         Assert.AreEqual("Profile", Pipe.GetValue<string>("$Sketch.Name"));
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);

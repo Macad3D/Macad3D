@@ -17,10 +17,10 @@ public class ShortcutDialogTests : UITestBase
     [Test]
     public void ShowCheatSheet()
     {
-        MainWindow.ClickButton("ToolbarShowShortcutCheatSheet");
+        MainWindow.Click("ToolbarShowShortcutCheatSheet");
 
         var dlg = new WindowAdaptor(MainWindow, "ShortcutCheatSheet");
-        dlg.ClickButton("CloseBtn");
+        dlg.Click("CloseBtn");
 
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ShortcutCheatSheet"));
     }

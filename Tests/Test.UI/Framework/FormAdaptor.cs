@@ -78,32 +78,12 @@ public class FormAdaptor
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(_FormControl);
     }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    public bool GetToggle(string id)
-    {
-        var togglePattern = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id))?.Patterns.Toggle?.PatternOrDefault;
-        Assert.IsNotNull(togglePattern, $"Toggle {id} not found in form.");
-
-        return togglePattern.ToggleState.Value == ToggleState.On;
-    }
-                
-    //--------------------------------------------------------------------------------------------------
-
-    public void ClickToggle(string id)
-    {
-        var togglePattern = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id))?.Patterns.Toggle?.PatternOrDefault;
-        Assert.IsNotNull(togglePattern, $"Toggle {id} not found in form.");
-
-        togglePattern.Toggle();
-    }
 
     //--------------------------------------------------------------------------------------------------
 
-    public virtual void ClickButton(string id, bool jump = true, bool doubleClick = false)
+    public virtual void Click(string id, bool jump = true, bool doubleClick = false)
     {
-        var control = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button)));
+        var control = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
         Assert.That(control, Is.Not.Null, $"Button {id} not found in form.");
 
         var center = control.BoundingRectangle.Center();
@@ -122,10 +102,10 @@ public class FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool IsButtonChecked(string id)
+    public bool IsChecked(string id)
     {
-        var button = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button))).AsButton();
-        Assert.IsNotNull(button, $"Button {id} not found in form.");
+        var button = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
+        Assert.IsNotNull(button, $"Control {id} not found in form.");
 
         if (button.ControlType == ControlType.SplitButton)
         {
@@ -135,7 +115,17 @@ public class FormAdaptor
 
         return button.Patterns.Toggle.Pattern.ToggleState.Value == ToggleState.On;
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsEnabled(string id)
+    {
+        var button = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
+        Assert.IsNotNull(button, $"Control {id} not found in form.");
+
+        return button.IsEnabled;
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public bool IsCollapsed()
@@ -154,7 +144,7 @@ public class FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool ControlExists(string id)
+    public bool Exists(string id)
     {
         return _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id)) != null;
     }

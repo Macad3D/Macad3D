@@ -25,7 +25,7 @@ public class ConvertToSolidUITests : UITestBase
 
         // Do convert
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ConvertToSolid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ConvertToSolid"));
         MainWindow.Ribbon.ClickButton("ConvertToSolid");
         Assert.AreEqual("Solid", Pipe.GetValue<string>("$Selected.Shape.Name"));
     }
@@ -40,7 +40,7 @@ public class ConvertToSolidUITests : UITestBase
 
         // Do convert
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ConvertToSolid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ConvertToSolid"));
         MainWindow.Ribbon.ClickButton("ConvertToSolid");
         Assert.AreEqual("Solid", Pipe.GetValue<string>("$Selected.Shape.Name"));
     }
@@ -59,6 +59,6 @@ public class ConvertToSolidUITests : UITestBase
 
         // Do NOT convert
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ConvertToSolid"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("ConvertToSolid"));
     }
 }

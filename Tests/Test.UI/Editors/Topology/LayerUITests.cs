@@ -111,7 +111,7 @@ public class LayerUITests : UITestBase
 
         // Start editing
         layerPanel.SelectItem(1);
-        layerPanel.ClickButton("RenameLayer");
+        layerPanel.Click("RenameLayer");
         layerItem.SetValue("LayerRenameBox", "MyLayer");
         Pipe.PressKey(VirtualKeyShort.ENTER);
         Assert.AreEqual("MyLayer", layerPanel.GetLayerItem(1).Text);
@@ -132,7 +132,7 @@ public class LayerUITests : UITestBase
 
         // Start editing
         layerPanel.SelectItem(1);
-        layerPanel.ClickButton("RenameLayer");
+        layerPanel.Click("RenameLayer");
         layerItem.SetValue("LayerRenameBox", "ExtraLongLayerName");
 
         // Stop editing
@@ -168,7 +168,7 @@ public class LayerUITests : UITestBase
         layerPanel.AddLayer();
         var layerItem = layerPanel.GetLayerItem(1);
         layerItem.Click();
-        layerItem.ClickButton("ToggleIsVisible", doubleClick: true);
+        layerItem.Click("ToggleIsVisible", doubleClick: true);
         var layerGuid = Pipe.GetValue("$Context.Layers.[1].Guid");
         Assert.AreNotEqual(layerGuid, Pipe.GetValue("$Context.Layers.ActiveLayer.Guid"));
     }

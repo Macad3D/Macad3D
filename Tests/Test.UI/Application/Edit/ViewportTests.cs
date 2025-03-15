@@ -39,7 +39,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -48,16 +48,16 @@ public class ViewportTests : UITestBase
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
         Thread.Sleep(1000); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
 
         // Select button prior to ESC
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
         var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
-        menu.ClickButton("SnappingEnabled");
+        menu.Click("SnappingEnabled");
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
         Thread.Sleep(1000); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -75,16 +75,16 @@ public class ViewportTests : UITestBase
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Left);
         Thread.Sleep(1000); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
 
         // Select button prior to LMB
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
         var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
-        menu.ClickButton("SnappingEnabled");
+        menu.Click("SnappingEnabled");
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Left);
         Thread.Sleep(1000); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSphere"));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -102,9 +102,9 @@ public class ViewportTests : UITestBase
         MainWindow.Viewport.MoveRelative(0.3, 0.3);
         Thread.Sleep(1000); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSphere"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ public class ViewportTests : UITestBase
         menu.ClickMenuItem("Transform Entity");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("Transform"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("Transform"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ public class ViewportTests : UITestBase
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBox"));
 
         // Three point creation
         var viewport = MainWindow.Viewport;
@@ -140,11 +140,11 @@ public class ViewportTests : UITestBase
 
         // Klick to ViewCube
         viewport.ClickRelative(0.9, 0.1);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBox"));
 
         // Final click
         viewport.ClickRelative(0.6, 0.3);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateBox"));
     }
 
     //--------------------------------------------------------------------------------------------------

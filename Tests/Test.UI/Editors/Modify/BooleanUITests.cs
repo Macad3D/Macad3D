@@ -48,12 +48,12 @@ public class BooleanUITests : UITestBase
 
         var panel = MainWindow.PropertyView.FindPanelByClass("BooleanPropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsTrue(panel.ControlExists("MergeFaces"));
+        Assert.IsTrue(panel.Exists("MergeFaces"));
 
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
     }
     
@@ -66,7 +66,7 @@ public class BooleanUITests : UITestBase
 
         var panel = MainWindow.PropertyView.FindPanelByClass("BooleanPropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        Assert.IsFalse(panel.Exists("MergeFaces"));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class BooleanUITests : UITestBase
 
         var panel = MainWindow.PropertyView.FindPanelByClass("BooleanPropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        Assert.IsFalse(panel.Exists("MergeFaces"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -90,12 +90,12 @@ public class BooleanUITests : UITestBase
         TestDataGenerator.GenerateCylinder(MainWindow);
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateBooleanCommon"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateBooleanCommon"));
         MainWindow.Ribbon.ClickButton("CreateBooleanCommon");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBooleanCommon"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBooleanCommon"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.1);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBooleanCommon"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateBooleanCommon"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -106,12 +106,12 @@ public class BooleanUITests : UITestBase
         TestDataGenerator.GenerateCylinder(MainWindow);
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateBooleanFuse"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateBooleanFuse"));
         MainWindow.Ribbon.ClickButton("CreateBooleanFuse");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBooleanFuse"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBooleanFuse"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.1);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBooleanFuse"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateBooleanFuse"));
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -122,11 +122,11 @@ public class BooleanUITests : UITestBase
         TestDataGenerator.GenerateCylinder(MainWindow);
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateBooleanCut"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateBooleanCut"));
         MainWindow.Ribbon.ClickButton("CreateBooleanCut");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBooleanCut"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBooleanCut"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.1);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBooleanCut"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateBooleanCut"));
     }
 }

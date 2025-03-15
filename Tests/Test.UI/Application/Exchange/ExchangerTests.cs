@@ -49,7 +49,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.IsFalse(System.IO.File.Exists(path));
@@ -72,7 +72,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -135,7 +135,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -158,7 +158,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -196,7 +196,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") == 0);
     }
@@ -235,7 +235,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
     }
@@ -256,7 +256,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
     }
@@ -277,7 +277,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
     }
@@ -317,7 +317,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -347,7 +347,7 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -380,18 +380,18 @@ public class ExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton(binary ? "ExportBinaryTrue" : "ExportBinaryFalse");
-        Assert.That(dlg.IsButtonChecked("ExportBinaryTrue"), Is.EqualTo(binary));
-        Assert.That(dlg.IsButtonChecked("ExportBinaryFalse"), Is.Not.EqualTo(binary));
-        Assert.That(dlg.ControlExists("EmbedBufferTrue"), Is.Not.EqualTo(binary));
-        Assert.That(dlg.ControlExists("EmbedBufferFalse"), Is.Not.EqualTo(binary));
+        dlg.Click(binary ? "ExportBinaryTrue" : "ExportBinaryFalse");
+        Assert.That(dlg.IsChecked("ExportBinaryTrue"), Is.EqualTo(binary));
+        Assert.That(dlg.IsChecked("ExportBinaryFalse"), Is.Not.EqualTo(binary));
+        Assert.That(dlg.Exists("EmbedBufferTrue"), Is.Not.EqualTo(binary));
+        Assert.That(dlg.Exists("EmbedBufferFalse"), Is.Not.EqualTo(binary));
         if (!binary)
         {
-            dlg.ClickButton(embed ? "EmbedBufferTrue" : "EmbedBufferFalse");
-            Assert.That(dlg.IsButtonChecked("EmbedBufferTrue"), Is.EqualTo(embed));
-            Assert.That(dlg.IsButtonChecked("EmbedBufferFalse"), Is.Not.EqualTo(embed));
+            dlg.Click(embed ? "EmbedBufferTrue" : "EmbedBufferFalse");
+            Assert.That(dlg.IsChecked("EmbedBufferTrue"), Is.EqualTo(embed));
+            Assert.That(dlg.IsChecked("EmbedBufferFalse"), Is.Not.EqualTo(embed));
         }
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.That(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"), Is.False);
 
         FileDialogAdaptor.CheckFileExists(path);

@@ -26,7 +26,7 @@ public class ConvertToEditableSketchUITests : UITestBase
 
         // Do convert
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ConvertToEditableSketch"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ConvertToEditableSketch"));
         MainWindow.Ribbon.ClickButton("ConvertToEditableSketch");
         Assert.AreEqual("Sketch", Pipe.GetValue<string>("$Selected.Shape.Name"));
     }
@@ -44,6 +44,6 @@ public class ConvertToEditableSketchUITests : UITestBase
 
         // Do NOT convert
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ConvertToEditableSketch"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("ConvertToEditableSketch"));
     }
 }

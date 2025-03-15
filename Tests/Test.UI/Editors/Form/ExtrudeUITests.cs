@@ -39,11 +39,11 @@ public class ExtrudeUITests: UITestBase
         _CreateSketchBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("ExtrudePropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsTrue(panel.ControlExists("Symmetric"));
+        Assert.IsTrue(panel.Exists("Symmetric"));
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.Symmetric"));
-        panel.ClickToggle("Symmetric");
+        panel.Click("Symmetric");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.Symmetric"));
-        panel.ClickToggle("Symmetric");
+        panel.Click("Symmetric");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.Symmetric"));
     }
 
@@ -55,7 +55,7 @@ public class ExtrudeUITests: UITestBase
         _CreateSolidBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("ExtrudePropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsFalse(panel.ControlExists("Symmetric"));
+        Assert.IsFalse(panel.Exists("Symmetric"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ public class ExtrudeUITests: UITestBase
         _CreateSketchBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("ExtrudePropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        Assert.IsFalse(panel.Exists("MergeFaces"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -77,11 +77,11 @@ public class ExtrudeUITests: UITestBase
         _CreateSolidBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("ExtrudePropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsTrue(panel.ControlExists("MergeFaces"));
+        Assert.IsTrue(panel.Exists("MergeFaces"));
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
     }
 
@@ -108,7 +108,7 @@ public class ExtrudeUITests: UITestBase
 
         // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateExtrude"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateExtrude"));
         MainWindow.Ribbon.ClickButton("CreateExtrude");
     }
 
@@ -119,11 +119,11 @@ public class ExtrudeUITests: UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateExtrude"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateExtrude"));
         MainWindow.Ribbon.ClickButton("CreateExtrude");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateExtrude"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateExtrude"));
 
         MainWindow.Viewport.ClickRelative(0.3, 0.33);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateExtrude"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateExtrude"));
     }
 }

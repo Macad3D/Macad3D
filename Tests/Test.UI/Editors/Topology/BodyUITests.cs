@@ -27,7 +27,7 @@ public class BodyUITests : UITestBase
         var bodyGuid = Pipe.GetValue<Guid>("$Selected.Guid");
 
         // Hide
-        bodyPanel.ClickButton("VisibilityToggle");
+        bodyPanel.Click("VisibilityToggle");
         Assert.IsFalse(Pipe.GetValue<bool>($"!{bodyGuid}.IsVisible"));
 
         // If hidden, then also not selectable
@@ -98,7 +98,7 @@ public class BodyUITests : UITestBase
         Assert.That(bodyPanel, Is.Not.Null);
 
         var layer = MainWindow.Layers.AddLayer();
-        layer.ClickButton("ToggleIsLocked");
+        layer.Click("ToggleIsLocked");
             
         Assert.AreEqual("0 (Default)", Pipe.GetValue<string>("$Selected.Layer.Name"));
         bodyPanel.SelectComboBoxItem("LayerBox", "Unnamed");

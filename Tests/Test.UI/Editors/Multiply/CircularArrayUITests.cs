@@ -52,9 +52,9 @@ public class CircularArrayUITests : UITestBase
         // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateCircularArray");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateCircularArray"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateCircularArray"));
 
         MainWindow.Viewport.ClickRelative(0.3, 0.33);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateCircularArray"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateCircularArray"));
     }
 }

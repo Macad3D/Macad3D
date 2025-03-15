@@ -21,7 +21,7 @@ public class EtchingMaskUITests : UITestBase
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateBox"), Is.True);
 
         // Three point creation
         var viewport = MainWindow.Viewport;
@@ -43,7 +43,7 @@ public class EtchingMaskUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateEtchingMask");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateEtchingMask"));
 
         Assert.AreEqual("\"EtchingMaskEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
@@ -51,7 +51,7 @@ public class EtchingMaskUITests : UITestBase
 
         // Click button to stop tool
         MainWindow.Ribbon.ClickButton("CreateEtchingMask");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateEtchingMask"));
 
         Assert.AreEqual("?null", Pipe.GetValue("$Context.WorkspaceController.CurrentTool"));
         propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
@@ -71,13 +71,13 @@ public class EtchingMaskUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateEtchingMask");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateEtchingMask"));
 
         Assert.AreEqual("\"EtchingMaskEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
         Assert.IsNotNull(propPanel);
 
-        propPanel.ClickButton("ExportVectorFile");
+        propPanel.Click("ExportVectorFile");
             
         var fileDlg = new FileDialogAdaptor(MainWindow);
         Assert.That(fileDlg.Title, Is.EqualTo("Export..."));
@@ -97,7 +97,7 @@ public class EtchingMaskUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateEtchingMask");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateEtchingMask"));
 
         Assert.AreEqual("\"EtchingMaskEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
@@ -105,26 +105,26 @@ public class EtchingMaskUITests : UITestBase
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Complete reselection
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
         viewport.ClickRelative(0.5, 0.5);
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Cancel by button
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Cancel by Escape, tool should still be active
-        propPanel.ClickButton("ReselectBaseFace");
-        Assert.IsTrue(propPanel.IsButtonChecked("ReselectBaseFace"));
+        propPanel.Click("ReselectBaseFace");
+        Assert.IsTrue(propPanel.IsChecked("ReselectBaseFace"));
         viewport.ClickRelative(0.1, 0.1);
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
         Assert.AreEqual("\"EtchingMaskEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
-        Assert.IsFalse(propPanel.IsButtonChecked("ReselectBaseFace"));
+        Assert.IsFalse(propPanel.IsChecked("ReselectBaseFace"));
         Assert.AreEqual(4, MainWindow.PropertyView.GetPanelCount());
 
         // Second Escape cancels tool
@@ -143,7 +143,7 @@ public class EtchingMaskUITests : UITestBase
         // Click button to start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
         MainWindow.Ribbon.ClickButton("CreateEtchingMask");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateEtchingMask"));
 
         Assert.AreEqual("\"EtchingMaskEditTool\"", Pipe.GetValue("$Context.WorkspaceController.CurrentTool.Id"));
         var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
@@ -190,13 +190,13 @@ public class EtchingMaskUITests : UITestBase
 
         var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
         Assert.IsNotNull(propPanel);
-        propPanel.ClickButton("ShapeGuidSelectButton");
+        propPanel.Click("ShapeGuidSelectButton");
         var buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectCurrent");
         Assert.That(Pipe.GetValue<Guid>("$Selected.Components.[0].ShapeGuid"), Is.EqualTo(boxGuid));
 
-        propPanel.ClickButton("ShapeGuidSelectButton");
+        propPanel.Click("ShapeGuidSelectButton");
         buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectTop");

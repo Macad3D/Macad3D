@@ -52,9 +52,9 @@ public class LinearArrayUITests : UITestBase
         // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateLinearArray");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLinearArray"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateLinearArray"));
 
         MainWindow.Viewport.ClickRelative(0.3, 0.33);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLinearArray"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateLinearArray"));
     }
 }

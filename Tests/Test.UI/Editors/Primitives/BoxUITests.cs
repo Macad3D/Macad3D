@@ -26,7 +26,7 @@ public class BoxUITests : UITestBase
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateBox"), Is.True);
 
         // Three point creation
         _Viewport.ClickRelative(0.3, 0.3);
@@ -34,7 +34,7 @@ public class BoxUITests : UITestBase
         _Viewport.ClickRelative(0.6, 0.3);
 
         // Tool has finished
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateBox"), Is.False);
 
         // Check property panel for correct creation
         _BodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");

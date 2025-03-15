@@ -62,14 +62,14 @@ public class OffsetUITests : UITestBase
         _Panel.SetValue("Distance", 2.0);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Distance"));
 
-        _Panel.ClickButton("CornerAngularBtn");
+        _Panel.Click("CornerAngularBtn");
         Assert.AreEqual("Angular", Pipe.GetValue("$Selected.Shape.Corner"));
 
-        _Panel.ClickButton("CornerRoundBtn");
+        _Panel.Click("CornerRoundBtn");
         Assert.AreEqual("Round", Pipe.GetValue("$Selected.Shape.Corner"));
 
-        Assert.IsTrue(_Panel.ControlExists("KeepOriginal"));
-        _Panel.ClickToggle("KeepOriginal");
+        Assert.IsTrue(_Panel.Exists("KeepOriginal"));
+        _Panel.Click("KeepOriginal");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
     }
 
@@ -93,13 +93,13 @@ public class OffsetUITests : UITestBase
         _Panel.SetValue("Distance", 2.0);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Distance"));
 
-        _Panel.ClickButton("CornerAngularBtn");
+        _Panel.Click("CornerAngularBtn");
         Assert.AreEqual("Angular", Pipe.GetValue("$Selected.Shape.Corner"));
 
-        _Panel.ClickButton("CornerRoundBtn");
+        _Panel.Click("CornerRoundBtn");
         Assert.AreEqual("Round", Pipe.GetValue("$Selected.Shape.Corner"));
 
-        Assert.IsFalse(_Panel.ControlExists("KeepOriginal"));
+        Assert.IsFalse(_Panel.Exists("KeepOriginal"));
     }
 
     //--------------------------------------------------------------------------------------------------

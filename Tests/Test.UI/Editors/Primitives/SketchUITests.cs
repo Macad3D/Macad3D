@@ -22,12 +22,12 @@ public class SketchUITests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSketch");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSketch"));
         MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
         // Button not lit
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSketch"));
 
         // Sketch editor already started, All panels shown?
         var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
@@ -54,7 +54,7 @@ public class SketchUITests : UITestBase
         contextMenu.ClickMenuItem("CreateSketchInteractive");
 
         // Button lit
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSketch"));
 
         // CreateSketchTool running
         Assert.AreEqual("CreateSketchTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
@@ -64,7 +64,7 @@ public class SketchUITests : UITestBase
 
         // Button unlit
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSketch"));
 
         // Sketch editor already started, All panels shown?
         var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
@@ -89,11 +89,11 @@ public class SketchUITests : UITestBase
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
     }
             
     //--------------------------------------------------------------------------------------------------
@@ -107,11 +107,11 @@ public class SketchUITests : UITestBase
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -130,39 +130,39 @@ public class SketchUITests : UITestBase
         MainWindow.Viewport.ClickRelative(0.1, 0.1); // Deselect
 
         // Constraints unavailable
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Select point, constraints available
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Create one constraint, it is disabled now
         MainWindow.Ribbon.ClickButton("CreateVerticalDistanceConstraint");
         MainWindow.Viewport.ClickRelative(0.6, 0.5); // Reselect segment
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Turn, button enable should swap
         MainWindow.Ribbon.ClickButton("TurnSketchViewCW");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Turn, button enable should swap
         MainWindow.Ribbon.ClickButton("TurnSketchViewCW");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Turn, button enable should swap
         MainWindow.Ribbon.ClickButton("TurnSketchViewCW");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
 
         // Turn, button enable should swap
         MainWindow.Ribbon.ClickButton("TurnSketchViewCW");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalDistanceConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalDistanceConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateHorizontalDistanceConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalDistanceConstraint"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -181,24 +181,24 @@ public class SketchUITests : UITestBase
         MainWindow.Viewport.ClickRelative(0.1, 0.1); // Deselect
 
         // Constraints navailable
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalConstraint"));
 
         // Select segment, constraints available
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateHorizontalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalConstraint"));
 
         // Create one constraint, it is disabled now
         MainWindow.Ribbon.ClickButton("CreateHorizontalConstraint");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalConstraint"));
 
         // Create the other constraint, it is disabled now
         Pipe.TypeKey(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_Z);
         MainWindow.Ribbon.ClickButton("CreateVerticalConstraint");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalConstraint"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateHorizontalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("CreateVerticalConstraint"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -220,28 +220,28 @@ public class SketchUITests : UITestBase
         Assert.AreEqual(0.0, Pipe.GetValue<double>("$Context.WorkspaceController.Workspace.WorkingPlane.Location.X"));
 
         // Push Recenter Btn, push again, click => no recenter
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("RecenterGrid"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("RecenterGrid"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         MainWindow.Ribbon.ClickButton("RecenterGrid");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         MainWindow.Ribbon.ClickButton("RecenterGrid");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         MainWindow.Viewport.ClickRelative(0.7, 0.7);
         Assert.AreEqual(0.0, Pipe.GetValue<double>("$Context.WorkspaceController.Workspace.WorkingPlane.Location.X"));
 
         // Push Recenter Btn, press esc => no recenter, sketch editor still alive
         MainWindow.Ribbon.ClickButton("RecenterGrid");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         Pipe.TypeKey(VirtualKeyShort.ESC);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         MainWindow.Viewport.ClickRelative(0.7, 0.7);
         Assert.AreEqual(0.0, Pipe.GetValue<double>("$Context.WorkspaceController.Workspace.WorkingPlane.Location.X"));
 
         // Push Recenter Btn, click => recenter, sketch editor still alive
         MainWindow.Ribbon.ClickButton("RecenterGrid");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         MainWindow.Viewport.ClickRelative(0.7, 0.7);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("RecenterGrid"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("RecenterGrid"));
         Assert.AreNotEqual(0.0, Pipe.GetValue<double>("$Context.WorkspaceController.Workspace.WorkingPlane.Location.X"));
     }
 
@@ -259,23 +259,23 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("SplitElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("SplitElement"));
 
         // Press button to start tool, press again to cancel
         MainWindow.Ribbon.ClickButton("SplitElement");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("SplitElement"));
         MainWindow.Ribbon.ClickButton("SplitElement");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("SplitElement"));
 
         // Split segment.
         MainWindow.Ribbon.ClickButton("SplitElement");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("SplitElement"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("SplitElement"));
         MainWindow.Viewport.ClickRelative(0.55, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("SplitElement"));
         MainWindow.Ribbon.ClickButton("SplitElement");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("SplitElement"));
 
         Assert.AreEqual(3, Pipe.GetValue<int>("$Sketch.Segments.Count"));
     }
@@ -502,12 +502,12 @@ public class SketchUITests : UITestBase
         MainWindow.Viewport.ClickRelative(0.7, 0.7);
             
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("WeldElements"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("WeldElements"));
 
         Keyboard.Press(VirtualKeyShort.SHIFT);
         MainWindow.Viewport.ClickRelative(0.7, 0.3);
         Keyboard.Release(VirtualKeyShort.SHIFT);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("WeldElements"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("WeldElements"));
 
         MainWindow.Ribbon.ClickButton("WeldElements");
 
@@ -615,22 +615,22 @@ public class SketchUITests : UITestBase
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
         MainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
 
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
 
         MainWindow.Ribbon.ClickButton("CreateBezier2Segment");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBezier2Segment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBezier2Segment"));
 
         MainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBezier2Segment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreatePolyLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateBezier2Segment"));
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -643,18 +643,18 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CreateSketch");
         MainWindow.Viewport.ClickRelative(0.5, 0.55);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ScaleElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("ScaleElement"));
 
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ScaleElement"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("ScaleElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("ScaleElement"));
 
         MainWindow.Ribbon.ClickButton("ScaleElement");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("ScaleElement"));
         MainWindow.Ribbon.ClickButton("ScaleElement");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("ScaleElement"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -667,18 +667,18 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CreateSketch");
         MainWindow.Viewport.ClickRelative(0.5, 0.55);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("MirrorElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("MirrorElement"));
 
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("MirrorElement"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("MirrorElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("MirrorElement"));
 
         MainWindow.Ribbon.ClickButton("MirrorElement");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("MirrorElement"));
         MainWindow.Ribbon.ClickButton("MirrorElement");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("MirrorElement"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -691,18 +691,18 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CreateSketch");
         MainWindow.Viewport.ClickRelative(0.5, 0.55);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("OffsetSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("OffsetSegment"));
 
         MainWindow.Ribbon.ClickButton("CreateLineSegment");
         MainWindow.Viewport.ClickRelative(0.4, 0.5);
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("OffsetSegment"));
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("OffsetSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("OffsetSegment"));
 
         MainWindow.Ribbon.ClickButton("OffsetSegment");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("OffsetSegment"));
         MainWindow.Ribbon.ClickButton("OffsetSegment");
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("OffsetSegment"));
     }
 
     //--------------------------------------------------------------------------------------------------

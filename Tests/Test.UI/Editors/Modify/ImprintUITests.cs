@@ -48,7 +48,7 @@ public class ImprintUITests : UITestBase
         // Create imprint on any face
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateImprint");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateImprint"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateImprint"), Is.True);
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
     }
 }

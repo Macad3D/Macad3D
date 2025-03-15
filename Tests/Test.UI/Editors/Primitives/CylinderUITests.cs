@@ -26,7 +26,7 @@ public class CylinderUITests : UITestBase
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateCylinder");
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateCylinder"), Is.True);
 
         // Three point creation
         _Viewport.ClickRelative(0.5, 0.5);
@@ -34,7 +34,7 @@ public class CylinderUITests : UITestBase
         _Viewport.ClickRelative(0.5, 0.3);
 
         // Tool has finished
-        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateCylinder"), Is.False);
 
         // Check property panel for correct creation
         _BodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");

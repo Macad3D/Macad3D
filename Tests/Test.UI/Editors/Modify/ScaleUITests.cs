@@ -71,12 +71,12 @@ public class ScaleUITests : UITestBase
         Assert.That(_Panel, Is.Not.Null);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
-        Assert.IsTrue(_Panel.ControlExists("FactorUniform"));
-        Assert.IsTrue(_Panel.ControlExists("RatioL"));
-        Assert.IsTrue(_Panel.ControlExists("RatioR"));
-        Assert.IsFalse(_Panel.ControlExists("FactorX"));
-        Assert.IsFalse(_Panel.ControlExists("FactorY"));
-        Assert.IsFalse(_Panel.ControlExists("FactorZ"));
+        Assert.IsTrue(_Panel.Exists("FactorUniform"));
+        Assert.IsTrue(_Panel.Exists("RatioL"));
+        Assert.IsTrue(_Panel.Exists("RatioR"));
+        Assert.IsFalse(_Panel.Exists("FactorX"));
+        Assert.IsFalse(_Panel.Exists("FactorY"));
+        Assert.IsFalse(_Panel.Exists("FactorZ"));
 
         _Panel.EnterValue("FactorUniform", 200);
         Assert.AreEqual(2.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
@@ -114,15 +114,15 @@ public class ScaleUITests : UITestBase
         Assert.That(_Panel, Is.Not.Null);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
-        _Panel.ClickToggle("IsUniform");
+        _Panel.Click("IsUniform");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
 
-        Assert.IsFalse(_Panel.ControlExists("FactorUniform"));
-        Assert.IsFalse(_Panel.ControlExists("RatioL"));
-        Assert.IsFalse(_Panel.ControlExists("RatioR"));
-        Assert.IsTrue(_Panel.ControlExists("FactorX"));
-        Assert.IsTrue(_Panel.ControlExists("FactorY"));
-        Assert.IsFalse(_Panel.ControlExists("FactorZ"));
+        Assert.IsFalse(_Panel.Exists("FactorUniform"));
+        Assert.IsFalse(_Panel.Exists("RatioL"));
+        Assert.IsFalse(_Panel.Exists("RatioR"));
+        Assert.IsTrue(_Panel.Exists("FactorX"));
+        Assert.IsTrue(_Panel.Exists("FactorY"));
+        Assert.IsFalse(_Panel.Exists("FactorZ"));
 
         _Panel.EnterValue("FactorX", 200);
         _Panel.EnterValue("FactorY", 300);
@@ -144,12 +144,12 @@ public class ScaleUITests : UITestBase
         Assert.That(_Panel, Is.Not.Null);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
-        Assert.IsTrue(_Panel.ControlExists("FactorUniform"));
-        Assert.IsTrue(_Panel.ControlExists("RatioL"));
-        Assert.IsTrue(_Panel.ControlExists("RatioR"));
-        Assert.IsFalse(_Panel.ControlExists("FactorX"));
-        Assert.IsFalse(_Panel.ControlExists("FactorY"));
-        Assert.IsFalse(_Panel.ControlExists("FactorZ"));
+        Assert.IsTrue(_Panel.Exists("FactorUniform"));
+        Assert.IsTrue(_Panel.Exists("RatioL"));
+        Assert.IsTrue(_Panel.Exists("RatioR"));
+        Assert.IsFalse(_Panel.Exists("FactorX"));
+        Assert.IsFalse(_Panel.Exists("FactorY"));
+        Assert.IsFalse(_Panel.Exists("FactorZ"));
 
         _Panel.EnterValue("FactorUniform", 200);
         Assert.AreEqual(2.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
@@ -186,15 +186,15 @@ public class ScaleUITests : UITestBase
         Assert.That(_Panel, Is.Not.Null);
         Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
-        _Panel.ClickToggle("IsUniform");
+        _Panel.Click("IsUniform");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.Uniform"));
 
-        Assert.IsFalse(_Panel.ControlExists("FactorUniform"));
-        Assert.IsFalse(_Panel.ControlExists("RatioL"));
-        Assert.IsFalse(_Panel.ControlExists("RatioR"));
-        Assert.IsTrue(_Panel.ControlExists("FactorX"));
-        Assert.IsTrue(_Panel.ControlExists("FactorY"));
-        Assert.IsTrue(_Panel.ControlExists("FactorZ"));
+        Assert.IsFalse(_Panel.Exists("FactorUniform"));
+        Assert.IsFalse(_Panel.Exists("RatioL"));
+        Assert.IsFalse(_Panel.Exists("RatioR"));
+        Assert.IsTrue(_Panel.Exists("FactorX"));
+        Assert.IsTrue(_Panel.Exists("FactorY"));
+        Assert.IsTrue(_Panel.Exists("FactorZ"));
 
         _Panel.EnterValue("FactorX", 200);
         _Panel.EnterValue("FactorY", 300);

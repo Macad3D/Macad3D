@@ -67,7 +67,7 @@ public class RibbonAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public new void ClickButton(string id, bool jump = true, bool doubleClick = false)
+    public void ClickButton(string id, bool jump = true, bool doubleClick = false)
     {
         var button = _FindButton(id);
 
@@ -109,27 +109,6 @@ public class RibbonAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public new bool IsButtonChecked(string id)
-    {
-        var button = _FindButton(id);
-        if (!button.Patterns.Toggle.IsSupported)
-        {
-            Assert.IsNotNull(button, $"Button {id} does not support the toggle pattern.");
-        }
-
-        return button.Patterns.Toggle.Pattern.ToggleState.Value == ToggleState.On;
-    }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    public bool IsButtonEnabled(string id)
-    {
-        var button = _FindButton(id);
-        return button.IsEnabled;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public void ClickFileMenuItem(string id1, string id2=null, bool jump = true)
     {
         var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(RibbonTabs.File.ToString()));
@@ -162,7 +141,7 @@ public class RibbonAdaptor : FormAdaptor
 
     public void SetButtonChecked(string id, bool isChecked)
     {
-        if(IsButtonChecked(id) == isChecked)
+        if(IsChecked(id) == isChecked)
             return;
         ClickButton(id);
     }

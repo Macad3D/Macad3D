@@ -20,7 +20,7 @@ public class ReferenceUITests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreateReference"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsEnabled("CreateReference"), Is.True);
         MainWindow.Ribbon.ClickButton("CreateReference");
 
         Assert.That(Pipe.GetValue<string>("$Selected.Shape.Name"), Is.EqualTo("Reference"));
@@ -37,12 +37,12 @@ public class ReferenceUITests : UITestBase
         Guid boxGuid = Pipe.GetValue<Guid>("$Selected.Shape.Guid");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreateReference"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsEnabled("CreateReference"), Is.True);
         MainWindow.Ribbon.ClickButton("CreateReference");
 
         var refPanel = MainWindow.PropertyView.FindPanelByClass("ReferencePropertyPanel");
         Assert.That(refPanel, Is.Not.Null);
-        refPanel.ClickButton("ShapeGuidSelectButton");
+        refPanel.Click("ShapeGuidSelectButton");
         var buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectCurrent");
@@ -50,7 +50,7 @@ public class ReferenceUITests : UITestBase
 
         refPanel = MainWindow.PropertyView.FindPanelByClass("ReferencePropertyPanel");
         Assert.That(refPanel, Is.Not.Null);
-        refPanel.ClickButton("ShapeGuidSelectButton");
+        refPanel.Click("ShapeGuidSelectButton");
         buttonMenu = MainWindow.FindContextMenu();
         Assert.That(buttonMenu, Is.Not.Null);
         buttonMenu.ClickMenuItem("SelectTop");

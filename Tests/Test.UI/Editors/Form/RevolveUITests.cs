@@ -46,9 +46,9 @@ public class RevolveUITests : UITestBase
         // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateRevolve");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateRevolve"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateRevolve"));
 
         MainWindow.Viewport.ClickRelative(0.5, 0.4);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateRevolve"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateRevolve"));
     }
 }

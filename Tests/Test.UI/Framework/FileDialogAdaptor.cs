@@ -33,7 +33,7 @@ public class FileDialogAdaptor : WindowAdaptor
         
     //--------------------------------------------------------------------------------------------------
 
-    public override void ClickButton(string id, bool jump = true, bool doubleClick = false)
+    public override void Click(string id, bool jump = true, bool doubleClick = false)
     {
         var buttonCtrl = _FormControl.FindFirstDescendant(cf => cf.ByClassName("Button").And(cf.ByAutomationId(id)))?.AsButton();
         Assert.That(buttonCtrl, Is.Not.Null, $"Button {id} not found in form.");
@@ -49,7 +49,7 @@ public class FileDialogAdaptor : WindowAdaptor
 
     public void ClickButton(Button button, bool jump = true)
     {
-        ClickButton(((int)button).ToString(), jump);
+        Click(((int)button).ToString(), jump);
     }
 
     //--------------------------------------------------------------------------------------------------

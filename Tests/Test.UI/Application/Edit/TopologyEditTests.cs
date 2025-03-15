@@ -33,12 +33,12 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Delete"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Delete"));
         MainWindow.Ribbon.ClickButton("Delete");
             
         // Check that box is away
         Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("Delete"));
+        Assert.IsFalse(MainWindow.Ribbon.IsEnabled("Delete"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Duplicate"));
         MainWindow.Ribbon.ClickButton("Duplicate");
 
         // Check that box is duplicated
@@ -63,7 +63,7 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Duplicate"));
         MainWindow.Ribbon.ClickButton("Duplicate");
 
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -83,7 +83,7 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Duplicate"));
         MainWindow.Ribbon.ClickButton("Duplicate");
 
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -103,7 +103,7 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("Duplicate"));
         MainWindow.Ribbon.ClickButton("Duplicate");
 
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -122,9 +122,9 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CopyClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CopyClipboard"));
         MainWindow.Ribbon.ClickButton("CopyClipboard");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("PasteClipboard"));
         MainWindow.Ribbon.ClickButton("PasteClipboard");
 
         // Check that box is duplicated
@@ -139,9 +139,9 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CutClipboard"));
         MainWindow.Ribbon.ClickButton("CutClipboard");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("PasteClipboard"));
         MainWindow.Ribbon.ClickButton("PasteClipboard");
 
         // Check that box exists only once
@@ -156,9 +156,9 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CopyClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CopyClipboard"));
         MainWindow.Ribbon.ClickButton("CopyClipboard");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("PasteClipboard"));
         MainWindow.Ribbon.ClickButton("PasteClipboard");
 
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -178,13 +178,13 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CutClipboard"));
         MainWindow.Ribbon.ClickButton("CutClipboard");
 
         MainWindow.Document.SelectItem("Box_1");
         MainWindow.Ribbon.ClickButton("Delete");
 
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("PasteClipboard"));
         MainWindow.Ribbon.ClickButton("PasteClipboard");
 
         Assert.IsFalse(TaskDialogAdaptor.IsTaskDialogOpen(MainWindow));
@@ -201,12 +201,12 @@ public class TopologyEditTests : UITestBase
     {
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CutClipboard"));
         MainWindow.Ribbon.ClickButton("CutClipboard");
 
         Reset(); // Creates new model
 
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("PasteClipboard"));
         MainWindow.Ribbon.ClickButton("PasteClipboard");
 
         Assert.IsFalse(TaskDialogAdaptor.IsTaskDialogOpen(MainWindow));

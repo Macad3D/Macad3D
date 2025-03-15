@@ -57,7 +57,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.IsFalse(System.IO.File.Exists(path));
@@ -84,7 +84,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -111,7 +111,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         FileDialogAdaptor.CheckFileExists(path);
@@ -157,7 +157,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.AreEqual(4, Pipe.GetValue<int>("$Sketch.Segments.Count"));
@@ -183,7 +183,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.AreEqual(5, Pipe.GetValue<int>("$Sketch.Segments.Count"));
@@ -209,7 +209,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
@@ -235,7 +235,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.AreEqual(5, Pipe.GetValue<int>("$Sketch.Segments.Count"));
@@ -257,7 +257,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
@@ -279,7 +279,7 @@ public class SketchExchangerTests : UITestBase
 
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);

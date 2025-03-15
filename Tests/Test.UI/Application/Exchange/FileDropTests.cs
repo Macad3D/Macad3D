@@ -162,7 +162,7 @@ public class FileDropTests : UITestBase
             
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Ok");
+        dlg.Click("Ok");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         // Check that data was imported
@@ -187,7 +187,7 @@ public class FileDropTests : UITestBase
             
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
-        dlg.ClickButton("Cancel");
+        dlg.Click("Cancel");
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
         // Check that box is still alone

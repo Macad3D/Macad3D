@@ -20,7 +20,7 @@ public class AboutDialogTests : UITestBase
         MainWindow.Ribbon.ClickFileMenuItem("ShowAboutDialog");
 
         var dlg = new WindowAdaptor(MainWindow, "AboutDialog");
-        dlg.ClickButton("CloseBtn");
+        dlg.Click("CloseBtn");
 
         Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "AboutDialog"));
     }

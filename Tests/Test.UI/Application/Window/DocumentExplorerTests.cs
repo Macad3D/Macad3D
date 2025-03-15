@@ -43,7 +43,7 @@ public class DocumentExplorerTests : UITestBase
         Thread.Sleep(500); // Filter string is processed deferred
         Assert.That(MainWindow.Document.GetItems().Count() == 1);
 
-        MainWindow.Document.ClickButton("ResetNameFilter");
+        MainWindow.Document.Click("ResetNameFilter");
         Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
     }
         
@@ -94,7 +94,7 @@ public class DocumentExplorerTests : UITestBase
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
         Assert.IsNotNull(bodyPanel);
-        bodyPanel.ClickButton("VisibilityToggle");
+        bodyPanel.Click("VisibilityToggle");
         Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
     }
 
@@ -221,7 +221,7 @@ public class DocumentExplorerTests : UITestBase
 
     ContextMenuAdaptor _GetFilterMenu()
     {
-        MainWindow.Document.ClickButton("FilterMenu");
+        MainWindow.Document.Click("FilterMenu");
         Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "DocumentFilterContextMenu"));
         var menu = new ContextMenuAdaptor(MainWindow, "DocumentFilterContextMenu");
         return menu;

@@ -51,9 +51,9 @@ public class MirrorUITests : UITestBase
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        panel.ClickToggle("KeepOriginal");
+        panel.Click("KeepOriginal");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        panel.ClickToggle("KeepOriginal");
+        panel.Click("KeepOriginal");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
     }
     
@@ -65,8 +65,8 @@ public class MirrorUITests : UITestBase
         _CreateSolidBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsTrue(panel.ControlExists("ReselectReference"));
-        panel.ClickButton("ReselectReference");
+        Assert.IsTrue(panel.Exists("ReselectReference"));
+        panel.Click("ReselectReference");
         MainWindow.Viewport.ClickRelative(0.45, 0.45);
         Assert.AreEqual("Axis", Pipe.GetValue("$Selected.Shape.Mode"));
     }
@@ -80,13 +80,13 @@ public class MirrorUITests : UITestBase
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
-        panel.ClickToggle("KeepOriginal");
+        Assert.IsFalse(panel.Exists("MergeFaces"));
+        panel.Click("KeepOriginal");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
-        panel.ClickToggle("KeepOriginal");
+        Assert.IsFalse(panel.Exists("MergeFaces"));
+        panel.Click("KeepOriginal");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        Assert.IsFalse(panel.Exists("MergeFaces"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -98,13 +98,13 @@ public class MirrorUITests : UITestBase
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsTrue(panel.ControlExists("MergeFaces"));
-        panel.ClickToggle("KeepOriginal");
+        Assert.IsTrue(panel.Exists("MergeFaces"));
+        panel.Click("KeepOriginal");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsFalse(panel.ControlExists("MergeFaces"));
-        panel.ClickToggle("KeepOriginal");
+        Assert.IsFalse(panel.Exists("MergeFaces"));
+        panel.Click("KeepOriginal");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
-        Assert.IsTrue(panel.ControlExists("MergeFaces"));
+        Assert.IsTrue(panel.Exists("MergeFaces"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -116,9 +116,9 @@ public class MirrorUITests : UITestBase
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
-        panel.ClickToggle("MergeFaces");
+        panel.Click("MergeFaces");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
     }
     
@@ -130,10 +130,10 @@ public class MirrorUITests : UITestBase
         _CreateSolidBased();
         var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
         Assert.IsNotNull(panel);
-        Assert.IsTrue(panel.ControlExists("Offset"));
-        panel.ClickButton("ReselectReference");
+        Assert.IsTrue(panel.Exists("Offset"));
+        panel.Click("ReselectReference");
         MainWindow.Viewport.ClickRelative(0.45, 0.45);
-        Assert.IsFalse(panel.ControlExists("Offset"));
+        Assert.IsFalse(panel.Exists("Offset"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -146,11 +146,11 @@ public class MirrorUITests : UITestBase
 
         // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateMirror"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateMirror"));
         MainWindow.Ribbon.ClickButton("CreateMirror");
 
         MainWindow.Viewport.ClickRelative(0.6, 0.41);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateMirror"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateMirror"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -160,11 +160,11 @@ public class MirrorUITests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateMirror"));
+        Assert.IsTrue(MainWindow.Ribbon.IsEnabled("CreateMirror"));
         MainWindow.Ribbon.ClickButton("CreateMirror");
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateMirror"));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateMirror"));
 
         MainWindow.Viewport.ClickRelative(0.3, 0.33);
-        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateMirror"));
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateMirror"));
     }
 }

@@ -37,15 +37,15 @@ public class DatumPlaneUITests : UITestBase
         Assert.NotNull(panel);
 
         // Edit size, keep aspect
-        Assert.IsTrue(panel.GetToggle("KeepAspectRatio"));
+        Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
         panel.EnterValue("DimensionX", 50.0);
         Assert.AreEqual(50.0, panel.GetValue<double>("DimensionY"));
         panel.EnterValue("DimensionY", 25.0);
         Assert.AreEqual(25.0, panel.GetValue<double>("DimensionX"));
 
         // Edit size, no aspect
-        panel.ClickToggle("KeepAspectRatio");
-        Assert.IsFalse(panel.GetToggle("KeepAspectRatio"));
+        panel.Click("KeepAspectRatio");
+        Assert.IsFalse(panel.IsChecked("KeepAspectRatio"));
         panel.EnterValue("DimensionX", 10.0);
         Assert.AreEqual(25.0, panel.GetValue<double>("DimensionY"));
         panel.EnterValue("DimensionY", 15.0);
@@ -66,8 +66,8 @@ public class DatumPlaneUITests : UITestBase
         Assert.NotNull(panel);
 
         // Load without aspect correction
-        Assert.IsTrue(panel.GetToggle("KeepAspectRatio"));
-        panel.ClickButton("LoadImageFile");
+        Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
+        panel.Click("LoadImageFile");
 
         Assert.IsTrue(FileDialogAdaptor.IsDialogOpen(MainWindow));
         var fileDialog = new FileDialogAdaptor(MainWindow);
@@ -82,8 +82,8 @@ public class DatumPlaneUITests : UITestBase
         Assert.AreEqual(100.0, panel.GetValue<double>("DimensionY"));
 
         // Load with aspect correction
-        Assert.IsTrue(panel.GetToggle("KeepAspectRatio"));
-        panel.ClickButton("LoadImageFile");
+        Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
+        panel.Click("LoadImageFile");
 
         Assert.IsTrue(FileDialogAdaptor.IsDialogOpen(MainWindow));
         fileDialog = new FileDialogAdaptor(MainWindow);
