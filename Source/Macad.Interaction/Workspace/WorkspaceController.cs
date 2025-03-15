@@ -1091,6 +1091,44 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
+    public Pnt2d ComputeGridPoint(Pnt2d coord, bool scaledGrid=true)
+    {
+        if (Workspace.GridRotation != 0)
+        {
+            coord.Rotate(Pnt2d.Origin, -Workspace.GridRotation.ToRad());
+        }
+
+        double gridStep = Workspace.GridStep;
+        if (scaledGrid)
+        {
+            gridStep *= _VisualGridMultiplier;
+        }
+
+        Pnt2d gridPoint;
+        if (Workspace.GridType == Workspace.GridTypes.Circular)
+        {
+            double angle = gp.DX2d.Angle(coord.ToDir());
+            double circStep = Maths.PI / Workspace.GridDivisions;
+            int iseg = (angle / circStep).ToRoundedInt();
+            int icirc = (coord.Distance(Pnt2d.Origin) / gridStep).ToRoundedInt();
+            gridPoint = new Pnt2d(gridStep * icirc, 0).Rotated(Pnt2d.Origin, circStep * iseg);
+        }
+        else // GridTypes.Rectangular
+        {
+            int ix = (coord.X / gridStep).ToRoundedInt();
+            int iy = (coord.Y / gridStep).ToRoundedInt();
+            gridPoint = new Pnt2d(gridStep * ix, gridStep * iy);
+        }
+
+        if (Workspace.GridRotation != 0)
+        {
+            gridPoint.Rotate(Pnt2d.Origin, Workspace.GridRotation.ToRad());
+        }
+        return gridPoint;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Delete, Duplicate, Clipboard

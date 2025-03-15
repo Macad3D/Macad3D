@@ -275,39 +275,7 @@ public sealed class Workspace : BaseObject, IDisposable
     }
         
     //--------------------------------------------------------------------------------------------------
-        
-    public Pnt2d ComputeGridPoint(Pnt2d coord)
-    {
-        if (GridRotation != 0)
-        {
-            coord.Rotate(Pnt2d.Origin, -GridRotation.ToRad());
-        }
-
-        Pnt2d gridPoint;
-        if (GridType == GridTypes.Circular)
-        {
-            double angle = gp.DX2d.Angle(coord.ToDir());
-            double circStep = Maths.PI / GridDivisions;
-            int iseg = (angle / circStep).ToRoundedInt();
-            int icirc = (coord.Distance(Pnt2d.Origin) / GridStep).ToRoundedInt();
-            gridPoint = new Pnt2d(GridStep * icirc, 0).Rotated(Pnt2d.Origin, circStep * iseg);
-        }
-        else // GridTypes.Rectangular
-        {
-            int ix = (coord.X / GridStep).ToRoundedInt();
-            int iy = (coord.Y / GridStep).ToRoundedInt();
-            gridPoint = new Pnt2d(GridStep * ix, GridStep * iy);
-        }
-
-        if (GridRotation != 0)
-        {
-            gridPoint.Rotate(Pnt2d.Origin, GridRotation.ToRad());
-        }
-        return gridPoint;
-    } 
-        
-    //--------------------------------------------------------------------------------------------------
-
+ 
     #endregion
 
 }

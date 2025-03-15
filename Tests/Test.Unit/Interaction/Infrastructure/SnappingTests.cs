@@ -3,6 +3,7 @@ using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Interaction.Editors.Shapes;
 using NUnit.Framework;
+using Macad.Interaction;
 
 namespace Macad.Test.Unit.Interaction.Infrastructure;
 
@@ -57,6 +58,31 @@ public class SnappingTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void SnapToScaledRectGrid()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Workspace.GridStep = 1.0;
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.VisualGridStepMinPixel = 10;
+        viewportParameterSet.VisualGridMinStepsOnScreen = 10;
+
+        ctx.ViewportController.Zoom(-20.0);
+        Assume.That(ctx.WorkspaceController.VisualGridMultiplier, Is.GreaterThan(1.0));
+
+        ctx.WorkspaceController.StartTool(new CreateBoxTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(102, 245);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToScaledRectGrid"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void SnapToCircGrid()
     {
         var ctx = Context.Current;
@@ -78,6 +104,31 @@ public class SnappingTests
             ctx.EditorState.SnapToGridSelected = false;
             ctx.MoveTo(175, 213);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToCircGrid90"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SnapToScaledCircGrid()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.GridType = Workspace.GridTypes.Circular;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToGridSelected = true; 
+        ctx.Workspace.GridStep = 1.0;
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.VisualGridStepMinPixel = 10;
+        viewportParameterSet.VisualGridMinStepsOnScreen = 10;
+
+        ctx.ViewportController.Zoom(-20.0);
+        Assume.That(ctx.WorkspaceController.VisualGridMultiplier, Is.GreaterThan(1.0));
+        ctx.WorkspaceController.StartTool(new CreateBoxTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(102, 245);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToScaledCircGrid"));
         });
     }
 

@@ -220,7 +220,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
             return false;
 
         Pnt2d uv = plane.Parameters(pnt);
-        Pnt2d gridUv = WorkspaceController.Workspace.ComputeGridPoint(uv);
+        Pnt2d gridUv = WorkspaceController.ComputeGridPoint(uv);
         pnt = plane.Value(gridUv);
         return true;
     }
