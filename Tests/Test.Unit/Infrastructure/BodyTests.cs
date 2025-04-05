@@ -7,6 +7,7 @@ using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Macad.Test.Unit.Infrastructure;
 
@@ -330,5 +331,19 @@ public class BodyTests
         imprint = body1.Shape as Imprint;
         Assert.AreEqual(body1, imprint.Body);
         Assert.AreEqual(body1, imprint.Sketch.Body);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DetectCircularReferenceOfShapes()
+    {
+        var body1 = TestGeomGenerator.CreateBox().Body;
+        var body2 = Reference.Create(body1);
+        body2.Position = new Pnt(20, 0, 0);
+
+        BooleanFuse.Create(body1, new BodyShapeOperand(body2));
+        Assert.IsFalse(body2.Shape.Make(Shape.MakeFlags.None));
+        Assert.That(Context.Current.MessageHandler.GetEntityMessages(body2.Shape).Any(msg => msg.Text.Contains("Circular dependency detected.")));
     }
 }

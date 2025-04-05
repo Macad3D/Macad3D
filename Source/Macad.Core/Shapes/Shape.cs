@@ -156,6 +156,7 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
     bool _IsSkipped;
     bool _IsLoadedFromCache;
     bool _IsInvalidating;
+    bool _IsMaking;
     Body _Body;
     string _Name;
     TopoDS_Shape _BRep;
@@ -332,15 +333,26 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
                 }
             }
 
-            if (MakeInternal(flags))
+            if (_IsMaking)
+            {
+                Messages.Error("Circular dependency detected. Please check your dependencies between different bodies.");
+                return false;
+            }
+            _IsMaking = true;
+
+            bool result = MakeInternal(flags);
+            if (result)
             {
                 _IsLoadedFromCache = false;
                 RaiseShapeChanged();
-                return true;
             }
+            else
+            {
+                Messages.Error("Shape making failed.");
+            }
+            _IsMaking = false;
 
-            Messages.Error("Shape making failed.");
-            return false;
+            return result;
         });
 
         HasErrors = !result;
