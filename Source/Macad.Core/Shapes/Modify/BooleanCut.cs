@@ -22,20 +22,7 @@ public sealed class BooleanCut : BooleanBase
 
     //--------------------------------------------------------------------------------------------------
 
-    public static BooleanCut Create(Body targetBody, IShapeOperand operand)
-    {
-        Debug.Assert(targetBody != null);
-
-        var boolean = new BooleanCut();
-        targetBody.AddShape(boolean);
-        boolean.AddOperand(operand);
-
-        return boolean;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static BooleanCut Create(Body targetBody, IShapeOperand[] operands)
+    public static BooleanCut Create(Body targetBody, params IShapeOperand[] operands)
     {
         Debug.Assert(targetBody != null);
 

@@ -22,20 +22,7 @@ public sealed class BooleanCommon : BooleanBase
 
     //--------------------------------------------------------------------------------------------------
 
-    public static BooleanCommon Create(Body targetBody, IShapeOperand operand)
-    {
-        Debug.Assert(targetBody != null);
-
-        var boolean = new BooleanCommon();
-        targetBody.AddShape(boolean);
-        boolean.AddOperand(operand);
-
-        return boolean;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static BooleanCommon Create(Body targetBody, IShapeOperand[] operands)
+    public static BooleanCommon Create(Body targetBody, params IShapeOperand[] operands)
     {
         Debug.Assert(targetBody != null);
 

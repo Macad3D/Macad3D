@@ -48,24 +48,7 @@ public sealed class BooleanFuse : BooleanBase
 
     //--------------------------------------------------------------------------------------------------
 
-    public static BooleanFuse Create(Body targetBody, IShapeOperand operand)
-    {
-        Debug.Assert(targetBody != null);
-
-        var boolean = new BooleanFuse()
-        {
-            MergeFaces = true
-        };
-
-        targetBody.AddShape(boolean);
-        boolean.AddOperand(operand);
-
-        return boolean;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static BooleanFuse Create(Body targetBody, IShapeOperand[] operands)
+    public static BooleanFuse Create(Body targetBody, params IShapeOperand[] operands)
     {
         Debug.Assert(targetBody != null);
 
