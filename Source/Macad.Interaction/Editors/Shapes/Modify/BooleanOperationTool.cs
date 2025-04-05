@@ -51,8 +51,13 @@ public class BooleanOperationTool : Tool
                                                    .OfType<Body>()
                                                    .Select(body => (IShapeOperand)new BodyShapeOperand(body))
                                                    .ToArray();
-            Execute(_SourceBody, shapeOperands);
+            var boolOpShape = Execute(_SourceBody, shapeOperands);
             Stop();
+            if (boolOpShape != null)
+            {
+                WorkspaceController.Selection.SelectEntity(_SourceBody);
+                CommitChanges();
+            }
             WorkspaceController.Invalidate();
             return false;
         }

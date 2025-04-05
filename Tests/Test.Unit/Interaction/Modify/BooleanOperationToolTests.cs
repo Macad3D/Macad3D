@@ -207,6 +207,29 @@ public class BooleanToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void UndoPreselect()
+    {
+        var ctx = Context.Current;
+
+        var body1 = _CreateBodies(true);
+        ctx.Document.UndoHandler.Commit();
+        ctx.ViewportController.ZoomFitAll();
+
+        // Use Boolean Tool
+        ctx.SelectAt(220, 200);
+        ctx.SelectAt(230, 330, ModifierKeys.Control);
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Common));
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CommonSimple"));
+
+        // Undo
+        Assert.That(ctx.Document.UndoHandler.CanUndo);
+        ctx.Document.UndoHandler.DoUndo(1);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Undo"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void FilterSelectionByShapeType()
     {
         var ctx = Context.Current;
