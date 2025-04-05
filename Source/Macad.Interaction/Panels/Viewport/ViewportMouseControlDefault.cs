@@ -12,6 +12,7 @@ public class ViewportMouseControlDefault : IViewportMouseControl
 
     ViewportController.MouseMoveMode _CurrentMouseMoveMode;
     Point _MouseDownPos;
+    bool _LeftButtonDown;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -26,7 +27,7 @@ public class ViewportMouseControlDefault : IViewportMouseControl
         }
         else
         {
-            if (mouseDevice?.LeftButton == MouseButtonState.Pressed
+            if (_LeftButtonDown
                 && (pos.X - _MouseDownPos.X).Abs() + (pos.Y - _MouseDownPos.Y).Abs() > 10
                 && !ViewportController.IsInRubberbandSelection
                 && ViewportController.WorkspaceController.IsSelecting)
@@ -75,7 +76,8 @@ public class ViewportMouseControlDefault : IViewportMouseControl
         if (ViewportController == null)
             return;
 
-        if (changedButton == MouseButton.Left)
+        if (changedButton == MouseButton.Left 
+            && _CurrentMouseMoveMode == ViewportController.MouseMoveMode.None)
         {
             if (clickCount == 2)
             {
@@ -85,6 +87,7 @@ public class ViewportMouseControlDefault : IViewportMouseControl
             else
             {
                 ViewportController.MouseDown(modifierKeys);
+                _LeftButtonDown = true;
             }
         }
 
@@ -102,6 +105,7 @@ public class ViewportMouseControlDefault : IViewportMouseControl
         if (changedButton == MouseButton.Left)
         {
             ViewportController.MouseUp(modifierKeys);
+            _LeftButtonDown = false;
         }
         _UpdateMouseMoveMode(mouseDevice, modifierKeys);
     }
