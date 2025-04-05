@@ -1,13 +1,15 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Macad.Common;
 using Macad.Core;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Exchange;
 using Macad.Exchange.Gltf;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Macad.Test.Unit.Exchange;
 
@@ -20,8 +22,7 @@ public class GltfExportTests
     [SetUp]
     public void Setup()
     {
-        // We need a view to get the zoom fit working
-        Context.InitWithView(500);
+        Context.InitWithDefault();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -119,6 +120,36 @@ public class GltfExportTests
         Assert.That(((IBodyExporter)exchanger).DoExport(path, bodies), Is.True);
         Assert.That(File.Exists(path));
         File.Delete(path);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Github Issue #86")]
+    [TestCase(GltfFileType.ExternalData)]
+    [TestCase(GltfFileType.EmbeddedData, Explicit = true)]
+    [TestCase(GltfFileType.Binary)]
+    public void BigData(GltfFileType fileType)
+    {
+        // Create array of references to produce very high triangle load
+        var original = TestData.GetBodyFromBRep(@"SourceData\Brep\Motor-c.brep");
+
+        const int side = 17;
+        List<Body> bodies = [original];
+        for (int x = 0; x < side; x++)
+        {
+            for (int y = 0; y < side; y++)
+            {
+                var body = Reference.Create(original);
+                body.Position = new Pnt(x * 100, y * 100, 0);
+                bodies.Add(body);
+            }   
+        }
+
+        var streams = GltfBodyExporter.Export(bodies, fileType, "Motor-c.bin");
+        Assert.That(streams, Is.Not.Null);
+        Assert.That(streams.Length, Is.EqualTo(fileType == GltfFileType.ExternalData ? 2 : 1));
+        Assert.That(streams.Last().Length, Is.GreaterThan(130000000));
     }
 
     //--------------------------------------------------------------------------------------------------

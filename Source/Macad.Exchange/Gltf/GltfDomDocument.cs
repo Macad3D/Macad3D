@@ -9,7 +9,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Gltf;
 
-internal enum GltfFileType
+public enum GltfFileType
 {
     ExternalData,
     EmbeddedData,
