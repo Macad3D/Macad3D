@@ -23,7 +23,7 @@
         </StackPanel.Effect>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding Context.Workspace.GridStep, StringFormat={}{0} mm}"
+            <TextBlock Text="{Binding Context.Workspace.GridStep, StringFormat={}{0:0.####} mm}"
                        Foreground="White">
             </TextBlock>
             <TextBlock Text="{Binding Context.WorkspaceController.VisualGridMultiplier, StringFormat={}x{0}}"
