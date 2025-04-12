@@ -264,6 +264,11 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     int _DetectHandle(MouseEventData data)
     {
+        if (data.DetectedAisObject == null)
+        {
+            return -1;
+        }
+
         for (int i = 0; i < _Handles.Length; i++)
         {
             if (Equals(data.DetectedAisObject, _Handles[i]?.AisObject))
