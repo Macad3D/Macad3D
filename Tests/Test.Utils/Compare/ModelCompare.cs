@@ -25,9 +25,11 @@ public static class ModelCompare
 
     public static bool CompareShape(Shape shape, string brepFile, CompareFlags flags = CompareFlags.CompareProperties)
     {
+        Assert.That(shape, Is.Not.Null);
+
         // Get OCC Shape
         var shape1 = shape.GetTransformedBRep();
-        Assert.That(shape1, Is.Not.Null );
+        Assert.That(shape1, Is.Not.Null);
 
         return CompareShape(shape1, brepFile, flags);
     }

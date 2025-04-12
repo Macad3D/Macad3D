@@ -249,7 +249,7 @@ public class Offset : ModifierBase
             offsetAlgo.PerformByJoin(solid, _Distance, tolerance, BRepOffset_Mode.Skin, true, false, _GetJoinType());
             if (!offsetAlgo.IsDone())
             {
-                Messages.Error("The modifier failed to offset the input shape. Please check input shape and parameter.");
+                Messages.Error("The modifier failed to offset the input shape. Please check input shape and parameter.", ConstructionMessages.Explain(offsetAlgo.MakeOffset().Error()));
                 continue;
             }
 

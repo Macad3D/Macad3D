@@ -266,7 +266,7 @@ public class Loft : ModifierBase
         
     bool _DoBuildWireList(MakeContext context)
     {
-        context.Wires = new List<WireInfo>();
+        context.Wires = new();
         context.AllWiresClosed = true;
         var edgeCount = 0;
 
@@ -288,18 +288,12 @@ public class Loft : ModifierBase
             {
                 edgeCount = currentEdgeCount;
             }
-            else if(currentEdgeCount != edgeCount)
-            {
-                Messages.Error($"The sketches of all sections must have the same count of segments. The segment count of operand {opIndex} is {currentEdgeCount}, but must be {edgeCount}");
-                return false;
-            }
 
             // Reset location, burn it into geometry
             var shapeFix = new ShapeFix_Shape(wires[0]);
             shapeFix.Perform();
             shapeFix.FixWireTool().Perform();
             var wire = shapeFix.Shape().ToWire();
-//                BRepLib.BuildCurves3d(wire);
 
             if (!wire.Closed())
             {
@@ -395,7 +389,7 @@ public class Loft : ModifierBase
 
         // Get tolerance
         var anaTolerance = new ShapeAnalysis_ShapeTolerance();
-        var tolerance = anaTolerance.Tolerance(context.Result, 1, TopAbs_ShapeEnum.SHAPE); // Get max of all
+        var tolerance = 1.5 * anaTolerance.Tolerance(context.Result, 1, TopAbs_ShapeEnum.SHAPE); // Get max of all
 
         var joinType = _ThickenCornerType == CornerType.Round ? GeomAbs_JoinType.Arc : GeomAbs_JoinType.Intersection;
 
@@ -421,7 +415,7 @@ public class Loft : ModifierBase
 
             if (!makeThick.IsDone())
             {
-                Messages.Error($"Failed to thicken solid: {makeThick.MakeOffset().Error().ToString()}.");
+                Messages.Error($"Failed to thicken solid: {makeThick.MakeOffset().Error().ToString()}.", ConstructionMessages.Explain(makeThick.MakeOffset().Error()));
                 return false;
             }
 
@@ -445,7 +439,7 @@ public class Loft : ModifierBase
 
             if (!makeThick.IsDone())
             {
-                Messages.Error($"Failed converting shell to thick solid: {makeThick.Error().ToString()}.");
+                Messages.Error($"Failed converting shell to thick solid: {makeThick.Error().ToString()}.", ConstructionMessages.Explain(makeThick.Error()));
                 return false;
             }
 
