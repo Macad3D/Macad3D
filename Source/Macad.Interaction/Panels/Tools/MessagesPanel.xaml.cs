@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -65,7 +66,7 @@ public partial class MessagesPanel : UserControl
         }
     }
 
-    public static EntityToNameConverter EntityToName = new EntityToNameConverter();
+    public static EntityToNameConverter EntityToName = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -73,7 +74,7 @@ public partial class MessagesPanel : UserControl
 
     #region Commands
 
-    public static RelayCommand<WeakReference<Entity>> SelectEntityCommand { get; } = new RelayCommand<WeakReference<Entity>>(
+    public static RelayCommand<WeakReference<Entity>> SelectEntityCommand { get; } = new (
         (weakReference) =>
         {
             if (weakReference.TryGetTarget(out Entity entity))
@@ -93,6 +94,20 @@ public partial class MessagesPanel : UserControl
     );
 
     //--------------------------------------------------------------------------------------------------
+
+
+    public static RelayCommand<FrameworkElement> ToggleVisibilityCommand { get; } = new (
+        (element) =>
+        {
+            if (element != null)
+            {
+                element.Visibility = element.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+    );
+
+    //--------------------------------------------------------------------------------------------------
+
 
     #endregion
 }
