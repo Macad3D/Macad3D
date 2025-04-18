@@ -28,7 +28,7 @@ public sealed class VisualShape : VisualObject
 
     public override AIS_InteractiveObject AisObject
     {
-        get { return _AisShape; }
+        get { return _AisShape ?? _ErrorMarker?.AisObject; }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ public sealed class VisualShape : VisualObject
             if(_IsHidden != value)
             {
                 _IsHidden = value;
-                _UpdateInteractivityStatus();
+                _UpdateAisDisplay();
             }
         }
     }
@@ -67,7 +67,7 @@ public sealed class VisualShape : VisualObject
             if (_IsFreezed != !value)
             {
                 _IsFreezed = !value;
-                _UpdateInteractivityStatus();
+                _UpdateAisDisplay();
             }
         }
     }
@@ -118,12 +118,7 @@ public sealed class VisualShape : VisualObject
 
     public static VisualShape Create(WorkspaceController workspaceController, InteractiveEntity entity)
     {
-        if (entity?.GetTransformedBRep() != null)
-        {
-            return new VisualShape(workspaceController, entity);
-        }
-
-        return null;
+        return new VisualShape(workspaceController, entity);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -144,7 +139,7 @@ public sealed class VisualShape : VisualObject
     {
         foreach (var visualShape in visualObjectManager.GetAll().OfType<VisualShape>())
         {
-            visualShape._UpdateInteractivityStatus();
+            visualShape._UpdateAisDisplay();
         }
     }
 
@@ -158,7 +153,7 @@ public sealed class VisualShape : VisualObject
 
         foreach (var visualShape in workspaceController.VisualObjects.Where(entity => entity.Layer == layer).OfType<VisualShape>())
         {
-            visualShape._UpdateInteractivityStatus();
+            visualShape._UpdateAisDisplay();
             visualShape._UpdatePresentation();
         }
     }
@@ -261,7 +256,8 @@ public sealed class VisualShape : VisualObject
         AisContext.Erase(_AisShape, false);
         _AisShape = null;
 
-        _UpdateMarker();
+        _ErrorMarker?.Remove();
+        _ErrorMarker = null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -272,22 +268,19 @@ public sealed class VisualShape : VisualObject
 
     public override void Update()
     {
-        if (_AisShape == null)
+        var ocShape = OverrideBrep ?? Entity.GetTransformedBRep();
+        if (ocShape != null)
         {
+            if (_AisShape != null)
+            {
+                Remove();
+            }
+
             _EnsureAisObject();
         }
         else
         {
-            var ocShape = OverrideBrep ?? Entity.GetTransformedBRep();
-            if (ocShape != null)
-            {
-                Remove();
-                _EnsureAisObject();
-            }
-            else
-            {
-                _UpdateMarker();
-            }
+            _UpdateMarker();
         }
     }
 
@@ -309,7 +302,7 @@ public sealed class VisualShape : VisualObject
         _AisShape.SetOwner(new AISX_Guid(Entity.Guid));
 
         _UpdatePresentation();
-        _UpdateInteractivityStatus();
+        _UpdateAisDisplay();
 
         return true;
     }
@@ -378,7 +371,7 @@ public sealed class VisualShape : VisualObject
 
     bool _IsSelectable()
     {
-        if (_AisShape == null)
+        if (AisObject == null)
             return false;
 
         if (_Options.HasFlag(Options.Ghosting))
@@ -403,15 +396,16 @@ public sealed class VisualShape : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    void _UpdateInteractivityStatus()
+    void _UpdateAisDisplay()
     {
-        if (_AisShape == null)
+        var aisShape = _AisShape ?? _ErrorMarker?.AisObject;
+        if (aisShape == null)
             return;
 
         if (_Options.HasFlag(Options.Ghosting))
         {
-            AisContext.Display(_AisShape, false);
-            AisContext.Deactivate(_AisShape);
+            AisContext.Display(aisShape, false);
+            AisContext.Deactivate(aisShape);
             return;
         }
 
@@ -427,28 +421,28 @@ public sealed class VisualShape : VisualObject
 
         if (isVisible)
         {
-            if (AisContext.IsDisplayed(_AisShape))
+            if (AisContext.IsDisplayed(aisShape))
             {
-                AisContext.Update(_AisShape, false);
+                AisContext.Update(aisShape, false);
             }
             else
             {
-                AisContext.Display(_AisShape, false);
+                AisContext.Display(aisShape, false);
             }
 
             _UpdateSelectionSensitivity();
 
             if (WorkspaceController.Selection.SelectedEntities.Contains(Entity)
-                && !AisContext.IsSelected(_AisShape))
+                && !AisContext.IsSelected(aisShape))
             {
-                AisContext.AddOrRemoveSelected(_AisShape, false);
+                AisContext.AddOrRemoveSelected(aisShape, false);
             }
         }
         else
         {
-            if (AisContext.IsDisplayed(_AisShape))
+            if (AisContext.IsDisplayed(aisShape))
             {
-                AisContext.Erase(_AisShape, false);
+                AisContext.Erase(aisShape, false);
             }
         }
 
@@ -459,6 +453,9 @@ public sealed class VisualShape : VisualObject
 
     void _UpdateSelectionSensitivity()
     {
+        if (_AisShape == null)
+            return;
+
         // Check if shape is activated
         var modes = new TColStd_ListOfInteger();
         AisContext.ActivatedModes(_AisShape, modes);
@@ -476,6 +473,56 @@ public sealed class VisualShape : VisualObject
         else
         {
             AisContext.SetSelectionSensitivity(_AisShape, 0, 2);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void SetSelectionModes(bool activate, SubshapeTypes subshapeTypes)
+    {
+        if (IsSelectable)
+        {
+            if (_AisShape != null)
+            {
+                // Get already activated modes
+                var colActivatedModes = new TColStd_ListOfInteger();
+                AisContext.ActivatedModes(_AisShape, colActivatedModes);
+                var activatedModes = colActivatedModes.ToList();
+
+                // Enlist all requested modes
+                var modesToBeActivated = new bool[5];
+                modesToBeActivated[0] = activate && subshapeTypes == SubshapeTypes.None;
+                modesToBeActivated[SubshapeType.Vertex.ToAisSelectionMode()] = subshapeTypes.HasFlag(SubshapeTypes.Vertex);
+                modesToBeActivated[SubshapeType.Edge.ToAisSelectionMode()] =  subshapeTypes.HasFlag(SubshapeTypes.Edge);
+                modesToBeActivated[SubshapeType.Wire.ToAisSelectionMode()] = subshapeTypes.HasFlag(SubshapeTypes.Wire);
+                modesToBeActivated[SubshapeType.Face.ToAisSelectionMode()] = subshapeTypes.HasFlag(SubshapeTypes.Face);
+
+                // Deactivate all modes which are not requested
+                foreach (var mode in activatedModes)
+                {
+                    if (!modesToBeActivated[mode])
+                    {
+                        AisContext.SetSelectionModeActive(_AisShape, mode, false, AIS_SelectionModesConcurrency.Multiple);
+                    }
+                }
+
+                // Activate all requested modes
+                for (int mode = 0; mode < 5; mode++)
+                {
+                    if (modesToBeActivated[mode])
+                    {
+                        AisContext.SetSelectionModeActive(_AisShape, mode, true, AIS_SelectionModesConcurrency.Multiple);
+                    }
+                }
+            }
+            else if (_ErrorMarker != null)
+            {
+                base.SetSelectionModes(true, subshapeTypes);
+            }
+        }
+        else
+        {
+            AisContext.Deactivate(AisObject);
         }
     }
 
@@ -514,22 +561,19 @@ public sealed class VisualShape : VisualObject
     void _UpdateMarker()
     {
         var shape = (Entity as Body)?.Shape;
+        var brep = shape?.GetTransformedBRep() ?? _AisShape?.Shape();
 
-        if (_AisShape != null && shape != null && shape.HasErrors)
+        if (shape is { HasErrors: true } || brep == null)
         {
             if (_ErrorMarker == null)
             {
                 _ErrorMarker = new Marker(WorkspaceController, Marker.Styles.Image | Marker.Styles.Topmost, Marker.ErrorImage);
-                var brep = shape.GetTransformedBRep() ?? _AisShape.Shape();
-                if (brep != null)
-                {
-                    _ErrorMarker.Set(brep.CenterOfMass());
-                }
-                else
-                {
-                    _ErrorMarker.Set(shape.Body.Position);
-                }
+                _ErrorMarker.Set(brep?.CenterOfMass() ?? (Entity as Body)?.Position ?? Pnt.Origin);
+                _ErrorMarker.AisObject.SetOwner(new AISX_Guid(Entity.Guid));
             }
+
+            _ErrorMarker.IsSelectable = IsSelectable;
+            _UpdateAisDisplay();
         }
         else
         {

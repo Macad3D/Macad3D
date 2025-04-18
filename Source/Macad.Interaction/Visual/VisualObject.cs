@@ -1,4 +1,5 @@
-﻿using Macad.Core.Topology;
+﻿using Macad.Core;
+using Macad.Core.Topology;
 using Macad.Occt;
 
 namespace Macad.Interaction.Visual;
@@ -64,6 +65,20 @@ public abstract class VisualObject
     //--------------------------------------------------------------------------------------------------
 
     public abstract void Update();
+
+    //--------------------------------------------------------------------------------------------------
+
+    public virtual void SetSelectionModes(bool activate, SubshapeTypes subshapeTypes)
+    {
+        if (activate && IsSelectable)
+        {
+            AisContext.Activate(AisObject);
+        }
+        else
+        {
+            AisContext.Deactivate(AisObject);
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 

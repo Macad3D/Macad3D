@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using Macad.Common;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Topology;
-using Macad.Occt;
 
 namespace Macad.Interaction;
 
@@ -214,42 +213,31 @@ public sealed class SelectionContext : IDisposable
 
         if (visualObject.IsSelectable)
         {
-            // Get already activated modes
-            var colActivatedModes = new TColStd_ListOfInteger();
-            aisContext.ActivatedModes(aisObject, colActivatedModes);
-            var activatedModes = colActivatedModes.ToList();
-
             // Enlist all requested modes
-            var modesToBeActivated = new bool[5];
-            var snapHandler = _WorkspaceController.CurrentTool?.GetSnapHandler() ?? _WorkspaceController.CurrentEditor?.GetSnapHandler();;
-
-            modesToBeActivated[0] = activate && _SubshapeTypes == SubshapeTypes.None;
-            modesToBeActivated[SubshapeType.Vertex.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
-                                                                           || (snapHandler?.NeedActiveSubshapes(SubshapeType.Vertex) ?? false);
-            modesToBeActivated[SubshapeType.Edge.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Edge) 
-                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Edge) ?? false);
-            modesToBeActivated[SubshapeType.Wire.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Wire) 
-                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Wire) ?? false);
-            modesToBeActivated[SubshapeType.Face.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Face) 
-                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Face) ?? false);
-
-            // Deactivate all modes which are not requested
-            foreach (var mode in activatedModes)
+            SubshapeTypes activateSubshapeTypes = activate ? _SubshapeTypes : SubshapeTypes.None;
+            var snapHandler = _WorkspaceController.CurrentTool?.GetSnapHandler() ?? _WorkspaceController.CurrentEditor?.GetSnapHandler();
+            if (!_SubshapeTypes.HasFlag(SubshapeTypes.Vertex) && (snapHandler?.NeedActiveSubshapes(SubshapeType.Vertex) ?? false))
             {
-                if(!modesToBeActivated[mode])
-                    aisContext.SetSelectionModeActive(aisObject, mode, false, AIS_SelectionModesConcurrency.Multiple);
+                activateSubshapeTypes = activateSubshapeTypes.Added(SubshapeTypes.Vertex);
             }
-            
-            // Activate all requested modes
-            for (int mode = 0; mode < 5; mode++)
+            if (!_SubshapeTypes.HasFlag(SubshapeTypes.Edge) && (snapHandler?.NeedActiveSubshapes(SubshapeType.Edge) ?? false))
             {
-                if(modesToBeActivated[mode])
-                    aisContext.SetSelectionModeActive(aisObject, mode, true, AIS_SelectionModesConcurrency.Multiple);
+                activateSubshapeTypes = activateSubshapeTypes.Added(SubshapeTypes.Edge);
             }
+            if (!_SubshapeTypes.HasFlag(SubshapeTypes.Wire) && (snapHandler?.NeedActiveSubshapes(SubshapeType.Wire) ?? false))
+            {
+                activateSubshapeTypes = activateSubshapeTypes.Added(SubshapeTypes.Wire);
+            }
+            if (!_SubshapeTypes.HasFlag(SubshapeTypes.Face) && (snapHandler?.NeedActiveSubshapes(SubshapeType.Face) ?? false))
+            {
+                activateSubshapeTypes = activateSubshapeTypes.Added(SubshapeTypes.Face);
+            }
+
+            visualObject.SetSelectionModes(activate, activateSubshapeTypes);
         }
         else
         {
-            aisContext.Deactivate(aisObject);
+            visualObject.SetSelectionModes(false, SubshapeTypes.None);
         }
     }
 

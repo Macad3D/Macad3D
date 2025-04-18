@@ -482,6 +482,44 @@ public class VisualShapeTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void ErrorMarkerOnConstruction()
+    {
+        var ctx = Context.Current;
+
+        var box = TestGeomGenerator.CreateBox();
+        var face = box.GetSubshapeReference(SubshapeType.Face, 1);
+        var edge = box.GetSubshapeReference(SubshapeType.Edge, 4);
+        var taper = Taper.Create(box.Body, face, edge, 22.5);
+        taper.Angle = 80;
+
+        ctx.ViewportController.ZoomFitAll();
+
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ErrorMarkerOnConstruction01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ErrorMarkerSelectable()
+    {
+        var ctx = Context.Current;
+
+        var box = TestGeomGenerator.CreateBox();
+        var face = box.GetSubshapeReference(SubshapeType.Face, 1);
+        var edge = box.GetSubshapeReference(SubshapeType.Edge, 4);
+        var taper = Taper.Create(box.Body, face, edge, 22.5);
+        taper.Angle = 80;
+
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.ClickAt(250, 250);
+        Assert.That(ctx.WorkspaceController.Selection.SelectedEntities, Does.Contain(box.Body));
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ErrorMarkerSelectable01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     [Apartment(System.Threading.ApartmentState.STA)]
     [Description("Bug: After duplication and view changes (e.g. isolation of another body) the clone is drawn highlighted.")]
     public void SelectionHighlightAfterTransform()

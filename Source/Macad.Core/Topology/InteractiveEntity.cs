@@ -1,6 +1,5 @@
 ﻿using System;
 using Macad.Common.Serialization;
-using Macad.Core.Components;
 using Macad.Occt;
 
 namespace Macad.Core.Topology;

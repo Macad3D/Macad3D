@@ -109,42 +109,46 @@ public static class SubshapeTypeHelper
 
     public static TopAbs_ShapeEnum ToTopAbs(this SubshapeType type)
     {
-        switch (type)
+        return type switch
         {
-            case SubshapeType.Vertex:
-                return TopAbs_ShapeEnum.VERTEX;
-            case SubshapeType.Edge:
-                return TopAbs_ShapeEnum.EDGE;
-            case SubshapeType.Wire:
-                return TopAbs_ShapeEnum.WIRE;
-            case SubshapeType.Face:
-                return TopAbs_ShapeEnum.FACE;
-            default:
-                throw new NotImplementedException();
-        }
+            SubshapeType.Vertex => TopAbs_ShapeEnum.VERTEX,
+            SubshapeType.Edge => TopAbs_ShapeEnum.EDGE,
+            SubshapeType.Wire => TopAbs_ShapeEnum.WIRE,
+            SubshapeType.Face => TopAbs_ShapeEnum.FACE,
+            _ => throw new NotImplementedException()
+        };
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public static int ToAisSelectionMode(this SubshapeType type)
     {
-        switch(type)
+        return type switch
         {
-            case SubshapeType.Vertex:
-                return 1;
-            case SubshapeType.Edge:
-                return 2;
-            case SubshapeType.Wire:
-                return 3;
-            case SubshapeType.Face:
-                return 4;
-            default:
-                throw new NotImplementedException();
-        }
+            SubshapeType.Vertex => 1,
+            SubshapeType.Edge => 2,
+            SubshapeType.Wire => 3,
+            SubshapeType.Face => 4,
+            _ => throw new NotImplementedException()
+        };
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    public static SubshapeType FromAisSelectionMode(int aisMode)
+    {
+        return aisMode switch
+        {
+            1 => SubshapeType.Vertex,
+            2 => SubshapeType.Edge,
+            3 => SubshapeType.Wire,
+            4 => SubshapeType.Face,
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static int Count(this SubshapeTypes types)
     {
         int count = 0;
