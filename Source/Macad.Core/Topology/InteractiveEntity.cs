@@ -1,6 +1,5 @@
 ﻿using System;
 using Macad.Common.Serialization;
-using Macad.Occt;
 
 namespace Macad.Core.Topology;
 
@@ -109,20 +108,6 @@ public abstract class InteractiveEntity : Entity
         base.OnBeginDeserializing(context);
         context.GetInstanceList<InteractiveEntity>().Add(this);
         context.SetInstance(this);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Remove()
-    {
-        base.Remove();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public virtual TopoDS_Shape GetTransformedBRep()
-    {
-        return null;
     }
 
     //--------------------------------------------------------------------------------------------------

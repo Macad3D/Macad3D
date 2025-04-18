@@ -268,51 +268,31 @@ public sealed class VisualShape : VisualObject
 
     public override void Update()
     {
-        var ocShape = OverrideBrep ?? Entity.GetTransformedBRep();
-        if (ocShape != null)
+        if (Entity == null || AisContext == null)
+            return;
+
+        var brep = OverrideBrep ?? (Entity as Body)?.GetTransformedBRep();
+        if (brep != null)
         {
             if (_AisShape != null)
             {
                 Remove();
             }
 
-            _EnsureAisObject();
+            _AisShape = new AIS_Shape(brep);
+            _AisShape.SetOwner(new AISX_Guid(Entity.Guid));
+
+            _UpdatePresentation();
+            _UpdateAisDisplay();
         }
-        else
-        {
-            _UpdateMarker();
-        }
+
+        _UpdateMarker();
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    bool _EnsureAisObject()
-    {
-        if (_AisShape != null)
-            return true;
-
-        if (Entity == null || AisContext == null)
-            return false;
-
-        var brep = OverrideBrep ?? Entity.GetTransformedBRep();
-        if (brep == null)
-            return false;
-
-        _AisShape = new AIS_Shape(brep);
-        _AisShape.SetOwner(new AISX_Guid(Entity.Guid));
-
-        _UpdatePresentation();
-        _UpdateAisDisplay();
-
-        return true;
-    }
-
+    
     //--------------------------------------------------------------------------------------------------
 
     void _UpdatePresentation()
     {
-        _UpdateMarker();
-
         if (_AisShape == null)
             return;
 
@@ -567,8 +547,8 @@ public sealed class VisualShape : VisualObject
         {
             if (_ErrorMarker == null)
             {
-                _ErrorMarker = new Marker(WorkspaceController, Marker.Styles.Image | Marker.Styles.Topmost, Marker.ErrorImage);
-                _ErrorMarker.Set(brep?.CenterOfMass() ?? (Entity as Body)?.Position ?? Pnt.Origin);
+                _ErrorMarker = new (WorkspaceController, Marker.Styles.Image | Marker.Styles.Topmost, Marker.ErrorImage);
+                _ErrorMarker.Set(brep?.CenterOfMass() ?? (Entity as ITransformable)?.Position ?? Pnt.Origin);
                 _ErrorMarker.AisObject.SetOwner(new AISX_Guid(Entity.Guid));
             }
 

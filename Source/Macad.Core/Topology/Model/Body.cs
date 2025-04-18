@@ -577,7 +577,7 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     #endregion
 
-    #region InteractiveEntity
+    #region BRep
 
     public TopoDS_Shape GetBRep()
     {
@@ -586,7 +586,7 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     //--------------------------------------------------------------------------------------------------
 
-    public override TopoDS_Shape GetTransformedBRep()
+    public TopoDS_Shape GetTransformedBRep()
     {
         return Shape?.GetTransformedBRep();
     }
