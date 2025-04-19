@@ -30,11 +30,29 @@ public class Packages
 
     public static string FindPackageFile(string packageName, string packageFile, string forceVersion="")
     {
-        var package = _WebPackages.FirstOrDefault(pkg => pkg.Name == packageName && (forceVersion=="" || pkg.Version == forceVersion));
+        var package = _WebPackages.FirstOrDefault(pkg => pkg.Name == packageName && (forceVersion=="" || pkg.Version == forceVersion || pkg.Version=="*"));
         if(package == null)
         {
             Printer.Error($"Package not found in package list: {packageName} {forceVersion}");
             return "";
+        }
+
+        if(package.Version == "*")
+        {
+            if(forceVersion == "")
+            {
+                Printer.Error($"Package version unspecified.");
+                return "";
+            }
+
+            package = new WebPackage() 
+            {
+                Name = package.Name,
+                Version = forceVersion,
+                Source = string.Format(package.Source, forceVersion),
+                FullName = $"{package.Name}.{forceVersion}",
+                Method = package.Method
+            };
         }
 
         var packagePath = Path.Combine(Common.GetRootFolder(), _PackageBasePath, package.FullName);
