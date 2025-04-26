@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Macad.Common;
 using Macad.Core.Topology;
 
@@ -249,39 +251,52 @@ public class ViewportPanelModel : BaseObject, IHudManager
 
     //--------------------------------------------------------------------------------------------------
 
+    bool _UpdateErrorMessageScheduled;
+
     void _UpdateErrorMessage()
     {
-        var entities = InteractiveContext.Current.WorkspaceController?.Selection.SelectedEntities;
-        if (entities?.Count == 1)
-        {
-            var shape = (entities[0] as Body)?.Shape;
-            if (shape != null && shape.HasErrors)
-            {
-                var messageList = InteractiveContext.Current.MessageHandler.GetEntityMessages(shape);
-                if (messageList != null && messageList.Count != 0)
-                {
-                    ErrorMessage = $"__Error:__ {messageList[0].Text}{(messageList[0].Text.EndsWith(".")?"":".")} __See log for details.__";
-                }
-                else
-                {
-                    ErrorMessage = "__Error:__ Shape making failed for unknown reason. __See log for details.__";
-                }
-                return;
-            }
-        }
-        else
-        {
-            if (entities.Any(ent => (ent as Body)?.Shape?.HasErrors ?? false))
-            {
-                ErrorMessage = "__Error:__ One or more of the selected bodies have errors. __See log for details.__";
-                return;
-            }
-        }
+        if (_UpdateErrorMessageScheduled)
+            return;
+        _UpdateErrorMessageScheduled = true;
 
-        ErrorMessage = "";
+        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, () =>
+        {
+            _UpdateErrorMessageScheduled = false;
+
+            var entities = InteractiveContext.Current.WorkspaceController?.Selection.SelectedEntities;
+            if (entities?.Count == 1)
+            {
+                var shape = (entities[0] as Body)?.Shape;
+                if (shape != null && shape.HasErrors)
+                {
+                    var messageList = InteractiveContext.Current.MessageHandler.GetEntityMessages(shape);
+                    if (messageList != null && messageList.Count != 0)
+                    {
+                        ErrorMessage = $"__Error:__ {messageList[0].Text}{(messageList[0].Text.EndsWith(".") ? "" : ".")} __See log for details.__";
+                    }
+                    else
+                    {
+                        ErrorMessage = "__Error:__ Shape making failed for unknown reason. __See log for details.__";
+                    }
+
+                    return;
+                }
+            }
+            else
+            {
+                if (entities.Any(ent => (ent as Body)?.Shape?.HasErrors ?? false))
+                {
+                    ErrorMessage = "__Error:__ One or more of the selected bodies have errors. __See log for details.__";
+                    return;
+                }
+            }
+
+            ErrorMessage = "";
+
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     #endregion
 }
