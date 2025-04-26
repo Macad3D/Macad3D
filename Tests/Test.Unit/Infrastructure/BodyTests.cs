@@ -344,6 +344,6 @@ public class BodyTests
 
         BooleanFuse.Create(body1, new BodyShapeOperand(body2));
         Assert.IsFalse(body2.Shape.Make(Shape.MakeFlags.None));
-        Assert.That(Context.Current.MessageHandler.GetEntityMessages(body2.Shape).Any(msg => msg.Text.Contains("Circular dependency detected.")));
+        Assert.That(Context.Current.MessageHandler.GetEntityMessages(body1.Shape).Any(msg => msg.Text.Contains("Circular dependency detected.")));
     }
 }

@@ -183,5 +183,30 @@ public class ChamferTests
         // It is ok to fail, it just should not crash
         Assert.IsFalse(fillet.Make(Shape.MakeFlags.None)); 
     }
-        
+
+     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ReviveAfterError()
+    {
+        var baseshape = new Box()
+        {
+            DimensionX = 10,
+            DimensionY = 10,
+            DimensionZ = 10,
+        };
+        var body = Body.Create(baseshape);
+
+        var shape = Chamfer.Create(body);
+        shape.AddAllEdges();
+        shape.Mode = Chamfer.ChamferModes.Symmetric;
+        shape.Distance = 6;
+        Assert.IsFalse(shape.Make(Shape.MakeFlags.None));
+
+        shape.Distance = 4.5;
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

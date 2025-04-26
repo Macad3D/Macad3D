@@ -321,25 +321,25 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
                 return true;
         }
 
-        bool result = ProcessingScope.ExecuteWithGuards(this, "Making Shape", () =>
+        if (IsValid)
         {
+            Invalidate();
             if (IsValid)
             {
-                Invalidate();
-                if (IsValid)
-                {
-                    // This is the case when triggering invalidation leads to recursivly remaking the shape
-                    return true;
-                }
+                // This is the case when triggering invalidation leads to recursivly remaking the shape
+                return true;
             }
+        }
 
-            if (_IsMaking)
-            {
-                Messages.Error("Circular dependency detected. Please check your dependencies between different bodies.");
-                return false;
-            }
-            _IsMaking = true;
+        if (_IsMaking)
+        {
+            Messages.Error("Circular dependency detected. Please check your dependencies between different bodies.");
+            return false;
+        }
+        _IsMaking = true;
 
+        bool result = ProcessingScope.ExecuteWithGuards(this, "Making Shape", () =>
+        {
             bool result = MakeInternal(flags);
             if (result)
             {
@@ -350,12 +350,13 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
             {
                 Messages.Error("Shape making failed.");
             }
-            _IsMaking = false;
 
             return result;
         });
 
+        _IsMaking = false;
         HasErrors = !result;
+
         return result;
     }
 
