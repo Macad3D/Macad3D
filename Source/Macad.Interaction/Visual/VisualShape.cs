@@ -252,8 +252,7 @@ public sealed class VisualShape : VisualObject
             _AisShape = null;
         }
 
-        _ErrorMarker?.Remove();
-        _ErrorMarker = null;
+        _RemoveMarker();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -277,14 +276,12 @@ public sealed class VisualShape : VisualObject
 
             _AisShape = new AIS_Shape(brep);
             _AisShape.SetOwner(new AISX_Guid(Entity.Guid));
-
             _UpdatePresentation();
-            _UpdateAisDisplay();
         }
 
-        _UpdateMarker();
+        _UpdateAisDisplay();
     }
-    
+
     //--------------------------------------------------------------------------------------------------
 
     void _UpdatePresentation()
@@ -374,14 +371,14 @@ public sealed class VisualShape : VisualObject
 
     void _UpdateAisDisplay()
     {
-        var aisShape = _AisShape ?? _ErrorMarker?.AisObject;
-        if (aisShape == null)
-            return;
-
         if (_Options.HasFlag(Options.Ghosting))
         {
-            AisContext.Display(aisShape, false);
-            AisContext.Deactivate(aisShape);
+            if (_AisShape != null)
+            {
+                AisContext.Display(_AisShape, false);
+                AisContext.Deactivate(_AisShape);
+            }
+            _UpdateMarker();
             return;
         }
 
@@ -397,29 +394,36 @@ public sealed class VisualShape : VisualObject
 
         if (isVisible)
         {
-            if (AisContext.IsDisplayed(aisShape))
+            if (_AisShape != null)
             {
-                AisContext.Update(aisShape, false);
-            }
-            else
-            {
-                AisContext.Display(aisShape, false);
+                if (AisContext.IsDisplayed(_AisShape))
+                {
+                    AisContext.Update(_AisShape, false);
+                }
+                else
+                {
+                    AisContext.Display(_AisShape, false);
+
+                    if (WorkspaceController.Selection.SelectedEntities.Contains(Entity)
+                        && !AisContext.IsSelected(_AisShape))
+                    {
+                        AisContext.AddOrRemoveSelected(_AisShape, false);
+                    }
+                }
+
+                _UpdateSelectionSensitivity();
             }
 
-            _UpdateSelectionSensitivity();
-
-            if (WorkspaceController.Selection.SelectedEntities.Contains(Entity)
-                && !AisContext.IsSelected(aisShape))
-            {
-                AisContext.AddOrRemoveSelected(aisShape, false);
-            }
+            _UpdateMarker();
         }
         else
         {
-            if (AisContext.IsDisplayed(aisShape))
+            if (AisContext.IsDisplayed(_AisShape))
             {
-                AisContext.Erase(aisShape, false);
+                AisContext.Erase(_AisShape, false);
             }
+
+            _RemoveMarker();
         }
 
         RaiseAisObjectChanged();
@@ -549,13 +553,19 @@ public sealed class VisualShape : VisualObject
             }
 
             _ErrorMarker.IsSelectable = IsSelectable;
-            _UpdateAisDisplay();
         }
         else
         {
-            _ErrorMarker?.Remove();
-            _ErrorMarker = null;
+            _RemoveMarker();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _RemoveMarker()
+    {
+        _ErrorMarker?.Remove();
+        _ErrorMarker = null;
     }
 
     #endregion
