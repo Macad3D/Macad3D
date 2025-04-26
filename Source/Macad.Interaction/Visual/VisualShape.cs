@@ -246,15 +246,11 @@ public sealed class VisualShape : VisualObject
 
     public override void Remove()
     {
-        if (_AisShape == null) 
-            return;
-
-        if (AisContext.IsHilighted(_AisShape))
-            AisContext.Unhilight(_AisShape, false);
-        AisContext.Remove(_AisShape, false);
-
-        AisContext.Erase(_AisShape, false);
-        _AisShape = null;
+        if (_AisShape != null)
+        {
+            AisContext.Remove(_AisShape, false);
+            _AisShape = null;
+        }
 
         _ErrorMarker?.Remove();
         _ErrorMarker = null;
