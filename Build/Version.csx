@@ -21,7 +21,7 @@ if (!Version.ReadCurrentVersion(out _Major, out _Minor, out _Revision, out _Flag
 }
 else
 {
-    Printer.Line($"Current Version: {_Major}.{_Minor}.{_Revision} {_Flags}");
+    Printer.Line($"Current Version: {_Major}.{_Minor}.{_Revision} {Version.GetFlagsString(_Flags)} ({_Flags})");
 }
 
 if (Args.Count() < 1)

@@ -154,7 +154,7 @@ bool _BuildSetup()
         return false;
     }
     defFile.WriteLine($"#define MyAppVersion '{major}.{minor}.{flags}'");
-    defFile.WriteLine($"#define MyAppVersionStr '{major}.{minor}" + (flags==0 ? "'" : $"_{Version.GetFlagsString(flags)}'"));
+    defFile.WriteLine($"#define MyAppVersionStr '{major}.{minor}" + (flags==0 ? "'" : $".{revision}_{Version.GetFlagsString(flags)}'"));
     defFile.WriteLine($"#define MyAppRevision '{major}.{minor}.{revision}.{flags}'");
     defFile.WriteLine("");
     
