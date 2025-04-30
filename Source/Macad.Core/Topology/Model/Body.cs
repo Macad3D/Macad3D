@@ -586,9 +586,26 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     //--------------------------------------------------------------------------------------------------
 
-    public TopoDS_Shape GetTransformedBRep()
+    public TopoDS_Shape GetTransformedBRep(bool findValidShape = false)
     {
-        return Shape?.GetTransformedBRep();
+        TopoDS_Shape brep = Shape?.GetTransformedBRep();
+
+        if (findValidShape)
+        {
+            Shape shape = Shape;
+            while (shape != null && brep == null)
+            {
+                shape = shape.Predecessor switch
+                {
+                    Shape shapeOp => shapeOp,
+                    BodyShapeOperand bodyOp => bodyOp.Shape,
+                    _ => null
+                };
+                brep = shape?.GetTransformedBRep();
+            }
+        }
+
+        return brep;
     }
 
     //--------------------------------------------------------------------------------------------------

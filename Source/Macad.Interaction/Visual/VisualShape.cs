@@ -266,7 +266,7 @@ public sealed class VisualShape : VisualObject
         if (Entity == null || AisContext == null)
             return;
 
-        var brep = OverrideBrep ?? (Entity as Body)?.GetTransformedBRep();
+        var brep = OverrideBrep ?? (Entity as Body)?.GetTransformedBRep(true);
         if (brep != null)
         {
             if (_AisShape != null)

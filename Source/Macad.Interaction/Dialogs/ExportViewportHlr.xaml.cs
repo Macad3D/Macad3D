@@ -238,7 +238,7 @@ public partial class ExportViewportHlr : Dialog
                              ? InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities
                              : InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities())
                         .OfType<Body>()
-                        .Select(body => body.GetTransformedBRep())
+                        .Select(body => body.GetTransformedBRep(true))
                         .Where(shape => shape != null);
             var source = new TopoDSBrepSource(breps.ToArray());
             var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, source);
