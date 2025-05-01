@@ -59,7 +59,7 @@ public sealed class EtchingMaskComponent : Component, IShapeDependent
         get { return _ReferenceFace; }
         set
         {
-            if (_ReferenceFace != value)
+            if (!Equals(_ReferenceFace, value))
             {
                 SaveUndo();
                 _ReferenceFace = value;

@@ -52,6 +52,17 @@ public class SubshapeReference : ISerializeValue, IEquatable<SubshapeReference>
 
     //--------------------------------------------------------------------------------------------------
 
+    public override bool Equals(object obj)
+    {
+        if (obj is SubshapeReference other)
+        {
+            return Equals(other);
+        }
+        return false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
     public override int GetHashCode()
     {

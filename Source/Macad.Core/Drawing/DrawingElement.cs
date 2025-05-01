@@ -72,7 +72,7 @@ public abstract class DrawingElement : Entity
         }
         set
         {
-            if (_Extents != value)
+            if (!Equals(_Extents, value))
             {
                 _Extents = value;
                 RaisePropertyChanged();

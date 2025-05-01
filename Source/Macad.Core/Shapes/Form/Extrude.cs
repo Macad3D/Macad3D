@@ -60,7 +60,7 @@ public sealed class Extrude : ModifierBase
         get { return _Face; }
         set
         {
-            if (_Face != value)
+            if (!Equals(_Face, value))
             {
                 SaveUndo();
                 _Face = value;

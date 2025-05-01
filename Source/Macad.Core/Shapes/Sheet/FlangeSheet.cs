@@ -103,7 +103,7 @@ public sealed class FlangeSheet : ModifierBase
         get { return _Face; }
         set
         {
-            if (_Face != value)
+            if (!Equals(_Face, value))
             {
                 SaveUndo();
                 _Face = value;

@@ -49,7 +49,7 @@ public sealed class Mirror : ModifierBase
         get { return _ReferenceShape; }
         set
         {
-            if (_ReferenceShape != value)
+            if (!Equals(_ReferenceShape, value))
             {
                 SaveUndo();
                 _ReferenceShape = value;

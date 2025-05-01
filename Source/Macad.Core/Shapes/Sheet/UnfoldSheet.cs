@@ -20,7 +20,7 @@ public sealed class UnfoldSheet : ModifierBase
         get { return _StartFace; }
         set
         {
-            if (_StartFace != value)
+            if (!Equals(_StartFace, value))
             {
                 SaveUndo();
                 _StartFace = value;

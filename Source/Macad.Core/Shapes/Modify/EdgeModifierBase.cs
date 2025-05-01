@@ -161,7 +161,7 @@ public abstract class EdgeModifierBase : ModifierBase
     {
         if (!_Edges.Contains(reference))
             return;
-        Edges = _Edges.Where(sr => sr != reference).ToArray();
+        Edges = _Edges.Where(sr => !sr.Equals(reference)).ToArray();
     }
 
     //--------------------------------------------------------------------------------------------------

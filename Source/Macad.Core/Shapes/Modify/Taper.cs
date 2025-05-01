@@ -19,7 +19,7 @@ public class Taper : ModifierBase
         get { return _Face; }
         set
         {
-            if (_Face != value)
+            if (!Equals(_Face, value))
             {
                 SaveUndo();
                 _Face = value;
@@ -37,7 +37,7 @@ public class Taper : ModifierBase
         get { return _BaseEdgeOrVertex; }
         set
         {
-            if (_BaseEdgeOrVertex != value)
+            if (!Equals(_BaseEdgeOrVertex, value))
             {
                 SaveUndo();
                 _BaseEdgeOrVertex = value;
