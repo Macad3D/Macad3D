@@ -22,7 +22,7 @@ public class Model : Document<InteractiveEntity>
 
     public const string FileExtension = "model";
     const int FileVersionMajor = 4;
-    const int FileVersionMinor = 1;
+    const int FileVersionMinor = 2;
 
     //--------------------------------------------------------------------------------------------------
 
