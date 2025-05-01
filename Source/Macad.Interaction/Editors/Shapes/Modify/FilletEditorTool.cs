@@ -87,11 +87,11 @@ public class FilletEditorTool : EdgeModifierTool
         if (!_IsMoving)
         {
             _StopActions();
-
-            SetHintMessage("__Select edges__ to apply modifier on. __Select faces__ to toggle all it's edges.");
             SetCursor(Cursors.SelectEdge);
+            SetHintMessage(ModifierShape.HasErrors ? "__Select edges__ to toggle modifier application."
+                                                   : "__Select edges__ to apply modifier on. __Select faces__ to remove the modifier from.");
 
-            if (ContourEdges == null || ValidEdges == null)
+            if (ContourEdges == null || ValidEdges == null || ModifierShape.HasErrors)
                 return;
 
             var trsf = ModifierShape.GetTransformation();

@@ -161,7 +161,7 @@ public abstract class Tool : WorkspaceControl
 
     protected void StopAction(ToolAction toolAction)
     {
-        if (toolAction == null)
+        if (!(_Actions?.Contains(toolAction) ?? false))
             return;
 
         _Actions?.Remove(toolAction);
@@ -173,15 +173,16 @@ public abstract class Tool : WorkspaceControl
 
     protected void StopAllActions()
     {
-        if (_Actions != null)
+        if (_Actions is { Count: > 0 })
         {
             // Copy reference to disable chaning the enumeration
             var actions = _Actions;
             _Actions = null;
-            foreach (var action in actions)
+            foreach (var toolAction in actions)
             {
-                StopAction(action);
+                toolAction.Stop();
             }
+            OnToolActionChanged();
         }
     }
 

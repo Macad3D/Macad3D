@@ -660,6 +660,61 @@ public class ChamferToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void UpdateOnError()
+    {
+        var shape = _CreateTestBlock();
+        shape.Mode = Chamfer.ChamferModes.TwoDistances;
+        var ctx = Context.Current;
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new ChamferEditorTool(shape);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(238, 177);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(238, 130);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"UpdateOnError01"));
+            Assert.That(!shape.IsValid);
+            Assert.That(shape.HasErrors);
+            ctx.MoveTo(238, 140);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"UpdateOnError02"));
+            Assert.That(shape.IsValid);
+            Assert.That(!shape.HasErrors);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DeselectEdgesOnError()
+    {
+        var shape = _CreateTestBlock();
+        shape.Mode = Chamfer.ChamferModes.TwoDistances;
+        shape.Distance = 5.0;
+        var ctx = Context.Current;
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new ChamferEditorTool(shape);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(shape.Edges.Length, Is.EqualTo(7));
+            Assert.That(!shape.IsValid);
+            Assert.That(shape.HasErrors);
+            
+            // Deselect
+            ctx.ClickAt(360, 120);
+            Assert.That(shape.Edges.Length, Is.EqualTo(6));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"DeselectEdgesOnError01"));
+            Assert.That(shape.IsValid);
+            Assert.That(!shape.HasErrors);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     Chamfer _CreateTestBlock()

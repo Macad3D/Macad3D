@@ -242,7 +242,7 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
         {
             if (!IsValid || _IsLoadedFromCache)
             {
-                if (!Make(MakeFlags.None))
+                if (HasErrors || !Make(MakeFlags.None))
                 {
                     return false;
                 }

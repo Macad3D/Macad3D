@@ -274,6 +274,70 @@ public class FilletToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void UpdateOnError()
+    {
+        var box1 = Box.Create(10.0, 10.0, 10.0);
+        var body1 = TestGeomGenerator.CreateBody(box1, new Pnt(5.0, 0.0, 0.0));
+        var fillet = Fillet.Create(body1);
+        fillet.Radius = 2.0;
+        fillet.Edges = [box1.GetSubshapeReference(SubshapeType.Edge, 1),
+                        box1.GetSubshapeReference(SubshapeType.Edge, 5)];
+
+        var ctx = Context.Current;
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new FilletEditorTool(fillet);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(136, 185);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(150, 200);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"UpdateOnError01"));
+            Assert.That(!fillet.IsValid);
+            Assert.That(fillet.HasErrors);
+            ctx.MoveTo(136, 185);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"UpdateOnError02"));
+            Assert.That(fillet.IsValid);
+            Assert.That(!fillet.HasErrors);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DeselectEdgesOnError()
+    {
+        var box1 = Box.Create(10.0, 10.0, 10.0);
+        var body1 = TestGeomGenerator.CreateBody(box1, new Pnt(5.0, 0.0, 0.0));
+        var fillet = Fillet.Create(body1);
+        fillet.Radius = 6.0;
+        fillet.Edges = [box1.GetSubshapeReference(SubshapeType.Edge, 1),
+            box1.GetSubshapeReference(SubshapeType.Edge, 5)];
+
+        var ctx = Context.Current;
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new FilletEditorTool(fillet);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(fillet.Edges.Length, Is.EqualTo(2));
+            Assert.That(!fillet.IsValid);
+            Assert.That(fillet.HasErrors);
+
+            // Deselect
+            ctx.ClickAt(363, 86);
+            Assert.That(fillet.Edges.Length, Is.EqualTo(1));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"DeselectEdgesOnError01"));
+            Assert.That(fillet.IsValid);
+            Assert.That(!fillet.HasErrors);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     Fillet _CreateTestBlock()

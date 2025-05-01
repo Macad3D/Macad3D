@@ -28,11 +28,12 @@ public abstract class EdgeModifierTool : Tool
     protected override bool OnStart()
     {
         Shape.ShapeChanged += _EdgeModifierBase_ShapeChanged;
+        ModifierShape.PropertyChanged += _EdgeModifierBase_PropertyChanged;
 
         if (ModifierShape.Operands.Count == 0)
             return false;
 
-        if (!_UpdateShapeProperties() || !UpdateActions())
+        if (!UpdateActions())
             return false;
 
         WorkspaceController.Invalidate();
@@ -44,6 +45,7 @@ public abstract class EdgeModifierTool : Tool
 
     protected override void OnStop()
     {
+        ModifierShape.PropertyChanged -= _EdgeModifierBase_PropertyChanged;
         Shape.ShapeChanged -= _EdgeModifierBase_ShapeChanged;
         _StopAction();
         base.OnStop();
@@ -56,8 +58,9 @@ public abstract class EdgeModifierTool : Tool
         if (_ToggleAction != null)
         {
             _ToggleAction.Finished -= _ToggleAction_Finished;
+            StopAction(_ToggleAction);
+            _ToggleAction = null;
         }
-        StopAction(_ToggleAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -82,6 +85,9 @@ public abstract class EdgeModifierTool : Tool
     {
         _StopAction();
 
+        if (!_UpdateShapeProperties())
+            return false;
+
         _ToggleAction = new ToggleSubshapesAction();
         if (!StartAction(_ToggleAction, true))
             return false;
@@ -97,12 +103,23 @@ public abstract class EdgeModifierTool : Tool
             _ToggleAction.AddSubshape(edge, trsf, false);
         }
 
-        // Create all faces
-        foreach (var contourEdge in ContourEdges)
+        if (ModifierShape.IsValid)
         {
-            foreach (var face in ModifierShape.GetCreatedFaces(contourEdge))
+            // Create all faces
+            foreach (var contourEdge in ContourEdges)
             {
-                _ToggleAction.AddSubshape(face, trsf, true);
+                foreach (var face in ModifierShape.GetCreatedFaces(contourEdge))
+                {
+                    _ToggleAction.AddSubshape(face, trsf, true);
+                }
+            }
+        }
+        else
+        {
+            // Create all source edges to be able to deselect
+            foreach (var contourEdge in ContourEdges)
+            {
+                _ToggleAction.AddSubshape(contourEdge, trsf, true);
             }
         }
 
@@ -128,7 +145,14 @@ public abstract class EdgeModifierTool : Tool
             // Added, find reference in original shape (modified edges are automatically mapped)
             var reference = ModifierShape.GetSubshapeReference(args.ChangedSubshape.Shape);
             if (reference == null) return;
-            ModifierShape.AddEdge(reference);
+            if (!ModifierShape.IsValid && ContourEdges.ContainsSame(args.ChangedSubshape.Shape))
+            {
+                ModifierShape.RemoveEdge(reference);
+            }
+            else
+            {
+                ModifierShape.AddEdge(reference);
+            } 
         }
 
         CommitChanges();
@@ -138,12 +162,21 @@ public abstract class EdgeModifierTool : Tool
 
     void _EdgeModifierBase_ShapeChanged(Shape shape)
     {
-        if (shape == ModifierShape 
-            && _ToggleAction != null 
-            && WorkspaceController.CurrentTool?.CurrentAction == _ToggleAction)
+        if (shape == ModifierShape && _ToggleAction != null)
         {
-            if (_UpdateShapeProperties())
+            UpdateActions();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _EdgeModifierBase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(EdgeModifierBase.HasErrors))
+        {
+            if (ModifierShape.HasErrors)
             {
+                _UpdateShapeProperties();
                 UpdateActions();
             }
         }

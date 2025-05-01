@@ -541,7 +541,7 @@ public sealed class VisualShape : VisualObject
     void _UpdateMarker()
     {
         var shape = (Entity as Body)?.Shape;
-        var brep = shape?.GetTransformedBRep() ?? _AisShape?.Shape();
+        var brep = _AisShape?.Shape();
 
         if (shape is { HasErrors: true } || brep == null)
         {
