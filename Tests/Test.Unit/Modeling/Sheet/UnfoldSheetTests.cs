@@ -166,6 +166,32 @@ public class UnfoldSheetTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void CircEdgesOnFlatSection()
+    {
+        var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, @"CircEdgesOnFlatSection_Source.brep"));
+        Assert.That(body, Is.Not.Null);
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "CircEdgesOnFlatSection")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CircCutoutOnFlatSection()
+    {
+        var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, @"CircCutoutOnFlatSection_Source.brep"));
+        Assert.That(body, Is.Not.Null);
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "CircCutoutOnFlatSection")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void SliceSideFaces()
     {
         var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, @"..\FlangeSheet\Simple.brep"));

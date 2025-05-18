@@ -533,6 +533,12 @@ public sealed class UnfoldSheet : ModifierBase
     {
         section = null;
 
+        // The shared edge must be straight to be a bend edge
+        if (sharedEdge.Adaptor().GetCurveType() != GeomAbs_CurveType.Line)
+        {
+            return false;
+        }
+
         var bendParams = new BendParameter();
         bendParams.Faces[0] = baseFace;
 
