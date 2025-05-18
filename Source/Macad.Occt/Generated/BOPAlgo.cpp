@@ -420,6 +420,34 @@ void Macad::Occt::BOPAlgo_BOP::Perform()
 
 
 //---------------------------------------------------------------------
+//  Class  BOPAlgo_Splitter
+//---------------------------------------------------------------------
+
+Macad::Occt::BOPAlgo_Splitter::BOPAlgo_Splitter()
+    : Macad::Occt::BOPAlgo_ToolsProvider(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::BOPAlgo_Splitter();
+}
+
+Macad::Occt::BOPAlgo_Splitter::BOPAlgo_Splitter(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+    : Macad::Occt::BOPAlgo_ToolsProvider(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::BOPAlgo_Splitter(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+}
+
+void Macad::Occt::BOPAlgo_Splitter::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+    ((::BOPAlgo_Splitter*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
+void Macad::Occt::BOPAlgo_Splitter::Perform()
+{
+    ((::BOPAlgo_Splitter*)_NativeInstance)->Perform(::Message_ProgressRange());
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  BOPAlgo_Tools
 //---------------------------------------------------------------------
 

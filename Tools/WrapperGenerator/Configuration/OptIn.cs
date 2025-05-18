@@ -20,6 +20,7 @@ public partial class Configuration
                 "BOPAlgo_GlueEnum",
                 "BOPAlgo_Operation",
                 "BOPAlgo_Options",
+                "BOPAlgo_Splitter",
                 "BOPAlgo_Tools",
                 "BOPAlgo_ToolsProvider",
             }

@@ -2,6 +2,8 @@
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Sheet;
@@ -159,6 +161,70 @@ public class UnfoldSheetTests
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "AbandonedFaces")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SliceSideFaces()
+    {
+        var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, @"..\FlangeSheet\Simple.brep"));
+        Assert.That(source, Is.Not.Null);
+        ShapeUpgrade_UnifySameDomain unify = new(source, true);
+        unify.Build();
+        var body = Body.Create(Solid.Create(unify.Shape()));
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void SliceSideFaces_Multiple()
+    {
+        var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, "SimpleMultiple_Source.brep"));
+        Assert.That(source, Is.Not.Null);
+        ShapeUpgrade_UnifySameDomain unify = new(source, true);
+        unify.Build();
+        var body = Body.Create(Solid.Create(unify.Shape()));
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_Multiple")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SliceSideFaces_NoFlange()
+    {
+        var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, "NoFlange_Source.brep"));
+        Assert.That(source, Is.Not.Null);
+        ShapeUpgrade_UnifySameDomain unify = new(source, true);
+        unify.Build();
+        var body = Body.Create(Solid.Create(unify.Shape()));
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_NoFlange")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SliceSideFaces_Relief()
+    {
+        var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, @"..\FlangeSheet\ReliefRectangular.brep"));
+        Assert.That(source, Is.Not.Null);
+        ShapeUpgrade_UnifySameDomain unify = new(source, true);
+        unify.Build();
+        var body = Body.Create(Solid.Create(unify.Shape()));
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_Relief")));
     }
 
     //--------------------------------------------------------------------------------------------------

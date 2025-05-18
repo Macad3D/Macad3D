@@ -787,6 +787,7 @@
 #include "BOPAlgo_Builder.hxx"
 #include "BOPAlgo_ToolsProvider.hxx"
 #include "BOPAlgo_BOP.hxx"
+#include "BOPAlgo_Splitter.hxx"
 #include "BOPAlgo_Tools.hxx"
 #include "BOPAlgo_Operation.hxx"
 #include "BOPAlgo_GlueEnum.hxx"

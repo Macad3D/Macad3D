@@ -818,6 +818,79 @@ public:
 }; // class BOPAlgo_BOP
 
 //---------------------------------------------------------------------
+//  Class  BOPAlgo_Splitter
+//---------------------------------------------------------------------
+/// <summary>
+/// The **Splitter algorithm** is the algorithm for splitting a group of
+/// arbitrary shapes by the other group of arbitrary shapes.<br>
+/// The arguments of the operation are divided on two groups:<br>
+/// *Objects* - shapes that will be split;<br>
+/// *Tools*   - shapes by which the *Objects* will be split.<br>
+/// The result of the operation contains only the split parts
+/// of the shapes from the group of *Objects*.<br>
+/// The split parts of the shapes from the group of *Tools* are excluded
+/// from the result.<br>
+/// The shapes can be split by the other shapes from the same group
+/// (in case these shapes are interfering).
+/// 
+/// The class is a General Fuse based algorithm. Thus, all options
+/// of the General Fuse algorithm such as Fuzzy mode, safe processing mode,
+/// parallel processing mode, gluing mode and history support are also
+/// available in this algorithm.<br>
+/// There is no requirement on the existence of the *Tools* shapes.
+/// And if there are no *Tools* shapes, the result of the splitting
+/// operation will be equivalent to the General Fuse result.
+/// 
+/// The implementation of the algorithm is minimal - only the methods
+/// CheckData() and Perform() have been overridden.<br>
+/// The method BOPAlgo_Builder::BuildResult(), which adds the split parts of the arguments
+/// into result, does not have to be overridden, because its native implementation
+/// performs the necessary actions for the Splitter algorithm - it adds
+/// the split parts of only Objects into result, avoiding the split parts of Tools.
+/// </summary>
+public ref class BOPAlgo_Splitter sealed
+    : public Macad::Occt::BOPAlgo_ToolsProvider
+{
+
+#ifdef Include_BOPAlgo_Splitter_h
+public:
+    Include_BOPAlgo_Splitter_h
+#endif
+
+public:
+    BOPAlgo_Splitter(::BOPAlgo_Splitter* nativeInstance)
+        : Macad::Occt::BOPAlgo_ToolsProvider( nativeInstance )
+    {}
+
+    BOPAlgo_Splitter(::BOPAlgo_Splitter& nativeInstance)
+        : Macad::Occt::BOPAlgo_ToolsProvider( nativeInstance )
+    {}
+
+    property ::BOPAlgo_Splitter* NativeInstance
+    {
+        ::BOPAlgo_Splitter* get()
+        {
+            return static_cast<::BOPAlgo_Splitter*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Empty constructor
+    /// </summary>
+    BOPAlgo_Splitter();
+    BOPAlgo_Splitter(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+    /// <summary>
+    /// Performs the operation
+    /// </summary>
+    void Perform(Macad::Occt::Message_ProgressRange^ theRange);
+    /// <summary>
+    /// Performs the operation
+    /// </summary>
+    void Perform();
+}; // class BOPAlgo_Splitter
+
+//---------------------------------------------------------------------
 //  Class  BOPAlgo_Tools
 //---------------------------------------------------------------------
 /// <summary>

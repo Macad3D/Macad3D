@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
@@ -114,8 +115,8 @@ public sealed class UnfoldSheet : ModifierBase
      */
     class Section
     {
-        internal readonly List<TopoDS_Face> Faces = new List<TopoDS_Face>();
-        internal readonly List<Section> Children = new List<Section>();
+        internal readonly List<TopoDS_Face> Faces = new();
+        internal readonly List<Section> Children = new();
 
         internal bool IsBendSection
         {
@@ -123,6 +124,16 @@ public sealed class UnfoldSheet : ModifierBase
         }
 
         internal BendParameter BendParameter;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    class PairOfEdges
+    {
+        internal TopoDS_Edge Edge1;
+        internal TopoDS_Edge Edge2;
+        internal Ax1 Position;
+        internal double AngleRad;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -142,7 +153,7 @@ public sealed class UnfoldSheet : ModifierBase
         internal readonly TopoDS_Edge[] Edges = new TopoDS_Edge[4];
         /*
          * In[0] is the face which has encountered the bend section as a
-         * connected face. In[1] is the opposide face belonging to the same
+         * connected face. In[1] is the opposite face belonging to the same
          * section. This is the parent section.
          * Out[0] and Out[1] are the faces connected to the top/bottom face
          * of the section on the other side, they are part of the connected section.
@@ -177,6 +188,7 @@ public sealed class UnfoldSheet : ModifierBase
         };
 
         if (!(_InitContext(context)
+              && _PrepareSource(context)
               && _AnalyzeTopology(context)))
         {
             return false;
@@ -187,7 +199,7 @@ public sealed class UnfoldSheet : ModifierBase
         {
             return Skip();
         }
-
+        
         if (!_BuildResultShape(context))
         {
             return false;
@@ -239,6 +251,125 @@ public sealed class UnfoldSheet : ModifierBase
             }
         }
 
+
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /*
+     * Prepare the source shape by healing some problematic topology.
+     * 1. Find unified side faces and cut out the parts which belong to bend faces
+     * 2. more checks might follow later
+     */
+    bool _PrepareSource(MakeContext context)
+    {
+        TopoDS_Shape shape = context.SourceShape;
+        BRepTools_ReShape reshaper = null;
+        List<TopoDS_Face> faces = shape.Faces();
+
+        for (var index = 0; index < faces.Count; index++)
+        {
+            var face = faces[index];
+            var edges = face.Edges();
+            if (edges.Count <= 4)
+            {
+                // Faces with 4 edges will never be part of a unified face
+                continue;
+            }
+
+            // Find pairs of circular edges with coaxial position and same angle
+            List<PairOfEdges> pairs = new();
+            foreach (var edge in edges)
+            {
+                var edgeAdaptor = new BRepAdaptor_Curve(edge);
+                if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
+                {
+                    Ax1 position = edgeAdaptor.Circle().Position().Axis;
+                    double angleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
+                    var partner = pairs.FirstOrDefault(param => param.Position.IsCoaxial(position, 0.01f, 0.001f)
+                                                                && param.AngleRad.IsEqual(edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), 0.01));
+                    if (partner != null)
+                    {
+                        partner.Edge2 = edge;
+                    }
+                    else
+                    {
+                        PairOfEdges pair = new()
+                        {
+                            Edge1 = edge,
+                            Position = position,
+                            AngleRad = angleRad
+                        };
+                        pairs.Add(pair);
+                    }
+                }
+            }
+
+            var validPairs = pairs.Where(pair => pair.Edge1 != null && pair.Edge2 != null);
+            if (!validPairs.Any())
+            {
+                continue;
+            }
+
+            BOPAlgo_Splitter splitter = new();
+            splitter.AddArgument(face);
+
+            foreach (var pair in validPairs)
+            {
+                // Find out which vertices to connect and create edges
+                // Since they are lying on concentric circles, we can just decide by distance
+                TopoDS_Edge cutEdge1;
+                TopoDS_Edge cutEdge2;
+                var vertices1 = pair.Edge1.Vertices();
+                var vertices2 = pair.Edge2.Vertices();
+                var p1 = vertices1[0].Pnt();
+                var p21 = vertices2[0].Pnt();
+                var p22 = vertices2[1].Pnt();
+                if (p1.SquareDistance(p21) < p1.SquareDistance(p22))
+                {
+                    cutEdge1 = new BRepBuilderAPI_MakeEdge(vertices1[0], vertices2[0]).Edge();
+                    cutEdge2 = new BRepBuilderAPI_MakeEdge(vertices1[1], vertices2[1]).Edge();
+                }
+                else
+                {
+                    cutEdge1 = new BRepBuilderAPI_MakeEdge(vertices1[0], vertices2[1]).Edge();
+                    cutEdge2 = new BRepBuilderAPI_MakeEdge(vertices1[1], vertices2[0]).Edge();
+                }
+
+                // Split face by new edges
+                splitter.AddTool(cutEdge1);
+                splitter.AddTool(cutEdge2);
+            }
+
+            if (context.DebugOutput)
+            {
+                Messages.Trace($"Unified side face {index} detected, splitting with {splitter.Tools().Size()} edges.");
+            }
+
+            splitter.Perform();
+            if (splitter.HasErrors())
+            {
+                // Dump errors into a string
+                var errorDump = new StringWriter();
+                splitter.DumpErrors(errorDump);
+                Messages.Warning($"Splitting unified side face failed with error: {errorDump}");
+                continue;
+            }
+
+            // Request replacement of face with newly created faces
+            var splittedShape = splitter.Shape();
+            reshaper ??= new BRepTools_ReShape();
+            reshaper.Replace(face, splittedShape);
+        }
+
+        // If faces are requested to replace, do it now
+        if (reshaper != null)
+        {
+            shape = reshaper.Apply(shape);
+            UpdateModifiedSubshapes(context.SourceShape, reshaper.History());
+            context.SourceShape = shape;
+        }
 
         return true;
     }

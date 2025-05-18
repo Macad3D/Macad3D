@@ -809,6 +809,7 @@ namespace Occt
     ref class BOPAlgo_Builder;
     ref class BOPAlgo_ToolsProvider;
     ref class BOPAlgo_BOP;
+    ref class BOPAlgo_Splitter;
     ref class BOPAlgo_Tools;
     enum class BOPAlgo_Operation;
     enum class BOPAlgo_GlueEnum;
