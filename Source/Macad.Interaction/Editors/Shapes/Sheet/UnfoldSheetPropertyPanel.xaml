@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-             xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -12,8 +11,22 @@
              Header="Unfold Sheet"
 			 mmp:Help.TopicId="87d3ecca-434c-474d-befd-47f1bb83370e">
 
-    <Grid Margin="2,5,5,5">
-        <TextBlock  Grid.Row="0" Grid.Column="0" Text="This modifier has no parameters." HorizontalAlignment="Center" />
+    <DockPanel Margin="10,5,10,5" 
+               LastChildFill="True">
+        
+        <!-- Reset Auto Face -->
+        <Button DockPanel.Dock="Right"
+                Margin="10,0,0,0"
+                Content="Automatic"
+                Command="{Binding ResetFaceCommand}" 
+                IsEnabled="{Binding UnfoldSheet.StartFace, Converter={mmp:NotNullToBoolConverter}}"
+                AutomationProperties.AutomationId="ResetFace" />
 
-    </Grid>
+        <!-- Reselect Base Face -->
+        <mmp:ToggleButton DockPanel.Dock="Left"
+                          Content="Select Start Face" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding SelectFaceCommand}"
+                          AutomationProperties.AutomationId="SelectFace" />
+    </DockPanel>
 </panels:PropertyPanel>

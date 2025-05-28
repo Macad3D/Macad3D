@@ -13,12 +13,16 @@ public class CreateUnfoldSheetTool : Tool
     public enum Flags
     {
         None = 0,
-        ForceManualSelect = 1
+        ForceManualSelect = 1,
+        ReselectFace = 2,
     }
+
 
     //--------------------------------------------------------------------------------------------------
 
     readonly Body _TargetBody;
+    readonly Shape _TargetShape;
+    readonly UnfoldSheet _ModifierToChange;
     readonly Flags _Flags;
 
     //--------------------------------------------------------------------------------------------------
@@ -27,25 +31,49 @@ public class CreateUnfoldSheetTool : Tool
     {
         _TargetBody = targetBody;
         Debug.Assert(_TargetBody != null);
+        _TargetShape = _TargetBody.Shape;
+        Debug.Assert(_TargetShape != null);
+
         _Flags = flags;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public CreateUnfoldSheetTool(UnfoldSheet modifier)
+    {
+        _ModifierToChange = modifier;
+        Debug.Assert(_ModifierToChange != null);
+        _TargetBody = _ModifierToChange.Body;
+        Debug.Assert(_TargetBody != null);
+        _TargetShape = _ModifierToChange.Operands[0] as Shape;
+        Debug.Assert(_TargetShape != null);
+
+        _Flags = Flags.ReselectFace;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     protected override bool OnStart()
     {
-        if (!_Flags.HasFlag(Flags.ForceManualSelect)
-            && UnfoldSheet.CanFindStartFace(_TargetBody.GetBRep()))
+        if (_Flags.HasFlag(Flags.ReselectFace))
         {
-            // Auto mode for start face can be used
-            var unfoldSheet = UnfoldSheet.Create(_TargetBody);
-            if (unfoldSheet != null)
+            OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
+        }
+        else
+        {
+            if (!_Flags.HasFlag(Flags.ForceManualSelect)
+                && UnfoldSheet.CanFindStartFace(_TargetBody.GetBRep()))
             {
-                Stop();
-                CommitChanges();
-                WorkspaceController.Selection.SelectEntity(_TargetBody);
-                WorkspaceController.Invalidate();
-                return false;
+                // Auto mode for start face can be used
+                var unfoldSheet = UnfoldSheet.Create(_TargetBody);
+                if (unfoldSheet != null)
+                {
+                    Stop();
+                    CommitChanges();
+                    WorkspaceController.Selection.SelectEntity(_TargetBody);
+                    WorkspaceController.Invalidate();
+                    return false;
+                }
             }
         }
 
@@ -79,12 +107,21 @@ public class CreateUnfoldSheetTool : Tool
                 finished = true;
 
                 // We have found a plane
-                var startFaceRef = _TargetBody.Shape.GetSubshapeReference(_TargetBody.GetTransformedBRep(), face);
-                var unfoldSheet = UnfoldSheet.Create(_TargetBody, startFaceRef);
-                if (unfoldSheet != null)
+                var startFaceRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), face);
+                if (_Flags.HasFlag(Flags.ReselectFace))
                 {
+                    // Reselected face
+                    _ModifierToChange.StartFace = startFaceRef;
                     CommitChanges();
-                    WorkspaceController.Selection.SelectEntity(_TargetBody);
+                }
+                else
+                {
+                    var unfoldSheet = UnfoldSheet.Create(_TargetBody, startFaceRef);
+                    if (unfoldSheet != null)
+                    {
+                        CommitChanges();
+                        WorkspaceController.Selection.SelectEntity(_TargetBody);
+                    }
                 }
             }
         }
