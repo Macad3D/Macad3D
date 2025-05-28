@@ -257,4 +257,25 @@ public class UnfoldSheetTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [TestCase("Bracket")]
+    [TestCase("Seam")]
+    [TestCase("Breakthrough")]
+    [TestCase("Crimp")]
+    [TestCase("Slotted", Explicit = true)] // Not supported yet
+    [TestCase("SkewBend", Explicit = true)] // Not supported yet
+    public void ImportedCases(string caseName)
+    {
+        var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, $"Imported{caseName}_Source.brep"));
+        Assert.That(source, Is.Not.Null);
+
+        var unfold = UnfoldSheet.Create(source);
+        Assert.That(unfold, Is.Not.Null);
+
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, $"Imported{caseName}")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

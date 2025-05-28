@@ -132,7 +132,7 @@ public sealed class UnfoldSheet : ModifierBase
     {
         internal TopoDS_Edge Edge1;
         internal TopoDS_Edge Edge2;
-        internal Ax1 Position;
+        internal Ax1 Axis;
         internal double AngleRad;
     }
 
@@ -285,9 +285,9 @@ public sealed class UnfoldSheet : ModifierBase
                 var edgeAdaptor = new BRepAdaptor_Curve(edge);
                 if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
                 {
-                    Ax1 position = edgeAdaptor.Circle().Position().Axis;
+                    Ax1 axis = edgeAdaptor.Circle().Position().Axis;
                     double angleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
-                    var partner = pairs.FirstOrDefault(param => param.Position.IsCoaxial(position, 0.01f, 0.001f)
+                    var partner = pairs.FirstOrDefault(param => (axis.IsCoaxial(param.Axis, 0.01f, 0.001f) || axis.IsCoaxial(param.Axis.Reversed(), 0.01f, 0.001f))
                                                                 && param.AngleRad.IsEqual(edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), 0.01));
                     if (partner != null)
                     {
@@ -298,7 +298,7 @@ public sealed class UnfoldSheet : ModifierBase
                         PairOfEdges pair = new()
                         {
                             Edge1 = edge,
-                            Position = position,
+                            Axis = axis,
                             AngleRad = angleRad
                         };
                         pairs.Add(pair);
@@ -326,6 +326,11 @@ public sealed class UnfoldSheet : ModifierBase
                 var p1 = vertices1[0].Pnt();
                 var p21 = vertices2[0].Pnt();
                 var p22 = vertices2[1].Pnt();
+                if (p1.IsEqual(p21, Precision.Confusion()) || p1.IsEqual(p22, Precision.Confusion()))
+                {
+                    // Coincident vertices, can not be a bend section
+                    continue;
+                }
                 if (p1.SquareDistance(p21) < p1.SquareDistance(p22))
                 {
                     cutEdge1 = new BRepBuilderAPI_MakeEdge(vertices1[0], vertices2[0]).Edge();
@@ -596,7 +601,7 @@ public sealed class UnfoldSheet : ModifierBase
         // Find connected faces
         _FindFacesConnectedToBendSection(context, sharedEdge, bendParams);
 
-        // Check if the connected section is also an bend section
+        // Check if the connected section is also a bend section
         if (bendParams.ConnectedOutFaces[0] != null
             && _AnalyzeBendSection(context, bendParams.ConnectedOutFaces[0], bendParams.ConnectedOutSharedEdges[0], out var connectedBendSection))
         {
@@ -618,8 +623,10 @@ public sealed class UnfoldSheet : ModifierBase
 
     bool _IsFaceOfBendSection(TopoDS_Face face, BendParameter bendParams)
     {
-        if(bendParams == null)
+        if (bendParams == null)
+        {
             bendParams = new BendParameter(); // Temporary usage
+        }
 
         // Each face of a bend section has two circular edges
         var edges = face.Edges();
@@ -635,13 +642,14 @@ public sealed class UnfoldSheet : ModifierBase
                 if (bendParams.Edges[0] == null)
                 {
                     bendParams.Edges[0] = edge;
-                    bendParams.Axes[0] = edgeAdaptor.Circle().Position();
+                    bendParams.Axes[0] = edgeAdaptor.Circle().Position().Rotated(edgeAdaptor.Circle().Axis(), edgeAdaptor.FirstParameter());
                     bendParams.Radii[0] = edgeAdaptor.Circle().Radius();
                     bendParams.AngleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
                 }
                 else
                 {
-                    if (!bendParams.Axes[0].Axis.IsCoaxial(edgeAdaptor.Circle().Axis(), 0.01f, 0.001f)
+                    var circleAxis = edgeAdaptor.Circle().Axis();
+                    if (!(bendParams.Axes[0].Axis.IsCoaxial(circleAxis, 0.01, 0.001) || bendParams.Axes[0].Axis.IsCoaxial(circleAxis.Reversed(), 0.01, 0.001))
                         || !bendParams.AngleRad.IsEqual(edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), 0.01))
                     {
                         return false; // Circular edge with unproper parameters detected
@@ -651,7 +659,7 @@ public sealed class UnfoldSheet : ModifierBase
                     {
                         // Second edge of bend surface
                         bendParams.Edges[1] = edge;
-                        bendParams.Axes[1] = edgeAdaptor.Circle().Position();
+                        bendParams.Axes[1] = edgeAdaptor.Circle().Position().Rotated(edgeAdaptor.Circle().Axis(), edgeAdaptor.FirstParameter());
                         break;
                     }
 
@@ -773,7 +781,6 @@ public sealed class UnfoldSheet : ModifierBase
     {
         if (section.IsBendSection)
         {
-                
             // Calculate k-factor and bend allowance
             // k = 0.65 + 0.5 * log(r/s)
             // This is DIN/ISO value range of 0..2
@@ -813,17 +820,17 @@ public sealed class UnfoldSheet : ModifierBase
                 // Reconstruct faces
                 var pnts = new Pnt[4]; // Corner points of one section
                 pnts[0] = axes[0].Location.Translated(axes[0].XDirection.ToVec() * section.BendParameter.Radii[0]);
-                pnts[1] = axes[1].Location.Translated(axes[1].XDirection.ToVec() * section.BendParameter.Radii[0]);
+                pnts[1] = axes[1].Location.Translated(axes[0].XDirection.ToVec() * section.BendParameter.Radii[0]);
                 pnts[2] = axes[0].Location.Translated(axes[0].XDirection.ToVec() * section.BendParameter.Radii[1]);
-                pnts[3] = axes[1].Location.Translated(axes[1].XDirection.ToVec() * section.BendParameter.Radii[1]);
+                pnts[3] = axes[1].Location.Translated(axes[0].XDirection.ToVec() * section.BendParameter.Radii[1]);
                 var extrudeVec = axes[0].YDirection.ToVec() * swapSign * bendAllowance; // Vector to extrude to the other section
 
                 // Top/Bottom
-                context.Sewer.Add(TopoUtils.MakeFace(new[] {pnts[0], pnts[0].Translated(extrudeVec), pnts[1].Translated(extrudeVec), pnts[1]}));
-                context.Sewer.Add(TopoUtils.MakeFace(new[] {pnts[2], pnts[2].Translated(extrudeVec), pnts[3].Translated(extrudeVec), pnts[3]}));
+                context.Sewer.Add(TopoUtils.MakeFace([pnts[0], pnts[0].Translated(extrudeVec), pnts[1].Translated(extrudeVec), pnts[1]]));
+                context.Sewer.Add(TopoUtils.MakeFace([pnts[2], pnts[2].Translated(extrudeVec), pnts[3].Translated(extrudeVec), pnts[3]]));
                 // Sides
-                context.Sewer.Add(TopoUtils.MakeFace(new[] {pnts[0], pnts[0].Translated(extrudeVec), pnts[2].Translated(extrudeVec), pnts[2]}));
-                context.Sewer.Add(TopoUtils.MakeFace(new[] {pnts[1], pnts[1].Translated(extrudeVec), pnts[3].Translated(extrudeVec), pnts[3]}));
+                context.Sewer.Add(TopoUtils.MakeFace([pnts[0], pnts[0].Translated(extrudeVec), pnts[2].Translated(extrudeVec), pnts[2]]));
+                context.Sewer.Add(TopoUtils.MakeFace([pnts[1], pnts[1].Translated(extrudeVec), pnts[3].Translated(extrudeVec), pnts[3]]));
             }
 
             // Create transform for connected sections
