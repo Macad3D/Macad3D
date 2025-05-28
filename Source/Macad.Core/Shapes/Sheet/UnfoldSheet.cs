@@ -696,7 +696,7 @@ public sealed class UnfoldSheet : ModifierBase
 
         // Find the other connection edge
         TopoDS_Vertex sharedVtx1 = null;
-        foreach (var edge in bendParams.Faces[1].Edges())
+        foreach (var edge in bendParams.Faces[1].Edges().Where(edge => edge.Adaptor().GetCurveType() != GeomAbs_CurveType.Circle))
         {
             var vtx = EdgeAlgo.FindSharedVertex(edge, sharedEdge);
             if (vtx != null)
@@ -707,7 +707,7 @@ public sealed class UnfoldSheet : ModifierBase
             }
         }
         TopoDS_Vertex sharedVtx2 = null;
-        foreach (var edge in bendParams.Faces[2].Edges())
+        foreach (var edge in bendParams.Faces[2].Edges().Where(edge => edge.Adaptor().GetCurveType() != GeomAbs_CurveType.Circle))
         {
             var vtx = EdgeAlgo.FindSharedVertex(edge, sharedEdge);
             if (vtx != null)

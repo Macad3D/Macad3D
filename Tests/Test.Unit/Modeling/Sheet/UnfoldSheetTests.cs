@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -70,6 +71,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(Context.Current.MessageHandler.GetEntityMessages(unfold).Where(msg => msg.Severity == MessageSeverity.Error).Count, Is.Zero, "Shape has error.");
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "Multiple")));
     }
 
