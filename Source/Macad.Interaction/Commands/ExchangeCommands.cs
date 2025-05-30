@@ -25,9 +25,15 @@ public static class ExchangeCommands
                     ErrorDialogs.CannotImport(filename);
                     return;
                 }
+
+                bool docWasEmpty = CoreContext.Current?.Document?.EntityCount == 0;
                 foreach (var newBody in newBodies)
                 {
                     CoreContext.Current?.Document?.Add(newBody);
+                }
+                if (docWasEmpty)
+                {
+                    InteractiveContext.Current.ViewportController.ZoomFitAll();
                 }
                 Commit();
                 Selection.SelectEntities(newBodies);
@@ -151,6 +157,8 @@ public static class ExchangeCommands
 
                     Commit();
                     Selection.SelectEntities(newBodies);
+                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    return;
                 }
             }
                 
@@ -177,10 +185,10 @@ public static class ExchangeCommands
 
                     Commit();
                     Selection.SelectEntity(newBody);
+                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    return;
                 }
             }
-
-            InteractiveContext.Current.WorkspaceController.Invalidate();
         },
 
         (filePath) =>
