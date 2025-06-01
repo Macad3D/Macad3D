@@ -111,15 +111,29 @@ public class RibbonAdaptor : FormAdaptor
 
     public void ClickFileMenuItem(string id1, string id2=null, bool jump = true)
     {
-        var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(RibbonTabs.File.ToString()));
+        var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(nameof(RibbonTabs.File)));
         Assert.That(tabControl, Is.Not.Null, $"Ribbon tab control File not found.");
         Assert.That(tabControl.Patterns.ExpandCollapse.IsSupported, $"Ribbon tab control File does not support ExpandCollapsePattern.");
         tabControl.Patterns.ExpandCollapse.Pattern.Expand();
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(_FormControl);
 
-        var menuItem1 = _MainWindow.Popup?.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id1}"))?.AsMenuItem();
+        Window popup = null;
+        MenuItem menuItem1 = null;
+        foreach (var child in _MainWindow.FindAllChildren(cf => cf.ByClassName("Popup")))
+        {
+            popup = child.AsWindow();
+            menuItem1 = popup?.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id1}"))?.AsMenuItem();
+            if (menuItem1 != null)
+                break;
+        }
+
+        if (menuItem1 == null)
+        {
+            _MainWindow.CaptureToFile(@$"M:\Projekte\Macad3D\bin\Release\TestResults\{TestContext.CurrentContext.Test.Name}.png");
+        }
         Assert.IsNotNull(menuItem1, $"Parent MenuItem AppMenu{id1} not found.");
+
         if(id2 == null)
             menuItem1.Click(!jump);
         else
@@ -129,7 +143,7 @@ public class RibbonAdaptor : FormAdaptor
 
         if (!id2.IsNullOrEmpty())
         {
-            var menuItem2 = _MainWindow.Popup?.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id2}"))?.AsMenuItem();
+            var menuItem2 = popup.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id2}"))?.AsMenuItem();
             Assert.IsNotNull(menuItem2, $"Child MenuItem AppMenu{id2} not found.");
             menuItem2.Click(!jump);
             Wait.UntilInputIsProcessed();

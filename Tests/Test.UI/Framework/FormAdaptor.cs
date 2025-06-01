@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
@@ -95,9 +96,21 @@ public class FormAdaptor
         else
             Mouse.LeftClick(center);
 
-        Wait.UntilInputIsProcessed();
-        if(_FormControl.IsAvailable)
-            Wait.UntilResponsive(_FormControl);
+        try
+        {
+            Wait.UntilInputIsProcessed();
+            if(_FormControl.IsAvailable)
+                Wait.UntilResponsive(_FormControl);
+        }
+        catch (COMException e)
+        {
+            // This can occur when the click leads to closing the form or application.
+            // If this is ok or not will be checked by a later assertion of the test case.
+            if ((uint)e.HResult != 0x80040201)
+            {
+                throw;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -198,34 +211,38 @@ public class FormAdaptor
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(_FormControl);
 
-        var listCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName(boxCtrl.Name)))?.AsListBox();
-        if (listCtrl != null)
+        bool found = Retry.WhileFalse(() =>
         {
-            var index = listCtrl.Items.IndexOfFirst(item => item.Text.Contains(pattern));
-            Assert.AreNotEqual(-1, index, $"List index of pattern {pattern} not found in combobox {boxid}. Items found: {string.Join(",", listCtrl.Items.Select(item => item.Text).ToArray())}");
+            var listCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName(boxCtrl.Name)))?.AsListBox();
+            if (listCtrl != null)
+            {
+                var index = listCtrl.Items.IndexOfFirst(item => item.Text.Contains(pattern));
+                Assert.AreNotEqual(-1, index, $"List index of pattern {pattern} not found in combobox {boxid}. Items found: {string.Join(",", listCtrl.Items.Select(item => item.Text).ToArray())}");
 
-            listCtrl.Items[index].Click(!jump);
-            return;
-        }
+                listCtrl.Items[index].Click(!jump);
+                return true;
+            }
 
-        // Try to find item as direct child
-        var items = boxCtrl.FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem));
-        foreach (var item in items)
-        {
-            var text = item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
-            if (text == null || !text.Name.Contains(pattern))
-                continue;
+            // Try to find item as direct child
+            var items = boxCtrl.FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem));
+            foreach (var item in items)
+            {
+                var text = item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+                if (text == null || !text.Name.Contains(pattern))
+                    continue;
 
-            var center = item.BoundingRectangle.Center();
-            if(!jump)
-                Mouse.MoveTo(center);
-            Mouse.LeftClick(center);
-            Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_FormControl);
-            return;
-        }
+                var center = item.BoundingRectangle.Center();
+                if (!jump)
+                    Mouse.MoveTo(center);
+                Mouse.LeftClick(center);
+                Wait.UntilInputIsProcessed();
+                Wait.UntilResponsive(_FormControl);
+                return true;
+            }
 
-        Assert.IsNotNull(listCtrl, $"Itemlist of combobox {boxid} not found.");
+            return false;
+        }, TimeSpan.FromSeconds(10)).Result;
+        Assert.That(found, Is.True, $"Itemlist of combobox {boxid} not found.");
     }
 
     //--------------------------------------------------------------------------------------------------

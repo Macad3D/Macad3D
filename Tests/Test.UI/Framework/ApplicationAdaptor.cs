@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Tools;
 using FlaUI.UIA3;
 using NUnit.Framework;
 
@@ -45,7 +46,7 @@ public class ApplicationAdaptor
         Application = FlaUI.Core.Application.Launch(processStartInfo);
         Assert.That(Application, Is.Not.Null);
         Application.WaitWhileMainHandleIsMissing();
-        Application.WaitWhileBusy(new TimeSpan(0, 1, 0));
+        Application.WaitWhileBusy(TimeSpan.FromSeconds(20));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -61,7 +62,9 @@ public class ApplicationAdaptor
     {
         using (var automation = new UIA3Automation())
         {
-            return Application.GetAllTopLevelWindows(automation).FirstOrDefault(predicateFunc);
+            automation.TransactionTimeout = TimeSpan.FromSeconds(10);
+            return Retry.WhileNull(() => Application.GetAllTopLevelWindows(automation).FirstOrDefault(predicateFunc),
+                                   TimeSpan.FromSeconds(20), ignoreException: true).Result;
         }
     }
 }
