@@ -69,7 +69,16 @@ public class MirrorElementSketchTool : SketchTool
         
         base.Cleanup();
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void OnSketchChanged(Sketch sketch, Sketch.ElementType types)
+    {
+        Stop();
+
+        base.OnSketchChanged(sketch, types);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     void _UpdateSegmentElementsVisibility(bool show)
@@ -86,7 +95,11 @@ public class MirrorElementSketchTool : SketchTool
             var segmentsWithPoint = Sketch.Segments.Values.Where(seg => seg.Points.Contains(pointIndex));
             if(_OriginalSegments.ContainsAll(segmentsWithPoint))
             {
-                SketchEditorTool.Elements.PointElements.First(element => element.PointIndex == pointIndex).IsVisible = show;
+                var element = SketchEditorTool.Elements.PointElements.FirstOrDefault(element => element.PointIndex == pointIndex);
+                if (element != null)
+                {
+                    element.IsVisible = show;
+                }
             }
         }
 

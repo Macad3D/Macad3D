@@ -42,7 +42,20 @@ public class ScaleElementSketchTool : SketchTool
 
     public override void OnSketchChanged(Sketch sketch, Sketch.ElementType types)
     {
+        if (types.HasFlag(Sketch.ElementType.Point))
+        {
+            // Points removed?
+            _SelectedPoints.RemoveAll(i => !sketch.Points.ContainsKey(i));
+            if (_SelectedPoints.Count == 0)
+            {
+                Stop();
+                return;
+            }
+        }
+
         _UpdateBoundingBox();
+
+        base.OnSketchChanged(sketch, types);
     }
 
     //--------------------------------------------------------------------------------------------------

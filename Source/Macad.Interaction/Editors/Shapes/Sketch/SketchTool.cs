@@ -112,6 +112,7 @@ public abstract class SketchTool : WorkspaceControl
        
     public virtual void OnSketchChanged(Sketch sketch, Sketch.ElementType types)
     {
+        // Left empty by intention
     }
 
     //--------------------------------------------------------------------------------------------------

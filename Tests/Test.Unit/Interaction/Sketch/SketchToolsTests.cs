@@ -736,6 +736,36 @@ public class SketchToolsTests
             ctx.WorkspaceController.CancelTool(tool, true);
         });
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ScaleElementsRemovedPoints()
+    {
+        var ctx = Context.Current;
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select([1,2], null);
+        var scaleTool = new ScaleElementSketchTool();
+        tool.StartTool(scaleTool);
+        Assert.That(tool.CurrentTool, Is.EqualTo(scaleTool));
+
+        Assert.Multiple(() =>
+        {
+            sketch.DeletePoint(1);
+            Assert.That(tool.CurrentTool, Is.EqualTo(scaleTool));
+
+            tool.Delete();
+            Assert.That(tool.CurrentTool, Is.Not.EqualTo(scaleTool));
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
 
     //--------------------------------------------------------------------------------------------------
     
@@ -1034,6 +1064,40 @@ public class SketchToolsTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsSnap11"), 0.1);
         });
     }
+        
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void OffsetSegmentsDeleteSegments()
+    {
+        var ctx = Context.Current;
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        var offsetTool = new OffsetSegmentSketchTool();
+        tool.StartTool(offsetTool);
+        Assert.That(tool.CurrentTool, Is.EqualTo(offsetTool));
+
+        Assert.Multiple(() =>
+        {
+            sketch.DeletePoint(1);
+            Assert.That(tool.CurrentTool, Is.Not.EqualTo(offsetTool));
+
+            offsetTool = new OffsetSegmentSketchTool();
+            tool.StartTool(offsetTool);
+            ctx.ClickAt(282, 410);
+            ctx.MoveTo(282, 420);
+            tool.Delete();
+            Assert.That(tool.CurrentTool, Is.Not.EqualTo(offsetTool));
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -1135,7 +1199,42 @@ public class SketchToolsTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsUndo01"), 0.1);
         tool.StopTool();
     }
-    
+            
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MirrorElementsDeleteElements()
+    {
+        var ctx = Context.Current;
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        var mirrorTool = new MirrorElementSketchTool();
+        tool.StartTool(mirrorTool);
+        Assert.That(tool.CurrentTool, Is.EqualTo(mirrorTool));
+
+        Assert.Multiple(() =>
+        {
+            sketch.DeletePoint(1);
+            Assert.That(tool.CurrentTool, Is.Not.EqualTo(mirrorTool));
+
+            mirrorTool = new MirrorElementSketchTool();
+            tool.StartTool(mirrorTool);
+            Assert.That(tool.CurrentTool, Is.EqualTo(mirrorTool));
+            ctx.ClickAt(282, 410);
+            ctx.MoveTo(282, 420);
+            tool.Delete();
+            Assert.That(tool.CurrentTool, Is.Not.EqualTo(mirrorTool));
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
         
     [Test]

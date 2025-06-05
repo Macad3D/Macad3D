@@ -93,6 +93,15 @@ public class OffsetSegmentSketchTool : SketchTool
 
     //--------------------------------------------------------------------------------------------------
 
+    public override void OnSketchChanged(Sketch sketch, Sketch.ElementType types)
+    {
+        Stop();
+
+        base.OnSketchChanged(sketch, types);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _PointOnElementAction_Preview(PointOnSketchElementAction action, PointOnSketchElementAction.PreviewEventArgs eventArgs)
     {
         if (_GetDirectionAxis(eventArgs, out var axis))
@@ -260,7 +269,11 @@ public class OffsetSegmentSketchTool : SketchTool
             var segmentsWithPoint = Sketch.Segments.Values.Where(seg => seg.Points.Contains(pointIndex));
             if(_Segments.ContainsAll(segmentsWithPoint))
             {
-                SketchEditorTool.Elements.PointElements.First(element => element.PointIndex == pointIndex).IsVisible = show;
+                var element = SketchEditorTool.Elements.PointElements.FirstOrDefault(element => element.PointIndex == pointIndex);
+                if (element != null)
+                {
+                    element.IsVisible = show;
+                }
             }
         }
 
@@ -270,7 +283,8 @@ public class OffsetSegmentSketchTool : SketchTool
         }
     }
 
-    //---------------------
+    //--------------------------------------------------------------------------------------------------
+    
     void _SetJoinType(GeomAbs_JoinType newType)
     {
         _CurrentJoinType = newType;
