@@ -647,6 +647,7 @@ public sealed class FlangeSheet : ModifierBase
         fuseOp.SetArguments(shapeListArgs);
         fuseOp.SetTools(shapeListTools);
         fuseOp.SetGlue(BOPAlgo_GlueEnum.GlueShift);
+        fuseOp.SetNonDestructive(true);
         fuseOp.Build();
         if (!fuseOp.IsDone())
         {
@@ -655,7 +656,10 @@ public sealed class FlangeSheet : ModifierBase
         }
 
         context.ResultShape = fuseOp.Shape();
+        // Fix Continuities
+        BRepLib.EncodeRegularity(context.ResultShape, fuseOp.SectionEdges(), 1.0E-6);
 
+        // Add to history
         if (context.BendSectionShape != null)
             AddNamedSubshapes("Bend", context.BendSectionShape, fuseOp);
         if (context.FlangeShape != null)

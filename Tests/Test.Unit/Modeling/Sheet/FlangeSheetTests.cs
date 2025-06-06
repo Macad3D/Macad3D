@@ -1,8 +1,11 @@
 ﻿using System.IO;
+using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Sheet;
@@ -22,6 +25,32 @@ public class FlangeSheetTests
         var flangeSheet = FlangeSheet.Create(body, new SubshapeReference(SubshapeType.Face, box.Guid, 1), 45.0, 5.0);
 
         Assert.IsTrue(ModelCompare.CompareShape(flangeSheet, Path.Combine(_BasePath, "Simple")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Continuity()
+    {
+        var box = Box.Create(10.0, 10.0, 1.0);
+        var body = Body.Create(box);
+        var flangeSheet = FlangeSheet.Create(body, new SubshapeReference(SubshapeType.Face, box.Guid, 1), 45.0, 5.0);
+
+        var brep = flangeSheet.GetBRep();
+        Assert.That(brep, Is.Not.Null);
+
+        int countG1 = 0;
+        foreach (var face in brep.Faces().Skip(5).Take(4))
+        {
+            foreach (var sharedEdge in face.Edges())
+            {
+                var otherFace = FaceAlgo.FindConnectedFace(brep, face, sharedEdge);
+                if (BRep_Tool.Continuity(sharedEdge, face, otherFace) >= GeomAbs_Shape.G1)
+                {
+                    countG1++;
+                }
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
