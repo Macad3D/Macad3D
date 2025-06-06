@@ -33,7 +33,7 @@ public class MessageItem
     {
         TimeStamp = DateTime.Now;
         Severity = severity;
-        Text = text;
+        Text = text.Trim();
         Sender = sender != null ? new WeakReference<Entity>(sender) : null;
         Explanation = explanation?.Split(_LineBreaks, StringSplitOptions.RemoveEmptyEntries);
     }
