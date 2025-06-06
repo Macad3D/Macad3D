@@ -194,6 +194,20 @@ public class UnfoldSheetTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void ArcCutoutOnFlatSection()
+    {
+        var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "ArcCutoutOnFlatSection_Source.brep"));
+        Assert.That(source, Is.Not.Null);
+        var unfold = UnfoldSheet.Create(source);
+
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, $"ArcCutoutOnFlatSection")));
+        Assert.That(Context.Current.MessageHandler.GetEntityMessages(unfold).All(msg => msg.Severity == MessageSeverity.Trace));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void SliceSideFaces()
     {
         var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, @"..\FlangeSheet\Simple.brep"));

@@ -197,6 +197,7 @@ public sealed class UnfoldSheet : ModifierBase
         // Skip if we have only one section
         if (!context.RootSection.Children.Any())
         {
+            Messages.Warning("No bend sections found.");
             return Skip();
         }
         
@@ -312,9 +313,7 @@ public sealed class UnfoldSheet : ModifierBase
                 continue;
             }
 
-            BOPAlgo_Splitter splitter = new();
-            splitter.AddArgument(face);
-
+            List<TopoDS_Edge> splitEdges = new();
             foreach (var pair in validPairs)
             {
                 // Find out which vertices to connect and create edges
@@ -343,15 +342,23 @@ public sealed class UnfoldSheet : ModifierBase
                 }
 
                 // Split face by new edges
-                splitter.AddTool(cutEdge1);
-                splitter.AddTool(cutEdge2);
+                splitEdges.Add(cutEdge1);
+                splitEdges.Add(cutEdge2);
+            }
+
+            if (splitEdges.Count == 0)
+            {
+                continue;
             }
 
             if (context.DebugOutput)
             {
-                Messages.Trace($"Unified side face {index} detected, splitting with {splitter.Tools().Size()} edges.");
+                Messages.Trace($"Unified side face {index} detected, splitting with {splitEdges.Count} edges.");
             }
 
+            BOPAlgo_Splitter splitter = new();
+            splitter.AddArgument(face);
+            splitEdges.ForEach(splitter.AddTool);
             splitter.Perform();
             if (splitter.HasErrors())
             {
@@ -607,8 +614,9 @@ public sealed class UnfoldSheet : ModifierBase
         {
             if (connectedBendSection == null)
             {
-                Messages.Error("A bend section is connected to another bend section with an perpendicular direction.", 
+                Messages.Error("A bend section is connected to another bend section with a perpendicular direction.", 
                                "To fix this, you need to add a small flange between these two bend sections.");
+                return false;
             }
             section.Children.Add(connectedBendSection);
         }
@@ -629,7 +637,7 @@ public sealed class UnfoldSheet : ModifierBase
         }
 
         // Each face of a bend section has two circular edges
-        var edges = face.Edges();
+        var edges = BRepTools.OuterWire(face).Edges();
         var foundCircularEdges = 0;
 
         foreach (var edge in edges)
