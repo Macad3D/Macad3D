@@ -272,7 +272,14 @@ public sealed class UnfoldSheet : ModifierBase
         for (var index = 0; index < faces.Count; index++)
         {
             var face = faces[index];
-            var edges = face.Edges();
+
+            // Start face is per definition not part of a bend section
+            if (face.IsSame(context.StartFace))
+            {
+                continue;
+            }
+
+            var edges = BRepTools.OuterWire(face).Edges();
             if (edges.Count <= 4)
             {
                 // Faces with 4 edges will never be part of a unified face
@@ -780,7 +787,7 @@ public sealed class UnfoldSheet : ModifierBase
 
         Messages.Error("Resulting faces could not be sewn to a solid.");
         context.ResultShape = sewedShape;
-        return true;
+        return false;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -822,8 +829,8 @@ public sealed class UnfoldSheet : ModifierBase
             axes[0].Transform(transformation);
             axes[1].Transform(transformation);
 
-            // Create no bend section, if kfac==0
-            if (kfac > 0.0)
+            // Create no bend section, if bendAllowance==0
+            if (bendAllowance > 0.0)
             {
                 // Reconstruct faces
                 var pnts = new Pnt[4]; // Corner points of one section
@@ -846,8 +853,6 @@ public sealed class UnfoldSheet : ModifierBase
             transformation.PreMultiply(rotTrsf);
             var dispTrsf = new Trsf(axes[0].YDirection.ToVec() * swapSign * bendAllowance);
             transformation.PreMultiply(dispTrsf);
-                
-            //section.Faces.ForEach(f => context.Sewer.Add(f));
         }
         else
         {
@@ -856,14 +861,16 @@ public sealed class UnfoldSheet : ModifierBase
             {
                 var transformedFace = face.Moved(new TopLoc_Location(transformation));
                 context.Sewer.Add(transformedFace);
-                //context.Sewer.Add(face);
             }
         }
 
         // Process children
         foreach (var child in section.Children)
         {
-            _AddSectionToResult(context, child, transformation);
+            if (!_AddSectionToResult(context, child, transformation))
+            {
+                return false;
+            }
         }
 
         return true;
