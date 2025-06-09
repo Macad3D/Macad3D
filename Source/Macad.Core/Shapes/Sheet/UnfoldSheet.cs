@@ -523,7 +523,7 @@ public sealed class UnfoldSheet : ModifierBase
         {
             if (section.IsBendSection)
             {
-                Messages.Trace($"Analyze: {id} BendSection with {section.Faces.Count} faces, Radii {section.BendParameter.Radii[0]} and {section.BendParameter.Radii[1]} .");
+                Messages.Trace($"Analyze: {id} BendSection with {section.Faces.Count} faces, Radii {section.BendParameter.Radii[0]} and {section.BendParameter.Radii[1]}.");
             }
             else
             {
@@ -659,35 +659,63 @@ public sealed class UnfoldSheet : ModifierBase
         // Each face of a bend section has two circular edges
         var edges = BRepTools.OuterWire(face).Edges();
         var foundCircularEdges = 0;
+        bool isSideFace;
+        switch (face.Adaptor().GetSurfaceType())
+        {
+            case GeomAbs_SurfaceType.Plane:
+                isSideFace = true;
+                break;
+            case GeomAbs_SurfaceType.Cylinder:
+                isSideFace = false;
+                break;
+            default:
+                return false; // Not support yet
+        }
 
+        double firstRadius = 0;
         foreach (var edge in edges)
         {
             var edgeAdaptor = new BRepAdaptor_Curve(edge);
             if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
             {
                 foundCircularEdges++;
+                var circleAxis = edgeAdaptor.Circle().Axis();
+                var circleRadius = edgeAdaptor.Circle().Radius();
+                if (foundCircularEdges == 1)
+                {
+                    firstRadius = circleRadius;
+                }
 
                 if (bendParams.Edges[0] == null)
                 {
                     bendParams.Edges[0] = edge;
-                    bendParams.Axes[0] = edgeAdaptor.Circle().Position().Rotated(edgeAdaptor.Circle().Axis(), edgeAdaptor.FirstParameter());
-                    bendParams.Radii[0] = edgeAdaptor.Circle().Radius();
+                    bendParams.Axes[0] = edgeAdaptor.Circle().Position().Rotated(circleAxis, edgeAdaptor.FirstParameter());
+                    bendParams.Radii[0] = circleRadius;
                     bendParams.AngleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
                 }
                 else
                 {
-                    var circleAxis = edgeAdaptor.Circle().Axis();
                     if (!(bendParams.Axes[0].Axis.IsCoaxial(circleAxis, 0.01, 0.001) || bendParams.Axes[0].Axis.IsCoaxial(circleAxis.Reversed(), 0.01, 0.001))
                         || !bendParams.AngleRad.IsEqual(edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), 0.01))
                     {
                         return false; // Circular edge with unproper parameters detected
                     }
 
-                    if(bendParams.Edges[1] == null)
+                    if (foundCircularEdges == 2)
+                    {
+                        // Side faces must have different radius
+                        if (isSideFace && firstRadius.IsEqual(circleRadius, 0.001))
+                            return false;
+                        // Top/bottom faces must have equal radius
+                        if (!isSideFace && !firstRadius.IsEqual(circleRadius, 0.001))
+                            return false;
+                    }
+
+                    if (bendParams.Edges[1] == null)
                     {
                         // Second edge of bend surface
                         bendParams.Edges[1] = edge;
-                        bendParams.Axes[1] = edgeAdaptor.Circle().Position().Rotated(edgeAdaptor.Circle().Axis(), edgeAdaptor.FirstParameter());
+                        bendParams.Axes[1] = edgeAdaptor.Circle().Position().Rotated(circleAxis, edgeAdaptor.FirstParameter());
                         break;
                     }
 
@@ -699,12 +727,15 @@ public sealed class UnfoldSheet : ModifierBase
                             bendParams.Edges[edgeIndex] = edge;
                             break;
                         }
+
                         if (bendParams.Edges[edgeIndex].IsSame(edge))
                             break;
                     }
 
                     if (!edgeAdaptor.Circle().Radius().IsEqual(bendParams.Radii[0], 0.000001))
-                        bendParams.Radii[1] = edgeAdaptor.Circle().Radius();
+                    {
+                        bendParams.Radii[1] = circleRadius;
+                    }
                 }
             }
         }
@@ -788,7 +819,8 @@ public sealed class UnfoldSheet : ModifierBase
 
         context.Sewer.Perform();
         var sewedShape = context.Sewer.SewedShape();
-        if (sewedShape.ShapeType() == TopAbs_ShapeEnum.SHELL)
+        if (sewedShape.ShapeType() == TopAbs_ShapeEnum.SHELL
+            && context.Sewer.NbFreeEdges() == 0)
         {
             var makeSolid = new BRepBuilderAPI_MakeSolid(sewedShape.ToShell());
             if (makeSolid.IsDone())

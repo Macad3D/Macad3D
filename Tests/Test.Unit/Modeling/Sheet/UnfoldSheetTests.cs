@@ -72,6 +72,7 @@ public class UnfoldSheetTests
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
         Assert.That(Context.Current.MessageHandler.GetEntityMessages(unfold).Where(msg => msg.Severity == MessageSeverity.Error).Count, Is.Zero, "Shape has error.");
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "Multiple")));
     }
 
@@ -87,6 +88,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "NoRadius")));
     }
 
@@ -102,6 +104,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "NoLength")));
     }
 
@@ -117,6 +120,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "Complex")));
     }
 
@@ -132,6 +136,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "NoFlange")));
     }
 
@@ -147,6 +152,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "AnotherStartFace")));
     }
 
@@ -162,6 +168,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "AbandonedFaces")));
     }
 
@@ -175,6 +182,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "CircEdgesOnFlatSection")));
     }
 
@@ -188,6 +196,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "CircCutoutOnFlatSection")));
     }
 
@@ -201,6 +210,7 @@ public class UnfoldSheetTests
         var unfold = UnfoldSheet.Create(source);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, $"ArcCutoutOnFlatSection")));
         Assert.That(Context.Current.MessageHandler.GetEntityMessages(unfold).All(msg => msg.Severity == MessageSeverity.Trace));
     }
@@ -218,6 +228,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces")));
     }
 
@@ -234,6 +245,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_Multiple")));
     }
 
@@ -250,6 +262,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_NoFlange")));
     }
 
@@ -266,6 +279,7 @@ public class UnfoldSheetTests
 
         var unfold = UnfoldSheet.Create(body);
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "SliceSideFaces_Relief")));
     }
 
@@ -276,6 +290,7 @@ public class UnfoldSheetTests
     [TestCase("Seam")]
     [TestCase("Breakthrough")]
     [TestCase("Crimp")]
+    [TestCase("DoubleBendSection")]
     [TestCase("Slotted", Explicit = true)] // Not supported yet
     [TestCase("SkewBend", Explicit = true)] // Not supported yet
     public void ImportedCases(string caseName)
@@ -287,6 +302,7 @@ public class UnfoldSheetTests
         Assert.That(unfold, Is.Not.Null);
 
         Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, $"Imported{caseName}")));
     }
 

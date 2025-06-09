@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Macad.Test.Utils;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -391,4 +392,57 @@ public static class AssertHelper
         File.Delete(resultFilePath);
         File.Delete(diffFilePath);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsWatertight(TopoDS_Shape shape)
+    {
+        if (shape.ShapeType() == TopAbs_ShapeEnum.COMPOUND)
+        {
+            foreach (var solid in shape.Solids())
+            {
+                IsWatertight(solid);
+                return;
+            }
+        }
+        Assert.That(shape.ShapeType() == TopAbs_ShapeEnum.SOLID, $"Shapetype is not solid, but {shape.ShapeType()}");
+
+        BRepCheck_Analyzer analyzer = new(shape);
+        Assert.That(analyzer.IsValid(), $"Shape is not valid");
+
+        IsManifold(shape);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsWatertight(Shape shape)
+    {
+        IsWatertight(shape.GetBRep());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    static void IsManifold(TopoDS_Shape shape)
+    {
+        TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap = new();
+        TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, edgeFaceMap);
+
+        var list = shape.Edges();
+        for (var index = 0; index < list.Count; index++)
+        {
+            var edge = list[index];
+            var faceList = edgeFaceMap.FindFromKey(edge);
+            Assert.That(faceList.Extent(), Is.LessThanOrEqualTo(2), $"Non-manifold edge found: {index}");
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsManifold(Shape shape)
+    {
+        IsManifold(shape.GetBRep());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
