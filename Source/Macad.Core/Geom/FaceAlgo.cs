@@ -283,6 +283,7 @@ public static class FaceAlgo
         var faces = sourceShape.Faces();
         TopoDS_Face bestMatch = null;
         double bestDistance = Double.MaxValue;
+        IntAna_IntConicQuad intersector = new();
 
         foreach (var face in faces)
         {
@@ -292,7 +293,11 @@ public static class FaceAlgo
             if (!facePlane.Axis.IsParallel(plane.Axis, 0.01))
                 continue;
 
-            var dist = facePlane.SquareDistance(plane);
+            intersector.Perform(new gp_Lin(plane.Axis), facePlane, Precision.Confusion());
+            if (!intersector.IsDone() || intersector.NbPoints() == 0)
+                continue;
+
+            var dist = plane.Location.SquareDistance(intersector.Point(1));
             if (dist >= bestDistance)
                 continue;
 
