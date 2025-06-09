@@ -128,12 +128,13 @@ public sealed class UnfoldSheet : ModifierBase
 
     //--------------------------------------------------------------------------------------------------
     
-    class PairOfEdges
+    class BendEdge(TopoDS_Edge edge, Ax1 axis, double angleRad, double radius)
     {
-        internal TopoDS_Edge Edge1;
-        internal TopoDS_Edge Edge2;
-        internal Ax1 Axis;
-        internal double AngleRad;
+        internal readonly TopoDS_Edge Edge = edge;
+        internal readonly List<TopoDS_Vertex> Vertices = edge.Vertices();
+        internal readonly Ax1 Axis = axis;
+        internal readonly double AngleRad = angleRad;
+        internal readonly double Radius = radius;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -287,7 +288,7 @@ public sealed class UnfoldSheet : ModifierBase
             }
 
             // Find pairs of circular edges with coaxial position and same angle
-            List<PairOfEdges> pairs = new();
+            List<BendEdge> bendEdges = new();
             foreach (var edge in edges)
             {
                 var edgeAdaptor = new BRepAdaptor_Curve(edge);
@@ -295,57 +296,69 @@ public sealed class UnfoldSheet : ModifierBase
                 {
                     Ax1 axis = edgeAdaptor.Circle().Position().Axis;
                     double angleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
-                    var partner = pairs.FirstOrDefault(param => (axis.IsCoaxial(param.Axis, 0.01f, 0.001f) || axis.IsCoaxial(param.Axis.Reversed(), 0.01f, 0.001f))
-                                                                && param.AngleRad.IsEqual(edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), 0.01));
-                    if (partner != null)
-                    {
-                        partner.Edge2 = edge;
-                    }
-                    else
-                    {
-                        PairOfEdges pair = new()
-                        {
-                            Edge1 = edge,
-                            Axis = axis,
-                            AngleRad = angleRad
-                        };
-                        pairs.Add(pair);
-                    }
+                    double radius = edgeAdaptor.Circle().Radius();
+                    bendEdges.Add(new BendEdge(edge, axis, angleRad, radius));
                 }
             }
 
-            var validPairs = pairs.Where(pair => pair.Edge1 != null && pair.Edge2 != null);
-            if (!validPairs.Any())
-            {
-                continue;
-            }
-
             List<TopoDS_Edge> splitEdges = new();
-            foreach (var pair in validPairs)
+            while(bendEdges.Count > 1)
             {
+                var curEdge = bendEdges[0];
+                bendEdges.RemoveAt(0);
+
+                Pnt p11 = curEdge.Vertices[0].Pnt();
+                Pnt p12 = curEdge.Vertices[1].Pnt();
+                Double maxDistance = double.MaxValue;
+                BendEdge partner = null;
+
+                // Find pair
+                foreach (var candidate in bendEdges)
+                {
+                    if (candidate.Radius.IsEqual(curEdge.Radius, 0.001f))
+                        continue;
+                    if (!candidate.AngleRad.IsEqual(curEdge.AngleRad, 0.01))
+                        continue;
+                    if (!candidate.Axis.IsCoaxial(curEdge.Axis, 0.01f, 0.001f) && !candidate.Axis.IsCoaxial(curEdge.Axis.Reversed(), 0.01f, 0.001f))
+                        continue;
+
+                    Pnt pCand1 = candidate.Vertices[0].Pnt();
+                    Pnt pCand2 = candidate.Vertices[1].Pnt();
+                    double distance = Math.Max(Math.Min(p11.SquareDistance(pCand1), p12.SquareDistance(pCand1)), 
+                                               Math.Min(p11.SquareDistance(pCand2), p12.SquareDistance(pCand2)));
+                    if (!distance.IsEqual(0.0, 0.001) && distance < maxDistance)
+                    {
+                        partner = candidate;
+                        maxDistance = distance;
+                    }
+                }
+
+                if (partner == null)
+                {
+                    // No partner found
+                    continue; 
+                }
+                bendEdges.Remove(partner);
+
                 // Find out which vertices to connect and create edges
                 // Since they are lying on concentric circles, we can just decide by distance
                 TopoDS_Edge cutEdge1;
                 TopoDS_Edge cutEdge2;
-                var vertices1 = pair.Edge1.Vertices();
-                var vertices2 = pair.Edge2.Vertices();
-                var p1 = vertices1[0].Pnt();
-                var p21 = vertices2[0].Pnt();
-                var p22 = vertices2[1].Pnt();
-                if (p1.IsEqual(p21, Precision.Confusion()) || p1.IsEqual(p22, Precision.Confusion()))
+                var p21 = partner.Vertices[0].Pnt();
+                if (p11.IsEqual(p21, Precision.Confusion()) || p12.IsEqual(p21, Precision.Confusion()))
                 {
                     // Coincident vertices, can not be a bend section
                     continue;
                 }
-                if (p1.SquareDistance(p21) < p1.SquareDistance(p22))
+                if (p11.SquareDistance(p21) < p12.SquareDistance(p21))
                 {
-                    cutEdge1 = new BRepBuilderAPI_MakeEdge(vertices1[0], vertices2[0]).Edge();
-                    cutEdge2 = new BRepBuilderAPI_MakeEdge(vertices1[1], vertices2[1]).Edge();
+                    cutEdge1 = new BRepBuilderAPI_MakeEdge(curEdge.Vertices[0], partner.Vertices[0]).Edge();
+                    cutEdge2 = new BRepBuilderAPI_MakeEdge(curEdge.Vertices[1], partner.Vertices[1]).Edge();
                 }
                 else
                 {
-                    cutEdge1 = new BRepBuilderAPI_MakeEdge(vertices1[0], vertices2[1]).Edge();
-                    cutEdge2 = new BRepBuilderAPI_MakeEdge(vertices1[1], vertices2[0]).Edge();
+                    cutEdge1 = new BRepBuilderAPI_MakeEdge(curEdge.Vertices[0], partner.Vertices[1]).Edge();
+                    cutEdge2 = new BRepBuilderAPI_MakeEdge(curEdge.Vertices[1], partner.Vertices[0]).Edge();
                 }
 
                 // Split face by new edges
