@@ -89,7 +89,7 @@ public static class TestData
         Assert.IsNotNull(referenceBytes, "Reference shape file not found.");
 
         var shape = 
-            Occt.Helper.BRepExchange.ReadASCII(referenceBytes) 
+            Occt.Helper.BRepExchange.ReadAscii(referenceBytes) 
             ?? Occt.Helper.BRepExchange.ReadBinary(referenceBytes);
         Assert.That(shape, Is.Not.Null);
 

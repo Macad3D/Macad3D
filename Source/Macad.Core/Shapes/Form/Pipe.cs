@@ -375,7 +375,7 @@ public class Pipe : ModifierBase
             {
                 builder.Add(compound, edge);
             }
-            File.WriteAllBytes(@"_Debug_PipeProfile.brep", BRepExchange.WriteASCII(compound, false));
+            File.WriteAllBytes(@"_Debug_PipeProfile.brep", BRepExchange.WriteAscii(compound, false));
         }
 
         BRepBuilderAPI_MakeWire wireMaker = new();

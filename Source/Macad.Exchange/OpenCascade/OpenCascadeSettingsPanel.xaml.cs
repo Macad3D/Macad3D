@@ -51,7 +51,19 @@ public partial class OpenCascadeSettingsPanel : SettingsPanelBase
 
     //--------------------------------------------------------------------------------------------------
 
-    OpenCascadeExchanger.BrepSettings _BrepSettings;
+    public bool ExportTriangulation
+    {
+        get { return _BrepSettings.ExportTriangulation; }
+        set
+        {
+            _BrepSettings.ExportTriangulation = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly OpenCascadeExchanger.BrepSettings _BrepSettings;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -64,7 +76,7 @@ public partial class OpenCascadeSettingsPanel : SettingsPanelBase
         _BrepSettings = brepSettings;
         ExportBinaryFormat = _BrepSettings.ExportBinaryFormat;
 
-        SetExportBinaryFormatCommand = new RelayCommand<bool>((b) => { ExportBinaryFormat = b; });
+        SetExportBinaryFormatCommand = new(b => { ExportBinaryFormat = b; });
 
         InitializeComponent();
     }

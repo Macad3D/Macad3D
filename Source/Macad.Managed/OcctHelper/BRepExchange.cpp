@@ -18,10 +18,14 @@ namespace Macad
 			public ref class BRepExchange
 			{
 			public:
-				static array<System::Byte>^ WriteASCII(Macad::Occt::TopoDS_Shape^ shape, bool includeTriangles)
+				static array<System::Byte>^ WriteAscii(Macad::Occt::TopoDS_Shape^ shape, bool includeTriangles)
 				{
-					std::stringstream out;
+					if (includeTriangles)
+					{
+						EnsureTriangulation(*shape->NativeInstance);
+					}
 
+					std::stringstream out;
 					::BRepTools_ShapeSet shapeSet;
 					shapeSet.SetWithTriangles(includeTriangles);
 					shapeSet.SetFormatNb(1);
@@ -39,7 +43,9 @@ namespace Macad
 					return nullptr;
 				}
 
-				static Macad::Occt::TopoDS_Shape^ ReadASCII(array<System::Byte>^ bytes)
+                //--------------------------------------------------------------------------------------------------
+
+				static Macad::Occt::TopoDS_Shape^ ReadAscii(array<System::Byte>^ bytes)
 				{
 					int length = bytes->Length;
 					auto buffer = new char[length];
@@ -58,10 +64,16 @@ namespace Macad
 					return gcnew Macad::Occt::TopoDS_Shape(shape);
 				}
 
+                //--------------------------------------------------------------------------------------------------
+
 				static array<System::Byte>^ WriteBinary(Macad::Occt::TopoDS_Shape^ shape, bool includeTriangles)
 				{
-					std::stringstream out;
+					if ( includeTriangles)
+					{
+						EnsureTriangulation(*shape->NativeInstance);
+					}
 
+					std::stringstream out;
 					::BinTools_ShapeSet shapeSet;
 					shapeSet.SetFormatNb(1);
 					shapeSet.SetWithTriangles(includeTriangles);
@@ -78,6 +90,8 @@ namespace Macad
 					}
 					return nullptr;
 				}
+
+                //--------------------------------------------------------------------------------------------------
 
 				static Macad::Occt::TopoDS_Shape^ ReadBinary(array<System::Byte>^ bytes)
 				{
@@ -96,6 +110,20 @@ namespace Macad
 					shapeSet.ReadSubs(*shape, in, shapeSet.NbShapes());
 
 					return gcnew Macad::Occt::TopoDS_Shape(shape);
+				}
+
+                //--------------------------------------------------------------------------------------------------
+
+				// Ensure that all shapes have a mesh
+				static bool EnsureTriangulation(::TopoDS_Shape& shape)
+				{
+					if (::BRepTools::Triangulation(shape, Precision::Infinite()) == Standard_False)
+					{
+						::BRepMesh_IncrementalMesh aMesher(shape, 0.1);
+						if (!aMesher.IsDone())
+							return false;
+					}
+					return true;
 				}
 			};
 		}

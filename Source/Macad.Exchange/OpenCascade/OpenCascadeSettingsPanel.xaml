@@ -15,6 +15,10 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
             
         <TextBlock Grid.Column="0" Text="File Format"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
@@ -27,5 +31,11 @@
                           IsChecked="{Binding ExportBinaryFormat, Converter={mmp:BoolToNotBoolConverter}}"
                           Command="{Binding SetExportBinaryFormatCommand}"
                           CommandParameter="false"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                  Margin="0,8,0,8"
+                  Content="Include Triangulation"
+                  IsChecked="{Binding ExportTriangulation}"/>
+
     </Grid>
 </mme:SettingsPanelBase>

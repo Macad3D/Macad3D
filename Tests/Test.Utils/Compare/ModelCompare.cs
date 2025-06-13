@@ -42,7 +42,7 @@ public static class ModelCompare
         Assert.IsNotNull(shape);
 
         // Save to BREP ASCII
-        var bytes = Occt.Helper.BRepExchange.WriteASCII(shape, flags.HasFlag(CompareFlags.SaveTriangulation));
+        var bytes = Occt.Helper.BRepExchange.WriteAscii(shape, flags.HasFlag(CompareFlags.SaveTriangulation));
         Assert.IsNotNull(bytes);
         Assert.IsNotEmpty(bytes);
 
@@ -73,7 +73,7 @@ public static class ModelCompare
 
         if (flags.HasFlag(CompareFlags.CompareProperties))
         {
-            var shape2 = Occt.Helper.BRepExchange.ReadASCII(referenceBytes);
+            var shape2 = Occt.Helper.BRepExchange.ReadAscii(referenceBytes);
 
             // Check transformation
             var trsf1 = shape.Location().Transformation();
@@ -123,7 +123,7 @@ public static class ModelCompare
     public static bool CompareShape2D(TopoDS_Shape shape, string brepFile)
     {
         // Save to BREP ASCII
-        var bytes = Occt.Helper.BRepExchange.WriteASCII(shape, false);
+        var bytes = Occt.Helper.BRepExchange.WriteAscii(shape, false);
         Assert.IsNotNull(bytes);
         Assert.IsNotEmpty(bytes);
 

@@ -15,7 +15,7 @@ public sealed class OpenCascadeExchanger : IBodyExporter, IBodyImporter
     #region Exchanger
 
     public string Description { get; } =  "OpenCASCADE BRep";
-    public string[] Extensions { get; } = {"brep", "brp"};
+    public string[] Extensions { get; } = ["brep", "brp"];
         
     //--------------------------------------------------------------------------------------------------
 
@@ -62,11 +62,14 @@ public sealed class OpenCascadeExchanger : IBodyExporter, IBodyImporter
     {
         [SerializeMember]
         public bool ExportBinaryFormat { get; set; }
+
+        [SerializeMember]
+        public bool ExportTriangulation { get; set; } = true;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public BrepSettings Settings { get; private set; } = new BrepSettings();
+    public BrepSettings Settings { get; private set; } = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -93,7 +96,9 @@ public sealed class OpenCascadeExchanger : IBodyExporter, IBodyImporter
                 builder.Add(compound, bodyShape);
             }
 
-            var bytes = Settings.ExportBinaryFormat ? BRepExchange.WriteBinary(compound, true) : BRepExchange.WriteASCII(compound, true);
+            var bytes = Settings.ExportBinaryFormat
+                ? BRepExchange.WriteBinary(compound, Settings.ExportTriangulation)
+                : BRepExchange.WriteAscii(compound, Settings.ExportTriangulation);
             if (bytes == null || bytes.Length == 0)
             {
                 Messages.Error("BRep Exporter: Error generating BRep from body shapes.");
@@ -125,7 +130,7 @@ public sealed class OpenCascadeExchanger : IBodyExporter, IBodyImporter
         {
             var bytes = File.ReadAllBytes(fileName);
             var occShape =
-                BRepExchange.ReadASCII(bytes)
+                BRepExchange.ReadAscii(bytes)
                 ?? BRepExchange.ReadBinary(bytes);
 
             if (occShape == null)
