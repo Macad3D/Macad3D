@@ -150,9 +150,14 @@ public static class ExchangeCommands
                         return;
                     }
 
+                    bool docWasEmpty = CoreContext.Current?.Document?.EntityCount == 0;
                     foreach (var newBody in newBodies)
                     {
                         CoreContext.Current?.Document?.Add(newBody);
+                    }
+                    if (docWasEmpty)
+                    {
+                        InteractiveContext.Current.ViewportController.ZoomFitAll();
                     }
 
                     Commit();
