@@ -9,7 +9,7 @@ namespace Macad.Core.Geom;
 /// <summary>
 /// Triangulates simple polygons (convex/concave, no holes) using
 /// the common Ear-Clipping algorithm. It works on a list of vertices
-/// and a ordered list of indices into the vertex list. The result
+/// and an ordered list of indices into the vertex list. The result
 /// is a list of indices for all triangles (3 indices per triangle).
 /// All triangles are returned in CCW order, regardless of the
 /// winding order of the polygon.
