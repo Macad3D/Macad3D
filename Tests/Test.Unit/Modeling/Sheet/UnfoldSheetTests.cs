@@ -308,4 +308,18 @@ public class UnfoldSheetTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void EllipticalSideEdge()
+    {
+        var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "EllipticalSideEdge_Source.brep"));
+        Assert.That(body, Is.Not.Null);
+
+        var unfold = UnfoldSheet.Create(body);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "EllipticalSideEdge")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
