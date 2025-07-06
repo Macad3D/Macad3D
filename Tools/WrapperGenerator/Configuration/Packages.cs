@@ -37,7 +37,7 @@ public partial class Configuration
         /* -- TKBO -- */
         /*"BOPCol", "BOPDS", "BOPTools", "IntTools",*/ "BOPAlgo", "BRepAlgoAPI",
         /* -- TKBool -- */
-        /*"BRepAlgo", "BRepFill", "BRepProj", "TopOpeBRep", "TopOpeBRepBuild", "TopOpeBRepDS", "TopOpeBRepTool",*/
+        /*"BRepAlgo",*/ "BRepFill", /*"BRepProj", "TopOpeBRep", "TopOpeBRepBuild", "TopOpeBRepDS", "TopOpeBRepTool",*/
         /* -- TKFeat -- */
         /*"LocOpe", */ "BRepFeat",
         /* -- TKShHealing -- */

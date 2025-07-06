@@ -17,10 +17,10 @@ namespace Macad.Core.Geom;
 /// bends, starting with the section to which the start face is assigned.
 ///
 /// To recognise a bend section, it must have the following structure:
-/// - Four faces, two of them planar(side faces) and two of them cylinder(top/bottom)
-/// - All edges connecting these four faces must be circular
-/// - All circles must have coaxial axes with only two different positions
-/// - All circles must have one of two radii
+/// - Four faces, two of them cylinder (top/bottom), two of them planar, bezier or bspline (side faces)
+/// - All edges connecting these four faces must be a circular or elliptical arc
+/// - The circles (projections in case of elliptical arc) of all edges must have coaxial axes with only two different positions
+/// - The curves of all edges must have one of two radii (minor radius for elliptical arc)
 ///
 /// This class is particularly useful for applications involving sheet metal design or similar domains
 /// where bend sections are a key feature.
@@ -67,7 +67,7 @@ public class BendAnalyzer
     /// Identifies and analyzes bend sections within the specified shape, starting from the given face.
     /// </summary>
     /// <remarks>This method performs a topology analysis on the provided shape to identify bend sections. If
-    /// the <paramref name="flags"/> parameter includes <see cref="Flags.PrepareShape"/>, the shape will be preprocessed
+    /// the parameter includes <see cref="Flags.PrepareShape"/>, the shape will be preprocessed
     /// to split side faces before analysis.</remarks>
     /// <param name="shape">The shape to analyze for bend sections. Cannot be <see langword="null"/>.</param>
     /// <param name="startFace">The face from which the analysis begins. Cannot be <see langword="null"/>.</param>
@@ -116,13 +116,20 @@ public class BendAnalyzer
 
     #region Split Side Faces
 
-    class BendEdge(TopoDS_Edge edge, Ax1 axis, double angleRad, double radius)
+    // ReSharper disable once TypeWithSuspiciousEqualityIsUsedInRecord.Local
+    record SideEdgeDescription(List<TopoDS_Vertex> Vertices, EdgeDescription Description);
+
+    //--------------------------------------------------------------------------------------------------
+    
+    SideEdgeDescription _CreateSideEdgeDescription(TopoDS_Edge edge)
     {
-        internal readonly TopoDS_Edge Edge = edge;
-        internal readonly List<TopoDS_Vertex> Vertices = edge.Vertices();
-        internal readonly Ax1 Axis = axis;
-        internal readonly double AngleRad = angleRad;
-        internal readonly double Radius = radius;
+        var edgeAdaptor = new BRepAdaptor_Curve(edge);
+        GeomAbs_CurveType curveType = edgeAdaptor.GetCurveType();
+        if (!_IsSupported(curveType))
+        {
+            return null;
+        }
+        return new(edge.Vertices(), EdgeDescription.Create(edgeAdaptor));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -151,21 +158,18 @@ public class BendAnalyzer
             var edges = BRepTools.OuterWire(face).Edges();
             if (edges.Count <= 4)
             {
-                // Faces with 4 edges will never be part of a unified face
+                // Faces with 4 edges is the minimum for a bend side face
                 continue;
             }
 
             // Find pairs of circular edges with coaxial position and same angle
-            List<BendEdge> bendEdges = new();
+            List<SideEdgeDescription> bendEdges = new();
             foreach (var edge in edges)
             {
-                var edgeAdaptor = new BRepAdaptor_Curve(edge);
-                if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
+                var edgeDesc = _CreateSideEdgeDescription(edge);
+                if(edgeDesc != null)
                 {
-                    Ax1 axis = edgeAdaptor.Circle().Position().Axis;
-                    double angleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
-                    double radius = edgeAdaptor.Circle().Radius();
-                    bendEdges.Add(new BendEdge(edge, axis, angleRad, radius));
+                    bendEdges.Add(edgeDesc);
                 }
             }
 
@@ -178,16 +182,12 @@ public class BendAnalyzer
                 Pnt p11 = curEdge.Vertices[0].Pnt();
                 Pnt p12 = curEdge.Vertices[1].Pnt();
                 Double maxDistance = double.MaxValue;
-                BendEdge partner = null;
+                SideEdgeDescription partner = null;
 
                 // Find pair
                 foreach (var candidate in bendEdges)
                 {
-                    if (candidate.Radius.IsEqual(curEdge.Radius, 0.001f))
-                        continue;
-                    if (!candidate.AngleRad.IsEqual(curEdge.AngleRad, 0.01))
-                        continue;
-                    if (!candidate.Axis.IsCoaxial(curEdge.Axis, 0.01f, 0.001f) && !candidate.Axis.IsCoaxial(curEdge.Axis.Reversed(), 0.01f, 0.001f))
+                    if (candidate.Description.CanShareBend(curEdge.Description) != SurfaceType.Side)
                         continue;
 
                     Pnt pCand1 = candidate.Vertices[0].Pnt();
@@ -209,7 +209,7 @@ public class BendAnalyzer
                 bendEdges.Remove(partner);
 
                 // Find out which vertices to connect and create edges
-                // Since they are lying on concentric circles, we can just decide by distance
+                // Since they are lying on concentric circles or ellipses, we can just decide by distance
                 TopoDS_Edge cutEdge1;
                 TopoDS_Edge cutEdge2;
                 var p21 = partner.Vertices[0].Pnt();
@@ -353,7 +353,7 @@ public class BendAnalyzer
         public double OuterRadius;
 
         /// <summary>
-        /// The angle of the circle sections in radians.
+        /// The angle of the bend section in radians.
         /// </summary>
         public double AngleRad;
     }
@@ -526,16 +526,18 @@ public class BendAnalyzer
         bendParams.Faces[0] = baseFace;
 
         if (!_IsFaceOfBendSection(baseFace, bendParams))
+        {
             return false;
+        }
 
         // Check surface type
         var faceSurfaceType = new BRepAdaptor_Surface(baseFace).GetSurfaceType();
-        if (_IsSideSurfaceTypeSupported(faceSurfaceType))
+        if (_IsSupported(faceSurfaceType, SurfaceType.Side))
         {
             // Ignore them for the moment, but sign them as bend section face
             return true;
         }
-        if (!_IsBendSurfaceTypeSupported(faceSurfaceType))
+        if (!_IsSupported(faceSurfaceType, SurfaceType.Bend))
         {
             return false;
         }
@@ -591,7 +593,7 @@ public class BendAnalyzer
         var pnt1 = bendParams.Axis.Location.Translated(bendParams.Axis.XDirection.ToVec() * bendParams.OuterRadius);
         if (!(edgeAdaptor.Line().Contains(pnt0, 0.000001) || edgeAdaptor.Line().Contains(pnt1, 0.000001)))
         {
-            bendParams.Axis.Rotate(bendParams.Axis.Axis, bendParams.AngleRad);
+            bendParams.Axis.Rotate(bendParams.Axis.Axis, bendParams.AngleRad + Maths.PI);
             bendParams.AngleRad *= -1;
         }
 
@@ -624,27 +626,32 @@ public class BendAnalyzer
 
     /*
      * The four edges of a bend section are always circular or elliptical, we get four different
-     * circles. Two of the circles share the same axis, each of them share the same radii with
-     * one of the other two circles.
+     * ovals. Two of the ovals share the same axis, each of them share the same radii with
+     * one of the other two ovals.
      */
     bool _IsFaceOfBendSection(TopoDS_Face face, BendParameter bendParams)
     {
+        if (face == null)
+        {
+            return false;
+        }
+
         bendParams ??= new BendParameter(); // If not give, create temporary
 
-        // Each face of a bend section has two circular edges
+        // Each face of a bend section has two oval edges
         var edges = BRepTools.OuterWire(face).Edges();
         var foundArcEdges = 0;
         var faceSurfaceType = face.Adaptor().GetSurfaceType();
-        bool isSideFace = _IsSideSurfaceTypeSupported(faceSurfaceType);
-        if (!isSideFace && !_IsBendSurfaceTypeSupported(faceSurfaceType))
+        bool isSideFace = _IsSupported(faceSurfaceType, SurfaceType.Side);
+        if (!isSideFace && !_IsSupported(faceSurfaceType, SurfaceType.Bend))
         {
             return false; // Not support yet
         }
 
-        double firstRadius = 0;
+        EdgeDescription firstEdgeDesc = null;
         foreach (var edge in edges)
         {
-            var edgeDesc = _CreateEdgeDescription(edge);
+            var edgeDesc = EdgeDescription.Create(edge);
             if (edgeDesc == null)
             {
                 continue;
@@ -653,31 +660,27 @@ public class BendAnalyzer
             foundArcEdges++;
             if (foundArcEdges == 1)
             {
-                firstRadius = edgeDesc.Radius;
+                firstEdgeDesc = edgeDesc;
             }
 
             if (bendParams.Edges[0] == null)
             {
                 bendParams.Edges[0] = edge;
-                bendParams.Axis = edgeDesc.Axis;
                 bendParams.InnerRadius = edgeDesc.Radius;
                 bendParams.AngleRad = edgeDesc.ArcAngleRad;
+                firstEdgeDesc = edgeDesc;
             }
             else
             {
-                if (!(bendParams.Axis.Axis.IsCoaxial(edgeDesc.Axis.Axis, 0.01, 0.001) || bendParams.Axis.Axis.IsCoaxial(edgeDesc.Axis.Axis.Reversed(), 0.01, 0.001))
-                    || !bendParams.AngleRad.IsEqual(edgeDesc.ArcAngleRad, 0.01))
+                SurfaceType surfaceType = firstEdgeDesc.CanShareBend(edgeDesc);
+                if(surfaceType == SurfaceType.None)
                 {
                     return false; // Edge with unproper parameters detected
                 }
 
                 if (foundArcEdges == 2)
                 {
-                    // Side faces must have different radius
-                    if (isSideFace && firstRadius.IsEqual(edgeDesc.Radius, 0.001))
-                        return false;
-                    // Top/bottom faces must have equal radius
-                    if (!isSideFace && !firstRadius.IsEqual(edgeDesc.Radius, 0.001))
+                    if (isSideFace != (surfaceType == SurfaceType.Side))
                         return false;
                 }
 
@@ -685,6 +688,11 @@ public class BendAnalyzer
                 {
                     // Second edge of bend surface
                     bendParams.Edges[1] = edge;
+                    if (!isSideFace)
+                    {
+                        Dir direction = new Vec(firstEdgeDesc.Location, edgeDesc.Location).ToDir();
+                        bendParams.Axis = firstEdgeDesc.GetAxisForDirection(direction);
+                    }
                     break;
                 }
 
@@ -698,7 +706,9 @@ public class BendAnalyzer
                     }
 
                     if (bendParams.Edges[edgeIndex].IsSame(edge))
+                    {
                         break;
+                    }
                 }
 
                 // If radius is different, take it as the second radius
@@ -738,7 +748,7 @@ public class BendAnalyzer
         Pnt refPnt = sharedEdge.Vertices()[0].Pnt();
         double otherSharedEdgeDistance = double.MaxValue;
         TopoDS_Edge otherSharedEdge = null;
-        foreach (var edge in bendParams.Faces[3].Edges().Where(edge => !_IsBendCurveTypeSupported(edge.Adaptor().GetCurveType())))
+        foreach (var edge in bendParams.Faces[3].Edges().Where(edge => !_IsSupported(edge.Adaptor().GetCurveType())))
         {
             foreach (var vertex in edge.Vertices())
             {
@@ -770,76 +780,112 @@ public class BendAnalyzer
 
     #endregion
 
-    #region Support functions
+    #region Classification functions
 
-    bool _IsBendSurfaceTypeSupported(GeomAbs_SurfaceType surfaceType)
+    enum SurfaceType
     {
-        return surfaceType is GeomAbs_SurfaceType.Cylinder;
+        Bend,
+        Side,
+        None
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    bool _IsSideSurfaceTypeSupported(GeomAbs_SurfaceType surfaceType)
+    bool _IsSupported(GeomAbs_SurfaceType geomSurfaceType, SurfaceType surfaceType)
     {
-        return surfaceType is GeomAbs_SurfaceType.Plane 
-                           or GeomAbs_SurfaceType.BSplineSurface 
-                           or GeomAbs_SurfaceType.BezierSurface;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    bool _IsBendCurveTypeSupported(GeomAbs_CurveType curveType)
-    {
-        return curveType is GeomAbs_CurveType.Circle
-                         or GeomAbs_CurveType.Ellipse;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    record EdgeDescription(Ax2 Axis, double Radius, double ArcAngleRad)
-    {
-        public readonly Ax2 Axis = Axis;
-        public readonly double Radius = Radius;
-        public readonly double ArcAngleRad = ArcAngleRad;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    EdgeDescription _CreateEdgeDescription(TopoDS_Edge edge)
-    {
-        var edgeAdaptor = new BRepAdaptor_Curve(edge);
-
-        if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
+        switch (surfaceType)
         {
-            gp_Circ circle = edgeAdaptor.Circle();
-            var axis = circle.Position();
-            axis.Rotate(axis.Axis, edgeAdaptor.FirstParameter());
-            var radius = circle.Radius();
-            var arcAngleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
-            return new(axis, radius, arcAngleRad);
+            case SurfaceType.Bend:
+                return geomSurfaceType is GeomAbs_SurfaceType.Cylinder;
+
+            case SurfaceType.Side:
+                return geomSurfaceType is GeomAbs_SurfaceType.Plane
+                    or GeomAbs_SurfaceType.BSplineSurface
+                    or GeomAbs_SurfaceType.BezierSurface;
         }
+        return false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    bool _IsSupported(GeomAbs_CurveType geomCurveType)
+    {
+        return geomCurveType is GeomAbs_CurveType.Circle
+            or GeomAbs_CurveType.Ellipse;
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+
+    record EdgeDescription(Pnt Location, double Radius, double ArcAngleRad, Ax2[] Axes)
+    {
+        internal static EdgeDescription Create(TopoDS_Edge edge)
+        {
+            return Create(new BRepAdaptor_Curve(edge));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        internal static EdgeDescription Create(BRepAdaptor_Curve edgeAdaptor)
+        {
+            switch (edgeAdaptor.GetCurveType())
+            {
+                case GeomAbs_CurveType.Circle:
+                    gp_Circ circle = edgeAdaptor.Circle();
+                    var axis = circle.Position();
+                    axis.Rotate(axis.Axis, edgeAdaptor.FirstParameter());
+                    return new(axis.Location, circle.Radius(), edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), [axis]);
+
+                case GeomAbs_CurveType.Ellipse:
+                    gp_Elips ellipse = edgeAdaptor.Ellipse();
+                    var ellipseAxis = ellipse.Position();
+
+                    // Get normal of a plane on which the ellipse get a circle, this is our bend axis
+                    // There are two valid solutions. As we cannot decide which is the right one,
+                    // take both and compare to the bend axis calculated by the locations later.
+                    double theta = Math.Acos(ellipse.MinorRadius() / ellipse.MajorRadius());
+                    Ax2 axis1 = ellipseAxis.Rotated(new(ellipseAxis.Location, ellipseAxis.YDirection), theta);
+                    axis1.Rotate(axis1.Axis, edgeAdaptor.FirstParameter());
+                    Ax2 axis2 = ellipseAxis.Rotated(new(ellipseAxis.Location, ellipseAxis.YDirection), -theta);
+                    axis2.Rotate(axis2.Axis, edgeAdaptor.FirstParameter());
+                    return new(ellipseAxis.Location, ellipse.MinorRadius(), edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter(), [axis1, axis2]);
+
+                default:
+                    return null;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        internal Ax2 GetAxisForDirection(Dir direction)
+        {
+            for (int i = 1; i < Axes.Length; i++)
+            {
+                if (direction.IsParallel(Axes[i].Direction, 0.01))
+                    return Axes[i];
+            }
+            return Axes[0];
+        }
+
+        //--------------------------------------------------------------------------------------------------
         
-        if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Ellipse)
+        internal SurfaceType CanShareBend(EdgeDescription other)
         {
-            gp_Elips ellipse = edgeAdaptor.Ellipse();
-            var radius = ellipse.MinorRadius();
-            var arcAngleRad = edgeAdaptor.LastParameter() - edgeAdaptor.FirstParameter();
-            var axis = ellipse.Position();
-
-            // Get normal of a plane on which the ellipse get a circle, this is our bend axis
-            double theta = Math.Acos(ellipse.MinorRadius() / ellipse.MajorRadius());
-            Quaternion quat = new(axis.YDirection.ToVec(), theta);
-            Dir normal = quat.Multiply(axis.Direction.ToVec()).ToDir();
-            Ax2 circAxis = new Ax2(axis.Location, normal, normal.Crossed(axis.YDirection));
-            circAxis.Rotate(axis.Axis, edgeAdaptor.FirstParameter());
-
-            return new(circAxis, radius, arcAngleRad);
+            if (!ArcAngleRad.IsEqual(other.ArcAngleRad, 0.01))
+            {
+                return SurfaceType.None;
+            }
+            if (!Axes.Any(axis1 => other.Axes.Any(axis2 => axis1.Axis.IsCoaxial(axis2.Axis, 0.01, 0.001)
+                                                                 || axis1.Axis.IsCoaxial(axis2.Axis.Reversed(), 0.01, 0.001))))
+            {
+                return SurfaceType.None;
+            }
+            return Radius.IsEqual(other.Radius, 0.0001) ? SurfaceType.Bend : SurfaceType.Side;
         }
-
-        return null;
     }
 
     //--------------------------------------------------------------------------------------------------
+
 
     #endregion
 }

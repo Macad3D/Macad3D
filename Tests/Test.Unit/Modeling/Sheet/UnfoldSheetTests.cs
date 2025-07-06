@@ -1,11 +1,11 @@
-﻿using System.IO;
-using System.Linq;
-using Macad.Test.Utils;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Linq;
 
 namespace Macad.Test.Unit.Modeling.Sheet;
 
@@ -292,7 +292,6 @@ public class UnfoldSheetTests
     [TestCase("Crimp")]
     [TestCase("DoubleBendSection")]
     [TestCase("Slotted", Explicit = true)] // Not supported yet
-    [TestCase("SkewBend", Explicit = true)] // Not supported yet
     public void ImportedCases(string caseName)
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, $"Imported{caseName}_Source.brep"));
@@ -322,4 +321,43 @@ public class UnfoldSheetTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void EllipticalNonplanarUnified()
+    {
+        var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "EllipticalNonplanarUnified_Source.brep"));
+        Assert.That(body, Is.Not.Null);
+        var solidShape = body.Shape;
+
+        var unfold = UnfoldSheet.Create(body, solidShape.GetSubshapeReference(SubshapeType.Face, 21));
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "EllipticalNonplanarUnified1")));
+
+        unfold.StartFace = solidShape.GetSubshapeReference(SubshapeType.Face, 15);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "EllipticalNonplanarUnified2")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultipleSolids()
+    {
+        var body1 = TestData.GetBodyFromBRep(Path.Combine(_BasePath, @"..\FlangeSheet\Simple.brep"));
+        var body2 = TestData.GetBodyFromBRep(Path.Combine(_BasePath, @"..\FlangeSheet\Simple.brep"));
+        body2.Position = new(0, 30, 0);
+        BooleanFuse.Create(body1, new BodyShapeOperand(body2));
+        Assert.That(body1.Shape.GetBRep().Solids().Count, Is.EqualTo(2));
+
+        var unfold = UnfoldSheet.Create(body1);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "MultipleSolids1")));
+
+        unfold.StartFace = (unfold.Predecessor as Shape).GetSubshapeReference(SubshapeType.Face, 14);
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "MultipleSolids2")));
+    }
 }

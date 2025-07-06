@@ -14,6 +14,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BRepBuilderAPI.h"
 #include "Geom.h"
 #include "GeomAbs.h"
+#include "BRepFill.h"
 #include "BRepOffset.h"
 
 
@@ -818,6 +819,13 @@ Macad::Occt::BRepOffsetAPI_MakeEvolved::BRepOffsetAPI_MakeEvolved(Macad::Occt::T
     _NativeInstance = new ::BRepOffsetAPI_MakeEvolved(*(::TopoDS_Shape*)theSpine->NativeInstance, *(::TopoDS_Wire*)theProfile->NativeInstance, GeomAbs_Arc, true, false, false, 9.9999999999999995E-8, false, false);
 }
 
+Macad::Occt::BRepFill_Evolved^ Macad::Occt::BRepOffsetAPI_MakeEvolved::Evolved()
+{
+    ::BRepFill_Evolved* _result = new ::BRepFill_Evolved();
+    *_result = (::BRepFill_Evolved)((::BRepOffsetAPI_MakeEvolved*)_NativeInstance)->Evolved();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepFill_Evolved(_result);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeEvolved::Build(Macad::Occt::Message_ProgressRange^ theRange)
 {
     ((::BRepOffsetAPI_MakeEvolved*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
@@ -1322,6 +1330,13 @@ Macad::Occt::BRepOffsetAPI_MakePipe::BRepOffsetAPI_MakePipe(Macad::Occt::TopoDS_
     _NativeInstance = new ::BRepOffsetAPI_MakePipe(*(::TopoDS_Wire*)Spine->NativeInstance, *(::TopoDS_Shape*)Profile->NativeInstance);
 }
 
+Macad::Occt::BRepFill_Pipe^ Macad::Occt::BRepOffsetAPI_MakePipe::Pipe()
+{
+    ::BRepFill_Pipe* _result = new ::BRepFill_Pipe();
+    *_result = (::BRepFill_Pipe)((::BRepOffsetAPI_MakePipe*)_NativeInstance)->Pipe();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepFill_Pipe(_result);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakePipe::Build(Macad::Occt::Message_ProgressRange^ theRange)
 {
     ((::BRepOffsetAPI_MakePipe*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
@@ -1409,6 +1424,11 @@ bool Macad::Occt::BRepOffsetAPI_MakePipeShell::SetMode(Macad::Occt::TopoDS_Shape
 {
     bool _result = ((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->SetMode(*(::TopoDS_Shape*)SpineSupport->NativeInstance);
     return _result;
+}
+
+void Macad::Occt::BRepOffsetAPI_MakePipeShell::SetMode(Macad::Occt::TopoDS_Wire^ AuxiliarySpine, bool CurvilinearEquivalence, Macad::Occt::BRepFill_TypeOfContact KeepContact)
+{
+    ((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->SetMode(*(::TopoDS_Wire*)AuxiliarySpine->NativeInstance, CurvilinearEquivalence, (::BRepFill_TypeOfContact)KeepContact);
 }
 
 void Macad::Occt::BRepOffsetAPI_MakePipeShell::SetMode(Macad::Occt::TopoDS_Wire^ AuxiliarySpine, bool CurvilinearEquivalence)
@@ -1937,6 +1957,12 @@ bool Macad::Occt::BRepOffsetAPI_ThruSections::IsMutableInput()
 {
     bool _result = ((::BRepOffsetAPI_ThruSections*)_NativeInstance)->IsMutableInput();
     return _result;
+}
+
+Macad::Occt::BRepFill_ThruSectionErrorStatus Macad::Occt::BRepOffsetAPI_ThruSections::GetStatus()
+{
+    ::BRepFill_ThruSectionErrorStatus _result = ((::BRepOffsetAPI_ThruSections*)_NativeInstance)->GetStatus();
+    return (Macad::Occt::BRepFill_ThruSectionErrorStatus)_result;
 }
 
 

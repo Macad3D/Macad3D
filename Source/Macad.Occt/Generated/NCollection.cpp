@@ -13,6 +13,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BRep.h"
 #include "TopTools.h"
 #include "BRepCheck.h"
+#include "BRepFill.h"
 #include "Graphic3d.h"
 #include "PrsMgr.h"
 #include "SelectMgr.h"

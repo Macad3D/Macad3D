@@ -8,6 +8,12 @@ namespace Macad.Core.Geom;
 
 public static class TopoUtils
 {
+    /// <summary>
+    /// Creates a 3D edge from a 2D curve and a plane.
+    /// </summary>
+    /// <param name="curve2d">The 2D curve to be converted into a 3D edge.</param>
+    /// <param name="plane">The plane used to define the spatial context for the 2D curve.</param>
+    /// <returns>A 3D edge constructed from the specified 2D curve and plane.</returns>
     public static TopoDS_Edge MakeEdge(Geom2d_Curve curve2d, Pln plane)
     {
         var curve = GeomAPI.To3d(curve2d, plane);
@@ -18,6 +24,15 @@ public static class TopoUtils
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Creates a face from a set of four points.
+    /// </summary>
+    /// <remarks>This method attempts to create a planar face using the provided points. If the planar face
+    /// creation fails, it falls back to constructing a B-spline surface. The points must define a closed wire, with
+    /// the last point connecting back to the first.</remarks>
+    /// <param name="points">An array of four points representing the vertices of the face. The points must be provided in sequential order,
+    /// forming a closed wire.</param>
+    /// <returns>The constructed face.</returns>
     public static TopoDS_Face MakeFace(Pnt[] points)
     {
         Debug.Assert(points.Length == 4);
@@ -29,7 +44,15 @@ public static class TopoUtils
         }
 
         var wire = new BRepBuilderAPI_MakeWire(edges[0], edges[1], edges[2], edges[3]).Wire();
-        return new BRepBuilderAPI_MakeFace(wire).Face();
+        BRepBuilderAPI_MakeFace makeFace = new(wire);
+        if (makeFace.IsDone())
+        {
+            return makeFace.Face();
+        }
+
+        // Making planar face failed, try making b-spline surface
+        edges[2].Orientation(TopAbs_Orientation.REVERSED);
+        return BRepFill.Face(edges[0], edges[2].ToEdge());
     }
 
     //--------------------------------------------------------------------------------------------------

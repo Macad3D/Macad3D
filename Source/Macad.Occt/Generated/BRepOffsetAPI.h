@@ -898,7 +898,7 @@ public:
     /// See description to this class for detailed information.
     /// </summary>
     BRepOffsetAPI_MakeEvolved(Macad::Occt::TopoDS_Shape^ theSpine, Macad::Occt::TopoDS_Wire^ theProfile);
-    /* Method skipped due to unknown mapping: BRepFill_Evolved Evolved() */
+    Macad::Occt::BRepFill_Evolved^ Evolved();
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
     /// </summary>
@@ -2209,7 +2209,7 @@ public:
     BRepOffsetAPI_MakePipe(Macad::Occt::TopoDS_Wire^ Spine, Macad::Occt::TopoDS_Shape^ Profile);
     /* Method skipped due to unknown mapping: void BRepOffsetAPI_MakePipe(TopoDS_Wire Spine, TopoDS_Shape Profile, GeomFill_Trihedron aMode, bool ForceApproxC1, ) */
     /* Method skipped due to unknown mapping: void BRepOffsetAPI_MakePipe(TopoDS_Wire Spine, TopoDS_Shape Profile, GeomFill_Trihedron aMode, bool ForceApproxC1, ) */
-    /* Method skipped due to unknown mapping: BRepFill_Pipe Pipe() */
+    Macad::Occt::BRepFill_Pipe^ Pipe();
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
     /// </summary>
@@ -2322,7 +2322,37 @@ public:
     /// have a representation on one face of<SpineSupport>
     /// </summary>
     bool SetMode(Macad::Occt::TopoDS_Shape^ SpineSupport);
-    /* Method skipped due to unknown mapping: void SetMode(TopoDS_Wire AuxiliarySpine, bool CurvilinearEquivalence, BRepFill_TypeOfContact KeepContact, ) */
+    /// <summary>
+    /// Sets  an  auxiliary  spine  to  define  the Normal
+    /// For  each  Point  of  the  Spine  P,  an  Point  Q  is  evalued
+    /// on  <AuxiliarySpine>
+    /// If <CurvilinearEquivalence>
+    /// Q split <AuxiliarySpine> with  the  same  length ratio
+    /// than P split  <Spline>.
+    /// Else  the  plan  define  by  P  and  the  tangent  to  the  <Spine>
+    /// intersect <AuxiliarySpine> in Q.
+    /// If <KeepContact> equals BRepFill_NoContact: The Normal is defined
+    /// by the vector PQ.
+    /// If <KeepContact> equals BRepFill_Contact: The Normal is defined to
+    /// achieve that the sweeped section is in contact to the
+    /// auxiliarySpine. The width of section is constant all along the path.
+    /// In other words, the auxiliary spine lies on the swept surface,
+    /// but not necessarily is a boundary of this surface. However,
+    /// the auxiliary spine has to be close enough to the main spine
+    /// to provide intersection with any section all along the path.
+    /// If <KeepContact> equals BRepFill_ContactOnBorder: The auxiliary spine
+    /// becomes a boundary of the swept surface and the width of section varies
+    /// along the path.
+    /// Give section to sweep.
+    /// Possibilities are :
+    /// - Give one or several section
+    /// - Give one profile and an homotetic law.
+    /// - Automatic compute of correspondence between spine, and section
+    /// on the sweeped shape
+    /// - correspondence between spine, and section on the sweeped shape
+    /// defined by a vertex of the spine
+    /// </summary>
+    void SetMode(Macad::Occt::TopoDS_Wire^ AuxiliarySpine, bool CurvilinearEquivalence, Macad::Occt::BRepFill_TypeOfContact KeepContact);
     /// <summary>
     /// Sets  an  auxiliary  spine  to  define  the Normal
     /// For  each  Point  of  the  Spine  P,  an  Point  Q  is  evalued
@@ -3435,7 +3465,10 @@ public:
     /// Returns the current mutable input state
     /// </summary>
     bool IsMutableInput();
-    /* Method skipped due to unknown mapping: BRepFill_ThruSectionErrorStatus GetStatus() */
+    /// <summary>
+    /// Returns the status of thrusection operation
+    /// </summary>
+    Macad::Occt::BRepFill_ThruSectionErrorStatus GetStatus();
 }; // class BRepOffsetAPI_ThruSections
 
 }; // namespace Occt

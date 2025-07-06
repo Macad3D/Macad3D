@@ -207,20 +207,44 @@ public sealed class UnfoldSheet : ModifierBase
 
         context.Sewer.Perform();
         var sewedShape = context.Sewer.SewedShape();
-        if (sewedShape.ShapeType() == TopAbs_ShapeEnum.SHELL
-            && context.Sewer.NbFreeEdges() == 0)
+        if (sewedShape.ShapeType() != TopAbs_ShapeEnum.SHELL
+            || context.Sewer.NbFreeEdges() != 0)
         {
-            var makeSolid = new BRepBuilderAPI_MakeSolid(sewedShape.ToShell());
-            if (makeSolid.IsDone())
-            {
-                context.ResultShape = makeSolid.Solid();
-                return true;
-            }
+            Messages.Error("Resulting faces could not be sewn.");
+            return false;
         }
 
-        Messages.Error("Resulting faces could not be sewn to a solid.");
-        context.ResultShape = sewedShape;
-        return false;
+        var makeSolid = new BRepBuilderAPI_MakeSolid(sewedShape.ToShell());
+        if (!makeSolid.IsDone())
+        {
+            Messages.Error("Resulting faces does not sew to a solid.");
+            return false;
+        }
+        context.ResultShape = makeSolid.Solid();
+
+        // If we have multiple solids, merge the others (not unbent)
+        var sourceSolids = context.SourceShape.Solids();
+        if (sourceSolids.Count > 1)
+        {
+            TopoDS_Compound compound = new();
+            TopoDS_Builder builder = new();
+            builder.MakeCompound(compound);
+
+            foreach (var solid in sourceSolids)
+            {
+                if (solid.Faces().ContainsSame(context.StartFace))
+                {
+                    builder.Add(compound, context.ResultShape);
+                }
+                else
+                {
+                    builder.Add(compound, solid);
+                }
+            }
+            context.ResultShape = compound;
+        }
+
+        return true;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -235,10 +259,12 @@ public sealed class UnfoldSheet : ModifierBase
             var thickness = section.BendParameter.InnerRadius.Distance(section.BendParameter.OuterRadius).Abs();
             var radius = Math.Min(section.BendParameter.InnerRadius, section.BendParameter.OuterRadius);
             var kfac = (0.65 + 0.5 * Math.Log10(radius / thickness)).Clamp(0.0, 1.0);
-            var bendAllowance = (radius + thickness * 0.5 * kfac) * section.BendParameter.AngleRad;
+            var bendAllowance = (radius + thickness * 0.5 * kfac) * section.BendParameter.AngleRad.Abs();
             if (context.DebugOutput)
             {
-                Messages.Trace($"The bend section has following parameters: thickness {thickness} radius {radius} kfactor {kfac} angle {section.BendParameter.AngleRad} bend allowance {bendAllowance}.");
+                Messages.Trace($"The bend section has following parameters:");
+                Messages.Trace($"thickness {thickness} radius {radius} kfactor {kfac} angle {section.BendParameter.AngleRad} bend allowance {bendAllowance}.");
+                Messages.Trace($"axis {section.BendParameter.Axis}.");
             }
 
             // Create transform for connected sections
@@ -260,7 +286,9 @@ public sealed class UnfoldSheet : ModifierBase
                 {
                     var bendEdges = bendFace.Edges().Where(edge => section.BendParameter.Edges.ContainsSame(edge)).GetEnumerator();
                     if (!bendEdges.MoveNext())
+                    {
                         return false;
+                    }
                     var bendVtcs = bendEdges.Current.Vertices().Select(vtx => vtx.Pnt()).ToArray();
                     if (inVtcs.Contains(bendVtcs[0]))
                     {
@@ -274,7 +302,9 @@ public sealed class UnfoldSheet : ModifierBase
                     }
 
                     if (!bendEdges.MoveNext())
+                    {
                         return false;
+                    }
                     bendVtcs = bendEdges.Current.Vertices().Select(vtx => vtx.Pnt()).ToArray();
                     if (inVtcs.Contains(bendVtcs[0]))
                     {
@@ -291,7 +321,11 @@ public sealed class UnfoldSheet : ModifierBase
                     faceVtcs[1].Transform(newTransform);
                     faceVtcs[2].Transform(newTransform);
                     faceVtcs[3].Transform(transform);
-                    context.Sewer.Add(TopoUtils.MakeFace(faceVtcs));
+                    var face = TopoUtils.MakeFace(faceVtcs);
+                    if (face != null)
+                    {
+                        context.Sewer.Add(face);
+                    }
                 }
 
                 transform = newTransform;

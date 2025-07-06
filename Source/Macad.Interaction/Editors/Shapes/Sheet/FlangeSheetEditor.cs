@@ -1,5 +1,4 @@
-﻿using System;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;

@@ -441,6 +441,9 @@
     <ClInclude Include="Extensions\TopoDS_Ex.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="Generated\BRepFill.h">
+      <Filter>Generated\ModelingAlgorithms\TKBool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -764,6 +767,9 @@
     </ClCompile>
     <ClCompile Include="Extensions\TopoDS_Ex.cpp">
       <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepFill.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKBool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
