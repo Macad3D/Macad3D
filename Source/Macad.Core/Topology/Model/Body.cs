@@ -67,9 +67,13 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
             {
                 SaveTopologyUndo();
                 _RootShape = value;
+                if (_RootShape == _CurrentShape)
+                {
+                    _CurrentShape = null;
+                }
                 Invalidate();
                 RaisePropertyChanged();
-                RaisePropertyChanged("Shape");
+                RaisePropertyChanged(nameof(Shape));
                 RaiseVisualChanged();
             }
         }
@@ -262,6 +266,14 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Removes the specified shape from the topology.
+    /// </summary>
+    /// <remarks>Only modifiers can be removed, the primitive shape must not be removed. When a shape is removed, its
+    /// dependents are updated to reference the predecessor shape, ensuring the topology remains consistent.</remarks>
+    /// <param name="shape">The shape to be removed. Must not be a primitive shape.</param>
+    /// <param name="saveUndo">Whether to save the current topology state to the undo stack.</param>
+    /// <returns><see langword="true"/> if the shape was successfully removed and replaced; otherwise, <see langword="false"/>.</returns>
     public bool RemoveShape(Shape shape, bool saveUndo = true)
     {
         if (saveUndo)
@@ -289,15 +301,24 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
         }
 
         if (_CurrentShape == modifier)
+        {
             _CurrentShape = replaceWithShape;
+        }
 
         if (_RootShape == modifier)
-            RootShape = replaceWithShape;
+        {
+            _RootShape = replaceWithShape;
+            if (_RootShape == _CurrentShape)
+            {
+                _CurrentShape = null;
+            }
+            RaisePropertyChanged();
+        }
 
         shape.Body = null;
 
         Invalidate();
-        RaisePropertyChanged("Shape");
+        RaisePropertyChanged(nameof(Shape));
         RaiseVisualChanged();
 
         return true;
@@ -362,8 +383,8 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
         _CurrentShape = null;
             
         Invalidate();
-        RaisePropertyChanged("RootShape");
-        RaisePropertyChanged("Shape");
+        RaisePropertyChanged(nameof(RootShape));
+        RaisePropertyChanged(nameof(Shape));
         RaiseVisualChanged();
     }
 
@@ -520,8 +541,8 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
         RootShape = Serializer.Deserialize<Shape>(dataBlob.FromUtf8Bytes(), context);
 
         Invalidate();
-        RaisePropertyChanged("RootShape");
-        RaisePropertyChanged("Shape");
+        RaisePropertyChanged(nameof(RootShape));
+        RaisePropertyChanged(nameof(Shape));
         RaiseVisualChanged();
     }
 
@@ -616,14 +637,13 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     //--------------------------------------------------------------------------------------------------
 
-    readonly List<WeakReference<IShapeDependent>> _Dependents = new List<WeakReference<IShapeDependent>>();
+    readonly List<WeakReference<IShapeDependent>> _Dependents = new();
 
     //--------------------------------------------------------------------------------------------------
 
     public void AddDependent(IShapeDependent dependent)
     {
-        _Dependents.Add(new WeakReference<IShapeDependent>(dependent));
-        RaisePropertyChanged("Dependents");
+        _Dependents.Add(new(dependent));
     }
 
     //--------------------------------------------------------------------------------------------------

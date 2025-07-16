@@ -490,24 +490,23 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
 
     #region Dependents
 
-    readonly List<WeakReference<IShapeDependent>> Dependents = new List<WeakReference<IShapeDependent>>();
+    readonly List<WeakReference<IShapeDependent>> _Dependents = new();
 
     //--------------------------------------------------------------------------------------------------
 
     public void AddDependent(IShapeDependent dependent)
     {
-        Dependents.Add(new WeakReference<IShapeDependent>(dependent));
-        RaisePropertyChanged("Dependents");
+        _Dependents.Add(new(dependent));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public void RemoveDependent(IShapeDependent dependent)
     {
-        var index = Dependents.FindIndex(wr => wr.TryGetTarget(out var target) && ReferenceEquals(target, dependent));
+        var index = _Dependents.FindIndex(wr => wr.TryGetTarget(out var target) && ReferenceEquals(target, dependent));
         if (index >= 0)
         {
-            Dependents.RemoveAt(index);
+            _Dependents.RemoveAt(index);
         }
     }
 
@@ -527,7 +526,7 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
 
     public IEnumerable<IShapeDependent> GetDependents()
     {
-        foreach (var reference in Dependents)
+        foreach (var reference in _Dependents)
         {
             if (reference.TryGetTarget(out var dependent))
             {

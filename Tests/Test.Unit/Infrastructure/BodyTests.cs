@@ -159,6 +159,31 @@ public class BodyTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void RemoveSkippedShape()
+    {
+        var imprint = TestGeomGenerator.CreateImprint();
+        var body = imprint.Body;
+        var fuse = BooleanFuse.Create(body, Box.Create(1, 1, 10));
+
+        // Current and root shape is boolean fuse
+        Assert.That(body.RootShape, Is.EqualTo(fuse));
+        Assert.That(body.Shape, Is.EqualTo(fuse));
+
+        // Skip and remove top shape
+        body.Shape = imprint;
+        body.RemoveShape(fuse);
+        Assert.That(body.RootShape, Is.EqualTo(imprint));
+        Assert.That(body.Shape, Is.EqualTo(imprint));
+
+        // Add new shape
+        var cut = BooleanCut.Create(body, Box.Create(1, 1, 10));
+        Assert.That(body.RootShape, Is.EqualTo(cut));
+        Assert.That(body.Shape, Is.EqualTo(cut));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void DeleteBody()
     {
         var model = CoreContext.Current.Document;
