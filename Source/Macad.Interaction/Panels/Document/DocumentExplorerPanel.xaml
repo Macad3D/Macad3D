@@ -180,6 +180,10 @@
                                    ToolTipOpening="FrameworkElement_OnToolTipOpening"
                                    Margin="0,0,10,0">
 
+                            <mmp:Behaviors.Behavior>
+                                <mmp:DoubleClickCommandBehavior Command="{x:Static panels:DocumentExplorerPanelModel.ZoomFitCommand}" CommandParameter="{Binding}" />
+                            </mmp:Behaviors.Behavior>
+
                             <Image Height="16"
                                    Source="{Binding Shape.ShapeType, Converter={x:Static panels:DocumentExplorerPanelModel.ShapeTypeImageConverter}}" />
 
@@ -217,6 +221,10 @@
                         <DockPanel ToolTip="-" 
                                    ToolTipOpening="FrameworkElement_OnToolTipOpening"
                                    Margin="0,0,10,0">
+
+                            <mmp:Behaviors.Behavior>
+                                <mmp:DoubleClickCommandBehavior Command="{x:Static panels:DocumentExplorerPanelModel.ZoomFitCommand}" CommandParameter="{Binding}" />
+                            </mmp:Behaviors.Behavior>
 
                             <Image Height="16"
                                    Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" />

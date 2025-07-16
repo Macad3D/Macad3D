@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using FlaUI.Core.AutomationElements;
+﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 using Macad.Common;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace Macad.Test.UI.Framework;
 
@@ -64,6 +65,30 @@ public class DocumentExplorerAdaptor : FormAdaptor
         var rect = item.BoundingRectangle;
         var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
         Mouse.Click(pnt, MouseButton.Left);
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(_FormControl);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Click(string id, bool jump = true, bool doubleClick = false)
+    {
+        var item = _TreeControl.Items.FirstOrDefault(ti => ti.Text == id);
+        if (item == null)
+        {
+            base.Click(id, jump, doubleClick);
+            return;
+        }
+
+        var center = item.BoundingRectangle.Center();
+        if (!jump)
+            Mouse.MoveTo(center);
+
+        if (doubleClick)
+            Mouse.LeftDoubleClick(center);
+        else
+            Mouse.LeftClick(center);
+
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(_FormControl);
     }

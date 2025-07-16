@@ -115,7 +115,32 @@ public class DocumentExplorerPanelModel : BaseObject
         });
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    public static ICommand ZoomFitCommand = new RelayCommand<InteractiveEntity>(
+        entity =>
+        {
+            switch (entity)
+            {
+                case Body body:
+                {
+                    var brep = body.GetTransformedBRep();
+                    if (brep != null)
+                    {
+                        InteractiveContext.Current.ViewportController.ZoomFit(brep.BoundingBox());
+                    }
+                    break;
+                }
+
+                case ITransformable transformable:
+                {
+                    InteractiveContext.Current.ViewportController.PanToCenter(transformable.Position);
+                    break;
+                }
+            }
+        });
+
+    //--------------------------------------------------------------------------------------------------
+
     public static ICommand ClearFilterStringCommand = new RelayCommand<DocumentExplorerPanelModel>(
         (model) =>
         {

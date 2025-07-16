@@ -538,6 +538,22 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Pans the viewport center on the specified position.
+    /// </summary>
+    /// <param name="position">The target position to center the viewport on.</param>
+    public void PanToCenter(Pnt position)
+    {
+        Vec panVec = new(Viewport.TargetPoint, position);
+        Viewport.TargetPoint = Viewport.TargetPoint.Translated(panVec);
+        Viewport.EyePoint = Viewport.EyePoint.Translated(panVec);
+
+        WorkspaceController.Invalidate();
+        _SyncViewportFromV3d();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public void Zoom(Point pos, double value)
     {
         double delta = value * 20.0;
@@ -585,7 +601,27 @@ public sealed class ViewportController : BaseObject, IDisposable
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    /// <summary>
+    /// Adjusts the view to fit the specified bounding box within the viewport.
+    /// </summary>
+    /// <remarks>If the bounding box has a too small square extent, the method does nothing.
+    /// A margin of 10% will be added around the bounding box.</remarks>
+    /// <param name="boxToFit">The bounding box to fit within the viewport. Must have a positive square extent.</param>
+    public void ZoomFit(Bnd_Box boxToFit)
+    {
+        if (boxToFit.SquareExtent() < 0.00001)
+        {
+            return;
+        }
+
+        V3dView.FitAll(boxToFit, 0.1);
+        WorkspaceController.Invalidate();
+        _SyncViewportFromV3d();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public void ZoomFitSelected()
     {
         WorkspaceController.VisualObjects.UpdateInvalidatedEntities();

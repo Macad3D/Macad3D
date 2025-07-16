@@ -215,6 +215,46 @@ public class DocumentExplorerTests : UITestBase
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ZoomToFitOnBodyDoubleClick()
+    {
+        TestDataGenerator.GenerateBox(MainWindow);
+        var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
+        Assert.That(bodyPanel, Is.Not.Null);
+        bodyPanel.EnterValue("PositionX", 5.0);
+        TestDataGenerator.GenerateCylinder(MainWindow);
+
+        var lastX = Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.X");
+        var lastY = Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.Y");
+        var lastZ = Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.Z");
+
+        MainWindow.Document.Click("Box_1", doubleClick: true);
+
+        Assert.That(Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.X"), Is.Not.EqualTo(lastX));
+        Assert.That(Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.Y"), Is.Not.EqualTo(lastY));
+        Assert.That(Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.Z"), Is.Not.EqualTo(lastZ));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void PanToCenterOnEntityDoubleClick()
+    {
+        TestDataGenerator.GenerateDatumPlane(MainWindow);
+        var datumPlanePanel = MainWindow.PropertyView.FindPanelByClass("DatumPlanePropertyPanel");
+        Assert.That(datumPlanePanel, Is.Not.Null);
+        datumPlanePanel.EnterValue("PositionX", 5.0);
+        TestDataGenerator.GenerateCylinder(MainWindow);
+
+        var lastX = Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.X");
+
+        MainWindow.Document.Click("DatumPlane_1", doubleClick: true);
+
+        Assert.That(Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.X"), Is.Not.EqualTo(lastX));
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     #region Helper

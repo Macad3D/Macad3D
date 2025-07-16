@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Interaction;
@@ -280,4 +281,47 @@ public class ViewportTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void ZoomFitAll()
+    {
+        var ctx = Context.Current;
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.ViewportController.ZoomFitAll();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ZoomFitAll01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ZoomFitBox()
+    {
+        var ctx = Context.Current;
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.ViewportController.ZoomFit(bodies[0].GetTransformedBRep().BoundingBox());
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ZoomFitBox01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ZoomFitSelected()
+    {
+        var ctx = Context.Current;
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.WorkspaceController.Selection.SelectEntity(bodies[0]);
+        ctx.ViewportController.ZoomFitSelected();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ZoomFitSelected01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void PanToCenter()
+    {
+        var ctx = Context.Current;
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.ViewportController.ZoomFitAll();
+        ctx.ViewportController.PanToCenter(bodies[0].Position);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PanToCenter01"));
+    }
 }
