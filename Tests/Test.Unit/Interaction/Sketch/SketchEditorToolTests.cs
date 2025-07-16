@@ -779,7 +779,44 @@ public class SketchEditorToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    [Test]
+    public void MultiSelection()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            ctx.SelectAt(250, 88);
+            ctx.SelectAt(411, 236);
+            Assert.That(tool.SelectedSegments.Count, Is.EqualTo(1));
+
+            ctx.SelectAt(250, 88);
+            ctx.SelectAt(411, 250, ModifierKeys.Shift);
+            ctx.SelectAt(250, 412, ModifierKeys.Shift);
+            ctx.SelectAt(250, 88, ModifierKeys.Shift);
+            Assert.That(tool.SelectedSegments.Count, Is.EqualTo(3));
+
+            ctx.SelectAt(250, 88);
+            ctx.SelectAt(411, 250, ModifierKeys.Control);
+            ctx.SelectAt(250, 412, ModifierKeys.Control);
+            ctx.SelectAt(250, 88, ModifierKeys.Control); // Deselect
+            Assert.That(tool.SelectedSegments.Count, Is.EqualTo(2));
+        });
+
+        // Cleanup
+        tool.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     public void RubberbandSelection()
     {

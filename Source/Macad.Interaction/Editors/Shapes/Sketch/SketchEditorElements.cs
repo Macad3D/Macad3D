@@ -194,13 +194,13 @@ public sealed class SketchEditorElements
 
     //--------------------------------------------------------------------------------------------------
 
-    public void Select(AIS_InteractiveObject detectedObject)
+    public void Select(AIS_InteractiveObject detectedObject, bool toggle=false)
     {
         foreach (var element in _Elements)
         {
             if (element.IsOwnerOf(detectedObject))
             {
-                element.IsSelected = true;
+                element.IsSelected = !toggle || !element.IsSelected;
                 break;
             }
         }

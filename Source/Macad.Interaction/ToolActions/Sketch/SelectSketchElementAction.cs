@@ -68,14 +68,15 @@ public sealed class SelectSketchElementAction : ToolAction
 
         if (!IsFinished)
         {
-            if (!data.ModifierKeys.Has(ModifierKeys.Shift))
+            bool toggle = data.ModifierKeys.Has(ModifierKeys.Control);
+            if (!toggle && !data.ModifierKeys.Has(ModifierKeys.Shift))
             {
                 _SketchEditorTool.Elements.DeselectAll();
             }
 
             foreach (var detectedObject in data.DetectedElements.Select(element => element.AisObject).WhereNotNull())
             {
-                _SketchEditorTool.Elements.Select(detectedObject);
+                _SketchEditorTool.Elements.Select(detectedObject, toggle);
             }
 
             Finished?.Invoke(this);
