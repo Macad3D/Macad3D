@@ -109,6 +109,8 @@ Root: "HKLM"; Subkey: "SOFTWARE\Macad\Capabilities\FileAssociations"; ValueType:
 
 Root: "HKLM"; Subkey: "SOFTWARE\RegisteredApplications"; ValueType: string; ValueName: "Macad"; ValueData: "SOFTWARE\Macad\Capabilities"; Flags: uninsdeletevalue
 
+Root: "HKLM"; Subkey: "SOFTWARE\Classes\Applications\{#MyAppExeName}"; ValueType: string; ValueName: "FriendlyAppName"; ValueData: "Macad|3D"; Flags: uninsdeletekey
+
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\Macad.Model.1"; ValueType: string; ValueData: "Macad|3D Model File"; Flags: uninsdeletekey
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\Macad.Model.1"; ValueType: string; ValueName: "AppUserModelID"; ValueData: "Macad.1"
 Root: "HKLM"; Subkey: "SOFTWARE\Classes\Macad.Model.1\DefaultIcon"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"",0"
