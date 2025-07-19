@@ -49,7 +49,8 @@ namespace Macad {
 
 		public ref class ExceptionHelper
 		{
-			static const int CppExceptionCode = 0xe06d7363;
+			static const DWORD CppExceptionCode = 0xe06d7363;
+			static const DWORD ClrExceptionCode = 0xe0434352;
 
 			//--------------------------------------------------------------------------------------------------
 

@@ -24,7 +24,7 @@ internal class PdfDomStream : PdfDomObject
             // See https://www.ietf.org/rfc/rfc1950.txt
             _TargetStream.WriteByte(0x78);
             _TargetStream.WriteByte(0xDA);
-            _DeflateStream = new (_TargetStream, CompressionLevel.Fastest, true);
+            _DeflateStream = new (_TargetStream, CompressionLevel.Optimal, true);
             _Stream = _DeflateStream;
             Attributes["Filter"] = "/FlateDecode";
         }

@@ -19,7 +19,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-
     <!-- Warnings Disabled:
       1573,1591: XML Documentation errors
     -->
@@ -40,6 +39,10 @@
   <ItemGroup>
     <FrameworkReference Condition="'$(TargetFramework)' == '$(MMFramework)'" 
                         Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Runtime.LegacyExceptionHandling" Value="true" />
   </ItemGroup>
 
   <Import Project="Macad.VersionInfo.props" />

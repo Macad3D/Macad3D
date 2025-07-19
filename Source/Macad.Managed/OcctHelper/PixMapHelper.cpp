@@ -53,6 +53,7 @@ namespace Helper
 			int width = (int)pm->Width();
 			int height = (int)pm->Height();
 
+#pragma warning (suppress: 4642) // Windows::Win32::Foundation::IPointer': could not import the constraints for generic parameter 'TPointer'
 			auto bitmap = gcnew Bitmap(width, height, pfm);
 			auto bitmapData = bitmap->LockBits(Drawing::Rectangle(0, 0, width, height), ImageLockMode::ReadOnly, pfm);
 			auto target = (char*)bitmapData->Scan0.ToPointer();

@@ -753,7 +753,7 @@ public class GenerateSourceCodePass : Pass
             byte[] bytes = new byte[comment.EndOffset - comment.BeginOffset];
             using var fstream = File.Open(Path.Combine(Context.Settings.OcctIncludePath, comment.FileName), FileMode.Open, FileAccess.Read);
             fstream.Seek(comment.BeginOffset, SeekOrigin.Begin);
-            fstream.Read(bytes);
+            fstream.ReadExactly(bytes);
             fstream.Close();
 
             string[] strings = Encoding.UTF8.GetString(bytes).Split('\n');

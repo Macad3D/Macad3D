@@ -19,7 +19,7 @@ internal static class StlBodyImporter
 
         // Binary or Ascii?
         var tempBuffer = new byte[80];
-        fs.Read(tempBuffer, 0, 80);
+        fs.ReadExactly(tempBuffer, 0, 80);
 
         var header = Encoding.ASCII.GetString(tempBuffer).TrimStart(' ');
         if (header.StartsWith("solid", StringComparison.InvariantCultureIgnoreCase))
