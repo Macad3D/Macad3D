@@ -3,9 +3,12 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using Macad.Common;
+using Macad.Resources;
 
 namespace Macad.Presentation;
 
+[MarkupExtensionReturnType(typeof(DrawingImage))]
+[Localizability(LocalizationCategory.NeverLocalize)]
 public class IconResourceExtension : MarkupExtension
 {
     [ConstructorArgument("iconName")] 
@@ -25,12 +28,16 @@ public class IconResourceExtension : MarkupExtension
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (IconName.IsNullOrEmpty())
+        {
             return null;
+        }
 
         // Treat as XAML resource
-        var drawing = Application.Current?.FindResource("Icon_" + IconName) as Drawing;
+        var drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.Icon, IconName);
         if (drawing == null)
-            return null;
+        {
+            return DependencyProperty.UnsetValue;
+        }
 
         var drawingImage = new DrawingImage(drawing);
         drawingImage.Freeze();

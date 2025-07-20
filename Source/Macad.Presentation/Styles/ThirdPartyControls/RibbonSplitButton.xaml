@@ -2,12 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:Fluent="urn:fluent-ribbon"
+                    xmlns:mmp="clr-namespace:Macad.Presentation"
+                    xmlns:fluent="urn:fluent-ribbon"
                     mc:Ignorable="d">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="RibbonBrushes.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <!-- 
         Changes to the original version:
@@ -19,40 +16,40 @@
     <!--region SplitButton-->
 
     <Style x:Key="Fluent.Ribbon.Styles.RibbonSplitButton"
-           TargetType="{x:Type Fluent:SplitButton}">
+           TargetType="{x:Type fluent:SplitButton}">
         <Setter Property="Template"
-                Value="{DynamicResource Fluent.Ribbon.Templates.RibbonSplitButton}" />
+                Value="{mmp:AppResource Fluent.Ribbon.Templates.RibbonSplitButton}" />
         <Setter Property="Height"
                 Value="68" />
         <Setter Property="Width"
                 Value="Auto" />
         <Setter Property="Foreground"
-                Value="{DynamicResource Fluent.Ribbon.Brushes.LabelText}" />
+                Value="{mmp:AppResource Fluent.Ribbon.Brushes.LabelText}" />
         <Setter Property="SnapsToDevicePixels"
                 Value="False" />
         <Setter Property="HorizontalAlignment"
                 Value="Left" />
-        <Setter Property="Fluent:KeyTip.AutoPlacement"
+        <Setter Property="fluent:KeyTip.AutoPlacement"
                 Value="False" />
         <Style.Triggers>
             <Trigger Property="Size"
                      Value="Large">
                 <Setter Property="Height"
                         Value="68" />
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Bottom" />
             </Trigger>
             <Trigger Property="Size"
                      Value="Middle">
                 <Setter Property="Height"
                         Value="22" />
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Right" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.Margin"
+                <Setter Property="fluent:KeyTip.Margin"
                         Value="0,0,-5,0" />
             </Trigger>
             <Trigger Property="Size"
@@ -61,20 +58,20 @@
                         Value="22" />
                 <Setter Property="Width"
                         Value="32" />
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Right" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.Margin"
+                <Setter Property="fluent:KeyTip.Margin"
                         Value="0,0,-5,0" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <ControlTemplate x:Key="Fluent.Ribbon.Templates.RibbonSplitButton"
-                     TargetType="{x:Type Fluent:SplitButton}">
+                     TargetType="{x:Type fluent:SplitButton}">
         <ControlTemplate.Resources>
-            <Style BasedOn="{StaticResource Fluent.Ribbon.Styles.MenuSeparator}"
+            <Style BasedOn="{mmp:AppResource Fluent.Ribbon.Styles.MenuSeparator}"
                    TargetType="{x:Type Separator}" />
         </ControlTemplate.Resources>
         <Grid>
@@ -86,14 +83,14 @@
                 <StackPanel Orientation="Vertical"
                             Name="stackPanel"
                             KeyboardNavigation.TabNavigation="Local">
-                    <Fluent:ToggleButton x:Name="PART_Button"
+                    <fluent:ToggleButton x:Name="PART_Button"
                                          Command="{TemplateBinding Command}"
                                          CommandParameter="{TemplateBinding CommandParameter}"
                                          CommandTarget="{TemplateBinding CommandTarget}"
                                          Margin="0,0,0,0"
                                          Height="Auto"
                                          Width="Auto"
-                                         Style="{DynamicResource Fluent.Ribbon.Styles.InnerButton}"
+                                         Style="{mmp:AppResource Fluent.Ribbon.Styles.InnerButton}"
                                          LargeIcon="{Binding LargeIcon, RelativeSource={RelativeSource TemplatedParent}}"
                                          Icon="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
                                          IsEnabled="{TemplateBinding IsButtonEnabled}"
@@ -109,7 +106,7 @@
                             Background="Transparent"
                             Margin="0,0,0,0">
                         <Grid>
-                            <Fluent:TwoLineLabel x:Name="controlLabel"
+                            <fluent:TwoLineLabel x:Name="controlLabel"
                                                  Text="{TemplateBinding Header}"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center"
@@ -136,8 +133,8 @@
                     <Border x:Name="PART_DropDownBorder"
                             MinWidth="{TemplateBinding ActualWidth}"
                             SnapsToDevicePixels="True"
-                            Background="{DynamicResource Fluent.Ribbon.Brushes.DropDown.Background}"
-                            BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.DropDown.Border}"
+                            Background="{mmp:AppResource Fluent.Ribbon.Brushes.DropDown.Background}"
+                            BorderBrush="{mmp:AppResource Fluent.Ribbon.Brushes.DropDown.Border}"
                             BorderThickness="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top">
@@ -148,7 +145,7 @@
                             <Border VerticalAlignment="Top"
                                     Width="Auto"
                                     Height="Auto"
-                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.DropDown.Background}"
+                                    BorderBrush="{mmp:AppResource Fluent.Ribbon.Brushes.DropDown.Background}"
                                     BorderThickness="1" />
                             <Grid Margin="1"
                                   HorizontalAlignment="Stretch"
@@ -158,7 +155,7 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <ScrollViewer x:Name="PART_ScrollViewer"
-                                              Style="{DynamicResource Fluent.Ribbon.Styles.MenuScrollViewer}"
+                                              Style="{mmp:AppResource Fluent.Ribbon.Styles.MenuScrollViewer}"
                                               Margin="1"
                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                               SnapsToDevicePixels="True"
@@ -173,10 +170,10 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
                                         Height="11"
-                                        BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.DropDown.Resize.Border}"
+                                        BorderBrush="{mmp:AppResource Fluent.Ribbon.Brushes.DropDown.Resize.Border}"
                                         BorderThickness="0,1,0,0"
                                         Grid.Row="1"
-                                        Background="{DynamicResource Fluent.Ribbon.Brushes.DropDown.Resize.Background}">
+                                        Background="{mmp:AppResource Fluent.Ribbon.Brushes.DropDown.Resize.Background}">
                                     <Grid>
                                         <Thumb x:Name="PART_ResizeVerticalThumb"
                                                HorizontalAlignment="Stretch"
@@ -185,7 +182,7 @@
                                                Height="10"
                                                VerticalAlignment="Top"
                                                Cursor="SizeNS"
-                                               Template="{DynamicResource Fluent.Ribbon.Templates.ResizeVerticalThumb}" />
+                                               Template="{mmp:AppResource Fluent.Ribbon.Templates.ResizeVerticalThumb}" />
                                         <Thumb x:Name="PART_ResizeBothThumb"
                                                HorizontalAlignment="Right"
                                                Margin="0,0,0,-90"
@@ -193,7 +190,7 @@
                                                Height="10"
                                                VerticalAlignment="Top"
                                                Cursor="SizeNWSE"
-                                               Template="{DynamicResource Fluent.Ribbon.Templates.ResizeBothThum}" />
+                                               Template="{mmp:AppResource Fluent.Ribbon.Templates.ResizeBothThumb}" />
                                     </Grid>
                                 </Border>
                             </Grid>
@@ -237,10 +234,10 @@
                      Value="True">
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.Checked.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.Checked.Border}" />
                 <Setter Property="Background"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.Checked.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.Checked.Background}" />
             </Trigger>
             <Trigger Property="Size"
                      Value="Small">
@@ -301,10 +298,10 @@
                      Value="True">
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.Pressed.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.Pressed.Border}" />
                 <Setter Property="Background"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.Pressed.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.Pressed.Background}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -318,7 +315,7 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -332,7 +329,7 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -346,13 +343,13 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
                 <Setter Property="Background"
                         TargetName="downBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}" />
                 <Setter Property="BorderBrush"
                         TargetName="downBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -366,59 +363,59 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
                         TargetName="PART_ButtonBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
                 <Setter Property="Background"
                         TargetName="downBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Background}" />
                 <Setter Property="BorderBrush"
                         TargetName="downBorder"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
             </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <!--Inner Button Style (Button in SplitButton)-->
     <Style x:Key="Fluent.Ribbon.Styles.InnerButton"
-           TargetType="{x:Type Fluent:ToggleButton}">
+           TargetType="{x:Type fluent:ToggleButton}">
         <Setter Property="Template"
-                Value="{DynamicResource Fluent.Ribbon.Templates.RibbonInnerButton}" />
+                Value="{mmp:AppResource Fluent.Ribbon.Templates.RibbonInnerButton}" />
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="HorizontalAlignment"
                 Value="Stretch" />
-        <Setter Property="Fluent:KeyTip.AutoPlacement"
-                Value="{Binding Path=(Fluent:KeyTip.AutoPlacement), RelativeSource={RelativeSource AncestorType={x:Type Fluent:SplitButton}}}" />
+        <Setter Property="fluent:KeyTip.AutoPlacement"
+                Value="{Binding Path=(fluent:KeyTip.AutoPlacement), RelativeSource={RelativeSource AncestorType={x:Type fluent:SplitButton}}}" />
         <Style.Triggers>
             <Trigger Property="Size"
                      Value="Large">
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Top" />
             </Trigger>
             <Trigger Property="Size"
                      Value="Middle">
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Left" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.Margin"
+                <Setter Property="fluent:KeyTip.Margin"
                         Value="-5,0,0,0" />
             </Trigger>
             <Trigger Property="Size"
                      Value="Small">
-                <Setter Property="Fluent:KeyTip.HorizontalAlignment"
+                <Setter Property="fluent:KeyTip.HorizontalAlignment"
                         Value="Left" />
-                <Setter Property="Fluent:KeyTip.VerticalAlignment"
+                <Setter Property="fluent:KeyTip.VerticalAlignment"
                         Value="Center" />
-                <Setter Property="Fluent:KeyTip.Margin"
+                <Setter Property="fluent:KeyTip.Margin"
                         Value="-5,0,0,0" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <ControlTemplate x:Key="Fluent.Ribbon.Templates.RibbonInnerButton"
-                     TargetType="{x:Type Fluent:ToggleButton}">
+                     TargetType="{x:Type fluent:ToggleButton}">
         <Border x:Name="border"
                 BorderThickness="0"
                 Background="Transparent"
@@ -442,10 +439,10 @@
                                       HorizontalAlignment="Center"
                                       Height="32"
                                       VerticalAlignment="Center"
-                                      Content="{Fluent:ObjectToImageConverter {Binding LargeIcon, RelativeSource={RelativeSource TemplatedParent}}, '32,32', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
+                                      Content="{fluent:ObjectToImageConverter {Binding LargeIcon, RelativeSource={RelativeSource TemplatedParent}}, '32,32', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
                                       Width="32"
                                       SnapsToDevicePixels="True" />
-                    <Fluent:TwoLineLabel x:Name="controlLabel"
+                    <fluent:TwoLineLabel x:Name="controlLabel"
                                          Text="{TemplateBinding Header}"
                                          HorizontalAlignment="Stretch"
                                          VerticalAlignment="Center"
@@ -459,10 +456,10 @@
                      Value="True">
                 <Setter Property="BorderBrush"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.Pressed.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.Pressed.Border}" />
                 <Setter Property="Background"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.Pressed.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.Pressed.Background}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -477,10 +474,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}" />
                 <Setter Property="BorderBrush"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}" />
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -495,10 +492,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Background}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Background}" />
                 <Setter Property="BorderBrush"
                         TargetName="border"
-                        Value="{DynamicResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
+                        Value="{mmp:AppResource Fluent.Ribbon.Brushes.ToggleButton.CheckedMouseOver.Border}" />
             </MultiTrigger>
             <Trigger Property="IsEnabled"
                      Value="False">
@@ -511,7 +508,7 @@
                 <Setter Property="Effect"
                         TargetName="iconImage">
                     <Setter.Value>
-                        <Fluent:GrayscaleEffect />
+                        <fluent:GrayscaleEffect />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -537,7 +534,7 @@
                         Value="1,0,2,0" />
                 <Setter Property="Content"
                         TargetName="iconImage"
-                        Value="{Fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}" />
+                        Value="{fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}" />
                 <Setter Property="Margin"
                         TargetName="controlLabel"
                         Value="2,0,2,1" />
@@ -573,7 +570,7 @@
                         Value="1,0,2,0" />
                 <Setter Property="Content"
                         TargetName="iconImage"
-                        Value="{Fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}" />
+                        Value="{fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}" />
                 <Setter Property="Visibility"
                         TargetName="controlLabel"
                         Value="Visible" />

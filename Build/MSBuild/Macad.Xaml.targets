@@ -2,77 +2,93 @@
 
   <Import Project="Macad.Common.props" Condition="!Exists('$(MMRootDir)')" />
   
-  <UsingTask TaskName="ReadLinesFromFileWithMetadata" AssemblyFile="$(MMExtensionAssemblyFile)" />
-  <UsingTask TaskName="MergeResourceDicts" AssemblyFile="$(MMExtensionAssemblyFile)" />
-
-  <!-- Fast up to date check -->
-  <ItemGroup>
-    <UpToDateCheckOutput Include="@(MergedDict -> '$(BaseIntermediateOutputPath)$(Configuration)\%(OutputName).deps')" />
-    <UpToDateCheckOutput Include="@(MergedDict -> '$(BaseIntermediateOutputPath)$(Configuration)\%(OutputName).xaml')" />
+  <!-- Do not merge in Debug mode to enable runtime editing -->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <MergedDict Remove="@(MergedDict)" />
   </ItemGroup>
+
+  <!-- Setup some metadata for merged dicts -->
+  <ItemGroup Condition="'$(Configuration)' != 'Debug'">
+    <MergedDict Update="@(MergedDict)">
+      <DictName>%(MergedDict.Filename)</DictName>
+      <OutFile>$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.Identity)</OutFile>
+      <DepsFile>$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.Identity).deps</DepsFile>
+    </MergedDict>
+
+    <MergedDictDeps Include="@(MergedDict)" />
+  
+    <!-- Fast up to date check -->
+    <UpToDateCheckOutput Include="@(MergedDict -> '%(DepsFile)')" />
+    <UpToDateCheckOutput Include="@(MergedDict -> '%(OutFile)')" />
+  </ItemGroup>
+
+  <!-- Reference the BuildTools project for the MergeResourceDicts task -->
+  <ItemGroup Condition="@(MergedDict) != ''">
+    <ProjectReference Include="..\..\Tools\BuildTools\BuildTools.csproj"> 
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
+  </ItemGroup>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   
   <!-- Preprocess and merge resource dictionaries -->
+  <Target Name="_ReadMergedDictDeps"
+          Condition="@(MergedDict) != ''">
 
-  <Target Name="_PrepareResMerge">
+    <ReadLinesFromFile File="%(MergedDict.DepsFile)">
+      <Output TaskParameter="Lines" ItemName="MergedDictDeps"/>
+    </ReadLinesFromFile>
+
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="_MergeResourceDicts"
+          Inputs="@(MergedDictDeps)"
+          Outputs="@(MergedDict -> '%(OutFile)')">
+
+    <Message Text="Creating merged resource dictionary %(MergedDict.Identity)" Importance="High" />
+
+    <Exec Command="$(TargetDir)BuildTools.exe MergeResourceDicts Out=&quot;%(MergedDict.OutFile)&quot; In=&quot;%(MergedDict.Identity)&quot; depsOut=&quot;%(MergedDict.DepsFile)&quot; prjDir=&quot;$(ProjectDir)&quot;" />
+
+    <ReadLinesFromFile File="%(MergedDict.DepsFile)">
+      <Output TaskParameter="Lines" 
+              ItemName="MergedDictDeps"/>
+    </ReadLinesFromFile>
+
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="MergeResourceDictionaries"
+          AfterTargets="ResolveProjectReferences"
+          DependsOnTargets="_ReadMergedDictDeps;_MergeResourceDicts"
+          Condition="@(MergedDict) != ''">
+
+    <ReadLinesFromFile File="%(MergedDict.DepsFile)">
+      <Output TaskParameter="Lines" ItemName="MergedDictDeps"/>
+    </ReadLinesFromFile>
+
+    <!-- Replace merged Xamls with merged dict -->
     <ItemGroup>
-      <Page Include="$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.OutputName).xaml">
+      <Page Remove="@(MergedDictDeps)" />
+      <Page Include="@(MergedDict -> '%(OutFile)')">
         <Generator>MSBuild:Compile</Generator>
+        <LogicalName>$([System.String]::new('%(MergedDict.RelativeDir)').Replace('\','/'))%(MergedDict.FileName)%(MergedDict.Extension)</LogicalName>
       </Page>
-      <MergedDictDeps Include="%(MergedDict.Identity)">
-        <MergedDictName>%(MergedDict.OutputName)</MergedDictName>
-      </MergedDictDeps>
     </ItemGroup>
 
-    <CreateProperty Value="false">
-      <Output TaskParameter="Value" PropertyName="%(MergedDict.OutputName)_UpdateNeeded" />
-    </CreateProperty>
-
-    <ReadLinesFromFileWithMetadata File="$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.OutputName).deps"
-                                   Metadata="MergedDictName=%(MergedDict.OutputName)" >
-      <Output TaskParameter="Lines" ItemName="MergedDictDeps"/>
-    </ReadLinesFromFileWithMetadata>
-  </Target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <Target Name="_CheckResMergeDependencyList"
-          Inputs="@(MergedDict)"
-          Outputs="@(MergedDict -> '$(BaseIntermediateOutputPath)$(Configuration)\%(OutputName).deps' )">
-
-    <CreateProperty Value="true">
-      <Output TaskParameter="ValueSetByTask" PropertyName="%(MergedDict.OutputName)_UpdateNeeded" />
-    </CreateProperty>
-  </Target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <Target Name="_CheckResMergeDependencies"
-          Inputs="@(MergedDictDeps)"
-          Outputs="@(MergedDictDeps -> '$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDictName).xaml' )">
-
-    <CreateProperty Value="true">
-      <Output TaskParameter="ValueSetByTask" PropertyName="%(MergedDictDeps.MergedDictName)_UpdateNeeded" />
-    </CreateProperty>
-  </Target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <Target Name="ResourceDictMerge"
-          BeforeTargets="BeforeBuild"
-          DependsOnTargets="_PrepareResMerge;_CheckResMergeDependencyList;_CheckResMergeDependencies" >
-
-    <MergeResourceDicts Input="%(MergedDict.Identity)"
-                        Output="$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.OutputName).xaml"
-                        DependencyOutput="$(BaseIntermediateOutputPath)$(Configuration)\%(MergedDict.OutputName).deps"
-                        ProjectDir="$(ProjectDir)" />
   </Target>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <Target Name="CleanResDictMerge"
           BeforeTargets="BeforeClean">
-    <Delete Files="@(MergedDict -> '$(BaseIntermediateOutputPath)$(Configuration)\%(OutputName).deps' )" />
-    <Delete Files="@(MergedDict -> '$(BaseIntermediateOutputPath)$(Configuration)\%(OutputName).xaml' )" />
+
+    <Delete Files="@(MergedDict -> '%(DepsFile)')" />
+    <Delete Files="@(MergedDict -> '%(OutFile)')" />
+
   </Target>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

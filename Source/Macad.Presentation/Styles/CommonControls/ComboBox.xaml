@@ -2,12 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-        <ResourceDictionary Source="ScrollViewer.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
 
     <!--#region Macad.Templates.ToggleButton.ComboBox-->
     <ControlTemplate x:Key="Macad.Templates.ToggleButton.ComboBox" TargetType="{x:Type ToggleButton}">
@@ -20,13 +16,13 @@
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                        Width="Auto" Height="Auto"
                        RadiusX="2" RadiusY="2" 
-                       Fill="{StaticResource Macad.Brushes.Button.Background}" 
-                       Stroke="{StaticResource Macad.Brushes.Button.Border}" />
+                       Fill="{mmp:AppResource Macad.Brushes.Button.Background}" 
+                       Stroke="{mmp:AppResource Macad.Brushes.Button.Border}" />
             <Path x:Name="Arrow" Grid.Column="1" 
                   HorizontalAlignment="Center" VerticalAlignment="Center" 
                   Fill="{x:Null}" 
-                  Data="{StaticResource Macad.Geometries.DropDownArrow}" 
-                  Stroke="{StaticResource Macad.Brushes.Glyph}" 
+                  Data="{mmp:AppResource Macad.Geometries.DropDownArrow}" 
+                  Stroke="{mmp:AppResource Macad.Brushes.Glyph}" 
                   Margin="5,0,5,0" 
                   Height="7" 
                   StrokeThickness="2" 
@@ -34,10 +30,10 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Fill" TargetName="Rectangle" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                <Setter Property="Fill" TargetName="Rectangle" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="Fill" TargetName="Rectangle" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                <Setter Property="Fill" TargetName="Rectangle" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -79,11 +75,11 @@
                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.Button.Checked.Background}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Checked.Background}"/>
+                            <Setter TargetName="border" Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Background}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Macad.Brushes.Button.Disabled.Text}" />
+                            <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Button.Disabled.Text}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -97,7 +93,7 @@
         <Grid x:Name="grid">
             <ToggleButton x:Name="ToggleButton"
                           Grid.Column="2" 
-                          Template="{StaticResource Macad.Templates.ToggleButton.ComboBox}" 
+                          Template="{mmp:AppResource Macad.Templates.ToggleButton.ComboBox}" 
                           Focusable="false" 
                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
                           ClickMode="Press" />
@@ -111,23 +107,23 @@
                               IsHitTestVisible="False" />
             <TextBox x:Name="PART_EditableTextBox" 
                      Visibility="Hidden" 
-                     Template="{StaticResource Macad.Templates.TextBox.ComboBox}" 
+                     Template="{mmp:AppResource Macad.Templates.TextBox.ComboBox}" 
                      HorizontalAlignment="Left" VerticalAlignment="Center" 
                      Margin="3,3,23,3" Style="{x:Null}" 
                      Focusable="True" 
-                     Background="{StaticResource Macad.Brushes.TextBox.Background}" 
+                     Background="{mmp:AppResource Macad.Brushes.TextBox.Background}" 
                      IsReadOnly="{TemplateBinding IsReadOnly}" 
-                     BorderBrush="{StaticResource Macad.Brushes.TextBox.Border}" 
-                     Foreground="{StaticResource Macad.Brushes.TextBox.Text}" />
+                     BorderBrush="{mmp:AppResource Macad.Brushes.TextBox.Border}" 
+                     Foreground="{mmp:AppResource Macad.Brushes.TextBox.Text}" />
             <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
                 <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" 
                       x:Name="DropDown" 
                       SnapsToDevicePixels="True">
                     <Border x:Name="DropDownBorder" 
-                            Background="{StaticResource Macad.Brushes.Popup.Background}" 
-                            BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" 
+                            Background="{mmp:AppResource Macad.Brushes.Popup.Background}" 
+                            BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" 
                             BorderThickness="1" />
-                    <ScrollViewer Margin="4,6,4,6" Style="{StaticResource Macad.Styles.ScrollViewer}" SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True" 
+                    <ScrollViewer Margin="4,6,4,6" Style="{mmp:AppResource Macad.Styles.ScrollViewer}" SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True" 
                                   Background="{x:Null}">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                     </ScrollViewer>
@@ -139,7 +135,7 @@
                 <Setter Property="MinHeight" Value="95" TargetName="DropDownBorder" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
+                <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
                 <Setter Property="Opacity" TargetName="grid" Value="0.5" />
             </Trigger>
             <Trigger Property="IsGrouping" Value="true">
@@ -159,9 +155,9 @@
 
     <!--#region ComboBox-->
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Text}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Button.Text}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="Template" Value="{StaticResource Macad.Templates.ComboBox}" />
+        <Setter Property="Template" Value="{mmp:AppResource Macad.Templates.ComboBox}" />
     </Style>
     <!--#endregion-->
     

@@ -2,14 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <Style TargetType="{x:Type mmp:PathButton}" BasedOn="{x:Null}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}" />
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Glyph}" />
+        <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Border}" />
         <Setter Property="Padding" Value="7,2" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
@@ -25,7 +21,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.MouseOver}" />
+                            <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Glyph.MouseOver}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

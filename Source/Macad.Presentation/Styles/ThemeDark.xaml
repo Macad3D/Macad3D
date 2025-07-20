@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/AvalonDock.Themes.VS2013;component/LightBrushs.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/AvalonDock.Themes.VS2013;component/Themes/Generic.xaml" />
+
+        <ResourceDictionary Source="BrushesDark.xaml" />
+        <ResourceDictionary Source="Geometries.xaml" />
+
+        <ResourceDictionary Source="ThirdPartyControls/DockBrushes.xaml" />
+        <ResourceDictionary Source="ThirdPartyControls/DockControls.xaml" />
+        <ResourceDictionary Source="ThirdPartyControls/RibbonBrushes.xaml" />
+        <ResourceDictionary Source="ThirdPartyControls/RibbonControls.xaml" />
+        <ResourceDictionary Source="ThirdPartyControls/RibbonSplitButton.xaml" />
+
+        <ResourceDictionary Source="CommonControls/Button.xaml" />
+        <ResourceDictionary Source="CommonControls/CheckBox.xaml" />
+        <ResourceDictionary Source="CommonControls/ComboBox.xaml" />
+        <ResourceDictionary Source="CommonControls/Expander.xaml" />
+        <ResourceDictionary Source="CommonControls/GroupBox.xaml" />
+        <ResourceDictionary Source="CommonControls/Label.xaml" />
+        <ResourceDictionary Source="CommonControls/ListBox.xaml" />
+        <ResourceDictionary Source="CommonControls/Menu.xaml" />
+        <ResourceDictionary Source="CommonControls/ScrollBar.xaml" />
+        <ResourceDictionary Source="CommonControls/ScrollViewer.xaml" />
+        <ResourceDictionary Source="CommonControls/Slider.xaml" />
+        <ResourceDictionary Source="CommonControls/TextBlock.xaml" />
+        <ResourceDictionary Source="CommonControls/TextBox.xaml" />
+        <ResourceDictionary Source="CommonControls/ToolBar.xaml" />
+        
+        <ResourceDictionary Source="CustomControls/ColorPicker.xaml" />
+        <ResourceDictionary Source="CustomControls/Dialog.xaml" />
+        <ResourceDictionary Source="CustomControls/PanningScrollViewer.xaml" />
+        <ResourceDictionary Source="CustomControls/PathButton.xaml" />
+        <ResourceDictionary Source="CustomControls/ToggleButton.xaml" />
+        <ResourceDictionary Source="CustomControls/TreeViewEx.xaml" />
+        <ResourceDictionary Source="CustomControls/ValueEditBox.xaml" />
+        <ResourceDictionary Source="CustomControls/ScreenTip.xaml" />
+
+        <ResourceDictionary Source="PropertyPanelStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

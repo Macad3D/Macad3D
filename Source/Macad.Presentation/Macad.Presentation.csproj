@@ -18,15 +18,11 @@
   
   <ItemGroup>
     <Page Remove="Controls\TaskDialog\DesignData_TaskDialogData.xaml" />
-    <Page Remove="Styles\**\*.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Styles\**\*.xaml" />
-    <UpToDateCheckInput Include="Styles\**\*.xaml" />
-    <MergedDict Include="Styles\StylesSource.xaml">
-      <OutputName>Styles</OutputName>
-    </MergedDict>
+    <MergedDict Include="Styles\ThemeLight.xaml" />
+    <MergedDict Include="Styles\ThemeDark.xaml" />
   </ItemGroup>
 
   <ItemGroup>

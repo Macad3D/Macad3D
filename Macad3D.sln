@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSBuildExtension", "Tools\MSBuildExtension\MSBuildExtension.csproj", "{C6235524-7321-4B1D-86D4-9FA44BFDAC16}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Macad", "Source\Macad\Macad.csproj", "{6CD3EADE-505E-4F55-A720-4A5E7D88F943}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7D720461-7B59-43BE-A1D8-57915A296F9E} = {7D720461-7B59-43BE-A1D8-57915A296F9E}
@@ -34,13 +32,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Macad.Exchange", "Source\Macad.Exchange\Macad.Exchange.csproj", "{7979E852-A660-49E9-B7AE-C1241AD25D99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Macad.Resources", "Source\Macad.Resources\Macad.Resources.csproj", "{7D720461-7B59-43BE-A1D8-57915A296F9E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16} = {C6235524-7321-4B1D-86D4-9FA44BFDAC16}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Macad.Presentation", "Source\Macad.Presentation\Macad.Presentation.csproj", "{D21856FD-FA54-4043-83BD-A41065D2423F}"
 	ProjectSection(ProjectDependencies) = postProject
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16} = {C6235524-7321-4B1D-86D4-9FA44BFDAC16}
 		{7D720461-7B59-43BE-A1D8-57915A296F9E} = {7D720461-7B59-43BE-A1D8-57915A296F9E}
 	EndProjectSection
 EndProject
@@ -72,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{44BA44
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1E7A6E0B-6919-4177-B0A8-863AF43E0660}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "Tools\BuildTools\BuildTools.csproj", "{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,14 +76,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Debug|x64.ActiveCfg = Release|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Debug|x64.Build.0 = Release|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Release|x64.ActiveCfg = Release|Any CPU
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16}.Release|x64.Build.0 = Release|Any CPU
 		{6CD3EADE-505E-4F55-A720-4A5E7D88F943}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{6CD3EADE-505E-4F55-A720-4A5E7D88F943}.Debug|x64.ActiveCfg = Debug|x64
 		{6CD3EADE-505E-4F55-A720-4A5E7D88F943}.Debug|x64.Build.0 = Debug|x64
@@ -196,12 +184,19 @@ Global
 		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|x64.ActiveCfg = Release|Any CPU
 		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|x64.Build.0 = Release|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Debug|x64.Build.0 = Debug|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Release|x64.ActiveCfg = Release|Any CPU
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C6235524-7321-4B1D-86D4-9FA44BFDAC16} = {833B6B4B-5309-4CF5-8ADC-AF8425ED52D8}
 		{6CD3EADE-505E-4F55-A720-4A5E7D88F943} = {44BA44A4-4AF7-4B3E-B72F-1756C8F6A2B0}
 		{B80BD2F2-5FC2-49BF-87A3-52469C72812A} = {44BA44A4-4AF7-4B3E-B72F-1756C8F6A2B0}
 		{D86316B3-7F16-439C-9BE3-DB64ED7AD058} = {44BA44A4-4AF7-4B3E-B72F-1756C8F6A2B0}
@@ -218,6 +213,7 @@ Global
 		{123F4185-87CF-4E77-B796-779874292BB4} = {1E7A6E0B-6919-4177-B0A8-863AF43E0660}
 		{8A1A89B6-3754-41D2-A809-F398066591AC} = {44BA44A4-4AF7-4B3E-B72F-1756C8F6A2B0}
 		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204} = {833B6B4B-5309-4CF5-8ADC-AF8425ED52D8}
+		{DDD402B9-0AB9-4245-B08B-CE8A92E61DBB} = {833B6B4B-5309-4CF5-8ADC-AF8425ED52D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {693EE76A-A044-492C-AAB9-71873727E3EC}

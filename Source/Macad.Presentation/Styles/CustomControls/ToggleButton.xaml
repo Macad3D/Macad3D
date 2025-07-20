@@ -1,15 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
-    
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type mmp:ToggleButton}">
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Text}" />
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}"/>
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Button.Text}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Background}"/>
+        <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Border}"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0,2" />
@@ -33,19 +29,19 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Background}" />
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}" />
+                            <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Border}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Checked.Background}" />
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Checked.Border}" />
+                            <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Background}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Border}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                            <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -53,7 +49,7 @@
                                 <Condition Property="IsPressed" Value="False" />
                                 <Condition Property="IsChecked" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.CheckedMouseOver.Background}" />
+                            <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.CheckedMouseOver.Background}" />
                         </MultiTrigger>
 
                         <Trigger Property="mmp:GroupControls.Position" Value="Left">

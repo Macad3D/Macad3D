@@ -2,11 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
     
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-        <ResourceDictionary Source="../CommonControls/ScrollViewer.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <Style TargetType="{x:Type mmp:ValueEditBox}">
         <Setter Property="Margin" Value="0,2" />
         <Setter Property="Padding" Value="2,3,2,3" />
@@ -14,9 +9,9 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="false" />
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextBox.Text}" />
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.TextBox.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.TextBox.Border}"/>
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.TextBox.Text}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.TextBox.Background}"/>
+        <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.TextBox.Border}"/>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -50,7 +45,7 @@
                                 <ScrollViewer x:Name="PART_ContentHost"
                                               Grid.Column="0" 
                                               Margin="0" Padding="0" 
-                                              Style="{StaticResource Macad.Styles.ScrollViewer}" />
+                                              Style="{mmp:AppResource Macad.Styles.ScrollViewer}" />
                                 <TextBlock Grid.Column="1" 
                                            Text="{Binding Units, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={mmp:ValueUnitsToStringConverter}}" 
                                            Margin="0,0,2,1" 
@@ -71,7 +66,7 @@
                                   SnapsToDevicePixels="True" UseLayoutRounding="True"
                                   Stroke="{TemplateBinding Foreground}" 
                                   StrokeThickness="1"
-                                  Data="{StaticResource Macad.Geometries.Decrement}" 
+                                  Data="{mmp:AppResource Macad.Geometries.Decrement}" 
                                   Stretch="None" />
                         </Button>
 
@@ -88,29 +83,29 @@
                                   SnapsToDevicePixels="True" UseLayoutRounding="True"
                                   Stroke="{TemplateBinding Foreground}" 
                                   StrokeThickness="1"
-                                  Data="{StaticResource Macad.Geometries.Increment}" 
+                                  Data="{mmp:AppResource Macad.Geometries.Increment}" 
                                   Stretch="None" />
                         </Button>
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.Disabled.Background}" />
-                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
+                            <Setter Property="Background" TargetName="PART_TextBox" Value="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Background}" />
+                            <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
                             <!--<Setter Property="BorderBrush" TargetName="PART_TextBox" Value="{StaticResource DisabledBorderBrush}" />-->
                             <!--<Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.MouseOver.Background}" />
+                            <Setter Property="Background" TargetName="PART_TextBox" Value="{mmp:AppResource Macad.Brushes.TextBox.MouseOver.Background}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="Background" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.Focused.Background}" />
+                            <Setter Property="Background" TargetName="PART_TextBox" Value="{mmp:AppResource Macad.Brushes.TextBox.Focused.Background}" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="BorderBrush" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="PART_TextBox" Value="{mmp:AppResource Macad.Brushes.TextBox.MouseOver.Background}" />
                         </Trigger>
                         <Trigger Property="EvaluationError" Value="True">
-                            <Setter Property="Background" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.Invalid.Background}" />
+                            <Setter Property="Background" TargetName="PART_TextBox" Value="{mmp:AppResource Macad.Brushes.TextBox.Invalid.Background}" />
                         </Trigger>
 
                         <Trigger Property="mmp:GroupControls.Position" Value="Left">

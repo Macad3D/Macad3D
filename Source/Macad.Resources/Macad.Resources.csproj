@@ -22,7 +22,6 @@
       <KeyPrefix>TypeIcon</KeyPrefix>
       <Aliases>Types\Aliases.txt</Aliases>
     </IconSet>
-    <UpToDateCheckInput Include="Types\Aliases.txt" />
     <IconSet Include="Marker\**\*.svg">
       <KeyPrefix>Marker</KeyPrefix>
     </IconSet>

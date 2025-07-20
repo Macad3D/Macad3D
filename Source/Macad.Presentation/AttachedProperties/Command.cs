@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Macad.Common;
+using Macad.Resources;
 
 namespace Macad.Presentation;
 
@@ -217,9 +218,11 @@ public class Command : DependencyObject
             }
 
             // Treat as XAML resource
-            var drawing = Application.Current.FindResource("Icon_" + iconPath) as Drawing;
+            var drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.Icon, iconPath);
             if (drawing == null)
+            {
                 return null;
+            }
 
             var drawingImage = new DrawingImage(drawing);
             drawingImage.Freeze();

@@ -3,11 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ScrollBar.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
     
     <Style x:Key="Macad.Styles.RepeatButton.Scroll" d:IsControlPart="True" TargetType="{x:Type RepeatButton}">
         <Setter Property="Background" Value="Transparent" />
@@ -52,7 +49,7 @@
                                    ViewportSize="{TemplateBinding ViewportWidth}" 
                                    Minimum="0" Maximum="{TemplateBinding ScrollableWidth}" 
                                    AutomationProperties.AutomationId="HorizontalScrollBar"
-                                   Style="{StaticResource Macad.Styles.ScrollBar.Minimal}" />
+                                   Style="{mmp:AppResource Macad.Styles.ScrollBar.Minimal}" />
                         <ScrollBar Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
                                    Grid.Column="1" Grid.Row="0" 
                                    x:Name="PART_VerticalScrollBar" 
@@ -62,14 +59,14 @@
                                    ViewportSize="{TemplateBinding ViewportHeight}" 
                                    Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" 
                                    AutomationProperties.AutomationId="VerticalScrollBar"
-                                   Style="{StaticResource Macad.Styles.ScrollBar.Minimal}" />
+                                   Style="{mmp:AppResource Macad.Styles.ScrollBar.Minimal}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource Macad.Styles.ScrollViewer}" />
+    <Style TargetType="{x:Type ScrollViewer}" BasedOn="{mmp:AppResource Macad.Styles.ScrollViewer}" />
 
 
 </ResourceDictionary>

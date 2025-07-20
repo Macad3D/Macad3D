@@ -5,7 +5,7 @@
         <ResourceDictionary Source="pack://application:,,,/AvalonDock.Themes.VS2013;component/LightBrushs.xaml" />
         <ResourceDictionary Source="pack://application:,,,/AvalonDock.Themes.VS2013;component/Themes/Generic.xaml" />
 
-        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="BrushesLight.xaml" />
         <ResourceDictionary Source="Geometries.xaml" />
 
         <ResourceDictionary Source="ThirdPartyControls/DockBrushes.xaml" />

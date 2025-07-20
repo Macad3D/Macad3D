@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{ddd402b9-0ab9-4245-b08b-ce8a92e61dbb}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Macad.Build</RootNamespace>
+    <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SharpVectors.Wpf" />
+  </ItemGroup>
+</Project>

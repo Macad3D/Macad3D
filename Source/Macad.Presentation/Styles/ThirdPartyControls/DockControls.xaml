@@ -1,18 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:dockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-                    xmlns:dock="clr-namespace:AvalonDock.Themes.VS2013.Themes;assembly=AvalonDock.Themes.VS2013">
+                    xmlns:dock="clr-namespace:AvalonDock.Themes.VS2013.Themes;assembly=AvalonDock.Themes.VS2013"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
 
     <!--  AnchorablePaneControlStyle  -->
     <Style x:Key="Macad.Styles.Dock.AnchorablePaneControlStyle" 
            TargetType="{x:Type dockControls:LayoutAnchorablePaneControl}"
-           BasedOn="{StaticResource AvalonDockThemeVs2013AnchorablePaneControlStyle}">
+           BasedOn="{mmp:AppResource AvalonDockThemeVs2013AnchorablePaneControlStyle}">
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedBackground}}" />
+                    <Setter Property="Background" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedBackground}}" />
                     <Setter Property="BorderBrush" Value="Transparent" />
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedText}}" />
+                    <Setter Property="Foreground" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedText}}" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     <Setter Property="ToolTip" Value="{Binding ToolTip}" />
                     <Setter Property="Template">
@@ -22,7 +23,7 @@
                                     <Border
 										x:Name="SelectedBD"
 										Margin="1,-1,1,0"
-										BorderBrush="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}"
+										BorderBrush="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}"
 										BorderThickness="0,5,0,0"
 										Visibility="Collapsed" />
                                     <Border
@@ -44,7 +45,7 @@
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="Selector.IsSelected" Value="true">
 										<Setter TargetName="SelectedBD" Property="Visibility" Value="Visible" />
-										<Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.PanelBorderBrush}}" />
+										<Setter TargetName="Bd" Property="BorderBrush" Value="{mmp:AppResource {x:Static dock:ResourceKeys.PanelBorderBrush}}" />
                                         <Setter Property="Panel.ZIndex" Value="1" />
                                     </Trigger>
 
@@ -54,9 +55,9 @@
                                             <Condition Binding="{Binding IsSelected}" Value="True" />
                                             <Condition Binding="{Binding IsActive}" Value="True" />
                                         </MultiDataTrigger.Conditions>
-                                        <Setter TargetName="SelectedBD" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}" />
-                                        <Setter Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}" />
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveText}}" />
+                                        <Setter TargetName="SelectedBD" Property="BorderBrush" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}" />
+                                        <Setter Property="Background" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}}" />
+                                        <Setter Property="Foreground" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveText}}" />
                                     </MultiDataTrigger>
 
                                     <!--  Tool Window : Tab / Selected, inactive  -->
@@ -65,9 +66,9 @@
                                             <Condition Binding="{Binding IsSelected}" Value="True" />
                                             <Condition Binding="{Binding IsActive}" Value="False" />
                                         </MultiDataTrigger.Conditions>
-                                        <Setter TargetName="SelectedBD" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveBackground}}" />
-                                        <Setter Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveBackground}}" />
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveText}}" />
+                                        <Setter TargetName="SelectedBD" Property="BorderBrush" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveBackground}}" />
+                                        <Setter Property="Background" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveBackground}}" />
+                                        <Setter Property="Foreground" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveText}}" />
                                     </MultiDataTrigger>
 
                                     <!--  Tool Window : Tab / Unselected, hovered  -->
@@ -76,13 +77,13 @@
                                             <Condition Property="IsMouseOver" Value="true" />
                                             <Condition Property="Selector.IsSelected" Value="false" />
                                         </MultiTrigger.Conditions>
-                                        <Setter Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredBackground}}" />
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredText}}" />
+                                        <Setter Property="Background" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredBackground}}" />
+                                        <Setter Property="Foreground" Value="{mmp:AppResource {x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredText}}" />
                                         <Setter Property="Panel.ZIndex" Value="0" />
                                     </MultiTrigger>
 
                                     <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        <Setter Property="Foreground" Value="{mmp:AppResource {x:Static SystemColors.GrayTextBrushKey}}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

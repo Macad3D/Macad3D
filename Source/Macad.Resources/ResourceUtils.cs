@@ -11,7 +11,9 @@ public class ResourceUtils
 {
     public enum Category
     {
-        Marker
+        Icon,
+        TypeIcon,
+        Marker,
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -342,7 +342,7 @@ public class Marker : VisualObject
             double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewControlller?.DpiScale ?? 1.0;
             int finalSize = (int)(size * dpiScale);
 
-            var drawing = ResourceUtils.GetDictionaryElement<System.Windows.Media.Drawing>(ResourceUtils.Category.Marker, "Marker_" + name);
+            var drawing = ResourceUtils.GetDictionaryElement<System.Windows.Media.Drawing>(ResourceUtils.Category.Marker, name);
             if (drawing == null)
                 return null;
 

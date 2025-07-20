@@ -3,14 +3,10 @@
                     xmlns:mmp="clr-namespace:Macad.Presentation"
                     xmlns:treeview="clr-namespace:Macad.Presentation.TreeView">
     
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <Style TargetType="{x:Type treeview:EditTextBox}">
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextBox.Text}" />
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.TextBox.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.TextBox.Border}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.TextBox.Text}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.TextBox.Background}" />
+        <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.TextBox.Border}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="AllowDrop" Value="true" />
@@ -31,9 +27,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Background" TargetName="Bd"
-                                    Value="{StaticResource Macad.Brushes.TextBox.Disabled.Background}" />
+                                    Value="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Background}" />
                             <Setter Property="Foreground"
-                                    Value="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
+                                    Value="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -43,15 +39,15 @@
 
     <Style TargetType="{x:Type treeview:TreeViewExItem}" x:Key="Macad.Styles.TreeViewExItem.Base">
         <Setter Property="Background" Value="AliceBlue"/>
-        <Setter Property="Control.HorizontalContentAlignment"
+        <Setter Property="HorizontalContentAlignment"
                 Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Left}" />
-        <Setter Property="Control.VerticalContentAlignment"
+        <Setter Property="VerticalContentAlignment"
                 Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Center}" />
-        <Setter Property="Control.Padding" Value="1" />
+        <Setter Property="Padding" Value="1" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="FrameworkElement.FocusVisualStyle">
+        <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type IFrameworkInputElement}">
                     <Style.Resources>
@@ -67,7 +63,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Control.Template">
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type treeview:TreeViewExItem}">
                     <StackPanel Background="Transparent" x:Name="stacki">
@@ -87,14 +83,14 @@
                                             <Style.Resources>
                                                 <ResourceDictionary />
                                             </Style.Resources>
-                                            <Setter Property="UIElement.Focusable" Value="False" />
-                                            <Setter Property="FrameworkElement.Width" Value="16" />
-                                            <Setter Property="FrameworkElement.Height" Value="16" />
-                                            <Setter Property="Control.Template">
+                                            <Setter Property="Focusable" Value="False" />
+                                            <Setter Property="Width" Value="16" />
+                                            <Setter Property="Height" Value="16" />
+                                            <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                                         <Border Padding="5" Background="#00FFFFFF" Width="16" Height="16" SnapsToDevicePixels="True">
-                                                            <Path Fill="Transparent" Stroke="{StaticResource Macad.Brushes.Glyph}" Name="ExpandPath">
+                                                            <Path Fill="Transparent" Stroke="{mmp:AppResource Macad.Brushes.Glyph}" Name="ExpandPath">
                                                                 <Path.Data>
                                                                     <PathGeometry Figures="M0,0L0,6L6,0z" />
                                                                 </Path.Data>
@@ -115,7 +111,7 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="Shape.Fill" TargetName="ExpandPath" 
-                                                                        Value="{StaticResource Macad.Brushes.Glyph}" />
+                                                                        Value="{mmp:AppResource Macad.Brushes.Glyph}" />
                                                                 <!--<Setter Property="Shape.Stroke" TargetName="ExpandPath">
                                                                     <Setter.Value>
                                                                         <SolidColorBrush>#FFc8c8c8</SolidColorBrush>
@@ -202,14 +198,14 @@
                         <Trigger Property="UIElement.IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground">
                                 <Setter.Value>
-                                    <DynamicResource ResourceKey="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
+                                    <DynamicResource ResourceKey="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsEditable" Value="False">
                             <Setter Property="TextElement.Foreground" TargetName="content">
                                 <Setter.Value>
-                                    <DynamicResource ResourceKey="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
+                                    <DynamicResource ResourceKey="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -234,24 +230,24 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type treeview:TreeViewExItem}" BasedOn="{StaticResource Macad.Styles.TreeViewExItem.Base}">
-        <Setter Property="BorderBrushFocusedSelected" Value="{StaticResource Macad.Brushes.ListView.SelectedFocused.Border}" />
-        <Setter Property="BackgroundFocusedSelected" Value="{StaticResource Macad.Brushes.ListView.SelectedFocused.Background}" />
+    <Style TargetType="{x:Type treeview:TreeViewExItem}" BasedOn="{mmp:AppResource Macad.Styles.TreeViewExItem.Base}">
+        <Setter Property="BorderBrushFocusedSelected" Value="{mmp:AppResource Macad.Brushes.ListView.SelectedFocused.Border}" />
+        <Setter Property="BackgroundFocusedSelected" Value="{mmp:AppResource Macad.Brushes.ListView.SelectedFocused.Background}" />
 
-        <Setter Property="BorderBrushSelectedHovered" Value="{StaticResource Macad.Brushes.ListView.SelectedMouseOver.Border}" />
-        <Setter Property="BackgroundSelectedHovered" Value="{StaticResource Macad.Brushes.ListView.SelectedMouseOver.Background}" />
+        <Setter Property="BorderBrushSelectedHovered" Value="{mmp:AppResource Macad.Brushes.ListView.SelectedMouseOver.Border}" />
+        <Setter Property="BackgroundSelectedHovered" Value="{mmp:AppResource Macad.Brushes.ListView.SelectedMouseOver.Background}" />
 
-        <Setter Property="BorderBrushFocused" Value="{StaticResource Macad.Brushes.ListView.Focused.Border}" />
-        <Setter Property="BackgroundFocused" Value="{StaticResource Macad.Brushes.ListView.Focused.Background}" />
+        <Setter Property="BorderBrushFocused" Value="{mmp:AppResource Macad.Brushes.ListView.Focused.Border}" />
+        <Setter Property="BackgroundFocused" Value="{mmp:AppResource Macad.Brushes.ListView.Focused.Background}" />
 
-        <Setter Property="BorderBrushSelected" Value="{StaticResource Macad.Brushes.ListView.Selected.Border}" />
-        <Setter Property="BackgroundSelected" Value="{StaticResource Macad.Brushes.ListView.Selected.Border}" />
+        <Setter Property="BorderBrushSelected" Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Border}" />
+        <Setter Property="BackgroundSelected" Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Border}" />
 
-        <Setter Property="BorderBrushHovered" Value="{StaticResource Macad.Brushes.ListView.MouseOver.Border}" />
-        <Setter Property="BackgroundHovered" Value="{StaticResource Macad.Brushes.ListView.MouseOver.Background}" />
+        <Setter Property="BorderBrushHovered" Value="{mmp:AppResource Macad.Brushes.ListView.MouseOver.Border}" />
+        <Setter Property="BackgroundHovered" Value="{mmp:AppResource Macad.Brushes.ListView.MouseOver.Background}" />
 
-        <Setter Property="BorderBrushInactive" Value="{StaticResource Macad.Brushes.ListView.Disabled.Border}" />
-        <Setter Property="BackgroundInactive" Value="{StaticResource Macad.Brushes.ListView.Focused.Background}" />
+        <Setter Property="BorderBrushInactive" Value="{mmp:AppResource Macad.Brushes.ListView.Disabled.Border}" />
+        <Setter Property="BackgroundInactive" Value="{mmp:AppResource Macad.Brushes.ListView.Focused.Background}" />
     </Style>
     
     <Style TargetType="{x:Type treeview:TreeViewEx}">
@@ -266,15 +262,15 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="InsertionMarkerBrush" Value="{StaticResource Macad.Brushes.Glyph}" />
-        <Setter Property="Panel.Background" Value="{StaticResource Macad.Brushes.ListView.Background}" />
+        <Setter Property="InsertionMarkerBrush" Value="{mmp:AppResource Macad.Brushes.Glyph}" />
+        <Setter Property="Panel.Background" Value="{mmp:AppResource Macad.Brushes.ListView.Background}" />
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False" />
         <Setter Property="Border.BorderBrush" Value="#FF828790" />
         <Setter Property="Border.BorderThickness" Value="1" />
-        <Setter Property="Control.Padding" Value="1" />
+        <Setter Property="Padding" Value="1" />
         <Setter Property="TextElement.Foreground">
             <Setter.Value>
-                <DynamicResource ResourceKey="{StaticResource Macad.Colors.ListView.Text}" />
+                <DynamicResource ResourceKey="{mmp:AppResource Macad.Brushes.ListView.Text}" />
             </Setter.Value>
         </Setter>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility">
@@ -287,12 +283,12 @@
                 <x:Static Member="ScrollBarVisibility.Auto" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Control.VerticalContentAlignment">
+        <Setter Property="VerticalContentAlignment">
             <Setter.Value>
                 <x:Static Member="VerticalAlignment.Center" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Control.Template">
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type treeview:TreeViewEx}">
                     <Border BorderThickness="{TemplateBinding Border.BorderThickness}"

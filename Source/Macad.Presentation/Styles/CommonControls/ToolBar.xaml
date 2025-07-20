@@ -2,16 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Button.xaml" />
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
 
     <!--Separator-->
     <Style x:Key="{x:Static ToolBar.SeparatorStyleKey}" TargetType="{x:Type Separator}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Glyph}"/>
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Glyph}"/>
         <Setter Property="MinWidth" Value="1"/>
         <Setter Property="MinHeight" Value="1"/>
         <Setter Property="Margin" Value="2,2,2,2"/>
@@ -32,7 +28,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <!--<Setter Property="FontSize" Value="10"/>-->
         <Setter Property="MinHeight" Value="22"/>
         <Setter Property="MinWidth" Value="22"/>
@@ -50,16 +46,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Pressed.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Background}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -70,7 +66,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource Macad.Styles.Button.ToolBar}" />
+    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{mmp:AppResource Macad.Styles.Button.ToolBar}" />
 
     <!--ToggleButton-->
     <Style x:Key="{x:Static ToolBar.ToggleButtonStyleKey}" TargetType="{x:Type ToggleButton}">
@@ -93,35 +89,35 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Checked.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Checked.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Background}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsChecked" Value="true"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.CheckedMouseOver.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.CheckedMouseOver.Background}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.CheckedMouseOver.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.CheckedMouseOver.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsKeyboardFocused" Value="true"/>
                                 <Condition Property="IsChecked" Value="true"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Checked.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}"/>
-                            <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}"/>
+                            <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Border}"/>
+                            <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -135,7 +131,7 @@
 
     <Style x:Key="Macad.Styles.ToggleButton.ToolBarHorizontalOverflow" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Glyph}" />
         <Setter Property="MinHeight" Value="0"/>
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="Template">
@@ -151,10 +147,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource Macad.Colors.Button.MouseOver.Background}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource Macad.Colors.Button.MouseOver.Background}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Visibility" Value="Hidden"/>
@@ -187,7 +183,7 @@
                                     <DrawingBrush.Drawing>
                                         <DrawingGroup>
                                             <GeometryDrawing Brush="White" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
-                                            <GeometryDrawing Brush="{StaticResource Macad.Brushes.Glyph}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
+                                            <GeometryDrawing Brush="{mmp:AppResource Macad.Brushes.Glyph}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
                                         </DrawingGroup>
                                     </DrawingBrush.Drawing>
                                 </DrawingBrush>
@@ -206,7 +202,7 @@
 
     <Style TargetType="{x:Type ToolBar}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolBar}">
@@ -215,7 +211,7 @@
                             <ToggleButton x:Name="OverflowButton" 
                                           IsEnabled="{TemplateBinding HasOverflowItems}" 
                                           FocusVisualStyle="{x:Null}" 
-                                          Style="{StaticResource Macad.Styles.ToggleButton.ToolBarHorizontalOverflow}" 
+                                          Style="{mmp:AppResource Macad.Styles.ToggleButton.ToolBarHorizontalOverflow}" 
                                           ClickMode="Press" 
                                           IsChecked="{Binding Path=IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <Popup x:Name="OverflowPopup"
@@ -226,8 +222,8 @@
                                    StaysOpen="False" >
                                 <Border x:Name="Shdw">
                                     <Border BorderThickness="1,1,1,1" 
-                                            Background="{StaticResource Macad.Brushes.Popup.Background}" 
-                                            BorderBrush="{StaticResource Macad.Brushes.Popup.Border}">
+                                            Background="{mmp:AppResource Macad.Brushes.Popup.Background}" 
+                                            BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}">
                                         <ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" 
                                                               Focusable="true" 
                                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
@@ -252,7 +248,7 @@
                                            Padding="6,5,1,6" 
                                            Margin="-3,-1,0,0" 
                                            Width="10"
-                                           Style="{StaticResource Macad.Styles.Thumb.ToolBar}" />
+                                           Style="{mmp:AppResource Macad.Styles.Thumb.ToolBar}" />
                                     <ContentPresenter x:Name="ToolBarHeader"
                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -300,7 +296,7 @@
                             <!--<Setter Property="Background" Value="{StaticResource ToolBarVerticalBackground}"/>-->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Disabled.Text}"/>
+                            <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Button.Disabled.Text}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -309,7 +305,7 @@
     </Style>
 
     <Style TargetType="{x:Type ToolBarTray}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Popup.Header.Background}"/>
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Header.Background}"/>
     </Style>
 
 </ResourceDictionary>

@@ -3,13 +3,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
 
     <Style x:Key="Macad.Styles.ScrollBar.Minimal" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.ScrollBar.Foreground}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.ScrollBar.Foreground}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MinWidth" Value="6" />
         <Setter Property="MinHeight" Value="6" />

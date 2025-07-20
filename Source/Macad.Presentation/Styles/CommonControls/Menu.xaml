@@ -3,12 +3,8 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mmp="clr-namespace:Macad.Presentation"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:Fluent="urn:fluent-ribbon"
+                    xmlns:fluent="urn:fluent-ribbon"
                     mc:Ignorable="d">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <!--region MenuItem-->
 
@@ -16,7 +12,7 @@
 
     <ControlTemplate x:Key="MenuItemTemplate"
                      TargetType="{x:Type MenuItem}">
-        <Grid Background="{StaticResource Macad.Brushes.Popup.Background}">
+        <Grid Background="{mmp:AppResource Macad.Brushes.Popup.Background}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="25" />
                 <ColumnDefinition Width="*" />
@@ -28,8 +24,8 @@
                     Margin="0"
                     Width="Auto"
                     Visibility="Collapsed"
-                    Background="{StaticResource Macad.Brushes.Button.MouseOver.Background}"
-                    BorderBrush="{StaticResource Macad.Brushes.Button.MouseOver.Border}"
+                    Background="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}"
+                    BorderBrush="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}"
                     BorderThickness="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="4">
@@ -50,7 +46,7 @@
                 <ContentPresenter x:Name="iconImage"
                                   Height="16" Width="16"
                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                  Content="{Fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
+                                  Content="{fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '16,16', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
                                   Margin="3,2,2,2"
                                   SnapsToDevicePixels="True" />
             </Border>
@@ -65,8 +61,8 @@
                 <Image.Source>
                     <DrawingImage>
                         <DrawingImage.Drawing>
-                            <GeometryDrawing Brush="{StaticResource Macad.Brushes.Glyph}"
-                                             Geometry="{StaticResource Macad.Geometries.Check}" />
+                            <GeometryDrawing Brush="{mmp:AppResource Macad.Brushes.Glyph}"
+                                             Geometry="{mmp:AppResource Macad.Geometries.Check}" />
                         </DrawingImage.Drawing>
                     </DrawingImage>
                 </Image.Source>
@@ -83,7 +79,7 @@
             </Grid>
             <Popup IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" x:Name="SubMenuPopup" Focusable="false" AllowsTransparency="true" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                 <Grid x:Name="SubMenu">
-                    <Border x:Name="SubMenuBorder" Background="{StaticResource Macad.Brushes.Popup.Background}" BorderThickness="1" />
+                    <Border x:Name="SubMenuBorder" Background="{mmp:AppResource Macad.Brushes.Popup.Background}" BorderThickness="1" />
                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                 </Grid>
             </Popup>
@@ -182,13 +178,13 @@
                 <Setter Property="Effect"
                         TargetName="iconImage">
                     <Setter.Value>
-                        <Fluent:GrayscaleEffect />
+                        <fluent:GrayscaleEffect />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="Effect"
                         TargetName="checkedImage">
                     <Setter.Value>
-                        <Fluent:GrayscaleEffect />
+                        <fluent:GrayscaleEffect />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -210,7 +206,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid Height="Auto"
-                          Background="{StaticResource Macad.Brushes.Popup.Header.Background}">
+                          Background="{mmp:AppResource Macad.Brushes.Popup.Header.Background}">
                         <TextBlock Margin="7,1" 
                                    FontSize="11" 
                                    FontWeight="SemiBold"
@@ -229,7 +225,7 @@
     <!--region ContextMenu-->
 
     <Style TargetType="{x:Type ContextMenu}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Popup.Background}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Background}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -240,7 +236,7 @@
                     <Border Background="Transparent">
                         <mmp:DropShadow Margin="6">
                             <Grid>
-                                <Border x:Name="Border" BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="1">
+                                <Border x:Name="Border" BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="1">
                                     <StackPanel Background="{TemplateBinding Background}" IsItemsHost="True" ClipToBounds="True" Orientation="Vertical" />
                                 </Border>
                             </Grid>
@@ -256,7 +252,7 @@
     <!--region ToolbarContextMenu-->
 
     <Style TargetType="{x:Type mmp:ToolbarContextMenu}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Popup.Background}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Background}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -276,7 +272,7 @@
                                 Grid.Row="0">
                             <mmp:DropShadow Margin="6">
                                 <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="1">
+                                        BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="1">
                                     <ContentPresenter Content="{Binding ToolbarContent, RelativeSource={RelativeSource TemplatedParent}}"
                                                       SnapsToDevicePixels="True" 
                                                       HorizontalAlignment="Left" 
@@ -289,7 +285,7 @@
                                 Background="Transparent"
                                 Grid.Row="1">
                             <mmp:DropShadow Margin="6">
-                                    <Border x:Name="Border" BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="1">
+                                    <Border x:Name="Border" BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="1">
                                         <StackPanel Background="{TemplateBinding Background}" IsItemsHost="True" ClipToBounds="True" Orientation="Vertical" />
                                     </Border>
                             </mmp:DropShadow>

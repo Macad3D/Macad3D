@@ -4,18 +4,13 @@
                     mc:Ignorable="d"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-        <ResourceDictionary Source="ScrollViewer.xaml" />
-    </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="Macad.Styles.Thumb.Slider" d:IsControlPart="True" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Height" Value="14" />
         <Setter Property="Width" Value="14" />
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}"/>
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Background}"/>
+        <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Border}"/>
         <Setter Property="BorderThickness" Value="1,1,1,1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -29,11 +24,11 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Background" Property="Background" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                            <Setter TargetName="Background" Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
-                            <Setter TargetName="Background" Property="Background" Value="{StaticResource Macad.Brushes.Button.Checked.Background}" />
-                            <Setter TargetName="Background" Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Checked.Border}" />
+                            <Setter TargetName="Background" Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Background}" />
+                            <Setter TargetName="Background" Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Checked.Border}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -42,7 +37,7 @@
     </Style>
     
     <Style TargetType="{x:Type Slider}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.ScrollBar.Foreground}"/>
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.ScrollBar.Foreground}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -67,13 +62,13 @@
                                 BorderThickness="0" />
                         <Track Grid.Row="1" x:Name="PART_Track">
                             <Track.Thumb>
-                                <Thumb Style="{StaticResource Macad.Styles.Thumb.Slider}" Foreground="{x:Null}" Width="20" />
+                                <Thumb Style="{mmp:AppResource Macad.Styles.Thumb.Slider}" Foreground="{x:Null}" Width="20" />
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource Macad.Styles.RepeatButton.Scroll}" Command="Slider.IncreaseLarge" />
+                                <RepeatButton Style="{mmp:AppResource Macad.Styles.RepeatButton.Scroll}" Command="Slider.IncreaseLarge" />
                             </Track.IncreaseRepeatButton>
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Style="{StaticResource Macad.Styles.RepeatButton.Scroll}" Command="Slider.DecreaseLarge" />
+                                <RepeatButton Style="{mmp:AppResource Macad.Styles.RepeatButton.Scroll}" Command="Slider.DecreaseLarge" />
                             </Track.DecreaseRepeatButton>
                         </Track>
                         <TickBar Visibility="Collapsed" Grid.Row="2" x:Name="BottomTick" Height="4" SnapsToDevicePixels="True" Placement="Bottom" Fill="{TemplateBinding Foreground}" />

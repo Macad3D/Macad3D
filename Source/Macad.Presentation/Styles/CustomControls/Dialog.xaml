@@ -2,23 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
     
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-    
     
     <Style x:Key="Macad.Styles.Button.DialogFooter" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="MinHeight" Value="27"/>
         <Setter Property="MinWidth" Value="80"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="10,0"/>
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
     </Style>
 
 
     <Style TargetType="{x:Type mmp:Dialog}">
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Popup.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Background}" />
         <Setter Property="MinWidth" Value="240" />
         <Setter Property="MinHeight" Value="240" />
         <Setter Property="ShowInTaskbar" Value="False" />
@@ -39,7 +35,7 @@
                     <Border Background="Transparent">
                         <mmp:DropShadow Margin="6">
                             <Grid>
-                                <Border BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="2">
+                                <Border BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="2">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -52,7 +48,7 @@
 
                                         <!-- title -->
                                         <Grid>
-                                            <StackPanel Background="{StaticResource Macad.Brushes.Popup.Header.Background}">
+                                            <StackPanel Background="{mmp:AppResource Macad.Brushes.Popup.Header.Background}">
                                                 <TextBlock Text="{TemplateBinding Title, Converter={mmp:StringUppercaseConverter}}" 
                                                            HorizontalAlignment="Center"
                                                         Foreground="Black"
@@ -62,7 +58,7 @@
                                                         FontWeight="SemiBold"
                                                         TextOptions.TextFormattingMode="Ideal"
                                                         TextTrimming="CharacterEllipsis" />
-                                                <Rectangle Height="1"  Fill="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+                                                <Rectangle Height="1"  Fill="{mmp:AppResource Macad.Brushes.Popup.Header.Border}" />
                                             </StackPanel>
 
                                             <!-- header -->
@@ -78,15 +74,15 @@
                                         </Grid>
 
                                         <!-- footer -->
-                                        <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{StaticResource Macad.Brushes.Popup.Header.Border}"
-                                                Background="{StaticResource Macad.Brushes.Popup.Header.Background}">
+                                        <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Header.Border}"
+                                                Background="{mmp:AppResource Macad.Brushes.Popup.Header.Background}">
                                             
                                             <ContentPresenter Grid.Row="2" Margin="20,5"
                                                             Content="{Binding Footer, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         </Border>
                                     </Grid>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Macad.Brushes.Popup.Header.Border}" 
+                                <Border BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Header.Border}" 
                                         BorderThickness="2" 
                                         Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={mmp:BoolToVisibleHiddenConverter}}" />
                             </Grid>

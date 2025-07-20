@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Macad.Resources;
 
 namespace Macad.Presentation;
 
@@ -22,12 +23,11 @@ public class TypeToImageSourceConverter : ConverterMarkupExtension<TypeToImageSo
         if (!_Cache.TryGetValue(type, out drawing))
         {
             var typeName = Common.Serialization.Serializer.ApplyNamespaceAlias(type.FullName);
-            var key = $"TypeIcon_{typeName.Replace('.', '-')}";
 
             // Treat as XAML resource
             try
             {
-                drawing = Application.Current.Resources[key] as Drawing;
+                drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.TypeIcon, typeName.Replace('.', '-'));
             }
             catch (Exception)
             {

@@ -39,6 +39,17 @@ public partial class App : Application
             bIsWine = true;
             regkey.Close();
         }
+
+        // Set AppUserModelID for Shell-Features like JumpList, Taskbar-Grouping
+        Win32Api.SetCurrentProcessExplicitAppUserModelID("Macad.1");
+
+        CreateInstanceMutexes();
+
+        // Init context
+        AppContext.Initialize(cmdLine);
+
+        // Load theme depending on settings or operating system
+        _LoadTheme();
             
         // Show Welcome Dialog while initializing
         bool bSkipWelcome = cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
@@ -47,20 +58,12 @@ public partial class App : Application
             WelcomeDialog.ShowAsync();
         }
 
-        // Set AppUserModelID for Shell-Features like JumpList, Taskbar-Grouping
-        Win32Api.SetCurrentProcessExplicitAppUserModelID("Macad.1");
-
-        CreateInstanceMutexes();
-
         // Init OCCT
 #if DEBUG
         Environment.SetEnvironmentVariable(@"CSF_DEBUG", "1");
 #endif
         // Init statics
         GlobalEventHandler.Init();
-
-        // Init context
-        AppContext.Initialize(cmdLine);
 
         // Start main window
         MainWindow = new MainWindow(new MainWindowModel());
@@ -75,6 +78,33 @@ public partial class App : Application
         }
 
         base.OnStartup(e);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _LoadTheme()
+    {
+        var appParameter = AppContext.Current?.Parameters.Get<ApplicationParameterSet>();
+        ApplicationTheme theme = appParameter?.Theme ?? ApplicationTheme.Auto;
+
+        if (theme == ApplicationTheme.Auto)
+        {
+            const string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            using RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath);
+            object registryValueObject = key?.GetValue("AppsUseLightTheme");
+            if (registryValueObject != null)
+            {
+                int registryValue = (int)registryValueObject;
+                theme = registryValue == 0 ? ApplicationTheme.Dark : ApplicationTheme.Light;
+            }
+        }
+
+        var themeName = theme == ApplicationTheme.Dark ? "ThemeDark.xaml" : "ThemeLight.xaml";
+        var themeDict = new ResourceDictionary
+        {
+            Source = new Uri($"pack://application:,,,/Macad.Presentation;Component/Styles/" + themeName)
+        };
+        Resources.MergedDictionaries.Add(themeDict);
     }
 
     //--------------------------------------------------------------------------------------------------

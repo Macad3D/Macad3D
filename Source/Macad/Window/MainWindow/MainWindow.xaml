@@ -18,7 +18,7 @@
                      BorderThickness="0"
                      BorderBrush="Black"
                      NonActiveBorderBrush="{StaticResource Macad.Brushes.Window.Background}"
-                     GlowColor="{StaticResource Macad.Colors.Window.Border}"
+                     GlowColor="Transparent"
                      GlowDepth="0"
                      AutomationProperties.AutomationId="MacadMainWindow"
                      Icon="pack://application:,,,/Macad.Resources;Component/Icons/App/App-MainLogo.ico"

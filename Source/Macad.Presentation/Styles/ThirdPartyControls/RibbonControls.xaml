@@ -5,19 +5,15 @@
                     xmlns:mmp="clr-namespace:Macad.Presentation"
                     xmlns:Fluent="urn:fluent-ribbon"
                     mc:Ignorable="d">
-    
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="RibbonBrushes.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <!--region ApplicationMenu-->
 
     <Style TargetType="{x:Type Fluent:ApplicationMenu}">
-        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Base80}" />
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.White}" />
+        <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Base80}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.White}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource Macad.Brushes.AccentDark}" />
+                <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.AccentDark}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -29,13 +25,13 @@
     <Style x:Key="Fluent.Ribbon.Styles.MenuGroupSeparator"
            TargetType="{x:Type Fluent:GroupSeparatorMenuItem}">
         <Setter Property="Template"
-                Value="{StaticResource Fluent.Ribbon.Templates.MenuGroupSeparator}" />
+                Value="{mmp:AppResource Fluent.Ribbon.Templates.MenuGroupSeparator}" />
     </Style>
     
     <ControlTemplate x:Key="Fluent.Ribbon.Templates.MenuGroupSeparator"
                      TargetType="{x:Type Fluent:GroupSeparatorMenuItem}">
         <Grid Height="Auto"
-              Background="{StaticResource Fluent.Ribbon.Brushes.GroupSeparator.Background}">
+              Background="{mmp:AppResource Fluent.Ribbon.Brushes.GroupSeparator.Background}">
             <TextBlock Margin="7,1" 
                        FontSize="11" 
                        FontWeight="SemiBold"
@@ -80,21 +76,21 @@
 
     <!-- Fix for not correctly drawn caption button paths in high DPI mode -->
     <Style x:Key="Fluent.Ribbon.Styles.WindowCommands.CaptionButton" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Background}" />
-        <Setter Property="Foreground" Value="{DynamicResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Foreground}" />
+        <Setter Property="Background" Value="{mmp:AppResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Foreground}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="Width" Value="46" />
-        <Setter Property="Template" Value="{DynamicResource Fluent.Ribbon.Templates.WindowCommands.CaptionButton}" />
+        <Setter Property="Template" Value="{mmp:AppResource Fluent.Ribbon.Templates.WindowCommands.CaptionButton}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.MouseOver.Background}" />
+                <Setter Property="Background" Value="{mmp:AppResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.MouseOver.Background}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Pressed.Background}" />
+                <Setter Property="Background" Value="{mmp:AppResource Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Pressed.Background}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -104,7 +100,7 @@
     <!--region Menu Item MRU Template -->
 
     <Style x:Key="Macad.Styles.MenuItem.MRU"  TargetType="Fluent:MenuItem">
-        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Black}"/>
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Black}"/>
         <Setter Property="Margin" Value="2,0"/>
         <Setter Property="RecognizesAccessKey" Value="false"/>
         <Setter Property="Fluent:RibbonProperties.IconSize" Value="Medium" />
@@ -115,7 +111,7 @@
                     <ControlTemplate.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type ScrollViewer}"
-                                   BasedOn="{StaticResource Fluent.Ribbon.Styles.MenuScrollViewer}"
+                                   BasedOn="{mmp:AppResource Fluent.Ribbon.Styles.MenuScrollViewer}"
                                    TargetType="{x:Type ScrollViewer}" />
                         </ResourceDictionary>
                     </ControlTemplate.Resources>
@@ -138,8 +134,8 @@
                                     Width="Auto"
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
-                                    Background="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}"
-                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}"
+                                    Background="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}"
+                                    BorderBrush="{mmp:AppResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}"
                                     BorderThickness="1"
                                     CornerRadius="2"
                                     Visibility="Collapsed" />
@@ -164,7 +160,7 @@
                                        VerticalAlignment="Top"
                                        TextWrapping="Wrap"
                                        d:LayoutOverrides="Width"
-                                       Foreground="{StaticResource Macad.Brushes.TextLight}">
+                                       Foreground="{mmp:AppResource Macad.Brushes.TextLight}">
                                 <mmp:Behaviors.Behavior>
                                     <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileDirectoryConverter}}" />
                                 </mmp:Behaviors.Behavior>
@@ -199,7 +195,7 @@
            TargetType="{x:Type Rectangle}">
         <Setter Property="Margin" Value="-1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Stroke" Value="{StaticResource Macad.Brushes.Black}" />
+        <Setter Property="Stroke" Value="{mmp:AppResource Macad.Brushes.Black}" />
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="StrokeDashArray" Value="2 2" />
     </Style>
