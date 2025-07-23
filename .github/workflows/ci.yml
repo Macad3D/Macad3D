@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Restore packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: .\ScriptConsole.cmd restore
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: .\ScriptConsole.cmd build release
+
+    - name: Run unit tests
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: .\ScriptConsole.cmd test unit
