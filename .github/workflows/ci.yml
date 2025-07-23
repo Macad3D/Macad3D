@@ -1,6 +1,8 @@
 name: Continuous Integration
 
-on: push
+on:
+  pull_request:
+  push:
 
 jobs:
   build:
@@ -20,3 +22,10 @@ jobs:
     - name: Run unit tests
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: .\ScriptConsole.cmd test unit
+    
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
+      if: (!cancelled())
+      with:
+        files: bin\release\TestResults\Test.Unit.xml
+        
