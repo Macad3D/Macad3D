@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
 
+permissions:
+  checks: write
+  
 jobs:
   build:
     runs-on: windows-latest
@@ -28,4 +31,4 @@ jobs:
       if: (!cancelled())
       with:
         files: bin\release\TestResults\Test.Unit.xml
-        
+        comment_mode: off
