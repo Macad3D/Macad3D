@@ -46,18 +46,19 @@ jobs:
     - name: Run unit tests
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: .\ScriptConsole.cmd test unit
-    
-    - name: Test Report
-      uses: dorny/test-reporter@v2
-      if: ${{ !cancelled() }}       # run this step even if previous step failed
+      
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
+      if: (!cancelled())
       with:
-        name: Unit Tests            # Name of the check run which will be created
-        path: Test.Unit.xml
-        path-replace-backslashes: true
-        reporter: dotnet-nunit
-        list-suites: failed
-        list-tests: failed
-        fail-on-error: false
-        working-directory: ./bin/release/TestResults
-        
+        files: .\bin\release\TestResults\Test.Unit.xml
+        comment_mode: off
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          .\bin\release\TestResults\Test.Unit.xml
+          .\Data\UnitTests\**\*_TestResult.*
         
