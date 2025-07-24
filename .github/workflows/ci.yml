@@ -9,8 +9,8 @@ permissions:
   
 jobs:
   build:
+    name: Build
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v4
 
@@ -22,6 +22,11 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: .\ScriptConsole.cmd build release
 
+  test:
+    name: Run Unit Tests
+    needs: build
+    runs-on: windows-latest
+    steps:
     - name: Run unit tests
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: .\ScriptConsole.cmd test unit
@@ -31,5 +36,5 @@ jobs:
       if: ${{ !cancelled() }}       # run this step even if previous step failed
       with:
         name: Unit Tests            # Name of the check run which will be created
-        path: bin\release\TestResults\Test.Unit.xml
+        path: .\bin\release\TestResults\Test.Unit.xml
         reporter: dotnet-nunit
