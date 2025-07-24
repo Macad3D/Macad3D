@@ -52,6 +52,12 @@ jobs:
       if: ${{ !cancelled() }}       # run this step even if previous step failed
       with:
         name: Unit Tests            # Name of the check run which will be created
-        path: .\bin\release\TestResults\Test.Unit.xml
+        path: Test.Unit.xml
         path-replace-backslashes: true
         reporter: dotnet-nunit
+        list-suites: failed
+        list-tests: failed
+        fail-on-error: false
+        working-directory: ./bin/release/TestResults
+        
+        
