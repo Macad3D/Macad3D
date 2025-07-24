@@ -53,4 +53,5 @@ jobs:
       with:
         name: Unit Tests            # Name of the check run which will be created
         path: .\bin\release\TestResults\Test.Unit.xml
+        path-replace-backslashes: true
         reporter: dotnet-nunit
