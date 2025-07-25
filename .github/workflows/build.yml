@@ -1,6 +1,4 @@
-name: Build
-
-on: [workflow_call]
+on: workflow_call
   
 jobs:
   build:
@@ -29,4 +27,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifact
-        path: .\bin\release\
+        path: |
+          .\bin\release\
+          !.\bin\release\*.pdb
+        retention-days: 1
+  
