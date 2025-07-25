@@ -1,64 +1,10 @@
 name: CI
 
-on:
-  pull_request:
-  push:
-
-permissions:
-  checks: write
+on: [pull_request, push]
   
 jobs:
   build:
-    name: Build
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Restore packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: .\ScriptConsole.cmd restore
-
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: .\ScriptConsole.cmd build release
-
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifact
-        path: .\bin\release\
+    uses: ./.github/workflows/build.yml
 
   test:
-    name: Run Unit Tests
-    needs: build
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Download build artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: build-artifact
-        path: .\bin\release
-        
-    - name: Run unit tests
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: .\ScriptConsole.cmd test unit
-      
-    - name: Publish test results
-      uses: EnricoMi/publish-unit-test-result-action/windows@v2
-      if: (!cancelled())
-      with:
-        files: .\bin\release\TestResults\Test.Unit.xml
-        comment_mode: off
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: |
-          .\bin\release\TestResults\Test.Unit.xml
-          .\Data\UnitTests\**\*_TestResult.*
-        
+    uses: ./.github/workflows/test.yml

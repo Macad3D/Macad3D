@@ -1,0 +1,32 @@
+name: Build
+
+on: [workflow_call]
+  
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.nuget/packages
+        key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+        restore-keys: |
+          nuget-${{ runner.os }}-
+            
+    - name: Restore packages
+      run: .\ScriptConsole.cmd restore
+
+    - name: Build
+      run: .\ScriptConsole.cmd build release
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: .\bin\release\
