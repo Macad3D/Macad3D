@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Run Tests
 inputs:
   module:
     description: The modules to test, e.g. 'unit'. Defaults to 'unit'.
@@ -21,9 +21,9 @@ runs:
   - name: Restore packages
     if: ${{ inputs.module == 'memory' }}
     shell: cmd
-    run: dotnet restore .\Tests\Macad.Test.Memory\Macad.Test.Memory.csproj
+    run: dotnet restore .\Tests\Test.Memory\Test.Memory.csproj
 
-  - name: Run unit tests
+  - name: Run tests
     shell: cmd
     run: .\ScriptConsole.cmd test ${{ inputs.module }}
 

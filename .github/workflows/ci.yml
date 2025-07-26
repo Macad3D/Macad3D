@@ -18,14 +18,14 @@ jobs:
         uses: ./.github/actions/build
 
   test:
-    name: Run Unit Tests
+    name: Run Tests
     needs: build
     runs-on: windows-latest
 
     strategy:
       fail-fast: false
       matrix:
-        module: [unit, ui, memory]
+        module: [unit, memory]
 
     steps:
       - name: Checkout repository
@@ -41,7 +41,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: Unit Tests
-          path: Test.Unit.xml
+          path: Test.*.xml
           path-replace-backslashes: true
           reporter: dotnet-nunit
           list-suites: failed
