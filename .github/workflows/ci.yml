@@ -51,6 +51,6 @@ jobs:
           name: Test report ($1)
           path: '**/*.xml'
           reporter: dotnet-nunit
-          list-suites: failed
+          list-suites: all
           list-tests: failed
           fail-on-error: false
