@@ -50,9 +50,8 @@ runs:
     uses: dorny/test-reporter@v2
     if: ${{ !cancelled() }}
     with:
-      artifact: /test-results-(.*)/
-      name: Test report ($1)
-      path: '**/*.xml'
+      name: Test report (${{ inputs.module }})
+      path: .\bin\release\TestResults\*
       reporter: dotnet-nunit
       list-suites: failed
       list-tests: failed
