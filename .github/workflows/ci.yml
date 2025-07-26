@@ -7,8 +7,28 @@ permissions:
   
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - uses: ./.github/actions/build
 
   test:
+    name: Run Unit Tests
     needs: build
-    uses: ./.github/workflows/test.yml
+    runs-on: windows-latest
+
+    steps:
+      - uses: ./.github/actions/test
+        
+      - uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          name: Unit Tests
+          path: Test.Unit.xml
+          path-replace-backslashes: true
+          reporter: dotnet-nunit
+          list-suites: failed
+          list-tests: failed
+          fail-on-error: true
+          working-directory: ./bin/release/TestResults
