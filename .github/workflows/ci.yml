@@ -35,16 +35,20 @@ jobs:
         uses: ./.github/actions/test
         with:
           module: ${{ matrix.module }}
+
+  publish:
+    name: Publish Test Results
+    needs: test
+    if: ${{ !cancelled() }}
        
       - name: Publish test results
         uses: dorny/test-reporter@v2
         if: ${{ !cancelled() }}
         with:
-          name: Unit Tests
-          path: Test.*.xml
-          path-replace-backslashes: true
+          artifact-name: /test-results-(.*)/
+          name: Test report ($1)
+          path: **/*.xml
           reporter: dotnet-nunit
           list-suites: failed
           list-tests: failed
-          fail-on-error: true
-          working-directory: ./bin/release/TestResults
+          fail-on-error: false
