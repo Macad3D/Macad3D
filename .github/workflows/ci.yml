@@ -40,7 +40,8 @@ jobs:
     name: Publish Test Results
     needs: test
     if: ${{ !cancelled() }}
-       
+    
+    steps:
       - name: Publish test results
         uses: dorny/test-reporter@v2
         if: ${{ !cancelled() }}
