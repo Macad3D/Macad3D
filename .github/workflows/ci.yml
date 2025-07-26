@@ -22,12 +22,18 @@ jobs:
     needs: build
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        module: [unit, ui, memory]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run unit tests
         uses: ./.github/actions/test
+        with:
+          module: ${{ matrix.module }}
        
       - name: Publish test results
         uses: dorny/test-reporter@v2

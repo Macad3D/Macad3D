@@ -1,10 +1,16 @@
 name: Run Unit Tests
+inputs:
+  module:
+    description: The modules to test, e.g. 'unit'. Defaults to 'unit'.
+    required: true
+    default: unit
 
 permissions:
   checks: write
   
 runs:
   using: composite
+
   steps:
   - name: Download build artifact
     uses: actions/download-artifact@v4
@@ -14,15 +20,14 @@ runs:
       
   - name: Run unit tests
     shell: cmd
-    run: .\ScriptConsole.cmd test unit
+    run: .\ScriptConsole.cmd test ${{ inputs.module }}
 
   - name: Upload test results
     uses: actions/upload-artifact@v4
     if: ${{ failure() }}
     with:
-      name: test-results
+      name: test-results-${{ inputs.module }}
       path: |
-        .\bin\release\TestResults\Test.Unit.xml
+        .\bin\release\TestResults\*
         .\Data\UnitTests\**\*_TestResult.*
-
-        
+       

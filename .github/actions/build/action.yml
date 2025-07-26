@@ -28,4 +28,3 @@ runs:
         .\bin\release\
         !.\bin\release\*.pdb
       retention-days: 1
-  
