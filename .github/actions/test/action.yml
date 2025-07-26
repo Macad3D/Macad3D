@@ -12,16 +12,26 @@ runs:
   using: composite
 
   steps:
-  - name: Download build artifact
-    uses: actions/download-artifact@v4
+  - name: Cache NuGet packages
+    if: ${{ inputs.module == 'memory' }}
+    uses: actions/cache@v4
     with:
-      name: build-artifact
-      path: .\bin\release
+      path: |
+        ~/.nuget/packages
+      key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+      restore-keys: |
+        nuget-${{ runner.os }}-
                 
   - name: Restore packages
     if: ${{ inputs.module == 'memory' }}
     shell: cmd
     run: dotnet restore .\Tests\Test.Memory\Test.Memory.csproj
+        
+  - name: Download build artifact
+    uses: actions/download-artifact@v4
+    with:
+      name: build-artifact
+      path: .\bin\release
 
   - name: Run tests
     shell: cmd
