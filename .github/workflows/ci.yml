@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
-        uses: ./.github/actions/build
+        uses: .\.github\actions\build
 
   test:
     name: Run Unit Tests
@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run unit tests
-        uses: ./.github/actions/test
+        uses: .\github\actions\test
        
       - name: Publish test results
         uses: dorny/test-reporter@v2

@@ -12,6 +12,7 @@ runs:
       path: .\bin\release
       
   - name: Run unit tests
+    shell: cmd
     run: .\ScriptConsole.cmd test unit
 
   - name: Upload test results
