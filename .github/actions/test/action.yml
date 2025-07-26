@@ -4,9 +4,6 @@ inputs:
     description: The modules to test, e.g. 'unit'. Defaults to 'unit'.
     required: true
     default: unit
-
-permissions:
-  checks: write
   
 runs:
   using: composite
@@ -46,14 +43,4 @@ runs:
         .\bin\release\TestResults\*
         .\Data\UnitTests\**\*_TestResult.*
 
-  - name: Publish test results
-    uses: dorny/test-reporter@v2
-    if: ${{ !cancelled() }}
-    with:
-      name: Test report (${{ inputs.module }})
-      path: .\bin\release\TestResults\*
-      reporter: dotnet-nunit
-      list-suites: failed
-      list-tests: failed
-      fail-on-error: false
-       
+
