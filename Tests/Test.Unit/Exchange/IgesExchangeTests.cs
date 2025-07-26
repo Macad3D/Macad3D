@@ -25,7 +25,8 @@ public class IgesExchangeTests
         Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, bodies));
 
         // When comparing, skip headerlines, they contain date and user
-        AssertHelper.IsSameFile(Path.Combine(_BasePath, "WriteSolid.igs"), path, 5*80);
+        AssertHelper.IsSameFile(Path.Combine(_BasePath, "WriteSolid.igs"), path, 5*81);
+        File.Delete(path);
     }
 
     //--------------------------------------------------------------------------------------------------

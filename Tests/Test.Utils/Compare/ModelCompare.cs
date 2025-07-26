@@ -68,6 +68,7 @@ public static class ModelCompare
         {
             TestData.WriteTestResult(bytes, brepFile + "_TestResult.brep");
             AssertHelper.IsSameText(referenceBytes, bytes, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            TestData.DeleteTestResult(brepFile + "_TestResult.brep");
             return true;
         }
 

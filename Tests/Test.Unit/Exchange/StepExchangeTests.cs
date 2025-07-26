@@ -27,6 +27,7 @@ public class StepExchangeTests
 
         // Skip header bytes, it contains the export date and time
         AssertHelper.IsSameFile(Path.Combine(_BasePath, "WriteSolid.stp"), path, 229);
+        File.Delete(path);
     }
 
     //--------------------------------------------------------------------------------------------------

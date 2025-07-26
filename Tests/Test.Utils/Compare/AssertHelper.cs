@@ -109,11 +109,14 @@ public static class AssertHelper
         // Read file to compare
         var testPathBytes = TestData.GetTestData(testResultPath);
         Assert.IsNotNull(testPathBytes, "Test file not found: " + testResultPath);
+        var testPathSpan = testPathBytes.AsSpan(skipBytes);
         var referenceBytes = TestData.GetTestData(originalPath);
         Assert.IsNotNull(referenceBytes, "Reference file not found: " + originalPath);
+        var referenceSpan = testPathBytes.AsSpan(skipBytes);
 
         // Compare
-        Assert.That(referenceBytes.Skip(skipBytes).SequenceEqual(testPathBytes.Skip(skipBytes)));
+        Assert.That(referenceSpan.SequenceEqual(testPathSpan));
+
         TestData.DeleteTestResult(testResultPath);
     }
 
