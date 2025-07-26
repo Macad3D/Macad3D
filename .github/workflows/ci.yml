@@ -48,7 +48,7 @@ jobs:
         with:
           artifact-name: /test-results-(.*)/
           name: Test report ($1)
-          path: **/*.xml
+          path: '**/*.xml'
           reporter: dotnet-nunit
           list-suites: failed
           list-tests: failed
