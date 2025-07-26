@@ -39,8 +39,9 @@ jobs:
   publish:
     name: Publish Test Results
     needs: test
+    runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
-    
+
     steps:
       - name: Publish test results
         uses: dorny/test-reporter@v2
