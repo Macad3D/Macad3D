@@ -32,3 +32,22 @@ jobs:
         uses: ./.github/actions/test
         with:
           module: ${{ matrix.module }}
+
+  publish:
+    name: Publish Test Results
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+
+    steps:
+      - name: Publish test results
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          artifact: /test-results-(.*)/
+          name: Test report ($1)
+          path: '**/*.xml'
+          reporter: dotnet-nunit
+          list-suites: failed
+          list-tests: failed
+          fail-on-error: false
