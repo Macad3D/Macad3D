@@ -23,9 +23,9 @@ jobs:
     runs-on: windows-latest
 
     strategy:
+      fail-fast: false
       matrix:
         module: [unit, ui, memory]
-        fail-fast: false
 
     steps:
       - name: Checkout repository
