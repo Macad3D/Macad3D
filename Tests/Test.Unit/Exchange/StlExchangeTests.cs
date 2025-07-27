@@ -53,7 +53,7 @@ public class StlExchangeTests
         Assert.IsTrue((exchanger as IBodyImporter).DoImport(path, out var bodies));
         Assert.IsNotNull(bodies);
         Assert.AreEqual(1, bodies.Count());
-        AssertHelper.IsSameModel(bodies.First().Shape, Path.Combine(_BasePath, "AsciiRead"), 
+        AssertHelper.IsSameModel(bodies.First().Shape, Path.Combine(_BasePath, "AsciiRead"),
                                  ModelCompare.CompareFlags.SaveTriangulation | ModelCompare.CompareFlags.CompareText);
     }
 
