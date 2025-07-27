@@ -4,22 +4,22 @@
     
     <!--#region Main Colors -->
 
-    <Color x:Key="Macad.Colors.Black">#FF000000</Color>
     <Color x:Key="Macad.Colors.White">#FFFFFFFF</Color>
+    <Color x:Key="Macad.Colors.Black">#FF000000</Color>
 
-    <Color x:Key="Macad.Colors.Base10">#FF242424</Color>
-    <Color x:Key="Macad.Colors.Base15">#FF2A2A2A</Color>
-    <Color x:Key="Macad.Colors.Base20">#FF303030</Color>
-    <Color x:Key="Macad.Colors.Base25">#FF3C3C3C</Color>
-    <Color x:Key="Macad.Colors.Base30">#FF484848</Color>
-    <Color x:Key="Macad.Colors.Base35">#FF545454</Color>
-    <Color x:Key="Macad.Colors.Base40">#FF606060</Color>
-    <Color x:Key="Macad.Colors.Base50">#FF787878</Color>
-    <Color x:Key="Macad.Colors.Base60">#FF909090</Color>
-    <Color x:Key="Macad.Colors.Base70">#FFA8A8A8</Color>
-    <Color x:Key="Macad.Colors.Base80">#FFC0C0C0</Color>
-    <Color x:Key="Macad.Colors.Base90">#FFD8D8D8</Color>
-    <Color x:Key="Macad.Colors.Base100">#FFF0F0F0</Color>
+    <Color x:Key="Macad.Colors.Base10">#FFF0F0F0</Color>
+    <Color x:Key="Macad.Colors.Base15">#FFE4E4E4</Color>
+    <Color x:Key="Macad.Colors.Base20">#FFD8D8D8</Color>
+    <Color x:Key="Macad.Colors.Base25">#FFCBCBCB</Color>
+    <Color x:Key="Macad.Colors.Base30">#FFC0C0C0</Color>
+    <Color x:Key="Macad.Colors.Base35">#FFB4B4B4</Color>
+    <Color x:Key="Macad.Colors.Base40">#FFA8A8A8</Color>
+    <Color x:Key="Macad.Colors.Base50">#FF909090</Color>
+    <Color x:Key="Macad.Colors.Base60">#FF787878</Color>
+    <Color x:Key="Macad.Colors.Base70">#FF606060</Color>
+    <Color x:Key="Macad.Colors.Base80">#FF484848</Color>
+    <Color x:Key="Macad.Colors.Base90">#FF303030</Color>
+    <Color x:Key="Macad.Colors.Base100">#FF242424</Color>
     
     <Color x:Key="Macad.Colors.Accent">#FFFECA34</Color>
     <Color x:Key="Macad.Colors.AccentDark">#FFC2821B</Color>
