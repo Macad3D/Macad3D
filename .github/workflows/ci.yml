@@ -1,0 +1,56 @@
+name: CI
+
+on: [pull_request, push, workflow_dispatch]
+  
+permissions:
+  checks: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build
+        uses: ./.github/actions/build
+
+  test:
+    name: Run Tests
+    needs: build
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        module: [unit, memory]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run unit tests
+        uses: ./.github/actions/test
+        with:
+          module: ${{ matrix.module }}
+
+  publish:
+    name: Publish Test Results
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+
+    steps:
+      - name: Publish test results
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          artifact: /test-results-(.*)/
+          name: Test report ($1)
+          path: '**/*.xml'
+          reporter: dotnet-nunit
+          list-suites: all
+          list-tests: failed
+          fail-on-error: false

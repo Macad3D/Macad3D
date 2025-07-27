@@ -1,0 +1,30 @@
+name: Build
+
+runs:
+  using: composite
+  steps:
+  - name: Cache NuGet packages
+    uses: actions/cache@v4
+    with:
+      path: |
+        ~/.nuget/packages
+      key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+      restore-keys: |
+        nuget-${{ runner.os }}-
+          
+  - name: Restore packages
+    shell: cmd
+    run: .\ScriptConsole.cmd restore
+
+  - name: Build
+    shell: cmd
+    run: .\ScriptConsole.cmd build release
+
+  - name: Upload build artifact
+    uses: actions/upload-artifact@v4
+    with:
+      name: build-artifact
+      path: |
+        .\bin\release\
+        !.\bin\release\*.pdb
+      retention-days: 1

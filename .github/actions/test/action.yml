@@ -1,0 +1,46 @@
+name: Run Tests
+inputs:
+  module:
+    description: The modules to test, e.g. 'unit'. Defaults to 'unit'.
+    required: true
+    default: unit
+  
+runs:
+  using: composite
+
+  steps:
+  - name: Cache NuGet packages
+    if: ${{ inputs.module == 'memory' }}
+    uses: actions/cache@v4
+    with:
+      path: |
+        ~/.nuget/packages
+      key: nuget-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+      restore-keys: |
+        nuget-${{ runner.os }}-
+                
+  - name: Restore packages
+    if: ${{ inputs.module == 'memory' }}
+    shell: cmd
+    run: dotnet restore .\Tests\Test.Memory\Test.Memory.csproj
+        
+  - name: Download build artifact
+    uses: actions/download-artifact@v4
+    with:
+      name: build-artifact
+      path: .\bin\release
+
+  - name: Run tests
+    shell: cmd
+    run: .\ScriptConsole.cmd test ${{ inputs.module }}
+
+  - name: Upload test results
+    uses: actions/upload-artifact@v4
+    if: ${{ !cancelled() }}
+    with:
+      name: test-results-${{ inputs.module }}
+      path: |
+        .\bin\release\TestResults\*
+        .\Data\UnitTests\**\*_TestResult.*
+
+
