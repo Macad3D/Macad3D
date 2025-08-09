@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 
-namespace Macad.Test.Unit;
+namespace Macad.Test.Utils;
 
 public static class ModelCompare
 {

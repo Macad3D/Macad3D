@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -13,7 +12,7 @@ using Macad.Occt;
 using NUnit.Framework;
 using Macad.Occt.Helper;
 
-namespace Macad.Test.Unit;
+namespace Macad.Test.Utils;
 
 public static class AssertHelper
 {

@@ -31,7 +31,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <InternalsVisibleTo Include="Test.Unit" />
+    <InternalsVisibleTo Include="Test.Core" />
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
 

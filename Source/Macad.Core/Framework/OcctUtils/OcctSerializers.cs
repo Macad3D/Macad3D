@@ -206,7 +206,10 @@ public class OcctSerializers
 
     public static void Init()
     {
-        Debug.Assert(!_IsInitialized);
+        if (_IsInitialized)
+        {
+            return;
+        }
 
         _DoubleArraySerializer = Serializer.GetSerializer(typeof(double[]));
 

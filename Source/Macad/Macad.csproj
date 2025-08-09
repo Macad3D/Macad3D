@@ -29,7 +29,7 @@
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="Test.Unit" />
+    <InternalsVisibleTo Include="Test.Core" />
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
   <ItemGroup>

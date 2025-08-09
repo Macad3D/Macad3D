@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{9a204fd3-b56a-43dc-9f5a-ad8487772f9a}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <RootNamespace>Macad.Test.Unit</RootNamespace>
+    <Platforms>x64</Platforms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Interaction\Macad.Interaction.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Occt\Macad.Occt.vcxproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Macad.ThirdParty.Mesa" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <!-- Import the custom build targets -->
+  
+  <Import Project="$(MMBuildPropsDir)Macad.Test.targets" />
+
+</Project>
