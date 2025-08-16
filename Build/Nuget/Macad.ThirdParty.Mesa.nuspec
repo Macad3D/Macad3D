@@ -4,17 +4,16 @@
         <id>Macad.ThirdParty.Mesa</id>
         <version>$version$</version>
         <title>Mesa OpenGL software driver</title>
-        <authors>Macad3D, pal1000</authors>
+        <authors>Macad3D, Mesa3D</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <license type="file">LICENSE.txt</license>
+        <license type="file">license.txt</license>
         <description>Mesa OpenGL software driver used by Macad3D unit tests.</description>
-        <projectUrl>https://github.com/pal1000/mesa-dist-win</projectUrl>
+        <projectUrl>https://mesa3d.org/</projectUrl>
     </metadata>
     <files>
-        <file src="LICENSE.txt" target="LICENSE.txt" />
+        <file src="license.txt" target="license.txt" />
         <file src="$propdir$\Macad.ThirdParty.Mesa.targets" target="build\Macad.ThirdParty.Mesa.targets" />
         <file src="opengl32.dll" target="content\opengl32.dll" />
         <file src="libgallium_wgl.dll" target="content\libgallium_wgl.dll" />
-        <file src="libglapi.dll" target="content\libglapi.dll" />
     </files>
 </package>

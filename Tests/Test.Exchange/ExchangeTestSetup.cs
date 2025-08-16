@@ -10,6 +10,7 @@ public class ExchangeTestSetup
     [OneTimeSetUp]
     public void SetUp()
     {
+        TestSetup.SetupWpf();
         TestSetup.SetupRendering();
     }
 
