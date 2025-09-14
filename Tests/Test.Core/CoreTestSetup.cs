@@ -12,6 +12,8 @@ public class CoreTestSetup
     {
         TestSetup.SetupWpf();
         TestSetup.SetupRendering();
+
+        Context.InitWithDefault();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -19,6 +21,6 @@ public class CoreTestSetup
     [OneTimeTearDown]
     public void TearDown()
     {
-            
+
     }
 }

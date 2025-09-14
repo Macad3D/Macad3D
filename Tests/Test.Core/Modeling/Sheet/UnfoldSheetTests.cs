@@ -360,4 +360,19 @@ public class UnfoldSheetTests
         AssertHelper.IsWatertight(unfold);
         Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "MultipleSolids2")));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Ignore("BSpline edges in the bend section, which is not supported yet.")]
+    public void BSplineSideEdge()
+    {
+        var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "BSplineSideEdge_Source.brep"));
+        Assert.That(body, Is.Not.Null);
+
+        var unfold = UnfoldSheet.Create(body);//, solidShape.GetSubshapeReference(SubshapeType.Face, 21));
+        Assert.That(unfold.Make(Shape.MakeFlags.DebugOutput));
+        AssertHelper.IsWatertight(unfold);
+        Assert.That(ModelCompare.CompareShape(unfold, Path.Combine(_BasePath, "BSplineSideEdge")));
+    }
 }
