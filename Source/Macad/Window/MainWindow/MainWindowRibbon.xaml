@@ -58,7 +58,10 @@
                                  AutomationProperties.AutomationId="AppMenuNewModel"/>
                 <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:DocumentCommands.OpenModelFrom}"/>
                 <Fluent:MenuItem Header="Settings"
-                                 Icon="{mmp:IconResource App-Settings}">
+                                 Icon="{mmp:IconResource App-Settings}"
+                                 AutomationProperties.AutomationId="AppMenuSettings">
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ShowPreferencesDialog}"
+                                     AutomationProperties.AutomationId="AppMenuPreferencesDialog"/>
                     <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ResetWindowLayout}" />
                 </Fluent:MenuItem>
 

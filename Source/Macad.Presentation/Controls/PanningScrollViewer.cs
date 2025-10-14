@@ -12,9 +12,24 @@ public class PanningScrollViewer : ScrollViewer
         DefaultStyleKeyProperty.OverrideMetadata(typeof(PanningScrollViewer), new FrameworkPropertyMetadata(typeof(PanningScrollViewer)));
     }
 
-    private Point _ScrollStartPoint;
-    private Point _ScrollStartOffset;
-       
+    //--------------------------------------------------------------------------------------------------
+
+    public RelayCommand ScrollToHomeCommand { get; init; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    Point _ScrollStartPoint;
+    Point _ScrollStartOffset;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public PanningScrollViewer()
+    {
+        ScrollToHomeCommand = new( ScrollToHome );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         if (IsMouseOver)
@@ -35,6 +50,8 @@ public class PanningScrollViewer : ScrollViewer
 
         base.OnPreviewMouseDown(e);
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     protected override void OnPreviewMouseMove(MouseEventArgs e)
     {
@@ -61,6 +78,7 @@ public class PanningScrollViewer : ScrollViewer
         base.OnPreviewMouseMove(e);
     }
 
+    //--------------------------------------------------------------------------------------------------
 
     protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
     {
@@ -72,5 +90,7 @@ public class PanningScrollViewer : ScrollViewer
 
         base.OnPreviewMouseUp(e);
     }
-         
+
+    //--------------------------------------------------------------------------------------------------
+
 }

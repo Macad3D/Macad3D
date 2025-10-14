@@ -133,8 +133,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Selection.SelectionChanging += _Selection_SelectionChanging;
         Selection.SelectionChanged += _Selection_SelectionChanged;
 
-        VisualParameterSet.ParameterChanged += _ParameterSet_ParameterChanged;
-        ViewportParameterSet.ParameterChanged += _ParameterSet_ParameterChanged;
+        InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
+        InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
 
         _RedrawTimer = new DispatcherTimer(DispatcherPriority.Render)
         {
@@ -174,8 +174,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _RedrawTimer.Stop();
         _RedrawTimer.Tick -= _RedrawTimer_Tick;
 
-        VisualParameterSet.ParameterChanged -= _ParameterSet_ParameterChanged;
-        ViewportParameterSet.ParameterChanged -= _ParameterSet_ParameterChanged;
+        InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged -= _ParameterSet_ParameterChanged;
+        InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged -= _ParameterSet_ParameterChanged;
 
         Selection.SelectionChanged -= _Selection_SelectionChanged;
         Selection.SelectionChanging -= _Selection_SelectionChanging;
@@ -369,7 +369,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ParameterSet_ParameterChanged(OverridableParameterSet set, string key)
+    void _ParameterSet_ParameterChanged(ParameterSet set, string key)
     {
         _UpdateParameter();
     }

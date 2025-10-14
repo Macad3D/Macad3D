@@ -11,14 +11,16 @@ public enum ApplicationTheme
 
 //--------------------------------------------------------------------------------------------------
 
-public class ApplicationParameterSet : OverridableParameterSet
+[ParameterSet]
+public sealed partial class ApplicationParameterSet
 {
-    public ApplicationTheme Theme { get => GetValue<ApplicationTheme>(); set => SetValue(value); }
+    readonly Parameter<ApplicationTheme> _Theme = new()
+    {
+        Name = "Theme",
+        DefaultValue = ApplicationTheme.Auto,
+        Description = "Selects the application color theme.",
+        Flags = Parameter.ParameterFlags.NeedsRestart
+    };
 
     //--------------------------------------------------------------------------------------------------
-
-    public ApplicationParameterSet()
-    {
-        SetDefaultValue(nameof(Theme), ApplicationTheme.Auto);
-    }
 }

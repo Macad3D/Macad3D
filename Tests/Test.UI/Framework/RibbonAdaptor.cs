@@ -130,7 +130,7 @@ public class RibbonAdaptor : FormAdaptor
 
         if (menuItem1 == null)
         {
-            _MainWindow.CaptureToFile(@$"M:\Projekte\Macad3D\bin\Release\TestResults\{TestContext.CurrentContext.Test.Name}.png");
+            _MainWindow.CaptureToFile(@$"{TestContext.CurrentContext.TestDirectory}\TestResults\{TestContext.CurrentContext.Test.Name}.png");
         }
         Assert.IsNotNull(menuItem1, $"Parent MenuItem AppMenu{id1} not found.");
 

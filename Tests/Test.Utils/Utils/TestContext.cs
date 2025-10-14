@@ -25,15 +25,16 @@ public sealed class Context : InteractiveContext
     Context()
     {
         MessageHandler.MessageThrown += MessageHub_MessageThrown;
+        Clipboard = new TestClipboard();
 
-        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        // Init parameter
+        var viewportParameterSet = Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.EnableAntialiasing = false;
         viewportParameterSet.ShowViewCube = false;
         viewportParameterSet.ShowTrihedron = false;
         viewportParameterSet.SelectionPixelTolerance = 2;
         viewportParameterSet.VisualGridStepMinPixel = 0;
         viewportParameterSet.VisualGridMinStepsOnScreen = 0;
-
-        Clipboard = new TestClipboard();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -54,6 +55,8 @@ public sealed class Context : InteractiveContext
     {
         Current?.Dispose();
         Current = new Context();
+
+
         return Current;
     }
 
@@ -61,11 +64,13 @@ public sealed class Context : InteractiveContext
 
     public static Context InitWithDefault()
     {
-        Current?.Dispose();
+        InitEmpty();
+
         Current = new Context
         {
             Document = new Model(), 
         };
+
         Current.WorkspaceController.HudManager = new TestHudManager();
         return Current;
     }
@@ -75,10 +80,6 @@ public sealed class Context : InteractiveContext
     public static Context InitWithView(int viewportSize)
     {
         InitWithDefault();
-            
-        // Set render parameter
-        var parameterSet = Current.Parameters.Get<ViewportParameterSet>();
-        parameterSet.EnableAntialiasing = false;
 
         Current.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
 

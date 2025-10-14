@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
@@ -94,7 +96,44 @@ public static class AppCommands
 
     //--------------------------------------------------------------------------------------------------
 
+    public static ActionCommand RestartApplication { get; } = new(
+        () =>
+        {
+            MainWindow.Current.Closed += _OnWindowClosed;
+            MainWindow.Current.Close();
+            MainWindow.Current.Closed -= _OnWindowClosed;
 
+            void _OnWindowClosed(object source, EventArgs eventArgs)
+            {
+                if (AppContext.IsInSandbox)
+                {
+                    return;
+                }
+
+                var exePath = Environment.ProcessPath ?? Process.GetCurrentProcess().MainModule?.FileName;
+                if (exePath == null)
+                    return;
+
+                string docPath = CoreContext.Current.Document.FilePath;
+                if (!File.Exists(docPath))
+                {
+                    docPath = "";
+                }
+                
+                Process.Start(new ProcessStartInfo(exePath)
+                {
+                    UseShellExecute = true, 
+                    ArgumentList = { docPath, "-nowelcome" }
+                });
+            }
+        })
+    {
+        Header = () => "Restart Application",
+        Description = () => "Restarts the application.",
+    };
+
+    //--------------------------------------------------------------------------------------------------
+    
     public static ActionCommand ShowAboutDialog { get; } = new(
         () =>
         {
@@ -196,5 +235,16 @@ public static class AppCommands
     };
 
     //--------------------------------------------------------------------------------------------------
+
+    public static ActionCommand ShowPreferencesDialog { get; } = new(
+        () =>
+        {
+            PreferencesDialog.Execute(MainWindow.Current, RestartApplication); 
+        })
+    {
+        Header = () => "Edit Preferences",
+        Description = () => "Opens the dialog for editing preferences.",
+        Icon = () => "App-Preferences"
+    };
 
 }

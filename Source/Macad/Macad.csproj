@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Tools\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
     <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
     <ProjectReference Include="..\Macad.Exchange\Macad.Exchange.csproj" />

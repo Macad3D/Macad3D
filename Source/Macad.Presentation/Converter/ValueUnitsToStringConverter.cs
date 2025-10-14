@@ -12,23 +12,19 @@ public class ValueUnitsToStringConverter : ConverterMarkupExtension<ValueUnitsTo
 
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (!(value is ValueUnits))
+        if (value is not ValueUnits units)
             return null;
 
-        switch ((ValueUnits)value)
+        return units switch
         {
-            case ValueUnits.Length:
-                return "mm";
-
-            case ValueUnits.Degree:
-                return "°";
-
-            case ValueUnits.Percent:
-                return "%";
-
-            case ValueUnits.DotsPerInch:
-                return "dpi";
-        }
-        return "";
+            ValueUnits.Length => "mm",
+            ValueUnits.Degree => "°",
+            ValueUnits.Percent => "%",
+            ValueUnits.DotsPerInch => "dpi",
+            ValueUnits.Days => "d",
+            ValueUnits.Seconds => "s",
+            ValueUnits.Pixel => "px",
+            _ => ""
+        };
     }
 }

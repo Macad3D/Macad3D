@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.Collections.Generic;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Occt;
@@ -44,7 +45,21 @@ public class ParameterSetTests
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    [Test]
+    public void IsOverridden()
+    {
+        var paramSets = new ParameterSets();
+
+        paramSets.Get<ParamSet1>().DoubleValue = 2.0;
+        Assert.That(paramSets.Get<ParamSet1>()[nameof(ParamSet1.DoubleValue)].IsOverridden, Is.True);
+
+        paramSets.Get<ParamSet1>().DoubleValue = 1.0;
+        Assert.That(paramSets.Get<ParamSet1>()[nameof(ParamSet1.DoubleValue)].IsOverridden, Is.False);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     public void ResetValue()
     {
@@ -54,9 +69,9 @@ public class ParameterSetTests
         paramSets.Get<ParamSet1>().StringValue = "ByeByeWorld!";
         paramSets.Get<ParamSet1>().PointValue = new Pnt(4.0, 5.0, 6.0);
 
-        paramSets.Get<ParamSet1>().ResetValue(nameof(ParamSet1.DoubleValue));
-        paramSets.Get<ParamSet1>().ResetValue(nameof(ParamSet1.StringValue));
-        paramSets.Get<ParamSet1>().ResetValue(nameof(ParamSet1.PointValue));
+        paramSets.Get<ParamSet1>()[nameof(ParamSet1.DoubleValue)].ResetToDefault();
+        paramSets.Get<ParamSet1>()[nameof(ParamSet1.StringValue)].ResetToDefault();
+        paramSets.Get<ParamSet1>()[nameof(ParamSet1.PointValue)].ResetToDefault();
 
         Assert.AreEqual( 1.0, paramSets.Get<ParamSet1>().DoubleValue );
         Assert.AreEqual( "HelloWorld!", paramSets.Get<ParamSet1>().StringValue );
@@ -74,7 +89,7 @@ public class ParameterSetTests
         Assert.AreEqual("{}", Serializer.Serialize(paramSets));
 
         // Empty set
-        paramSets.Add(new ParamSet1());
+        paramSets.Get<ParamSet1>();
         Assert.AreEqual("{}", Serializer.Serialize(paramSets));
 
         // Overridden
@@ -115,6 +130,7 @@ public class ParameterSetTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
     [Test]
     public void DeserializeUnknownValue()
     {
@@ -129,35 +145,68 @@ public class ParameterSetTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void DeserializeWrongValueType()
+    {
+        // Unknown Set
+        var paramSets = Serializer.Deserialize<ParameterSets>("{Test.ParamSet1:{DoubleValue:\"ByeByeWorld\",StringValue:123,PointValue:[4,5]}}");
+        Assert.IsNotNull(paramSets);
+        Assert.That(paramSets.Get<ParamSet1>().DoubleValue, Is.EqualTo(1.0));
+        Assert.That(paramSets.Get<ParamSet1>().StringValue, Is.EqualTo("HelloWorld!"));
+        Assert.That(paramSets.Get<ParamSet1>().PointValue, Is.EqualTo(new Pnt(1.0, 2.0, 3.0)));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void ParameterChangedEvent()
     {
-        var eventCount = 0;
-        ParamSet1.ParameterChanged += (set, key) => eventCount++;
+        List<string> _Events = new();
             
         var paramSets = new ParameterSets();
+        paramSets.Get<ParamSet1>().ParameterChanged += (set, key) => _Events.Add(key);
         paramSets.Get<ParamSet1>().DoubleValue = 2.0;
         paramSets.Get<ParamSet1>().StringValue = "ByeByeWorld!";
         paramSets.Get<ParamSet1>().PointValue = new Pnt(4.0, 5.0, 6.0);
 
-        Assert.AreEqual(3, eventCount);
+        Assert.That(_Events.Count, Is.EqualTo(3));
+        Assert.That(_Events[0], Is.EqualTo(nameof(ParamSet1.DoubleValue)));
+        Assert.That(_Events[1], Is.EqualTo(nameof(ParamSet1.StringValue)));
+        Assert.That(_Events[2], Is.EqualTo(nameof(ParamSet1.PointValue)));
     }
 }
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-sealed class ParamSet1 : OverridableParameterSet
+[ParameterSet]
+sealed partial class ParamSet1
 {
-    public double DoubleValue   { get => GetValue<double>(); set => SetValue(value); }
-    public string StringValue   { get => GetValue<string>(); set => SetValue(value); }
-    public Pnt    PointValue    { get => GetValue<Pnt>();    set => SetValue(value); }
+    Parameter<double> _DoubleValue = new()
+    {
+        Name = nameof(DoubleValue),
+        DefaultValue = 1.0,
+        Description = "A double value",
+        EditorHints = new() { { "Precision", 2 }, { "MinValue", 0.0 }, { "MaxValue", 10.0 } }
+    };
 
     //--------------------------------------------------------------------------------------------------
 
-    public ParamSet1()
+    Parameter<string> _StringValue = new()
     {
-        SetDefaultValue(nameof(DoubleValue), 1.0);
-        SetDefaultValue(nameof(StringValue), "HelloWorld!");
-        SetDefaultValue(nameof(PointValue),  new Pnt(1.0, 2.0, 3.0));
-    }
+        Name = nameof(StringValue),
+        DefaultValue = "HelloWorld!",
+        Description = "A string value"
+    };
+
+    //--------------------------------------------------------------------------------------------------
+    
+    Parameter<Pnt> _PointValue = new()
+    {
+        Name = nameof(PointValue),
+        DefaultValue = new Pnt(1.0, 2.0, 3.0),
+        Description = "A point value"
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
 }

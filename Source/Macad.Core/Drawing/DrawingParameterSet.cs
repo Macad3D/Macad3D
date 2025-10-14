@@ -2,20 +2,45 @@
 
 namespace Macad.Core.Drawing;
 
-public class DrawingParameterSet : OverridableParameterSet
+[ParameterSet]
+public sealed partial class DrawingParameterSet
 {
-    public double DimensionArrowLength  { get => GetValue<double>(); set => SetValue(value); }
-    public double DimensionArrowWidth   { get => GetValue<double>(); set => SetValue(value); }
-    public string DefaultFontFamily     { get => GetValue<string>(); set => SetValue(value); }
-    public float  DefaultFontSize       { get => GetValue<float>();  set => SetValue(value); }
+    readonly Parameter<double> _DimensionArrowLength = new () {
+        Name = "DimensionArrowLength",
+        DefaultValue = 3.0,
+        Description = "Length of the dimension arrow in mm.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+    };
 
     //--------------------------------------------------------------------------------------------------
 
-    public DrawingParameterSet()
+    readonly Parameter<double> _DimensionArrowWidth = new()
     {
-        SetDefaultValue(nameof(DimensionArrowLength), 3.0);
-        SetDefaultValue(nameof(DimensionArrowWidth),  1.0);
-        SetDefaultValue(nameof(DefaultFontFamily),    "Arial");
-        SetDefaultValue(nameof(DefaultFontSize),      3.0f);
-    }
+        Name = "DimensionArrowWidth",
+        DefaultValue = 1.0,
+        Description = "Width of the dimension arrow in mm.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<string> _DefaultFontFamily = new()
+    {
+        Name = "DefaultFontFamily",
+        DefaultValue = "Arial",
+        Description = "Font family used for dimensions and text annotations.",
+        EditorHints = new() { { "Selector", "FontFamily" } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<float> _DefaultFontSize = new()
+    {
+        Name = "DefaultFontSize",
+        DefaultValue = 3.0f,
+        Description = "Default font size in mm.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
 }

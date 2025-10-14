@@ -185,7 +185,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Dispose()
     {
-        ViewportParameterSet.ParameterChanged -= _ViewportParameterSet_ParameterChanged;
+        InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged -= _ParameterChanged;
         Viewport.PropertyChanged -= _Viewport_PropertyChanged;
 
         _AisViewCube?.Dispose();
@@ -224,8 +224,8 @@ public sealed class ViewportController : BaseObject, IDisposable
 
         V3dView = WorkspaceController.V3dViewer.CreateView();
 
-        ViewportParameterSet.ParameterChanged += _ViewportParameterSet_ParameterChanged;
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterChanged;
 
         V3dView.SetBgGradientColors(new Color(0.624f, 0.714f, 0.804f).ToQuantityColor(), new Color(0.424f, 0.482f, 0.545f).ToQuantityColor(), Aspect_GradientFillMethod.VER, false);
 
@@ -653,6 +653,11 @@ public sealed class ViewportController : BaseObject, IDisposable
             aisContext.Remove(_AisViewCube, false);
             WorkspaceController.Invalidate(true);
         }
+        else if (isVisible)
+        {
+            aisContext.Redisplay(_AisViewCube, false);
+            WorkspaceController.Invalidate(true);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -663,6 +668,7 @@ public sealed class ViewportController : BaseObject, IDisposable
             
         if (_AisViewCube != null)
         {
+            __SetSize(size);
             _SetViewCube(isVisible);
             return;
         }
@@ -685,8 +691,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         }
 
         _AisViewCube = new();
-        _AisViewCube.SetSize(size * DpiScale);
-        _AisViewCube.SetBoxFacetExtension(size * DpiScale * 0.15);
+        __SetSize(size);
         _AisViewCube.SetViewAnimation(_AisAnimationCamera);
         _AisViewCube.SetFixedAnimationLoop(false);
         _AisViewCube.SetDrawAxes(false);
@@ -694,7 +699,6 @@ public sealed class ViewportController : BaseObject, IDisposable
         _AisViewCube.SetResetCamera(true);
         _AisViewCube.SetFitSelected(true);
         _AisViewCube.SetTexture(pixmap);
-        _AisViewCube.SetTransformPersistence(new(Graphic3d_TransModeFlags.TriedronPers, Aspect_TypeOfTriedronPosition.RIGHT_UPPER, new(100, 100)));
 
         var color = new Quantity_Color();
         Quantity_Color.ColorFromHex("d9dfe5", color);
@@ -727,6 +731,16 @@ public sealed class ViewportController : BaseObject, IDisposable
         }
 
         WorkspaceController.Invalidate(true);
+
+        //--------------------------------------------------------------------------------------------------
+
+        void __SetSize(uint size)
+        {
+            _AisViewCube.SetSize(size * 0.5 * DpiScale);
+            _AisViewCube.SetBoxFacetExtension(size * DpiScale * 0.075);
+            int margin = (int)(size * 0.75 + 25);
+            _AisViewCube.SetTransformPersistence(new(Graphic3d_TransModeFlags.TriedronPers, Aspect_TypeOfTriedronPosition.RIGHT_UPPER, new(margin, margin)));
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -741,6 +755,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         {
             V3dView?.TriedronErase();
         }
+        WorkspaceController.Invalidate(true);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -917,7 +932,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     #region View Properties
 
-    void _ViewportParameterSet_ParameterChanged(OverridableParameterSet set, string key)
+    void _ParameterChanged(ParameterSet set, string key)
     {
         _UpdateFromViewParameterSet();
     }

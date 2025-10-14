@@ -1,12 +1,12 @@
-﻿using System;
+﻿using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Tools;
+using FlaUI.UIA3;
+using NUnit.Framework;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Tools;
-using FlaUI.UIA3;
-using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework;
 
@@ -56,6 +56,8 @@ public class ApplicationAdaptor
         Application?.Kill();
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     public Window FindWindow(Func<Window,bool> predicateFunc)
@@ -64,7 +66,10 @@ public class ApplicationAdaptor
         {
             automation.TransactionTimeout = TimeSpan.FromSeconds(10);
             return Retry.WhileNull(() => Application.GetAllTopLevelWindows(automation).FirstOrDefault(predicateFunc),
-                                   TimeSpan.FromSeconds(20), ignoreException: true).Result;
+                                   TimeSpan.FromSeconds(2), ignoreException: true).Result;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

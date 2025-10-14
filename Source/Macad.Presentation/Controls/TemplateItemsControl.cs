@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Macad.Presentation;
 
@@ -7,7 +10,6 @@ public class TemplateItemsControl : ItemsControl
 {
     static TemplateItemsControl()
     {
-        //DefaultStyleKeyProperty.OverrideMetadata(typeof(TemplateItemsControl), new FrameworkPropertyMetadata(typeof(TemplateItemsControl)));
     }
 
     protected override bool IsItemItsOwnContainerOverride(object item)
@@ -20,4 +22,6 @@ public class TemplateItemsControl : ItemsControl
         base.PrepareContainerForItemOverride(element, item);
         ((ContentPresenter)element).ContentTemplate = ItemTemplate;
     }
+
 }
+

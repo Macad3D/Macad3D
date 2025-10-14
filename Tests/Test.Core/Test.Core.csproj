@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Tools\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
     <ProjectReference Include="..\..\Source\Macad.Exchange\Macad.Exchange.csproj" />
     <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />

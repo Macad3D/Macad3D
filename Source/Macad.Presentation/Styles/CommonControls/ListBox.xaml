@@ -22,8 +22,11 @@
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 CornerRadius="2" 
                                 Background="{TemplateBinding Background}" />
-                        <ScrollViewer Margin="0" Style="{mmp:AppResource Macad.Styles.ScrollViewer}" 
-                                      Focusable="false" Background="{x:Null}" HorizontalContentAlignment="Stretch">
+                        <ScrollViewer Margin="{TemplateBinding Padding}"
+                                      Style="{mmp:AppResource Macad.Styles.ScrollViewer}" 
+                                      Focusable="false" 
+                                      Background="{x:Null}" 
+                                      HorizontalContentAlignment="Stretch">
                             <StackPanel Margin="1" IsItemsHost="true" />
                         </ScrollViewer>
                     </Grid>

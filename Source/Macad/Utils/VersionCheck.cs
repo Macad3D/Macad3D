@@ -33,22 +33,6 @@ internal class VersionCheckInfo
 }
 
 //--------------------------------------------------------------------------------------------------
-
-public sealed class VersionCheckParameterSet : OverridableParameterSet
-{
-    public bool CheckForUpdate { get => GetValue<bool>(); set => SetValue(value); }
-    public uint CheckIntervalDays { get => GetValue<uint>(); set => SetValue(value); }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public VersionCheckParameterSet()
-    {
-        SetDefaultValue(nameof(CheckForUpdate), true);
-        SetDefaultValue(nameof(CheckIntervalDays), (uint)7);
-    }
-}
-
-//--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
 #endregion

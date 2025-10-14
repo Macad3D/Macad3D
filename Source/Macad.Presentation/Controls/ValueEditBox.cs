@@ -14,8 +14,8 @@ public class ValueEditBox : TextBox
     #region Dependency Properties
 
     public static readonly DependencyProperty ValueProperty =
-        DependencyProperty.Register("Value", typeof (double), typeof (ValueEditBox),
-                                    new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallbackStatic));
+        DependencyProperty.Register(nameof(Value), typeof (double), typeof (ValueEditBox),
+                                    new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallbackStatic));
 
     public double Value
     {
@@ -26,8 +26,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty PrecisionProperty =
-        DependencyProperty.Register("Precision", typeof(int), typeof(ValueEditBox),
-                                    new FrameworkPropertyMetadata(2, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallbackStatic));
+        DependencyProperty.Register(nameof(Precision), typeof(int), typeof(ValueEditBox), new FrameworkPropertyMetadata(2, PropertyChangedCallbackStatic));
 
     public int Precision
     {
@@ -38,8 +37,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty MinValueProperty =
-        DependencyProperty.Register("MinValue", typeof (double), typeof (ValueEditBox),
-                                    new PropertyMetadata(double.MinValue));
+        DependencyProperty.Register(nameof(MinValue), typeof (double), typeof (ValueEditBox), new(double.MinValue));
 
     public double MinValue
     {
@@ -50,8 +48,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty MaxValueProperty =
-        DependencyProperty.Register("MaxValue", typeof (double), typeof (ValueEditBox),
-                                    new PropertyMetadata(double.MaxValue));
+        DependencyProperty.Register(nameof(MaxValue), typeof (double), typeof (ValueEditBox), new(double.MaxValue));
 
     public double MaxValue
     {
@@ -62,8 +59,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty UnitsProperty =
-        DependencyProperty.Register("Units", typeof (ValueUnits), typeof (ValueEditBox),
-                                    new PropertyMetadata(default(ValueUnits), PropertyChangedCallbackStatic));
+        DependencyProperty.Register(nameof(Units), typeof (ValueUnits), typeof (ValueEditBox), new(default(ValueUnits), PropertyChangedCallbackStatic));
 
     public ValueUnits Units
     {
@@ -74,8 +70,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty EvaluationErrorProperty = 
-        DependencyProperty.Register("EvaluationError", typeof (bool), typeof (ValueEditBox), 
-                                    new PropertyMetadata(false));
+        DependencyProperty.Register(nameof(EvaluationError), typeof (bool), typeof (ValueEditBox), new(false));
 
     public bool EvaluationError
     {
@@ -86,8 +81,7 @@ public class ValueEditBox : TextBox
     //--------------------------------------------------------------------------------------------------
 
     public static readonly DependencyProperty IsHighlightedProperty = 
-        DependencyProperty.Register("IsHighlighted", typeof (bool), typeof (ValueEditBox), 
-                                    new PropertyMetadata(default(bool)));
+        DependencyProperty.Register(nameof(IsHighlighted), typeof (bool), typeof (ValueEditBox), new(false));
 
     public bool IsHighlighted
     {
@@ -97,8 +91,8 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
-    public static readonly DependencyProperty IncDecButtonsProperty = DependencyProperty.Register(
-        "IncDecButtons", typeof(bool), typeof(ValueEditBox), new PropertyMetadata(default(bool)));
+    public static readonly DependencyProperty IncDecButtonsProperty = 
+        DependencyProperty.Register(nameof(IncDecButtons), typeof(bool), typeof(ValueEditBox), new(false));
 
     public bool IncDecButtons
     {
@@ -108,8 +102,8 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
-    public static readonly DependencyProperty IncDecStepProperty = DependencyProperty.Register(
-        "IncDecStep", typeof(double), typeof(ValueEditBox), new PropertyMetadata(1.0));
+    public static readonly DependencyProperty IncDecStepProperty = 
+        DependencyProperty.Register(nameof(IncDecStep), typeof(double), typeof(ValueEditBox), new(1.0));
 
     public double IncDecStep
     {
@@ -119,8 +113,8 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
-    public static readonly DependencyProperty SourceUpdateThresholdProperty = DependencyProperty.Register(
-        "SourceUpdateThreshold", typeof(double), typeof(ValueEditBox), new PropertyMetadata( 1e-10 ));
+    public static readonly DependencyProperty SourceUpdateThresholdProperty = 
+        DependencyProperty.Register(nameof(SourceUpdateThreshold), typeof(double), typeof(ValueEditBox), new( 1e-10 ));
 
     public double SourceUpdateThreshold
     {
@@ -141,6 +135,10 @@ public class ValueEditBox : TextBox
         if (e.Property == ValueProperty)
         {
             _UpdateText((double) e.NewValue);
+        }
+        else if(e.Property == PrecisionProperty)
+        {
+            _UpdateText(Value);
         }
     }
 
@@ -212,7 +210,7 @@ public class ValueEditBox : TextBox
 
     #region Commands
 
-    public static RelayCommand<ValueEditBox> DecCommand { get; } = new RelayCommand<ValueEditBox>(
+    public static RelayCommand<ValueEditBox> DecCommand { get; } = new(
         (box) =>
         {
             box.Value = box.Value - box.IncDecStep; 
@@ -223,7 +221,7 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
-    public static RelayCommand<ValueEditBox> IncCommand { get; } = new RelayCommand<ValueEditBox>(
+    public static RelayCommand<ValueEditBox> IncCommand { get; } = new(
         (box) =>
         {
             box.Value = box.Value + box.IncDecStep; 
@@ -265,7 +263,8 @@ public class ValueEditBox : TextBox
 
     void _UpdateText(double value)
     {
-        Text = value.ToString("F" + (Precision >= 0 ? Precision : ""), CultureInfo.InvariantCulture);
+        int precision = Precision;
+        Text = value.ToString("F" + (precision >= 0 ? precision : ""), CultureInfo.InvariantCulture);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -462,7 +461,7 @@ public class ValueEditBox : TextBox
         if (!_IsTextAllowed((clearTextOnValidEntry ? "" : Text) + keyText))
             return;
 
-        TextCompositionManager.StartComposition(new TextComposition(InputManager.Current, this, keyText));
+        TextCompositionManager.StartComposition(new(InputManager.Current, this, keyText));
         e.Handled = true;
     }
 

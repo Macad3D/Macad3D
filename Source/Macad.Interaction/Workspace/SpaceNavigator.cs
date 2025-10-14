@@ -4,32 +4,11 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Core;
 
 namespace Macad.Interaction;
 
-public sealed class SpaceNavigatorParameterSet : OverridableParameterSet
-{
-    public double MoveSensitivity       { get => GetValue<double>(); set => SetValue(value); }
-    public double RotationSensitivity   { get => GetValue<double>(); set => SetValue(value); }
-    public double ZoomSensitivity       { get => GetValue<double>(); set => SetValue(value); }
-    public double RollDeadZone          { get => GetValue<double>(); set => SetValue(value); }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public SpaceNavigatorParameterSet()
-    {
-        SetDefaultValue(nameof(MoveSensitivity),     1.0);
-        SetDefaultValue(nameof(RotationSensitivity), 1.0);
-        SetDefaultValue(nameof(ZoomSensitivity),     1.0);
-        SetDefaultValue(nameof(RollDeadZone),        1.25);
-    }
-}
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
 
 public class SpaceNavigator
 {
@@ -54,6 +33,11 @@ public class SpaceNavigator
     {
         try
         {
+            if (_Initialized)
+            {
+                DeInit();
+            }
+
             var result = Driver.SiInitialize();
             if (result != Driver.SpwRetVal.SPW_NO_ERROR)
             {
@@ -84,6 +68,7 @@ public class SpaceNavigator
 
             _Initialized = true;
             _UpdateParameters();
+            InteractiveContext.Current.Parameters.Get<SpaceNavigatorParameterSet>().ParameterChanged += _ParameterChanged;
 
             return true;
         }
@@ -100,11 +85,17 @@ public class SpaceNavigator
 
     //--------------------------------------------------------------------------------------------------
 
+    void _ParameterChanged(Common.ParameterSet parameterSet, string parameterKey)
+    {
+        _UpdateParameters();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     static void _UpdateParameters()
     {
         Debug.Assert(InteractiveContext.Current != null);
 
-        // Init parameters
         var paramSet = InteractiveContext.Current.Parameters.Get<SpaceNavigatorParameterSet>();
         _MoveDataDivisor = _MoveDataDivisorScale * paramSet.MoveSensitivity;
         _RotateDataDivisor = _RotateDataDivisorScale * paramSet.RotationSensitivity;
@@ -165,15 +156,9 @@ public class SpaceNavigator
         if (_Initialized)
         {
             Driver.SiTerminate();
+            InteractiveContext.Current.Parameters.Get<SpaceNavigatorParameterSet>().ParameterChanged -= _ParameterChanged;
             _Initialized = false;
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    static SpaceNavigator()
-    {
-        SpaceNavigatorParameterSet.ParameterChanged += (set, key) => _UpdateParameters();
     }
 
     //--------------------------------------------------------------------------------------------------

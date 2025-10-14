@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Tools\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
     <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />

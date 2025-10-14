@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
-using System.Windows;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -67,6 +69,35 @@ public class TypeToStringConverter : ConverterMarkupExtension<TypeToStringConver
             return "null";
 
         return Common.Serialization.Serializer.ApplyNamespaceAlias(value.GetType().FullName);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+}
+
+//--------------------------------------------------------------------------------------------------
+
+[ContentProperty("Converter")]
+[ValueConversion(typeof(object), typeof(string))]
+public class TypeToDisplayNameConverter : ConverterMarkupExtension<TypeToDisplayNameConverter>
+{
+    static readonly Regex _SplitNameRegex = new Regex("([a-z])([A-Z])", RegexOptions.Compiled);
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value == null)
+            return "";
+
+        var type = value.GetType();
+        if (type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() is DisplayNameAttribute displayAttr)
+        {
+            return displayAttr.DisplayName;
+        }
+
+        // Convert type name to spaced format (e.g. "HelloWorld" -> "Hello World")
+        var typeName = type.Name;
+        var spacedName = _SplitNameRegex.Replace(typeName, "$1 $2");
+        return spacedName;
     }
 
     //--------------------------------------------------------------------------------------------------

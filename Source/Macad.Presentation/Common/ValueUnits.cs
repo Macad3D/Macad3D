@@ -6,5 +6,8 @@ public enum ValueUnits
     Length,
     Degree,
     Percent,
-    DotsPerInch
+    DotsPerInch,
+    Days,
+    Seconds,
+    Pixel
 }

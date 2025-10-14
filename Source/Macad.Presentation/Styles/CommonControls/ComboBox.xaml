@@ -48,7 +48,10 @@
 
     <!--#region Macad.Templates.TextBox.ComboBox-->
     <ControlTemplate x:Key="Macad.Templates.TextBox.ComboBox" TargetType="{x:Type TextBox}">
-        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        <Border x:Name="PART_ContentHost" 
+                Focusable="False" 
+                Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}" />
     </ControlTemplate>
     <!--#endregion-->
 
@@ -92,7 +95,6 @@
     <ControlTemplate x:Key="Macad.Templates.ComboBox" TargetType="{x:Type ComboBox}">
         <Grid x:Name="grid">
             <ToggleButton x:Name="ToggleButton"
-                          Grid.Column="2" 
                           Template="{mmp:AppResource Macad.Templates.ToggleButton.ComboBox}" 
                           Focusable="false" 
                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
@@ -108,8 +110,9 @@
             <TextBox x:Name="PART_EditableTextBox" 
                      Visibility="Hidden" 
                      Template="{mmp:AppResource Macad.Templates.TextBox.ComboBox}" 
-                     HorizontalAlignment="Left" VerticalAlignment="Center" 
-                     Margin="3,3,23,3" Style="{x:Null}" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="1,1,23,1" 
+                     Padding="2"
                      Focusable="True" 
                      Background="{mmp:AppResource Macad.Brushes.TextBox.Background}" 
                      IsReadOnly="{TemplateBinding IsReadOnly}" 

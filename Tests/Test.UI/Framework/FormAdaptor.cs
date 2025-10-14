@@ -1,15 +1,16 @@
-﻿using System;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using FlaUI.Core.AutomationElements;
+﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using Macad.Common;
 using NUnit.Framework;
+using System;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Macad.Test.UI.Framework;
 
@@ -217,10 +218,11 @@ public class FormAdaptor
             if (listCtrl != null)
             {
                 var index = listCtrl.Items.IndexOfFirst(item => item.Text.Contains(pattern));
-                Assert.AreNotEqual(-1, index, $"List index of pattern {pattern} not found in combobox {boxid}. Items found: {string.Join(",", listCtrl.Items.Select(item => item.Text).ToArray())}");
-
-                listCtrl.Items[index].Click(!jump);
-                return true;
+                if (index != -1)
+                {
+                    listCtrl.Items[index].Click(!jump);
+                    return true;
+                }
             }
 
             // Try to find item as direct child
@@ -240,6 +242,7 @@ public class FormAdaptor
                 return true;
             }
 
+            Assert.Fail($"List index of pattern {pattern} not found in combobox {boxid}.");
             return false;
         }, TimeSpan.FromSeconds(10)).Result;
         Assert.That(found, Is.True, $"Itemlist of combobox {boxid} not found.");
