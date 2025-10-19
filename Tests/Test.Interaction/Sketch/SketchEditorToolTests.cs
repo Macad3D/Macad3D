@@ -1023,7 +1023,6 @@ public class SketchEditorToolTests
 
         // Select predefined topview
         ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Top);
-        Thread.Sleep(500);
         ctx.WorkspaceController.Invalidate(forceRedraw:true);
 //            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext22"), 0.1);
             

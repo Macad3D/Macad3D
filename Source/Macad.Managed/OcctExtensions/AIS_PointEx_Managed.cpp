@@ -8,7 +8,7 @@ namespace Macad
 {
 	namespace Occt
 	{
-		namespace Ext
+		namespace Extensions
 		{
 			public ref class AIS_PointEx sealed : Macad::Occt::AIS_Point
 			{

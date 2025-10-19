@@ -8,7 +8,7 @@ namespace Macad
 {
 	namespace Occt
 	{
-		namespace Ext
+		namespace Extensions
 		{
 			public ref class AIS_ViewCubeEx sealed : public Macad::Occt::AIS_ViewCube
 			{

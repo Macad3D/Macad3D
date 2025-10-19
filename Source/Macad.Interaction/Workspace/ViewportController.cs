@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Core;
-using Macad.Core.Shapes;
 using Macad.Occt;
 using Macad.Occt.Helper;
+using Macad.Occt.Extensions;
 using Macad.Resources;
-using static Macad.Core.Viewport;
 using Color = Macad.Common.Color;
 using Point = System.Windows.Point;
 
@@ -57,7 +55,7 @@ public sealed class ViewportController : BaseObject, IDisposable
             {
                 if (value)
                 {
-                    SetPredefinedView(PredefinedViews.WorkingPlane);
+                    SetPredefinedView(PredefinedViews.WorkingPlane, true);
                         
                 }
                 _LockedToPlane = value;
@@ -157,7 +155,7 @@ public sealed class ViewportController : BaseObject, IDisposable
     readonly List<ValueTuple<int, int>> _RubberbandPoints = new();
 
     AIS_AnimationCamera _AisAnimationCamera;
-    Macad.Occt.Ext.AIS_ViewCubeEx _AisViewCube;
+    AIS_ViewCubeEx _AisViewCube;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -304,7 +302,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public void SetPredefinedView(PredefinedViews predefinedView)
+    public void SetPredefinedView(PredefinedViews predefinedView, bool animate=false)
     {
         if (predefinedView == PredefinedViews.WorkingPlane)
         {
@@ -317,42 +315,72 @@ public sealed class ViewportController : BaseObject, IDisposable
             WorkspaceController.Invalidate();
             return;
         }
-        
+
         // Currently the view cube is needed to execute the rotation. This is
         // ok as long as there is always a view cube present when rotation is allowed.
-        if(_LockedToPlane || _AisViewCube == null)
+        if (_LockedToPlane)
             return;
 
-        V3d_TypeOfOrientation orientation;
-        switch (predefinedView)
+        if (animate
+            && _AisAnimationCamera.Duration() > 0.001)
         {
-            case PredefinedViews.Top:
-                orientation = V3d_TypeOfOrientation.Zup_Top;
-                break;
-            case PredefinedViews.Bottom:
-                orientation = V3d_TypeOfOrientation.Zup_Bottom;
-                break;
-            case PredefinedViews.Left:
-                orientation = V3d_TypeOfOrientation.Zup_Left;
-                break;
-            case PredefinedViews.Right:
-                orientation = V3d_TypeOfOrientation.Zup_Right;
-                break;
-            case PredefinedViews.Front:
-                orientation = V3d_TypeOfOrientation.Zup_Front;
-                break;
-            case PredefinedViews.Back:
-                orientation = V3d_TypeOfOrientation.Zup_Back;
-                break;
-            default:
-                return;
+            Graphic3d_Camera camStart = new();
+            Graphic3d_Camera camEnd = new();
+            Graphic3d_Camera camBackup = V3dView.Camera();
+            camStart.Copy(camBackup);
+            camEnd.Copy(camBackup);
+
+            bool wasImmediateUpdate = V3dView.SetImmediateUpdate(false);
+            V3dView.SetCamera(camEnd);
+
+            __ApplyPredefinedView();
+
+            V3dView.SetCamera(camBackup);
+            V3dView.SetImmediateUpdate(wasImmediateUpdate);
+            _AisAnimationCamera.SetCameraStart(camStart);
+            _AisAnimationCamera.SetCameraEnd(camEnd);
+            _AisAnimationCamera.StartTimer(0.0, 1.0, true, false);
+
+            camStart.Dispose();
+            camEnd.Dispose();
+            camBackup.Dispose();
         }
+        else
+        {
+            __ApplyPredefinedView();
+        }
+        return;
 
-        var viewCubeOwner = new AIS_ViewCubeOwner(_AisViewCube, orientation);
-        _AisViewCube.HandleClick(viewCubeOwner);
-        viewCubeOwner.Dispose();
+        //--------------------------------------------------------------------------------------------------
 
-        WorkspaceController.Invalidate();
+        void __ApplyPredefinedView()
+        {
+            V3d_TypeOfOrientation? orientation =
+                predefinedView switch
+                {
+                    PredefinedViews.Top => V3d_TypeOfOrientation.Zup_Top,
+                    PredefinedViews.Bottom => V3d_TypeOfOrientation.Zup_Bottom,
+                    PredefinedViews.Left => V3d_TypeOfOrientation.Zup_Left,
+                    PredefinedViews.Right => V3d_TypeOfOrientation.Zup_Right,
+                    PredefinedViews.Front => V3d_TypeOfOrientation.Zup_Front,
+                    PredefinedViews.Back => V3d_TypeOfOrientation.Zup_Back,
+                    _ => null
+                };
+
+            if (orientation.HasValue)
+            {
+                V3dView.SetProj(orientation.Value);
+               
+                if (WorkspaceController.Selection.SelectedEntities.Count > 0)
+                {
+                    ZoomFitSelected(); // Will also sync from V3dView to Viewport and invalidate
+                }
+                else
+                {
+                    ZoomFitAll(); // Will also sync from V3dView to Viewport and Invalidate
+                }
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -665,10 +693,12 @@ public sealed class ViewportController : BaseObject, IDisposable
     void _SetViewCube(bool isVisible, uint size, double duration)
     {
         var aisContext = WorkspaceController.AisContext;
-            
+        duration += 0.001; // Avoid zero duration to force at least one frame of updating
+
         if (_AisViewCube != null)
         {
             __SetSize(size);
+            _AisViewCube.SetDuration(duration);
             _SetViewCube(isVisible);
             return;
         }
@@ -942,9 +972,10 @@ public sealed class ViewportController : BaseObject, IDisposable
     void _UpdateFromViewParameterSet()
     {
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-        _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.ViewCubeAnimationDuration);
-        _SetTrihedron(parameterSet.ShowTrihedron);
         _ShowTrihedron = parameterSet.ShowTrihedron;
+        _AisAnimationCamera.SetOwnDuration(parameterSet.CameraAnimationDuration);
+        _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.CameraAnimationDuration);
+        _SetTrihedron(_ShowTrihedron);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -985,10 +1016,10 @@ public sealed class ViewportController : BaseObject, IDisposable
         if (V3dView == null)
             return;
 
-        V3dView.SetComputedMode(Viewport.RenderMode == RenderModes.HLR);
+        V3dView.SetComputedMode(Viewport.RenderMode == Viewport.RenderModes.HLR);
 
         var renderParams = V3dView.ChangeRenderingParams();
-        if (Viewport.RenderMode == RenderModes.Raytraced)
+        if (Viewport.RenderMode == Viewport.RenderModes.Raytraced)
         {
             renderParams.Method = Graphic3d_RenderingMode.RAYTRACING;
         }

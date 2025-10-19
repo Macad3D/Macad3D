@@ -554,7 +554,7 @@ public static class WorkspaceCommands
     public static ActionCommand<ViewportController.PredefinedViews> SetPredefinedView { get; } = new(
         (param) =>
         {
-            InteractiveContext.Current?.ViewportController?.SetPredefinedView(param);
+            InteractiveContext.Current?.ViewportController?.SetPredefinedView(param, true);
         },
         (param) => CanExecuteOnViewport() && !InteractiveContext.Current.ViewportController.LockedToPlane)
     {

@@ -2,10 +2,8 @@
 
 #include <AIS_ViewCube.hxx>
 
-DEFINE_STANDARD_HANDLE(AIS_ViewCubeEx, AIS_ViewCube)
 
-
-public class AIS_ViewCubeEx : public ::AIS_ViewCube
+class AIS_ViewCubeEx : public ::AIS_ViewCube
 {
 	DEFINE_STANDARD_RTTIEXT(AIS_ViewCubeEx, AIS_ViewCube)
 
@@ -25,3 +23,5 @@ protected:
 	                            Standard_Integer& theNbNodes, Standard_Integer& theNbTris,
 	                            V3d_TypeOfOrientation theDirection) const override;
 };
+
+DEFINE_STANDARD_HANDLE(AIS_ViewCubeEx, AIS_ViewCube)

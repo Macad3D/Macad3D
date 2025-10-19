@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
-using Macad.Occt.Ext;
+using Macad.Occt.Extensions;
 using Macad.Occt.Helper;
 using Macad.Resources;
 

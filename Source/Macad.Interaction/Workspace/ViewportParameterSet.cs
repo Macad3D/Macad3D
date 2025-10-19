@@ -46,12 +46,12 @@ public sealed partial class ViewportParameterSet
 
     //--------------------------------------------------------------------------------------------------
 
-    Parameter<double> _ViewCubeAnimationDuration = new()
+    Parameter<double> _CameraAnimationDuration = new()
     {
-        Name = "ViewCubeAnimationDuration",
+        Name = "CameraAnimationDuration",
         DefaultValue = 0.3,
-        Description = "Defines the duration of the view cube rotation animation in seconds.",
-        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.1 }, { "MaxValue", 10.0 }, { "Precision", 1 } }
+        Description = "Defines the duration of the camera view rotation when switching to a defined view.",
+        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.0 }, { "MaxValue", 10.0 }, { "Precision", 1 } }
     };
 
     //--------------------------------------------------------------------------------------------------

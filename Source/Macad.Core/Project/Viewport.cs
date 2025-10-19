@@ -226,6 +226,7 @@ public sealed class Viewport : BaseObject, IDisposable
             return false;
         }
         xVec.Normalize();
+        xVec.Rotate(new (Pnt.Origin, viewDir), _Twist.ToRad());
 
         Vec zVec = xVec.Coord.Crossed(viewDir.Coord).ToVec();
         if (zVec.Magnitude() <= gp.Resolution)

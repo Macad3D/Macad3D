@@ -271,7 +271,7 @@ public class ViewportTests
             Assert.That(paramsPost, Is.Not.EqualTo(paramsPre));
 
             // Select predefined view
-            ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Front);
+            ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Front, true);
             Thread.Sleep(500);
             ctx.WorkspaceController.Invalidate(forceRedraw: true);
             paramsPost = ctx.Viewport.GetViewParameters();
@@ -324,4 +324,76 @@ public class ViewportTests
         ctx.ViewportController.PanToCenter(bodies[0].Position);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PanToCenter01"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void PredefinedViews()
+    {
+        var ctx = Context.Current;
+        var vc = ctx.ViewportController;
+
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.ShowTrihedron = true;
+        viewportParameterSet.ShowViewCube = true;
+        viewportParameterSet.ViewCubeSize = 300;
+
+        Assert.Multiple(() =>
+        {
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Front, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DY, 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DX, 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DZ, 1e-10));
+
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Back, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DY.Reversed(), 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DX.Reversed(), 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DZ, 1e-10));
+
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Right, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DX.Reversed(), 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DY, 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DZ, 1e-10));
+
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Left, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DX, 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DY.Reversed(), 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DZ, 1e-10));
+
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Top, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DZ.Reversed(), 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DX, 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DY, 1e-10));
+
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Bottom, false);
+            Assert.That(vc.Viewport.GetViewDirection().IsEqual(Dir.DZ, 1e-10));
+            Assert.That(vc.Viewport.GetRightDirection().IsEqual(Dir.DX, 1e-10));
+            Assert.That(vc.Viewport.GetUpDirection().IsEqual(Dir.DY.Reversed(), 1e-10));
+
+            //AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"PredefinedViews"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void PredefinedViewsZoomFit()
+    {
+        var ctx = Context.Current;
+        var vc = ctx.ViewportController;
+
+        Assert.Multiple(() =>
+        {
+            var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Front, false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PredefinedViewsZoomFit01"));
+
+            ctx.WorkspaceController.Selection.SelectEntity(bodies[0]);
+            vc.SetPredefinedView(ViewportController.PredefinedViews.Front, false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PredefinedViewsZoomFit02"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

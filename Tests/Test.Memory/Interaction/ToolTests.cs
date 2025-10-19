@@ -9,7 +9,7 @@ using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Toolkits;
 using Macad.Interaction.Visual;
-using Macad.Occt.Ext;
+using Macad.Occt.Extensions;
 using NUnit.Framework;
 
 namespace Macad.Test.Memory.Interaction;
