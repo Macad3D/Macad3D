@@ -77,6 +77,12 @@ internal abstract class SvgDomElement
                 case "line":
                     newElement = new SvgDomLine();
                     break;
+                case "polyline":
+                    newElement = new SvgDomPolyline();
+                    break;
+                case "polygon":
+                    newElement = new SvgDomPolygon();
+                    break;
                 case "rect":
                     newElement = new SvgDomRect();
                     break;

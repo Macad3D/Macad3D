@@ -52,9 +52,9 @@ internal sealed class SvgDomLine : SvgDomElement
             
         if(!(sx1.IsNullOrEmpty() && sy1.IsNullOrEmpty() && sx2.IsNullOrEmpty() && sy2.IsNullOrEmpty()))
         {
-            Start = new Pnt2d(conv.FromSvgLength(sx1), conv.FromSvgLength(sy1));
+            Start = new(conv.FromSvgLength(sx1), conv.FromSvgLength(sy1));
             conv.Transform(ref Start);
-            End = new Pnt2d(conv.FromSvgLength(sx1), conv.FromSvgLength(sy1));
+            End = new(conv.FromSvgLength(sx2), conv.FromSvgLength(sy2));
             conv.Transform(ref End);
             res = true;
         }

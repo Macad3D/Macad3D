@@ -17,40 +17,79 @@ public class SvgImportSketchTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void SingleLine()
+    public void PathSingleLine()
     {
         var svg = TestData.GetTestData(Path.Combine(_ExportBasePath, "SingleLine.svg"));
 
         var sketch = Sketch.Create();
         _ReadFromBytes(svg, sketch, true);
 
-        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "SingleLine"));
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "PathSingleLine"));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void MultipleLinesOpen()
+    public void PathMultipleLinesOpen()
     {
         var svg = TestData.GetTestData(Path.Combine(_ExportBasePath, "MultipleLinesOpen.svg"));
 
         var sketch = Sketch.Create();
         _ReadFromBytes(svg, sketch, true);
 
-        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "MultipleLinesOpen"));
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "PathMultipleLinesOpen"));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void MultipleLinesClosed()
+    public void PathMultipleLinesClosed()
     {
         var svg = TestData.GetTestData(Path.Combine(_ExportBasePath, "MultipleLinesClosed.svg"));
 
         var sketch = Sketch.Create();
         _ReadFromBytes(svg, sketch, true);
 
-        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "MultipleLinesClosed"));
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "PathMultipleLinesClosed"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Line()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "Line_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "Line"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Polyline()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "Polyline_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "Polyline"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Polygon()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "Polygon_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "Polygon"));
     }
 
     //--------------------------------------------------------------------------------------------------
