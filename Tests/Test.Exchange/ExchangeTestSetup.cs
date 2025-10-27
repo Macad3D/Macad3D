@@ -12,6 +12,8 @@ public class ExchangeTestSetup
     {
         TestSetup.SetupWpf();
         TestSetup.SetupRendering();
+
+        Context.InitWithDefault();
     }
 
     //--------------------------------------------------------------------------------------------------

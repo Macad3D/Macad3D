@@ -69,6 +69,45 @@ public class SvgImportSketchTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void Rectangle()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "Rectangle_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "Rectangle"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void RectangleRoundCorners()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "RectangleRoundCorners_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "RectangleRoundCorners"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void RectangleRoundCornersAsym()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "RectangleRoundCornersAsym_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "RectangleRoundCornersAsym"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void Ellipse()
     {
         var svg = TestData.GetTestData(Path.Combine(_ExportBasePath, "Ellipse.svg"));

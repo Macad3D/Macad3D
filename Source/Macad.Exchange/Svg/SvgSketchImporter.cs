@@ -145,29 +145,63 @@ internal sealed class SvgSketchImporter
 
     void _ImportRectangle(SvgDomRect rectangle)
     {
-        if ((rectangle.CornerRadiusX > 0) || (rectangle.CornerRadiusY > 0))
-        {
-            Messages.Warning("Imported SVG shape does have an rectangle with corner radius, which are not supported yet. [ " + rectangle.ID + " ]");
-        }
-
         var leftTop = rectangle.Start;
         var left = leftTop.X;
         var top = leftTop.Y;
         var right = left + rectangle.Width;
         var bottom = top + rectangle.Height;
+        var rx = rectangle.CornerRadiusX;
+        var ry = rectangle.CornerRadiusY;
 
-        var points = new[]
+        if (rx == 0 || ry == 0)
         {
-            _AddPoint(new Pnt2d(left, top)),
-            _AddPoint(new Pnt2d(right, top)),
-            _AddPoint(new Pnt2d(right, bottom)),
-            _AddPoint(new Pnt2d(left, bottom))
-        };
+            int[] points =
+            [
+                _AddPoint(new(left + rx, top)),
+                _AddPoint(new(right, top)),
+                _AddPoint(new(right, bottom)),
+                _AddPoint(new(left, bottom))
+            ];
+            _Segments.Add(new SketchSegmentLine(points[0], points[1]));
+            _Segments.Add(new SketchSegmentLine(points[1], points[2]));
+            _Segments.Add(new SketchSegmentLine(points[2], points[3]));
+            _Segments.Add(new SketchSegmentLine(points[3], points[0]));
+        }
+        else
+        {
+            int[] points =
+            [
+                _AddPoint(new(left + rx, top)),
+                _AddPoint(new(right - rx, top)),
+                _AddPoint(new(right, top + ry)),
+                _AddPoint(new(right, bottom - ry)),
+                _AddPoint(new(right - rx, bottom)),
+                _AddPoint(new(left + rx, bottom)),
+                _AddPoint(new(left, bottom - ry)),
+                _AddPoint(new(left, top + ry)),
+            ];
+            _Segments.Add(new SketchSegmentLine(points[0], points[1]));
+            _Segments.Add(new SketchSegmentLine(points[2], points[3]));
+            _Segments.Add(new SketchSegmentLine(points[4], points[5]));
+            _Segments.Add(new SketchSegmentLine(points[6], points[7]));
 
-        _Segments.Add(new SketchSegmentLine(points[0], points[1]));
-        _Segments.Add(new SketchSegmentLine(points[1], points[2]));
-        _Segments.Add(new SketchSegmentLine(points[2], points[3]));
-        _Segments.Add(new SketchSegmentLine(points[3], points[0]));
+            if (Math.Abs(rx + ry) < 0.0001)
+            {
+                var rimOfsX = rx * (1.0 - Math.Sin(Math.PI * 0.25));
+                var rimOfsY = ry * (1.0 - Math.Cos(Math.PI * 0.25));
+                _Segments.Add(new SketchSegmentArc(points[2], points[1], _AddPoint(new(right - rimOfsX, top + rimOfsY))));
+                _Segments.Add(new SketchSegmentArc(points[4], points[3], _AddPoint(new(right - rimOfsX, bottom - rimOfsY))));
+                _Segments.Add(new SketchSegmentArc(points[6], points[5], _AddPoint(new(left + rimOfsX, bottom - rimOfsY))));
+                _Segments.Add(new SketchSegmentArc(points[0], points[7], _AddPoint(new(left + rimOfsX, top + rimOfsY))));
+            }
+            else
+            {
+                _Segments.Add(new SketchSegmentEllipticalArc(points[2], points[1], _AddPoint(new(right - rx, top + ry))));
+                _Segments.Add(new SketchSegmentEllipticalArc(points[4], points[3], _AddPoint(new(right - rx, bottom - ry))));
+                _Segments.Add(new SketchSegmentEllipticalArc(points[6], points[5], _AddPoint(new(left + rx, bottom - ry))));
+                _Segments.Add(new SketchSegmentEllipticalArc(points[0], points[7], _AddPoint(new(left + rx, top + ry))));
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
