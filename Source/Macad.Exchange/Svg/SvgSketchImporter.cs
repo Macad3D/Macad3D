@@ -78,6 +78,13 @@ internal sealed class SvgSketchImporter
             case SvgDomGroup group:
                 _ImportGroup(group);
                 break;
+            case SvgDomLine line:
+                _ImportLine(line);
+                break;
+            case SvgDomPolyline polyline:
+                // Will also handle polygons
+                _ImportPolyline(polyline); 
+                break;
             case SvgDomCircle circle:
                 _ImportCircle(circle);
                 break;
@@ -106,6 +113,39 @@ internal sealed class SvgSketchImporter
 
     void _ImportGroup(SvgDomGroup domGroup)
     {
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ImportLine(SvgDomLine line)
+    {
+        var p1 = _AddPoint(line.Start);
+        var p2 = _AddPoint(line.End);
+        _Segments.Add(new SketchSegmentLine(p1, p2));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ImportPolyline(SvgDomPolyline polyline)
+    {
+        var points = polyline.Points?.Select(_AddPoint);
+        if (points == null)
+        {
+            return;
+        }
+
+        int firstPoint = points.First();
+        int lastPoint = firstPoint;
+        foreach (var point in points.Skip(1))
+        {
+            _Segments.Add(new SketchSegmentLine(lastPoint, point));
+            lastPoint = point;
+        }
+
+        if (polyline is SvgDomPolygon)
+        {
+            _Segments.Add(new SketchSegmentLine(lastPoint, firstPoint));
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
