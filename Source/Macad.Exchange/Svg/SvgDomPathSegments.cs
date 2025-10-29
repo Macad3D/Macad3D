@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Macad.Occt;
 
@@ -422,26 +423,30 @@ internal sealed class SvgPathSegArc : SvgPathSegment
             yield break;
 
         int valuePos = 0;
+        var start = new Pnt2d();
+        if (lastSegment != null)
+        {
+            start = lastSegment.End;
+        }
+
         while (valuePos < values.Length)
         {
-            var start = new Pnt2d();
-            if (lastSegment != null)
-            {
-                start = lastSegment.End;
-            }
-
-            double rx = values[0] * conv.Scale;
-            double ry = values[1] * conv.Scale;
-            double angle = values[2];
-            SvgArcSize size = values[3] == 0 ? SvgArcSize.Small : SvgArcSize.Large;
-            SvgArcSweep sweep = values[4] == 0 ? SvgArcSweep.Negative : SvgArcSweep.Positive;
-            Pnt2d end = new Pnt2d(values[5] * conv.Scale, values[6] * conv.Scale);
+            Span<double> span = new(values, valuePos, 7);
+            double rx = span[0] * conv.Scale;
+            double ry = span[1] * conv.Scale;
+            double angle = span[2];
+            SvgArcSize size = span[3] == 0 ? SvgArcSize.Small : SvgArcSize.Large;
+            SvgArcSweep sweep = span[4] == 0 ? SvgArcSweep.Negative : SvgArcSweep.Positive;
+            Pnt2d end = new Pnt2d(span[5] * conv.Scale, span[6] * conv.Scale);
             if (char.IsLower(commandString[0]))
+            {
                 end += start;
+            }
             valuePos += 7;
 
             lastSegment = new SvgPathSegArc(start, rx, ry, angle, size, sweep, end);
             yield return lastSegment;
+            start = end;
         }
     }
 }
