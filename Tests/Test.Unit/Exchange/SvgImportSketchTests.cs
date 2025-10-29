@@ -56,6 +56,19 @@ public class SvgImportSketchTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void PathMultipleArcs()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "PathMultipleArcs_Source.svg"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "PathMultipleArcs"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void Line()
     {
         var svg = TestData.GetTestData(Path.Combine(_BasePath, "Line_Source.svg"));
