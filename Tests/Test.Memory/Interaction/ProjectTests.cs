@@ -1,10 +1,11 @@
 ﻿using JetBrains.dotMemoryUnit;
-using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using Macad.Occt;
 
 namespace Macad.Test.Memory.Interaction;
 
@@ -88,4 +89,32 @@ public class ProjectTests
             Assert.AreEqual(1, memory.ObjectsCount<ShortcutHandler>(), "Old ShortcutHandler is alive");
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CleanupWorkspace()
+    {
+        void __Do()
+        {
+            var ctx = Context.Current;
+            ctx.DocumentController.NewModel();
+            ctx.DocumentController.NewModel();
+        }
+
+        __Do();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(1, memory.ObjectsCount<ModelController>(), "ModelController");
+            Assert.AreEqual(1, memory.ObjectsCount<Model>(), "Model");
+            Assert.AreEqual(1, memory.ObjectsCount<WorkspaceController>(), "WorkspaceController");
+            Assert.AreEqual(1, memory.ObjectsCount<Viewport>(), "Workspace");
+            Assert.AreEqual(1, memory.ObjectsCount<ViewportController>(), "Old ViewportController");
+            Assert.AreEqual(1, memory.ObjectsCount<Viewport>(), "Viewport");
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

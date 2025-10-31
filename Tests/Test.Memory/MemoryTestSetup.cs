@@ -12,6 +12,8 @@ public class MemoryTestSetup
     {
         TestSetup.SetupWpf();
         TestSetup.SetupRendering();
+
+        Context.InitWithDefault();
     }
 
     //--------------------------------------------------------------------------------------------------

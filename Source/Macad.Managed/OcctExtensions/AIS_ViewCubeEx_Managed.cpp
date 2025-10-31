@@ -27,6 +27,10 @@ namespace Macad
 					NativeInstance->SetTexture(thePixMap->NativeInstance);
 				}
 
+				void ResetViewAnimation()
+				{
+					NativeInstance->SetViewAnimation(opencascade::handle<::AIS_AnimationCamera>());
+				}
 			};
 		};
 	}

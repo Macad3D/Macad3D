@@ -186,6 +186,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged -= _ParameterChanged;
         Viewport.PropertyChanged -= _Viewport_PropertyChanged;
 
+        _AisViewCube?.ResetViewAnimation();
         _AisViewCube?.Dispose();
         _AisViewCube = null;
 
