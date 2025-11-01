@@ -26,7 +26,7 @@ public class RelayCommand<T> : ICommand
     /// Initializes a new instance of the <see cref="RelayCommand"/> class.
     /// </summary>
     /// <param name="execute">A method to execute when the command fires.</param>
-    /// <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+    /// <param name="canExecute">A method to execute to determine whether the command can execute.</param>
     public RelayCommand(Action<T> execute, Predicate<T> canExecute)
     {
         _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -37,7 +37,7 @@ public class RelayCommand<T> : ICommand
     /// Initializes a new instance of the <see cref="RelayCommand"/> class.
     /// </summary>
     /// <param name="execute">A method to execute when the command fires.</param>
-    /// <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+    /// <param name="canExecute">A method to execute to determine whether the command can execute.</param>
     public RelayCommand(Action<T> execute, Func<bool> canExecute)
     {
         _execute = execute ?? throw new ArgumentNullException(nameof(execute));

@@ -209,7 +209,7 @@ public partial class Scanner
     /// <returns></returns>
     public Token Scan(params TokenType[] expectedtokens)
     {
-        Token tok = LookAhead(expectedtokens); // temporarely retrieve the lookahead
+        Token tok = LookAhead(expectedtokens); // temporarily retrieve the lookahead
         LookAheadToken = null; // reset lookahead token, so scanning will continue
         StartPos = tok.EndPos;
         EndPos = tok.EndPos; // set the tokenizer to the new scan position

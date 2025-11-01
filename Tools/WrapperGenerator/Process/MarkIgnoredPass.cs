@@ -55,7 +55,7 @@ public class MarkIgnoredPass : Pass
             // OptIn-Package
             if (!_OptInList.Contains(cd.Name))
             {
-                Logger.WriteLine(true, $"[{cd.Package}] Class {cd.Name} ignored beacause of opt-in package.");
+                Logger.WriteLine(true, $"[{cd.Package}] Class {cd.Name} ignored because of opt-in package.");
                 cd.Ignore = true;
                 return true;
             }

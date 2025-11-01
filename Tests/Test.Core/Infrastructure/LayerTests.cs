@@ -27,7 +27,7 @@ public class LayerTests
         var lc = Context.Current.Layers;
         Assert.IsNotNull(lc);
 
-        // Guid is empy
+        // Guid is empty
         var layer = lc.Find(Guid.Empty);
         Assert.IsNotNull(layer);
         Assert.AreEqual(lc.Default, layer);

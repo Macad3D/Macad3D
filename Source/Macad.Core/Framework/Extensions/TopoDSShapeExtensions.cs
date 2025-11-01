@@ -93,7 +93,7 @@ public static class TopoDSShapeExtensions
                     if (faces[otherIndex].Orientation() == TopAbs_Orientation.REVERSED
                         && face.Orientation() == TopAbs_Orientation.FORWARD)
                     {
-                        // Replace with forward face, this is prefered
+                        // Replace with forward face, this is preferred
                         faces[otherIndex] = face;
                     }
 
@@ -126,7 +126,7 @@ public static class TopoDSShapeExtensions
                     if (wires[otherEdgeIndex].Orientation() == TopAbs_Orientation.REVERSED
                         && wire.Orientation() == TopAbs_Orientation.FORWARD)
                     {
-                        // Replace with forward wire, this is prefered
+                        // Replace with forward wire, this is preferred
                         wires[otherEdgeIndex] = wire;
                     }
 
@@ -160,7 +160,7 @@ public static class TopoDSShapeExtensions
                     if (edges[otherEdgeIndex].Orientation() == TopAbs_Orientation.REVERSED
                         && edge.Orientation() == TopAbs_Orientation.FORWARD)
                     {
-                        // Replace with forward edge, this is prefered
+                        // Replace with forward edge, this is preferred
                         edges[otherEdgeIndex] = edge;
                     }
 

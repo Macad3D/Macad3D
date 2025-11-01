@@ -88,7 +88,7 @@ internal sealed class U3dBodyExporter
         }
         catch (Exception e)
         {
-            Messages.Exception($"Exception occured while exporting to U3D.", e);
+            Messages.Exception($"Exception occurred while exporting to U3D.", e);
             return null;
         }
     }

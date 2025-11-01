@@ -24,7 +24,7 @@ public class BuildInheritancePass : Pass
                     int pidBase = Configuration.Packages.IndexOf(baseClass.Package.Name);
                     if (pidBase > pidDerived)
                     {
-                        Logger.WriteLine(false, $"ERROR: The package {baseClass.Package} needs to be priorized over package {cd.Package} for class {cd.Name}::{baseClass.Name}");
+                        Logger.WriteLine(false, $"ERROR: The package {baseClass.Package} needs to be prioritized over package {cd.Package} for class {cd.Name}::{baseClass.Name}");
                         return false;
                     }
                 }

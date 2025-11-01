@@ -79,7 +79,7 @@ public sealed class StlExchanger : IBodyExporter, IBodyImporter
         }
         catch (Exception e)
         {
-            Messages.Exception($"Exception occured while exporting {fileName}.", e);
+            Messages.Exception($"Exception occurred while exporting {fileName}.", e);
             return false;
         }
     }
@@ -99,7 +99,7 @@ public sealed class StlExchanger : IBodyExporter, IBodyImporter
         }
         catch (Exception e)
         {
-            Messages.Exception($"Exception occured while importing {fileName}.", e);
+            Messages.Exception($"Exception occurred while importing {fileName}.", e);
             return false;
         }
     }

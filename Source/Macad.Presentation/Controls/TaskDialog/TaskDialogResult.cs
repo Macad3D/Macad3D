@@ -103,7 +103,7 @@ public class TaskDialogResult
     /// Initializes a new instance of the <see cref="TaskDialogResult"/> class.
     /// </summary>
     /// <param name="result">The simple TaskDialog result.</param>
-    /// <param name="verificationChecked">Wether the verification checkbox was checked.</param>
+    /// <param name="verificationChecked">Whether the verification checkbox was checked.</param>
     /// <param name="radioButtonResult">The radio button result, if any.</param>
     /// <param name="commandButtonResult">The command button result, if any.</param>
     /// <param name="customButtonResult">The custom button result, if any.</param>

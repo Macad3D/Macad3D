@@ -80,7 +80,7 @@ internal static class DebugPipeServer
         }
         catch (Exception e)
         {
-            Application.Current.Dispatcher.Invoke(() => Messages.Exception("An exception occured in the debug pipe stream thread.", e));
+            Application.Current.Dispatcher.Invoke(() => Messages.Exception("An exception occurred in the debug pipe stream thread.", e));
         }
     }
 

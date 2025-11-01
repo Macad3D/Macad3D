@@ -131,7 +131,7 @@ public sealed class SnapOnCurve2D : SnapBase
                                                              screenPointX, screenPointY,
                                                              out Pnt gridPnt3d))
             {
-                // On grid, calculcate best intersection based on grid type
+                // On grid, calculate best intersection based on grid type
                 var gridPnt = ProjLib.Project(Plane, gridPnt3d);
                 Pnt2d screenPnt2d = Pnt2d.Origin;
                 if (WorkspaceController.ActiveViewControlller.ScreenToPoint(screenPointX, screenPointY, out Pnt screenPnt))

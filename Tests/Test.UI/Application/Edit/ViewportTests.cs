@@ -138,7 +138,7 @@ public class ViewportTests : UITestBase
         viewport.ClickRelative(0.3, 0.3);
         viewport.ClickRelative(0.6, 0.6);
 
-        // Klick to ViewCube
+        // Click to ViewCube
         viewport.ClickRelative(0.9, 0.1);
         Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateBox"));
 

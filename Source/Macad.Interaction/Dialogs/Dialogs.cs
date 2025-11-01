@@ -70,8 +70,8 @@ public static class Dialogs
     {
         var s = multiple ? "s" : "";
         return TaskDialog.ShowMessage(Application.Current.MainWindow,
-                                      $"Permamently delete asset{s}?",
-                                      $"The file{s} of the selected asset{s} will be deleted permamently. This action cannot be reverted. The asset file is moved to the recycle bin of your drive, if enabled.",
+                                      $"Permanently delete asset{s}?",
+                                      $"The file{s} of the selected asset{s} will be deleted permanently. This action cannot be reverted. The asset file is moved to the recycle bin of your drive, if enabled.",
                                       $"Delete Asset{s}",
                                       TaskDialogCommonButtons.OKCancel, TaskDialogIcon.Warning) == TaskDialogResults.Ok;
     }
@@ -83,7 +83,7 @@ public static class Dialogs
         var s = multiple ? "s" : "";
         return TaskDialog.ShowMessage(Application.Current.MainWindow,
                                       $"Delete selected layer{s}?",
-                                      $"The layer{s} '{names}' will be deleted permamently. This action cannot be reverted. All entities assigned to this layer will be reassigned to the default layer.",
+                                      $"The layer{s} '{names}' will be deleted permanently. This action cannot be reverted. All entities assigned to this layer will be reassigned to the default layer.",
                                       $"Delete Layer{s}",
                                       TaskDialogCommonButtons.OKCancel, TaskDialogIcon.Warning) == TaskDialogResults.Ok;
     }

@@ -117,7 +117,7 @@ public partial class ParseTreeEvaluator : ParseTree
         string key = funcNode.Token.Text.ToLowerInvariant();
         if (!root.Context.Functions.ContainsKey(key))
         {
-            tree.Errors.Add(new ParseError("Fuction not defined: " + funcNode.Token.Text + "()", 1042, this));
+            tree.Errors.Add(new ParseError("Function not defined: " + funcNode.Token.Text + "()", 1042, this));
             return null;
         }
 
@@ -199,7 +199,7 @@ public partial class ParseTreeEvaluator : ParseTree
         // IMPORTANT: scanning and calculating the power is done from Left to Right.
         // this is conform the Excel evaluation of power, but not conform strict mathematical guidelines
         // this means that a^b^c evaluates to (a^b)^c  (Excel uses the same kind of evaluation)
-        // stricly mathematical speaking a^b^c should evaluate to a^(b^c) (therefore calculating the powers from Right to Left)
+        // strictly mathematical speaking a^b^c should evaluate to a^(b^c) (therefore calculating the powers from Right to Left)
         for (int i = 1; i < nodes.Count; i += 2)
         {
             Token token = nodes[i].Token;
@@ -346,7 +346,7 @@ public partial class ParseTreeEvaluator : ParseTree
             if (Convert.ToBoolean(result))
                 result = nodes[2].Eval(tree, paramlist); // return 1st argument
             else
-                result = nodes[4].Eval(tree, paramlist); // return 2nd argumen
+                result = nodes[4].Eval(tree, paramlist); // return 2nd argument
         }
         return result;
     }
@@ -388,7 +388,7 @@ public partial class ParseTreeEvaluator : ParseTree
         if (v.Token.Type == TokenType.VARIABLE)
         {
 
-            // simply overwrite any previous defnition
+            // simply overwrite any previous definition
             string key = v.Token.Text;
             root.Context.Globals[key] = this.GetValue(tree, TokenType.AssignmentExpression, 1);
             return null;
@@ -407,7 +407,7 @@ public partial class ParseTreeEvaluator : ParseTree
                 }
 
             // lets determine the input variables. 
-            // functions must be of te form f(x;y;z) = x+y*z;
+            // functions must be of the form f(x;y;z) = x+y*z;
             // check the function parameters to be of type Variable, error otherwise
             Variables vars = new Variables();
             ParseNode paramsNode = v.Nodes[2];
@@ -427,7 +427,7 @@ public partial class ParseTreeEvaluator : ParseTree
                     vars.Add(varNode.Token.Text, null);
                 }
             }
-            // we have all the info we need to know to declare the dynamicly defined function
+            // we have all the info we need to know to declare the dynamically defined function
             // pass on nodes[2] which is the Right Hand Side (RHS) of the assignment
             // nodes[2] will be evaluated at runtime when the function is executed.
             DynamicFunction dynf = new DynamicFunction(key, nodes[2], vars, vars.Count, vars.Count);

@@ -23,7 +23,7 @@ public class RelayCommand : ICommand
     /// Initializes a new instance of the <see cref="RelayCommand"/> class.
     /// </summary>
     /// <param name="execute">A method to execute when the command fires.</param>
-    /// <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+    /// <param name="canExecute">A method to execute to determine whether the command can execute.</param>
     public RelayCommand(Action execute, Func<bool> canExecute)
     {
         if (execute == null)

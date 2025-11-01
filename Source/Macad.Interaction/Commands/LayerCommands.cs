@@ -192,7 +192,7 @@ public static class LayerCommands
     )        
     {
         Header = (layer) => "Select All",
-        Description = (layer) => "Selectes all entities of the selected layer.",
+        Description = (layer) => "Selects all entities of the selected layer.",
         Icon = (layer) => "Layer-SelectAllEntities"
     };
 
@@ -201,7 +201,7 @@ public static class LayerCommands
     public static ActionCommand LayerVisualPanel { get; } = new(
         () =>
         {
-            // Left empty by intension, the visual panel is shown as drop down content
+            // Left empty intentionally, the visual panel is shown as drop down content
         },
         () => true)
     {

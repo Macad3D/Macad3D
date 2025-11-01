@@ -594,7 +594,7 @@ public class ParsePass : Pass
 
                 if (std.Name.Contains("<") && !typedef.name.Contains("<"))
                 {
-                    // Only supress typedef resolve if the typedef resolves an template
+                    // Only suppress typedef resolve if the typedef resolves an template
                     td.Name = typedef.name;
                 }
                 else

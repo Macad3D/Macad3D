@@ -317,7 +317,7 @@ public class MoveSketchPointAction : ToolAction
             _SnapHandler.SupportedModes = SnapModes.Grid | SnapModes.Edge | SnapModes.Vertex;
             _SnapHandler.Plane = _SketchEditorTool.Sketch.Plane;
 
-            return true; // Supress Rubberband Selection
+            return true; // Suppress Rubberband Selection
         }
 
         return false;

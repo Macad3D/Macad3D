@@ -204,7 +204,7 @@ public partial class ViewportPanel : AirspaceOverlay
 
         _MouseMovePosition = e.GetPosition(this);
 
-        // Supress context menu if mouse was moved significantly
+        // Suppress context menu if mouse was moved significantly
         if (_RightMouseBtnDown && (_MouseDownPosition - _MouseMovePosition).LengthSquared > 9)
         {
             _SuppressContextMenu = true;

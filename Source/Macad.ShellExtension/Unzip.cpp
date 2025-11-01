@@ -1217,7 +1217,7 @@ const uInt border[] = {
 //    end-of-block.  Note however that the static length tree defines
 //    288 codes just to fill out the Huffman codes.  Codes 286 and 287
 //    cannot be used though, since there is no length base or extra bits
-//    defined for them.  Similarily, there are up to 30 distance codes.
+//    defined for them.  Similarly, there are up to 30 distance codes.
 //    However, static trees define 32 codes (all 5 bits) to fill out the
 //    Huffman codes, but the last two had better not show up in the data.
 // 7. Unzip can check dynamic Huffman blocks for complete code sets.
@@ -2841,7 +2841,7 @@ typedef struct
 	uLong crc32_wait; // crc32 we must obtain after decompress all
 	uLong rest_read_compressed; // number of byte to be decompressed
 	uLong rest_read_uncompressed; //number of byte to be obtained after decomp
-	LUFILE* file; // io structore of the zipfile
+	LUFILE* file; // io structure of the zipfile
 	uLong compression_method; // compression method (0==store)
 	uLong byte_before_the_zipfile; // byte before the zipfile, (>0 for sfx)
 	bool encrypted; // is it encrypted?
@@ -2854,7 +2854,7 @@ typedef struct
 // unz_s contain internal information about the zipfile
 typedef struct
 {
-	LUFILE* file; // io structore of the zipfile
+	LUFILE* file; // io structure of the zipfile
 	unz_global_info gi; // public global information
 	uLong byte_before_the_zipfile; // byte before the zipfile, (>0 for sfx)
 	uLong num_file; // number of the current file in the zipfile
