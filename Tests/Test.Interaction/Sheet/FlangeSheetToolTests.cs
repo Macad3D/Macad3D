@@ -1220,7 +1220,7 @@ public class FlangeSheetToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    [Description("This bug occured when the length was set to 0 in the prop panel.")]
+    [Description("This bug occurred when the length was set to 0 in the prop panel.")]
     public void LiveGapOnZeroLength()
     {
         var ctx = Context.Current;

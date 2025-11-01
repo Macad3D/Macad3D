@@ -134,7 +134,7 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        return true; // Supress Rubberband Selection
+        return true; // Suppress Rubberband Selection
     }
 
     //--------------------------------------------------------------------------------------------------

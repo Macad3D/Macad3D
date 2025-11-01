@@ -90,7 +90,7 @@ internal class SelectionMultiple : InputSubscriberBase
 
     private bool ModifySelection(List<object> itemsToSelect, List<object> itemsToUnselect)
     {
-        //clean up any duplicate or unnecessery input
+        //clean up any duplicate or unnecessary input
         OptimizeModifySelection(itemsToSelect, itemsToUnselect);
 
         //check if there's anything to do.
@@ -153,7 +153,7 @@ internal class SelectionMultiple : InputSubscriberBase
             itemsToUnselect.Remove(item);
         }
 
-        // check for itemsToSelect allready in treeViewEx.SelectedItems
+        // check for itemsToSelect already in treeViewEx.SelectedItems
         temporaryList.Clear();
         foreach (object item in itemsToSelect)
         {
@@ -186,7 +186,7 @@ internal class SelectionMultiple : InputSubscriberBase
 
     private void SelectSingleItem(TreeViewExItem item)
     {
-        // selection with SHIFT is not working in virtualized mode. Thats because the Items are not visible.
+        // selection with SHIFT is not working in virtualized mode. That's because the Items are not visible.
         // Therefor the children cannot be found/selected.
         if (IsShiftKeyDown && treeViewEx.SelectedItems.Count > 0 && !treeViewEx.IsVirtualizing && treeViewEx.AllowMultiSelection)
         {

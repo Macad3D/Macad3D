@@ -126,7 +126,7 @@ public class Scale : ModifierBase
         var brep = GetOperandBRep(0);
         if (brep == null)
         {
-            Messages.Error("The preceeding shape does not provide a valid geometry.");
+            Messages.Error("The preceding shape does not provide a valid geometry.");
             return false;
         }
 
@@ -155,7 +155,7 @@ public class Scale : ModifierBase
                 break;
 
             default:
-                Messages.Error("The shape type of the preceeding shape is not supported.");
+                Messages.Error("The shape type of the preceding shape is not supported.");
                 break;
         }
         

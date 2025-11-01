@@ -157,7 +157,7 @@ public class Offset : ModifierBase
                 break;
 
             default:
-                Messages.Error("The shape type of the preceeding shape is not supported.");
+                Messages.Error("The shape type of the preceding shape is not supported.");
                 break;
         }
 
@@ -171,7 +171,7 @@ public class Offset : ModifierBase
         var brep = GetOperandBRep(0);
         if (brep == null)
         {
-            Messages.Error("The preceeding shape does not provide a valid geometry.");
+            Messages.Error("The preceding shape does not provide a valid geometry.");
             return false;
         }
 
@@ -184,7 +184,7 @@ public class Offset : ModifierBase
                         .ToList();
         if (wires.Count == 0)
         {
-            Messages.Error("The preceeding shape does not provide closed wires to offset.");
+            Messages.Error("The preceding shape does not provide closed wires to offset.");
             return false;
         }
 
@@ -227,14 +227,14 @@ public class Offset : ModifierBase
         var brep = GetOperandBRep(0);
         if (brep == null)
         {
-            Messages.Error("The preceeding shape does not provide a valid geometry."); 
+            Messages.Error("The preceding shape does not provide a valid geometry."); 
             return false;
         }
 
         var solids = brep.Solids();
         if (solids.Count == 0)
         {
-            Messages.Error("The preceeding shape does not provide solid geometry to offset.");
+            Messages.Error("The preceding shape does not provide solid geometry to offset.");
             return false;
         }
 

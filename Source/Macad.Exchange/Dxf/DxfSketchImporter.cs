@@ -82,7 +82,7 @@ internal sealed class DxfSketchImporter
         }
         catch (Exception e)
         {
-            Messages.Exception("DxfImporter: An exception occured while importing the dxf file.", e);
+            Messages.Exception("DxfImporter: An exception occurred while importing the dxf file.", e);
             return false;
         }
     }

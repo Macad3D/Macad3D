@@ -103,7 +103,7 @@ public class CrossSection : ModifierBase
     //--------------------------------------------------------------------------------------------------
 
     /// Propose a plane which makes more sense than the base plane.
-    /// This is an utility for the creation to find a plane that is a good place to start based on
+    /// This is a utility for the creation to find a plane that is a good place to start based on
     /// the current working plane.
     public static Pln ProposePlane(Body targetBody, Pln basePlane)
     {
@@ -118,7 +118,7 @@ public class CrossSection : ModifierBase
         if (!bb.IsOut(basePlane))
             return basePlane; // Plane is inside shape, this is OK.
 
-        // use body syste, translate plane to the middle
+        // use body system, translate plane to the middle
         return new Pln(targetBody.GetCoordinateSystem()).Translated(Pnt.Origin, bb.Center()-targetBody.Position);
     }
 

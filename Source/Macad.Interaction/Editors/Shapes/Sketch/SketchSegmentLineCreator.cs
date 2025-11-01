@@ -139,7 +139,7 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
             return;
 
         var segment = _Segment;
-        _Segment = null; // Needed to supress next preview called in FinishSegmentCreation
+        _Segment = null; // Needed to suppress next preview called in FinishSegmentCreation
         _Points[1] = _Points[0].Translated(vec.Normalized().Scaled(newValue));
         _MergePointIndices[1] = -1;
         SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [segment], null, 1);

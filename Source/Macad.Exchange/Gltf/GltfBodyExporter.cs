@@ -173,7 +173,7 @@ internal sealed class GltfBodyExporter
         }
         catch (Exception e)
         {
-            Messages.Exception($"Exception occured while exporting to glTF.", e);
+            Messages.Exception($"Exception occurred while exporting to glTF.", e);
             return null;
         }
     }

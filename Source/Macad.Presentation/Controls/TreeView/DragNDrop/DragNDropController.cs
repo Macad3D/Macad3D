@@ -63,7 +63,7 @@ internal sealed class DragNDropController : InputSubscriberBase, IDisposable
         base.OnMouseDown(e);
         if (CheckOverScrollBar(e.GetPosition(TreeView))) return;
 
-        // initalize draggable items on click. Doing that in mouse move results in drag operations,
+        // initialize draggable items on click. Doing that in mouse move results in drag operations,
         // when the border is visible.
         _DraggableItems = GetDraggableItems(e.GetPosition(TreeView));
         //if (CanDrag)

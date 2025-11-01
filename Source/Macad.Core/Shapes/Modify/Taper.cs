@@ -213,7 +213,7 @@ public class Taper : ModifierBase
         context.Source = GetOperandBRep(0);
         if (context.Source == null)
         {
-            Messages.Error("The preceeding shape does not provide a valid geometry.");
+            Messages.Error("The preceding shape does not provide a valid geometry.");
             return false;
         }
 

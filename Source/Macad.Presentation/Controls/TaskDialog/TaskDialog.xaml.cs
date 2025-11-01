@@ -113,7 +113,7 @@ public partial class TaskDialog : Dialog
                 && e.Key == Key.System && e.SystemKey == Key.F4)
                 e.Handled = true;
 
-            // Handel Esc manually if the override has been set
+            // Handle Esc manually if the override has been set
             if (Data.AllowDialogCancellation
                 && e.Key == Key.Escape)
             {

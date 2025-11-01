@@ -26,7 +26,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Verion -->
+        <!-- Version -->
         <TextBlock Grid.Column="0" Text="File Version"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
 

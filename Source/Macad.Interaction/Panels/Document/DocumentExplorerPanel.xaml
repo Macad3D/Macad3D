@@ -271,7 +271,7 @@
                 </treeView:TreeViewEx.Resources>
             </treeView:TreeViewEx>
 
-            <TextBlock Text="Your document is empty. Start creating some shapes by selecing tools in the MODEL menu tab."
+            <TextBlock Text="Your document is empty. Start creating some shapes by selecting tools in the MODEL menu tab."
                        Style="{StaticResource Macad.Styles.TextBlock.PanelHintText}"
                        Visibility="{Binding DocumentIsEmpty, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
 

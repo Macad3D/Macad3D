@@ -372,7 +372,7 @@ public class OffsetSegmentSketchTool : SketchTool
                 data.Result = makeOffset.Shape();
             }
             
-            // If one failes, the op failes
+            // If one fails, the op fails
             return _Data.All(data => data.Result != null);
         });
     }

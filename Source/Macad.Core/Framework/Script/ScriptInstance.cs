@@ -101,7 +101,7 @@ public sealed class ScriptInstance
         }
         catch (Exception e)
         {
-            Messages.Exception($"The executed script '{Name}' throwed an exception.", e);
+            Messages.Exception($"The executed script '{Name}' threw an exception.", e);
         }
         finally
         {

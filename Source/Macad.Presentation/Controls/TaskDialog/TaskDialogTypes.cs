@@ -4,7 +4,7 @@ using System.Drawing;
 namespace Macad.Presentation;
 
 /// <summary>
-/// The signature of the callback that recieves notificaitons from a Task Dialog.
+/// The signature of the callback that receives notifications from a Task Dialog.
 /// </summary>
 /// <param name="dialog">The active dialog. Use this to manipulate various properties of the dialog as it is displayed.</param>
 /// <param name="args">The notification arguments including the type of notification and information for the notification.</param>
@@ -339,25 +339,25 @@ public interface IActiveTaskDialog
 
     /// <summary>
     /// Updates the main instruction icon. Note the type (standard via enum or
-    /// custom via Icon type) must be used when upating the icon.
+    /// custom via Icon type) must be used when updating the icon.
     /// </summary>
     /// <param name="icon">Task Dialog standard icon.</param>
     void UpdateMainIcon(TaskDialogIcon icon);
     /// <summary>
     /// Updates the main instruction icon. Note the type (standard via enum or
-    /// custom via Icon type) must be used when upating the icon.
+    /// custom via Icon type) must be used when updating the icon.
     /// </summary>
     /// <param name="icon">The icon to set.</param>
     void UpdateMainIcon(Icon icon);
     /// <summary>
     /// Updates the footer icon. Note the type (standard via enum or
-    /// custom via Icon type) must be used when upating the icon.
+    /// custom via Icon type) must be used when updating the icon.
     /// </summary>
     /// <param name="icon">Task Dialog standard icon.</param>
     void UpdateFooterIcon(TaskDialogIcon icon);
     /// <summary>
     /// Updates the footer icon. Note the type (standard via enum or
-    /// custom via Icon type) must be used when upating the icon.
+    /// custom via Icon type) must be used when updating the icon.
     /// </summary>
     /// <param name="icon">The icon to set.</param>
     void UpdateFooterIcon(Icon icon);

@@ -347,8 +347,8 @@ public class FlangeSheetTests
     public void FlangesOnSameFaceWithNoGaps()
     {
         /* The Flange modifier shouldn't allow this:
-         * 1. The Unfold modifier will proberly have problems to find bend section, since faces are shared between bend sections.
-         * 2. It cannot be produces, to have seperate flanges there must be a minimum gap between them (by cutting, edging, etc)
+         * 1. The Unfold modifier will probably have problems finding bend section, since faces are shared between bend sections.
+         * 2. It cannot be produced. To have separate flanges there must be a minimum gap between them (by cutting, edging, etc)
          */
         var box = Box.Create(10.0, 10.0, 1.0);
         var body = Body.Create(box);

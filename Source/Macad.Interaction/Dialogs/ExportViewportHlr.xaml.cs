@@ -200,7 +200,7 @@ public partial class ExportViewportHlr : Dialog
             {
                 if (!DoExport(dlg.FileName, exporter))
                 {
-                    MessageBox.Show(Application.Current.MainWindow, "The export was not successfull. Please see message log for further information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Application.Current.MainWindow, "The export was not successful. Please see message log for further information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

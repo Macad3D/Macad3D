@@ -92,7 +92,7 @@ public class UndoTests
         Assert.IsFalse(Context.Current.UndoHandler.CanRedo);
         var state2 = Serializer.Serialize(body, new SerializationContext());
 
-        // Change toplogy -> State3
+        // Change topology -> State3
         box.DimensionZ = 8;
         body.SaveTopologyUndo();
         var boolean = BooleanCut.Create(body, box2);

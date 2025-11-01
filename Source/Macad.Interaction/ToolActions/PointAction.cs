@@ -143,7 +143,7 @@ public class PointAction : ToolAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        return true; // Supress Rubberband Selection
+        return true; // Suppress Rubberband Selection
     }
 
     //--------------------------------------------------------------------------------------------------

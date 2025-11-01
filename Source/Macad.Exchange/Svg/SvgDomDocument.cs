@@ -404,7 +404,7 @@ internal class SvgDocument : SvgDomElement
         }
         catch (Exception e)
         {
-            Messages.Exception("An exception occured while reading the svg document. Please check if the document is valid.", e);
+            Messages.Exception("An exception occurred while reading the svg document. Please check if the document is valid.", e);
             return false;
         }
 

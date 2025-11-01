@@ -43,7 +43,7 @@ public static class ErrorDialogs
     {
         TaskDialog.ShowMessage(Application.Current?.MainWindow,
                                $"File {Path.GetFileName(filePath)} loaded with errors.",
-                               $"The selected file {filePath} has been loaded, but errors occured. See log for details. It is recommended to check the content and save to a new file.",
+                               $"The selected file {filePath} has been loaded, but errors occurred. See log for details. It is recommended to check the content and save to a new file.",
                                "File loading",
                                TaskDialogCommonButtons.Close, TaskDialogIcon.Warning);
     }
@@ -131,7 +131,7 @@ public static class ErrorDialogs
     {
         TaskDialog.ShowMessage(Application.Current?.MainWindow,
                                $"Export to file {Path.GetFileName(filePath)} failed.",
-                               $"The export to {filePath} has failed. This maybe because it is read-only, the path does not exists or the exporter itself throwed an error. Please check log for details.",
+                               $"The export to {filePath} has failed. This maybe because it is read-only, the path does not exists or the exporter itself threw an error. Please check log for details.",
                                "Export failed",
                                TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
     }
@@ -142,7 +142,7 @@ public static class ErrorDialogs
     {
         TaskDialog.ShowMessage(Application.Current?.MainWindow,
                                $"Export to clipboard failed.",
-                               $"The export to clipboard has failed. This maybe because the export format does not support this or the exporter itself throwed an error. Please check log for details.",
+                               $"The export to clipboard has failed. This maybe because the export format does not support this or the exporter itself threw an error. Please check log for details.",
                                "Export failed",
                                TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
     }
@@ -153,7 +153,7 @@ public static class ErrorDialogs
     {
         TaskDialog.ShowMessage(Application.Current?.MainWindow,
                                $"Import of file {Path.GetFileName(filePath)} failed.",
-                               $"The import from {filePath} has failed. This maybe because the path does not exists or the importer itself throwed an error. Please check log for details.",
+                               $"The import from {filePath} has failed. This maybe because the path does not exists or the importer itself threw an error. Please check log for details.",
                                "Import failed",
                                TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
     }
@@ -164,7 +164,7 @@ public static class ErrorDialogs
     {
         TaskDialog.ShowMessage(Application.Current?.MainWindow,
                                $"Import from clipboard failed.",
-                               $"The import from clipboard has failed. This maybe because the import format does not support this or the importer itself throwed an error. Please check log for details.",
+                               $"The import from clipboard has failed. This maybe because the import format does not support this or the importer itself threw an error. Please check log for details.",
                                "Import failed",
                                TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
     }
