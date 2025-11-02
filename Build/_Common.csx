@@ -39,7 +39,7 @@ public static class Common
         }
         catch(Exception e)
         {
-            Printer.Error($"The following process could not be startet: {path}");
+            Printer.Error($"The following process could not be started: {path}");
             Printer.Error($"Message: {e.Message}");
             return -1;
         }

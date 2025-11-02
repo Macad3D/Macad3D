@@ -289,7 +289,7 @@ public:
     /// </summary>
     void SetHilightMode(int theMode);
     /// <summary>
-    /// Resets the higlight mode for this framework.
+    /// Resets the highlight mode for this framework.
     /// This defines the type of display used to highlight the
     /// owner of the shape when it is detected by the selector.
     /// The default type of display is wireframe, defined by the index 0.

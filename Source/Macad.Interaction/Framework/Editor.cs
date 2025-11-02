@@ -185,7 +185,7 @@ public abstract class Editor : WorkspaceControl
     {
         if (_Actions != null)
         {
-            // Copy reference to disable chaning the enumeration
+            // Copy reference to disable changing the enumeration
             var actions = _Actions;
             _Actions = null;
             foreach (var action in actions)

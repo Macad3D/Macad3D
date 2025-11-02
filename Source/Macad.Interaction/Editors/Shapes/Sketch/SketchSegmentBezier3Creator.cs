@@ -50,7 +50,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
 
     public override bool Continue(int continueWithPoint)
     {
-        // Start the next line with the first point already catched
+        // Start the next line with the first point already caught
         _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
         _MergePointIndices[0] = continueWithPoint;
 

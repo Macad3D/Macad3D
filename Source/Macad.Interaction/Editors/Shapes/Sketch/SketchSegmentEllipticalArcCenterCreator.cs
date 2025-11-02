@@ -48,7 +48,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
 
     public override bool Continue(int continueWithPoint)
     {
-        // Start the next line with the first point already catched
+        // Start the next line with the first point already caught
         _Points[1] = SketchEditorTool.Sketch.Points[continueWithPoint];
         _MergePointIndices[1] = continueWithPoint;
 
