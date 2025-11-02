@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Icon Conversion from SVG to XAML and Merge into a single Ressource Dictionary -->
+  <!-- Icon Conversion from SVG to XAML and Merge into a single Resource Dictionary -->
 
   <Import Project="Macad.Common.props" Condition="!Exists('$(MMRootDir)')" />
   

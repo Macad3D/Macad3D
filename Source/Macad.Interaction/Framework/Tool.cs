@@ -175,7 +175,7 @@ public abstract class Tool : WorkspaceControl
     {
         if (_Actions is { Count: > 0 })
         {
-            // Copy reference to disable chaning the enumeration
+            // Copy reference to disable changing the enumeration
             var actions = _Actions;
             _Actions = null;
             foreach (var toolAction in actions)
@@ -238,7 +238,7 @@ public abstract class Tool : WorkspaceControl
     {
         if (_OverriddenVisualShapes != null)
         {
-            // Copy reference to disable chaning the enumeration
+            // Copy reference to disable changing the enumeration
             var entities = _OverriddenVisualShapes;
             _OverriddenVisualShapes = null;
             foreach (var entity in entities)

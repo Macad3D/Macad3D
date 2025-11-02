@@ -47,7 +47,7 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
 
     public override bool Continue(int continueWithPoint)
     {
-        // Start the next line with the first point already catched
+        // Start the next line with the first point already caught
         _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
         _Points[1] = _Points[0];
         _MergePointIndices[0] = continueWithPoint;

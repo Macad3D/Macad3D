@@ -25,7 +25,7 @@ begin
         if RegQueryDWordValue(HKEY_LOCAL_MACHINE, key, 'RBld', rbld) then 
         begin
             Log('VC Redist Major is: ' + IntToStr(major) + ' Minor is: ' + IntToStr(minor) + ' Bld is: ' + IntToStr(bld) + ' Rbld is: ' + IntToStr(rbld));
-            // Note brackets required because of weird operator precendence
+            // Note brackets required because of weird operator precedence
             Result := (major >= {#VcRedistMajor}) and (minor >= {#VcRedistMinor}) and ({#VcRedistBuild} >= 24212)
         end;
       end;

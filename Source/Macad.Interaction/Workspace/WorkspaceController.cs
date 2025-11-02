@@ -283,7 +283,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         _UpdateParameter();
 
-        // Higlight Selected
+        // Highlight Selected
         var selectionDrawer = new Prs3d_Drawer();
         selectionDrawer.SetupOwnDefaults();
         selectionDrawer.SetColor(Colors.Selection.ToQuantityColor());
@@ -297,7 +297,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalSelected, selectionDrawer);
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.SubIntensity, selectionDrawer);
 
-        // Higlight Dynamic
+        // Highlight Dynamic
         var hilightDrawer = new Prs3d_Drawer();
         hilightDrawer.SetupOwnDefaults();
         hilightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
@@ -308,7 +308,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         hilightDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, hilightDrawer);
 
-        // Higlight Local
+        // Highlight Local
         var hilightLocalDrawer = new Prs3d_Drawer();
         hilightLocalDrawer.SetupOwnDefaults();
         hilightLocalDrawer.SetColor(Colors.Highlight.ToQuantityColor());

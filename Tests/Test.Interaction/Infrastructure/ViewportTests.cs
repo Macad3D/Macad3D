@@ -50,7 +50,7 @@ public class ViewportTests
             // ViewCube is visible
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ViewCubeVisible"));
 
-            // Higlight
+            // Highlight
             ctx.MoveTo(360, 120);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ViewCubeHighlight"));
 

@@ -192,7 +192,7 @@ public static class SketchCommands
                 return;
             }
 
-            using (new ProcessingScope(tool.Sketch, "Import sketch from cliboard."))
+            using (new ProcessingScope(tool.Sketch, "Import sketch from clipboard."))
             {
                 if (replace && points?.Count > 0)
                 {

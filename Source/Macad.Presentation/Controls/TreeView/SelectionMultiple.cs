@@ -226,7 +226,7 @@ internal class SelectionMultiple : InputSubscriberBase
         if (item.IsEditing) return;
 
         // Do not select on MouseDown if part of the selection list
-        // To enable drag'n'drop, this selction is done in MouseUp
+        // To enable drag'n'drop, this selection is done in MouseUp
         if (treeViewEx.SelectedItems.Count > 1 && item.IsSelected)
         {
             _ItemForDeferredSelection = item;
