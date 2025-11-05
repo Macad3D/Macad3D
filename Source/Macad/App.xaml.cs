@@ -47,12 +47,13 @@ public partial class App : Application
 
         // Init context
         AppContext.Initialize(cmdLine);
+        var appParameter = AppContext.Current.Parameters.Get<ApplicationParameterSet>();
 
         // Load theme depending on settings or operating system
-        _LoadTheme();
+        _LoadTheme(appParameter?.Theme ?? ApplicationTheme.Auto);
             
         // Show Welcome Dialog while initializing
-        bool bSkipWelcome = cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
+        bool bSkipWelcome = !appParameter.ShowWelcomeScreen || cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
         if (!bSkipWelcome && !bIsWine)
         {
             WelcomeDialog.ShowAsync();
@@ -82,11 +83,8 @@ public partial class App : Application
 
     //--------------------------------------------------------------------------------------------------
 
-    void _LoadTheme()
+    void _LoadTheme(ApplicationTheme theme)
     {
-        var appParameter = AppContext.Current?.Parameters.Get<ApplicationParameterSet>();
-        ApplicationTheme theme = appParameter?.Theme ?? ApplicationTheme.Auto;
-
         if (theme == ApplicationTheme.Auto)
         {
             const string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";

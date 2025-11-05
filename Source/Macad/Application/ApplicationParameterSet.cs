@@ -23,4 +23,11 @@ public sealed partial class ApplicationParameterSet
     };
 
     //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<bool> _ShowWelcomeScreen = new()
+    {
+        Name = "ShowWelcomeScreen",
+        DefaultValue = true,
+        Description = "If enabled, the welcome screen is shown at application start."
+    };
 }

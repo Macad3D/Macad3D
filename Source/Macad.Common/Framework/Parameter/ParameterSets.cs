@@ -1,6 +1,7 @@
 ﻿using Macad.Common.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Macad.Common;
 
@@ -20,6 +21,7 @@ public class ParameterSets : ISerializeValue
             return set;
 
         var newSet = Activator.CreateInstance(type) as ParameterSet;
+        Debug.Assert(newSet != null);
         newSet.ParameterChanged += _ParameterSet_ParameterChanged;
         _ParameterSets[type] = newSet;
         return newSet;
