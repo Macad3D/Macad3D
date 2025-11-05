@@ -48,8 +48,6 @@
           Inputs="@(MergedDictDeps)"
           Outputs="@(MergedDict -> '%(OutFile)')">
 
-    <Message Text="Creating merged resource dictionary %(MergedDict.Identity)" Importance="High" />
-
     <Exec Command="$(TargetDir)BuildTools.exe MergeResourceDicts Out=&quot;%(MergedDict.OutFile)&quot; In=&quot;%(MergedDict.Identity)&quot; depsOut=&quot;%(MergedDict.DepsFile)&quot; prjDir=&quot;$(ProjectDir)&quot;" />
 
     <ReadLinesFromFile File="%(MergedDict.DepsFile)">
