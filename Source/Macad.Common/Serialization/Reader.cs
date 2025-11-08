@@ -397,7 +397,7 @@ public class Reader
     {
         _ReadInstances.Add(guid, instance);
 
-        if (_Options.Has(ReadOptions.RecreateGuids))
+        if (_Options.HasFlag(ReadOptions.RecreateGuids))
         {
             var newGuid = Guid.NewGuid();
             _RecreatedGuids.Add(guid, newGuid);

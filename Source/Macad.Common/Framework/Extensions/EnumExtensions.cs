@@ -4,11 +4,11 @@ namespace Macad.Common;
 
 public static class EnumExtensions
 {
-    public static bool Has<T>(this System.Enum type, T value)
+    public static bool HasAnyFlag<T>(this Enum type, T value)
     {
         try
         {
-            return (((int)(object)type & (int)(object)value) == (int)(object)value);
+            return ((int)(object)type & (int)(object)value) != 0;
         }
         catch
         {
@@ -18,50 +18,7 @@ public static class EnumExtensions
 
     //--------------------------------------------------------------------------------------------------
 
-    public static bool Has<T>(this System.Enum type, string value)
-    {
-        try
-        {
-            var ev = Enum.Parse(type.GetType(), value);
-            return (((int)(object)type & (int)(object)value) == (int)(object)ev);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static bool Is<T>(this System.Enum type, T value)
-    {
-        try
-        {
-            return (int)(object)type == (int)(object)value;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
-    public static bool HasAny<T>(this System.Enum type, T value)
-    {
-        try
-        {
-            return (((int)(object)type & (int)(object)value) != 0);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static T Added<T>(this System.Enum type, T value)
+    public static T Added<T>(this Enum type, T value)
     {
         try
         {
@@ -79,7 +36,7 @@ public static class EnumExtensions
 
     //--------------------------------------------------------------------------------------------------
 
-    public static T Removed<T>(this System.Enum type, T value)
+    public static T Removed<T>(this Enum type, T value)
     {
         try
         {
@@ -97,7 +54,7 @@ public static class EnumExtensions
 
     //--------------------------------------------------------------------------------------------------
 
-    public static T Toggled<T>(this System.Enum type, T value)
+    public static T Toggled<T>(this Enum type, T value)
     {
         try
         {

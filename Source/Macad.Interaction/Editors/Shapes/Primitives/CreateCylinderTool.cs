@@ -118,7 +118,7 @@ public class CreateCylinderTool : Tool
             return;
 
         _Radius = new Vec2d(_PointPlane1, _PointPlane2).Magnitude().Round();
-        if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             _Radius = Maths.RoundToNearest(_Radius, WorkspaceController.Workspace.GridStep);
         }
@@ -174,7 +174,7 @@ public class CreateCylinderTool : Tool
         {
             _Height = args.Value.Round();
 
-            if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+            if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 _Height = Maths.RoundToNearest(_Height, WorkspaceController.Workspace.GridStep);
             }

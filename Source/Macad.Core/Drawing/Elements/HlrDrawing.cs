@@ -176,8 +176,8 @@ public class HlrDrawing : DrawingElement
     void _CreateLayerShape(LayerType layerType, HlrEdgeTypes edgeType1, HlrEdgeTypes edgeType2, HlrBRepAlgoBase hlrAlgo, Bnd_Box2d aabb)
     {
         TopoDS_Shape shape = null;
-        var shape1 = _IncludedEdgeTypes.Has(edgeType1) ? hlrAlgo.GetResult(edgeType1) : null;
-        var shape2 = _IncludedEdgeTypes.Has(edgeType2) ? hlrAlgo.GetResult(edgeType2) : null;
+        var shape1 = _IncludedEdgeTypes.HasFlag(edgeType1) ? hlrAlgo.GetResult(edgeType1) : null;
+        var shape2 = _IncludedEdgeTypes.HasFlag(edgeType2) ? hlrAlgo.GetResult(edgeType2) : null;
 
         if (shape1 != null && shape2 != null)
         {

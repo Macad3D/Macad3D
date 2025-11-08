@@ -61,7 +61,7 @@ public abstract class Hint : VisualObject
                 break;
         }
 
-        drawer.SetFaceBoundaryDraw(style.Has(HintStyle.Boundary));
+        drawer.SetFaceBoundaryDraw(style.HasFlag(HintStyle.Boundary));
 
         if ((style & HintStyle.Translucent) > 0)
         {

@@ -110,7 +110,7 @@ public class CreateSphereTool : Tool
         if (_Radius < 0.001)
             _Radius = 0.001;
 
-        if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             _Radius = Maths.RoundToNearest(_Radius, WorkspaceController.Workspace.GridStep);
         }

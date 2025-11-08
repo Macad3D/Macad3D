@@ -339,7 +339,7 @@ internal sealed class DxfSketchImporter
 
     void _ImportSplineWithControlPoints(DxfDomSpline dxfSpline)
     {
-        var spline = Geom2dUtils.MakeBSplineCurve(dxfSpline.Degree, dxfSpline.Knots, dxfSpline.ControlPoints, dxfSpline.Weights, dxfSpline.Flags.Has(DxfDomSpline.SplineFlags.IsClosed));
+        var spline = Geom2dUtils.MakeBSplineCurve(dxfSpline.Degree, dxfSpline.Knots, dxfSpline.ControlPoints, dxfSpline.Weights, dxfSpline.Flags.HasFlag(DxfDomSpline.SplineFlags.IsClosed));
         _AddBSplineCurve(spline);
     }
 

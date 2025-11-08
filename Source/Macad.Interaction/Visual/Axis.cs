@@ -165,7 +165,7 @@ public sealed class Axis : VisualObject
         if (_AisObject == null)
             return;
 
-        if (_Style.Has(Style.NoResize))
+        if (_Style.HasFlag(Style.NoResize))
         {
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Axis.Location);
             _AisObject.SetTransformPersistence(transformPers);
@@ -185,9 +185,9 @@ public sealed class Axis : VisualObject
         _AisObject.SetColor(_Color.ToQuantityColor());
         _AisObject.SetWidth(_Width);
 
-        if(_Style.Has(Style.ArrowHead))
+        if(_Style.HasFlag(Style.ArrowHead))
             _AisObject.SetDisplayMode(AISX_Axis.Mode.Arrow);
-        else if(_Style.Has(Style.KnobHead))
+        else if(_Style.HasFlag(Style.KnobHead))
             _AisObject.SetDisplayMode(AISX_Axis.Mode.Knob);
         else
             _AisObject.SetDisplayMode(AISX_Axis.Mode.Headless);

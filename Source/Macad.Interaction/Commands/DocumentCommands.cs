@@ -129,9 +129,9 @@ public static class DocumentCommands
         {
             var editorState = InteractiveContext.Current.EditorState;
             var flags = editorState.DocumentFilterFlags;
-            if (flag.HasAny(DocumentFilterFlags.SortingKey))
+            if (flag.HasAnyFlag(DocumentFilterFlags.SortingKey))
             {
-                if (flags.Has(flag))
+                if (flags.HasFlag(flag))
                 {
                     flags = flags.Toggled(flag);
                 }

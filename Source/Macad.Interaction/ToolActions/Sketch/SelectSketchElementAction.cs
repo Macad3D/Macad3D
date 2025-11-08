@@ -68,8 +68,8 @@ public sealed class SelectSketchElementAction : ToolAction
 
         if (!IsFinished)
         {
-            bool toggle = data.ModifierKeys.Has(ModifierKeys.Control);
-            if (!toggle && !data.ModifierKeys.Has(ModifierKeys.Shift))
+            bool toggle = data.ModifierKeys.HasFlag(ModifierKeys.Control);
+            if (!toggle && !data.ModifierKeys.HasFlag(ModifierKeys.Shift))
             {
                 _SketchEditorTool.Elements.DeselectAll();
             }

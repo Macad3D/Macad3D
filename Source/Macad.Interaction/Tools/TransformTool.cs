@@ -222,7 +222,7 @@ public class TransformTool : Tool
 
     void _UpdateTransformations(Trsf? transformation)
     {
-        var entityList = (_Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities).Cast<InteractiveEntity>();
+        var entityList = (_Options.HasFlag(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities).Cast<InteractiveEntity>();
         foreach (var entity in entityList)
         {
             var visualObject = WorkspaceController.VisualObjects.Get(entity);
@@ -239,7 +239,7 @@ public class TransformTool : Tool
     void _TranslateAction_Finished(TranslateAction sender, TranslateAction.EventArgs args)
     {
         _UpdatingEntityProperties = true;
-        var targetEntities = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
+        var targetEntities = _Options.HasFlag(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
 
         foreach (var targetEntity in targetEntities)
         {
@@ -268,7 +268,7 @@ public class TransformTool : Tool
     void _RotateAction_Finished(RotateAction sender, RotateAction.EventArgs args)
     {
         _UpdatingEntityProperties = true;
-        var targetEntities = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
+        var targetEntities = _Options.HasFlag(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
 
         foreach (var targetEntity in targetEntities)
         {

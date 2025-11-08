@@ -87,7 +87,7 @@ public class BendAnalyzer
             return false;
         }
 
-        if (flags.Has(Flags.PrepareShape))
+        if (flags.HasFlag(Flags.PrepareShape))
         {
             _Prepare_SplitSideFaces();
         }

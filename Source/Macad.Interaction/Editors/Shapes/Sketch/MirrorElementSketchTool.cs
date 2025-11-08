@@ -121,7 +121,7 @@ public class MirrorElementSketchTool : SketchTool
                 return;
 
             var orientation = Dir2d.DY.Angle(p2p.ToDir());
-            if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+            if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 orientation = Maths.RoundToNearest(orientation, 5.0.ToRad());
             }

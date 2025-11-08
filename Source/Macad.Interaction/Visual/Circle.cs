@@ -206,7 +206,7 @@ public class Circle: VisualObject
         if (_AisObject == null)
             return;
 
-        if (_Style.Has(Style.NoResize))
+        if (_Style.HasFlag(Style.NoResize))
         {
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Position.Location);
             _AisObject.SetTransformPersistence(transformPers);

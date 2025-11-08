@@ -314,15 +314,15 @@ public class DocumentExplorerPanelModel : BaseObject
         DocumentFilterFlags flags = InteractiveContext.Current.EditorState.DocumentFilterFlags;
 
         EntitiesView.SortDescriptions.Clear();
-        ListSortDirection direction = flags.Has(DocumentFilterFlags.SortDescending) 
+        ListSortDirection direction = flags.HasFlag(DocumentFilterFlags.SortDescending) 
                                           ? ListSortDirection.Descending 
                                           : ListSortDirection.Ascending;
 
-        if (flags.Has(DocumentFilterFlags.SortByName))
+        if (flags.HasFlag(DocumentFilterFlags.SortByName))
         {
             EntitiesView.SortDescriptions.Add(new SortDescription(nameof(Entity.Name), direction));
         }
-        else if(flags.Has(DocumentFilterFlags.SortByType))
+        else if(flags.HasFlag(DocumentFilterFlags.SortByType))
         {
             EntitiesView.SortDescriptions.Add(new SortDescription(nameof(Entity.TypeName), direction));
         }
@@ -338,13 +338,13 @@ public class DocumentExplorerPanelModel : BaseObject
 
         DocumentFilterFlags flags = InteractiveContext.Current.EditorState.DocumentFilterFlags;
 
-        if (flags.Has(DocumentFilterFlags.Visible))
+        if (flags.HasFlag(DocumentFilterFlags.Visible))
         {
             if (!entity.IsVisible)
                 return false;
         }
 
-        if (flags.Has(DocumentFilterFlags.ActiveLayer))
+        if (flags.HasFlag(DocumentFilterFlags.ActiveLayer))
         {
             if (entity.Layer != _Document.Layers.ActiveLayer)
                 return false;
@@ -363,7 +363,7 @@ public class DocumentExplorerPanelModel : BaseObject
         
     void _Layers_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (InteractiveContext.Current.EditorState.DocumentFilterFlags.Has(DocumentFilterFlags.ActiveLayer))
+        if (InteractiveContext.Current.EditorState.DocumentFilterFlags.HasFlag(DocumentFilterFlags.ActiveLayer))
         {
             EntitiesView.Refresh();
         }

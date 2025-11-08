@@ -116,7 +116,7 @@ public class CreateBoxTool : Tool
 
         var dimX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
         var dimY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
-        if (args?.MouseEventData.ModifierKeys.Has(ModifierKeys.Control) ?? false)
+        if (args?.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control) ?? false)
         {
             dimX = Maths.RoundToNearest(dimX, WorkspaceController.Workspace.GridStep);
             dimY = Maths.RoundToNearest(dimY, WorkspaceController.Workspace.GridStep);
@@ -213,7 +213,7 @@ public class CreateBoxTool : Tool
     {
         _Height = args.Value.Round();
 
-        if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             _Height = Maths.RoundToNearest(_Height, WorkspaceController.Workspace.GridStep);
         }
