@@ -12,6 +12,8 @@ public class InteractionTestSetup
     {
         TestSetup.SetupWpf();
         TestSetup.SetupRendering();
+
+        Context.InitWithDefault();
     }
 
     //--------------------------------------------------------------------------------------------------

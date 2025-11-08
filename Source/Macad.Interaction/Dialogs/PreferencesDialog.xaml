@@ -169,12 +169,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="EnumTemplate">
-            <ComboBox Text="{Binding Value}"
+            <ComboBox SelectedValue="{Binding Value}"
                       IsEditable="False"
                       StaysOpenOnEdit="False"
                       HorizontalAlignment="Left"
                       MinWidth="100"
                       ItemsSource="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=EnumNames}"
+                      SelectedValuePath="Item1"
+                      DisplayMemberPath="Item2"
                       AutomationProperties.AutomationId="{Binding Name}">
             </ComboBox>
         </DataTemplate>

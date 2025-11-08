@@ -2,10 +2,68 @@
 
 namespace Macad.Interaction;
 
+public enum ViewForwardDirection
+{
+    XPos,
+    XNeg,
+    YPos,
+    YNeg,
+}
+
+//--------------------------------------------------------------------------------------------------
+
 [ParameterSet]
 public sealed partial class ViewportParameterSet
 {
-    Parameter<int> _SketchSelectionSensitivity = new()
+    readonly Parameter<ViewForwardDirection> _ForwardDirection = new()
+    {
+        Name = "ForwardDirection",
+        DefaultValue = ViewForwardDirection.XPos,
+        Description = "Defines the forward direction of the model. This is only taken into account by the predefined views.",
+        EditorHints = new() { { "EnumDisplayNames", "Positive X Axis;Negative X Axis;Positive Y Axis;Negative Y Axis" } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<bool> _ShowViewCube = new()
+    {
+        Name = "ShowViewCube",
+        DefaultValue = true,
+        Description = "Toggles the visibility of the view cube in the viewport."
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<uint> _ViewCubeSize = new()
+    {
+        Name = "ViewCubeSize",
+        DefaultValue = 100u,
+        Description = "Sets the size of the view cube in the viewport.",
+        EditorHints = new() { { "Units", "Percent" }, { "MinValue", 10u }, { "MaxValue", 200u }, { "IncDecStep", 10 } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<double> _CameraAnimationDuration = new()
+    {
+        Name = "CameraAnimationDuration",
+        DefaultValue = 0.3,
+        Description = "Defines the duration of the camera view rotation when switching to a defined view.",
+        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.0 }, { "MaxValue", 10.0 }, { "Precision", 1 } }
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<bool> _ShowTrihedron = new()
+    {
+        Name = "ShowTrihedron",
+        DefaultValue = true,
+        Description = "Toggles the visibility of the trihedron (axis indicator) in the viewport."
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    readonly Parameter<int> _SketchSelectionSensitivity = new()
     {
         Name = "SketchSelectionSensitivity",
         DefaultValue = 1,
@@ -16,7 +74,7 @@ public sealed partial class ViewportParameterSet
 
     //--------------------------------------------------------------------------------------------------
 
-    Parameter<int> _SelectionPixelTolerance = new()
+    readonly Parameter<int> _SelectionPixelTolerance = new()
     {
         Name = "SelectionPixelTolerance",
         DefaultValue = 5,
@@ -27,45 +85,7 @@ public sealed partial class ViewportParameterSet
 
     //--------------------------------------------------------------------------------------------------
 
-    Parameter<bool> _ShowViewCube = new()
-    {
-        Name = "ShowViewCube",
-        DefaultValue = true,
-        Description = "Toggles the visibility of the view cube in the viewport."
-    };
-
-    //--------------------------------------------------------------------------------------------------
-
-    Parameter<uint> _ViewCubeSize = new()
-    {
-        Name = "ViewCubeSize",
-        DefaultValue = 100u,
-        Description = "Sets the size of the view cube in the viewport.",
-        EditorHints = new() { { "Units", "Percent" }, { "MinValue", 10u }, { "MaxValue", 200u }, { "IncDecStep", 10 } }
-    };
-
-    //--------------------------------------------------------------------------------------------------
-
-    Parameter<double> _CameraAnimationDuration = new()
-    {
-        Name = "CameraAnimationDuration",
-        DefaultValue = 0.3,
-        Description = "Defines the duration of the camera view rotation when switching to a defined view.",
-        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.0 }, { "MaxValue", 10.0 }, { "Precision", 1 } }
-    };
-
-    //--------------------------------------------------------------------------------------------------
-
-    Parameter<bool> _ShowTrihedron = new()
-    {
-        Name = "ShowTrihedron",
-        DefaultValue = true,
-        Description = "Toggles the visibility of the trihedron (axis indicator) in the viewport."
-    };
-
-    //--------------------------------------------------------------------------------------------------
-
-    Parameter<uint> _VisualGridStepMinPixel = new()
+    readonly Parameter<uint> _VisualGridStepMinPixel = new()
     {
         Name = "VisualGridStepMinPixel",
         DisplayName = "Minimum Grid Pixel Size",
@@ -76,7 +96,7 @@ public sealed partial class ViewportParameterSet
 
     //--------------------------------------------------------------------------------------------------
 
-    Parameter<uint> _VisualGridMinStepsOnScreen = new()
+    readonly Parameter<uint> _VisualGridMinStepsOnScreen = new()
     {
         Name = "VisualGridMinStepsOnScreen",
         DisplayName = "Minimum Visible Grid Steps",
@@ -87,7 +107,7 @@ public sealed partial class ViewportParameterSet
 
     //--------------------------------------------------------------------------------------------------
 
-    Parameter<bool> _EnableAntialiasing = new()
+    readonly Parameter<bool> _EnableAntialiasing = new()
     {
         Name = "EnableAntialiasing",
         DefaultValue = true,

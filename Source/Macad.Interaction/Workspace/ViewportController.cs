@@ -303,6 +303,18 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Sets the viewport to a predefined view orientation.
+    /// </summary>
+    /// <remarks>If the <paramref name="predefinedView"/> is <see cref="PredefinedViews.WorkingPlane"/>, the
+    /// viewport is aligned to the working plane of the workspace. For other predefined views, the orientation is
+    /// determined based on the current forward direction specified in the viewport parameters. If there are
+    /// selected entities in the workspace, the view will zoom to fit the selected entities; otherwise, it will zoom to
+    /// fit all visible entities.</remarks>
+    /// <param name="predefinedView">The predefined view to set. This can be one of the values from the <see cref="PredefinedViews"/> enumeration,
+    /// such as <see cref="PredefinedViews.Top"/> or <see cref="PredefinedViews.Front"/>.</param>
+    /// <param name="animate">A value indicating whether the transition to the new orientation should be animated. If <see langword="true"/>,
+    /// the transition will be animated; otherwise, the view will change instantly.</param>
     public void SetPredefinedView(PredefinedViews predefinedView, bool animate=false)
     {
         if (predefinedView == PredefinedViews.WorkingPlane)
@@ -317,13 +329,92 @@ public sealed class ViewportController : BaseObject, IDisposable
             return;
         }
 
-        // Currently the view cube is needed to execute the rotation. This is
-        // ok as long as there is always a view cube present when rotation is allowed.
         if (_LockedToPlane)
             return;
 
-        if (animate
-            && _AisAnimationCamera.Duration() > 0.001)
+        var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+
+        V3d_TypeOfOrientation? orientation = predefinedView switch
+            {
+                PredefinedViews.Top => V3d_TypeOfOrientation.Zup_Top,
+                PredefinedViews.Bottom => V3d_TypeOfOrientation.Zup_Bottom,
+                PredefinedViews.Left => parameterSet.ForwardDirection switch
+                {
+                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Ypos,
+                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xpos,
+                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xneg,
+                    _ => V3d_TypeOfOrientation.Yneg
+                },
+                PredefinedViews.Right => parameterSet.ForwardDirection switch
+                {
+                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Yneg,
+                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xneg,
+                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xpos,
+                    _ => V3d_TypeOfOrientation.Ypos
+                },
+                PredefinedViews.Front => parameterSet.ForwardDirection switch
+                {
+                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Xneg,
+                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Ypos,
+                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Yneg,
+                    _ => V3d_TypeOfOrientation.Xpos
+                },
+                PredefinedViews.Back => parameterSet.ForwardDirection switch
+                {
+                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Xpos,
+                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Yneg,
+                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Ypos,
+                    _ => V3d_TypeOfOrientation.Xneg
+                },
+                _ => null
+            };
+
+        if(!orientation.HasValue)
+            return;
+
+        SetPredefinedView(orientation.Value, animate);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Sets the predefined view orientation for the 3D viewport.
+    /// </summary>
+    /// <remarks>This method adjusts the 3D viewport's projection and optionally its up direction based on the
+    /// specified orientation. If the viewport is locked to a plane, the method will return without making any changes. 
+    /// When animation is enabled, the method interpolates between the current and target camera states. If there are
+    /// selected entities in the workspace, the view will zoom to fit the selected entities; otherwise, it will zoom to
+    /// fit all visible entities.</remarks>
+    /// <param name="orientation">The predefined orientation to apply. This determines the projection direction of the view.</param>
+    /// <param name="animate">A value indicating whether the transition to the new orientation should be animated. If <see langword="true"/>,
+    /// the transition will be animated; otherwise, the view will change instantly.</param>
+    public void SetPredefinedView(V3d_TypeOfOrientation orientation, bool animate = false)
+    {
+        if (_LockedToPlane)
+            return;
+
+        var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+
+        V3d_TypeOfOrientation? up = orientation switch
+        {
+            V3d_TypeOfOrientation.Zup_Top => parameterSet.ForwardDirection switch
+            {
+                ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Ypos,
+                ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xpos,
+                ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xneg,
+                _ => V3d_TypeOfOrientation.Yneg
+            },
+            V3d_TypeOfOrientation.Zup_Bottom => parameterSet.ForwardDirection switch
+            {
+                ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Yneg,
+                ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xneg,
+                ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xpos,
+                _ => V3d_TypeOfOrientation.Ypos
+            },
+            _ => null
+        };
+
+        if (animate && _AisAnimationCamera.Duration() > 0.001)
         {
             Graphic3d_Camera camStart = new();
             Graphic3d_Camera camEnd = new();
@@ -350,36 +441,26 @@ public sealed class ViewportController : BaseObject, IDisposable
         {
             __ApplyPredefinedView();
         }
+
         return;
 
         //--------------------------------------------------------------------------------------------------
 
         void __ApplyPredefinedView()
         {
-            V3d_TypeOfOrientation? orientation =
-                predefinedView switch
-                {
-                    PredefinedViews.Top => V3d_TypeOfOrientation.Zup_Top,
-                    PredefinedViews.Bottom => V3d_TypeOfOrientation.Zup_Bottom,
-                    PredefinedViews.Left => V3d_TypeOfOrientation.Zup_Left,
-                    PredefinedViews.Right => V3d_TypeOfOrientation.Zup_Right,
-                    PredefinedViews.Front => V3d_TypeOfOrientation.Zup_Front,
-                    PredefinedViews.Back => V3d_TypeOfOrientation.Zup_Back,
-                    _ => null
-                };
-
-            if (orientation.HasValue)
+            V3dView.SetProj(orientation);
+            if (up.HasValue)
             {
-                V3dView.SetProj(orientation.Value);
-               
-                if (WorkspaceController.Selection.SelectedEntities.Count > 0)
-                {
-                    ZoomFitSelected(); // Will also sync from V3dView to Viewport and invalidate
-                }
-                else
-                {
-                    ZoomFitAll(); // Will also sync from V3dView to Viewport and Invalidate
-                }
+                V3dView.SetUp(up.Value);
+            }
+
+            if (WorkspaceController.Selection.SelectedEntities.Count > 0)
+            {
+                ZoomFitSelected(); // Will also sync from V3dView to Viewport and invalidate
+            }
+            else
+            {
+                ZoomFitAll(); // Will also sync from V3dView to Viewport and Invalidate
             }
         }
     }
@@ -514,46 +595,41 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Rotate(double yawDeg, double pitchDeg, double rollDeg)
     {
-        if (!_LockedToPlane)
+        if (_LockedToPlane) 
+            return;
+
+        if (Math.Abs(yawDeg) > 0.001 || Math.Abs(pitchDeg) > 0.001)
         {
-            if (Math.Abs(yawDeg) > 0.001 || Math.Abs(pitchDeg) > 0.001)
-            {
-                if (Viewport.Twist == 180)
-                {
-                    Viewport.Twist = 0;
-                }
-                    
-                var pitch = pitchDeg.ToRad();
-                var yaw = yawDeg.ToRad();
+            var pitch = pitchDeg.ToRad();
+            var yaw = yawDeg.ToRad();
 
-                // Constraint polar regions, do not go 'overhead'
-                var upDir = Viewport.GetUpDirection();
-                var viewDir = Viewport.GetViewDirection();
-                var angleLeft = _OrbitProjectionConstraint - Ax2.XOY.Angle(new Ax2(Pnt.Origin, upDir));
-                if (viewDir.Z < 0 && pitch < -angleLeft)
-                {
-                    pitch = -angleLeft;
-                }
-                else if (viewDir.Z > 0 && pitch > angleLeft)
-                {
-                    pitch = angleLeft;
-                }
+            // Constraint polar regions, do not go 'overhead'
+            var upDir = Viewport.GetUpDirection();
+            var viewDir = Viewport.GetViewDirection();
+            var angleLeft = _OrbitProjectionConstraint - Ax2.XOY.Angle(new Ax2(Pnt.Origin, upDir));
+            if (viewDir.Z < 0 && pitch < -angleLeft)
+            {
+                pitch = -angleLeft;
+            }
+            else if (viewDir.Z > 0 && pitch > angleLeft)
+            {
+                pitch = angleLeft;
+            }
                 
-                var gravityPoint = _GravityPoint ?? V3dView.GravityPoint();
-                Trsf trsf1 = new Trsf(new Ax1(gravityPoint, Viewport.GetRightDirection()), pitch);
-                V3dView.Camera().Transform(trsf1);
-                Trsf trsf2 = new Trsf(new Ax1(gravityPoint, Dir.DZ), yaw);
-                V3dView.Camera().Transform(trsf2);
-            }
-
-            if (Math.Abs(rollDeg) > 0.001)
-            {
-                V3dView.Turn(V3d_TypeOfAxe.Z, rollDeg.ToRad(), true);
-            }
-
-            WorkspaceController.Invalidate();
-            _SyncViewportFromV3d();
+            var gravityPoint = _GravityPoint ?? V3dView.GravityPoint();
+            Trsf trsf1 = new Trsf(new Ax1(gravityPoint, Viewport.GetRightDirection()), pitch);
+            V3dView.Camera().Transform(trsf1);
+            Trsf trsf2 = new Trsf(new Ax1(gravityPoint, Dir.DZ), yaw);
+            V3dView.Camera().Transform(trsf2);
         }
+
+        if (Math.Abs(rollDeg) > 0.001)
+        {
+            V3dView.Turn(V3d_TypeOfAxe.Z, rollDeg.ToRad(), true);
+        }
+
+        WorkspaceController.Invalidate();
+        _SyncViewportFromV3d();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -691,7 +767,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    void _SetViewCube(bool isVisible, uint size, double duration)
+    void _SetViewCube(bool isVisible, uint size, double duration, ViewForwardDirection forwardDir)
     {
         var aisContext = WorkspaceController.AisContext;
         duration += 0.001; // Avoid zero duration to force at least one frame of updating
@@ -699,6 +775,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         if (_AisViewCube != null)
         {
             __SetSize(size);
+            __SetTexture(forwardDir);
             _AisViewCube.SetDuration(duration);
             _SetViewCube(isVisible);
             return;
@@ -707,29 +784,16 @@ public sealed class ViewportController : BaseObject, IDisposable
         if (!isVisible)
             return;
 
-        var bitmap = ResourceUtils.ReadBitmapFromResource(@"Visual\ViewCubeSides.png");
-        if (bitmap == null)
-        {
-            Messages.Error($"Could not load view cube texture from resource.");
-            return;
-        }
-
-        var pixmap = PixMapHelper.ConvertFromBitmap(bitmap);
-        if (pixmap == null)
-        {
-            Messages.Error($"Could not load view cube texture into pixmap.");
-            return;
-        }
 
         _AisViewCube = new();
         __SetSize(size);
+        __SetTexture(forwardDir);
         _AisViewCube.SetViewAnimation(_AisAnimationCamera);
         _AisViewCube.SetFixedAnimationLoop(false);
         _AisViewCube.SetDrawAxes(false);
         _AisViewCube.SetDuration(duration);
         _AisViewCube.SetResetCamera(true);
         _AisViewCube.SetFitSelected(true);
-        _AisViewCube.SetTexture(pixmap);
 
         var color = new Quantity_Color();
         Quantity_Color.ColorFromHex("d9dfe5", color);
@@ -751,14 +815,10 @@ public sealed class ViewportController : BaseObject, IDisposable
         _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetColor(Colors.Highlight.ToQuantityColor());
         _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetMaterial(material);
 
-        if (isVisible)
+        aisContext.Display(_AisViewCube, false);
+        foreach (var viewport in WorkspaceController.Workspace.Viewports)
         {
-            aisContext.Display(_AisViewCube, false);
-
-            foreach (var viewport in WorkspaceController.Workspace.Viewports)
-            {
-                aisContext.SetViewAffinity(_AisViewCube, V3dView, ReferenceEquals(viewport, Viewport));
-            }
+            aisContext.SetViewAffinity(_AisViewCube, V3dView, ReferenceEquals(viewport, Viewport));
         }
 
         WorkspaceController.Invalidate(true);
@@ -771,6 +831,35 @@ public sealed class ViewportController : BaseObject, IDisposable
             _AisViewCube.SetBoxFacetExtension(size * DpiScale * 0.075);
             int margin = (int)(size * 0.75 + 25);
             _AisViewCube.SetTransformPersistence(new(Graphic3d_TransModeFlags.TriedronPers, Aspect_TypeOfTriedronPosition.RIGHT_UPPER, new(margin, margin)));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void __SetTexture(ViewForwardDirection forwardDir)
+        {
+            string textureResourceName = forwardDir switch
+            {
+                ViewForwardDirection.XNeg => @"Visual\ViewCubeSides_XNeg.png",
+                ViewForwardDirection.YPos => @"Visual\ViewCubeSides_YPos.png",
+                ViewForwardDirection.YNeg => @"Visual\ViewCubeSides_YNeg.png",
+                _ => @"Visual\ViewCubeSides_XPos.png"
+            };
+
+            var bitmap = ResourceUtils.ReadBitmapFromResource(textureResourceName);
+            if (bitmap == null)
+            {
+                Messages.Error($"Could not load view cube texture from resource.");
+                return;
+            }
+
+            var pixmap = PixMapHelper.ConvertFromBitmap(bitmap);
+            if (pixmap == null)
+            {
+                Messages.Error($"Could not load view cube texture into pixmap.");
+                return;
+            }
+
+            _AisViewCube.SetTexture(pixmap);
         }
     }
 
@@ -975,7 +1064,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
         _ShowTrihedron = parameterSet.ShowTrihedron;
         _AisAnimationCamera.SetOwnDuration(parameterSet.CameraAnimationDuration);
-        _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.CameraAnimationDuration);
+        _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.CameraAnimationDuration, parameterSet.ForwardDirection);
         _SetTrihedron(_ShowTrihedron);
     }
 
@@ -1216,6 +1305,5 @@ public sealed class ViewportController : BaseObject, IDisposable
     //--------------------------------------------------------------------------------------------------
 
     #endregion
-
 
 }

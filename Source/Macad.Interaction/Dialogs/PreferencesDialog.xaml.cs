@@ -224,7 +224,23 @@ public partial class PreferencesDialog : Dialog
 
             if (stringParam == "EnumNames" && paramDesc.ParameterType.IsEnum)
             {
-                return paramDesc.ParameterType.GetEnumNames();
+                var enumNames = paramDesc.ParameterType.GetEnumNames();
+                string[] displayNames = null;
+                if ((editorHints?.TryGetValue("EnumDisplayNames", out var displayNamesObj) ?? false)
+                    && displayNamesObj is string displayNamesString)
+                {
+                    displayNames = displayNamesString.Split(';');
+                }
+
+                List<Tuple<object,string>> tuples = [];
+                for (var i = 0; i < enumNames.Length; i++)
+                {
+                    var enumName = enumNames[i];
+                    var displayName = displayNames?.Length > i ? displayNames[i] : enumName;
+                    tuples.Add(new(enumName, displayName));
+                }
+
+                return tuples;
             }
 
             return null;

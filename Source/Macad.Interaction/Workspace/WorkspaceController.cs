@@ -540,13 +540,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.ModifierKeys = modifierKeys;
 
-        if (_LastDetectedAisObject is AIS_ViewCube viewCube
-            && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
+        if (_LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
         {
-            if (!viewportController.LockedToPlane)
-            {
-                viewCube.HandleClick(viewCubeOwner);
-            }
+            viewportController.SetPredefinedView(viewCubeOwner.MainOrientation(), true);
             return;
         }
 
@@ -576,8 +572,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.ModifierKeys = modifierKeys;
             
-        if (_LastDetectedAisObject is AIS_ViewCube viewCube
-            && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
+        if (_LastDetectedOwner is AIS_ViewCubeOwner)
         {
             return;
         }
