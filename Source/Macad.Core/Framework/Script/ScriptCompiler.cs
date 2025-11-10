@@ -7,19 +7,22 @@ using Microsoft.CodeAnalysis.Scripting.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Macad.Core;
 
 internal sealed class ScriptCompiler
 {
+    #region Global Definitions
+
     static readonly string[] _DefaultReferenceAppAssemblies =
-    {
+    [
         "Macad.Occt.dll",
         "Macad.Managed.dll",
         "Macad.Common.dll",
@@ -27,28 +30,30 @@ internal sealed class ScriptCompiler
         "Macad.Presentation.dll",
         "Macad.Interaction.dll",
         "Macad.Resources.dll"
-    };
+    ];
+
+    //--------------------------------------------------------------------------------------------------
 
     static readonly string[] _DefaultImports =
-    {
+    [
         "System",
         "Macad.Common",
         "Macad.Core",
         "Macad.Core.Shapes",
         "Macad.Core.Toolkits",
         "Macad.Core.Topology",
-        "Macad.Occt",
-    };
-
-    static readonly string[] _MetadataSearchPaths =
-    {
-        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-        Path.GetDirectoryName(typeof(object).Assembly.Location)
-    };
+        "Macad.Occt"
+    ];
 
     //--------------------------------------------------------------------------------------------------
 
-    static float _Version;
+    static readonly string[] _MetadataSearchPaths =
+    [
+        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+        Path.GetDirectoryName(typeof(object).Assembly.Location)
+    ];
+
+    //--------------------------------------------------------------------------------------------------
 
     static readonly Lazy<InteractiveAssemblyLoader> _AssemblyLoader = new(() =>
     {
@@ -57,10 +62,13 @@ internal sealed class ScriptCompiler
         {
             loader.RegisterDependency(defaultAssembly);
         }
+
         // This extra reference is needed for unit test runner which isolate this assembly
         loader.RegisterDependency(Assembly.GetExecutingAssembly());
         return loader;
     });
+
+    //--------------------------------------------------------------------------------------------------
 
     static readonly Lazy<ScriptOptions> _DefaultOptions = new(() =>
     {
@@ -75,9 +83,18 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
+    #endregion
+
+    #region Static API
+
+    static float _Version;
+
+    //--------------------------------------------------------------------------------------------------
+
     static ScriptCompiler()
     {
         var version = Assembly.GetExecutingAssembly().GetName().Version;
+        Debug.Assert(version != null);
         _Version = float.Parse($"{version.Major}.{version.Minor}", CultureInfo.InvariantCulture);
     }
 
@@ -103,17 +120,32 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static void Evaluate(string source, object globals=null)
+    internal static bool Evaluate(string source, object globals = null)
     {
-        var script = CSharpScript.Create("Pnt pnt=new();", _DefaultOptions.Value, null, _AssemblyLoader.Value);
-        script.Compile();
-        script.CreateDelegate().Invoke(globals);
+        try
+        {
+
+            var script = CSharpScript.Create(source, _DefaultOptions.Value, null, _AssemblyLoader.Value);
+            script.Compile();
+            script.CreateDelegate().Invoke(globals);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Messages.Exception("Script compilation failed.", e);
+        }
+
+        return false;
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    #endregion
+
+    #region Member and c'tor
+
     readonly ScriptInstance _ScriptInstance;
-    readonly List<string> _FileList = new();
+    readonly List<string> _FileList = [];
     readonly bool _EnableDebugging = true;
 
     //--------------------------------------------------------------------------------------------------
@@ -124,6 +156,10 @@ internal sealed class ScriptCompiler
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Compilation
 
     bool _Compile()
     {
@@ -136,15 +172,15 @@ internal sealed class ScriptCompiler
             var baseDirectory = Path.GetDirectoryName(_ScriptInstance.Path);
 
             var metadataResolver = ScriptMetadataResolver.Default
-                                                         .WithSearchPaths(_MetadataSearchPaths)
-                                                         .WithBaseDirectory(baseDirectory);
+                .WithSearchPaths(_MetadataSearchPaths)
+                .WithBaseDirectory(baseDirectory);
 
             var sourceResolver = new ScriptSourceResolver(baseDirectory, _ReadAndPreprocessFile);
 
             var options = _DefaultOptions.Value
-                                         .WithMetadataResolver(metadataResolver)
-                                         .WithSourceResolver(sourceResolver)
-                                         .WithEmitDebugInformation(_EnableDebugging);
+                .WithMetadataResolver(metadataResolver)
+                .WithSourceResolver(sourceResolver)
+                .WithEmitDebugInformation(_EnableDebugging);
 
             var script = CSharpScript.Create(codeStream, options, _ScriptInstance.ContextInstance.GetType(), _AssemblyLoader.Value);
             var results = script.Compile();
@@ -160,10 +196,53 @@ internal sealed class ScriptCompiler
         {
             Messages.Exception("Script compilation failed. Scriptfile: " + _ScriptInstance.Path, e);
         }
+
         return false;
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    bool _ReportResults(ImmutableArray<Diagnostic> errors)
+    {
+        DiagnosticSeverity severity = DiagnosticSeverity.Info;
+        var sb = new StringBuilder();
+        foreach (var diag in errors.Where(diag => diag.Severity >= DiagnosticSeverity.Warning))
+        {
+            if (diag.Severity > severity)
+            {
+                severity = diag.Severity;
+            }
+
+            var location = diag.Location.GetMappedLineSpan();
+            if (location.IsValid && !location.Path.IsNullOrEmpty())
+            {
+                sb.Append(Path.GetFileName(location.Path));
+                sb.Append($" ({location.Span.Start.Line + 1},{location.Span.Start.Character + 1}): ");
+            }
+
+            sb.Append(severity == DiagnosticSeverity.Error ? "Error " : "Warning ");
+            sb.Append(diag.Id);
+            sb.Append(": ");
+            sb.AppendLine(diag.GetMessage(CultureInfo.InvariantCulture));
+        }
+
+        if (severity == DiagnosticSeverity.Error)
+        {
+            Messages.Error("Script compilation failed with errors.", sb.ToString());
+        }
+        else if (severity == DiagnosticSeverity.Warning)
+        {
+            Messages.Warning("Script compiled with warnings.", sb.ToString());
+        }
+
+        return severity == DiagnosticSeverity.Error;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Preprocessing
 
     Stream _ReadAndPreprocessFile(string filename)
     {
@@ -192,8 +271,8 @@ internal sealed class ScriptCompiler
                 var rawLine = reader.ReadLine();
                 if (rawLine == null)
                     break;
-                var line = rawLine.Trim().ToLower();
 
+                var line = rawLine.Trim().ToLower();
                 lineNumber++;
 
                 if (line.IsNullOrWhiteSpace())
@@ -290,7 +369,7 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
-    static readonly char[] _VersionOperands = {'<', '>', '=', '!', ' '};
+    static readonly char[] _VersionOperands = ['<', '>', '=', '!', ' '];
 
     string _ProcessVersion(string line)
     {
@@ -333,43 +412,6 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
-    bool _ReportResults(ImmutableArray<Diagnostic> errors)
-    {
-        DiagnosticSeverity severity = DiagnosticSeverity.Info;
-        var sb = new StringBuilder();
-        foreach (var diag in errors)
-        {
-            if (diag.Severity < DiagnosticSeverity.Warning)
-                continue;
-            if (diag.Severity > severity)
-                severity = diag.Severity;
-
-            if (diag.Location != null)
-            {
-                var location = diag.Location.GetMappedLineSpan();
-                if (location.IsValid && !location.Path.IsNullOrEmpty())
-                {
-                    sb.Append(Path.GetFileName(location.Path));
-                    sb.Append($" ({location.Span.Start.Line + 1},{location.Span.Start.Character + 1}): ");
-                }
-            }
-
-            sb.Append(severity == DiagnosticSeverity.Error ? "Error " : "Warning ");
-            sb.Append(diag.Id);
-            sb.Append(": ");
-            sb.AppendLine(diag.GetMessage(CultureInfo.InvariantCulture));
-        }
-
-        if (severity == DiagnosticSeverity.Error)
-        {
-            Messages.Error("Script compilation failed with errors.", sb.ToString());
-        }
-        else if(severity == DiagnosticSeverity.Warning)
-        {
-            Messages.Warning("Script compiled with warnings.", sb.ToString());
-        }
-
-        return severity == DiagnosticSeverity.Error;
-    }
+    #endregion
 
 }
