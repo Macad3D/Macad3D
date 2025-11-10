@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Macad.Common;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -6,12 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
-using Macad.Common;
-using Microsoft.CodeAnalysis.Scripting.Hosting;
+using System.Threading.Tasks;
 
 namespace Macad.Core;
 
@@ -49,6 +50,29 @@ internal sealed class ScriptCompiler
 
     static float _Version;
 
+    static readonly Lazy<InteractiveAssemblyLoader> _AssemblyLoader = new(() =>
+    {
+        var loader = new InteractiveAssemblyLoader();
+        foreach (var defaultAssembly in AssemblyLoadContext.Default.Assemblies)
+        {
+            loader.RegisterDependency(defaultAssembly);
+        }
+        // This extra reference is needed for unit test runner which isolate this assembly
+        loader.RegisterDependency(Assembly.GetExecutingAssembly());
+        return loader;
+    });
+
+    static readonly Lazy<ScriptOptions> _DefaultOptions = new(() =>
+    {
+        var baseOptions = ScriptOptions.Default
+            .WithWarningLevel(4)
+            .WithReferences(_DefaultReferenceAppAssemblies)
+            .WithImports(_DefaultImports)
+            .WithLanguageVersion(LanguageVersion.Latest);
+
+        return baseOptions;
+    });
+
     //--------------------------------------------------------------------------------------------------
 
     static ScriptCompiler()
@@ -79,8 +103,17 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
+    internal static void Evaluate(string source, object globals=null)
+    {
+        var script = CSharpScript.Create("Pnt pnt=new();", _DefaultOptions.Value, null, _AssemblyLoader.Value);
+        script.Compile();
+        script.CreateDelegate().Invoke(globals);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     readonly ScriptInstance _ScriptInstance;
-    readonly List<string> _FileList = new List<string>();
+    readonly List<string> _FileList = new();
     readonly bool _EnableDebugging = true;
 
     //--------------------------------------------------------------------------------------------------
@@ -108,24 +141,12 @@ internal sealed class ScriptCompiler
 
             var sourceResolver = new ScriptSourceResolver(baseDirectory, _ReadAndPreprocessFile);
 
-            var options = ScriptOptions.Default
-                                       .WithWarningLevel(4)
-                                       .WithReferences(_DefaultReferenceAppAssemblies)
-                                       .WithMetadataResolver(metadataResolver)
-                                       .WithSourceResolver(sourceResolver)
-                                       .WithImports(_DefaultImports)
-                                       .WithEmitDebugInformation(_EnableDebugging)
-                                       .WithLanguageVersion(LanguageVersion.Latest);
+            var options = _DefaultOptions.Value
+                                         .WithMetadataResolver(metadataResolver)
+                                         .WithSourceResolver(sourceResolver)
+                                         .WithEmitDebugInformation(_EnableDebugging);
 
-            var assemblyLoader = new InteractiveAssemblyLoader();
-            foreach (var defaultAssembly in AssemblyLoadContext.Default.Assemblies)
-            {
-                assemblyLoader.RegisterDependency(defaultAssembly);
-            }
-            // This extra reference is needed for unit test runner which isolate this assembly
-            assemblyLoader.RegisterDependency(Assembly.GetExecutingAssembly());
-
-            var script = CSharpScript.Create(codeStream, options, _ScriptInstance.ContextInstance.GetType(), assemblyLoader);
+            var script = CSharpScript.Create(codeStream, options, _ScriptInstance.ContextInstance.GetType(), _AssemblyLoader.Value);
             var results = script.Compile();
             codeStream.Dispose();
 

@@ -199,7 +199,7 @@ public abstract class InteractiveContext : CoreContext
         }
     }
 
-    const int _MaxScriptMruCount = 1;
+    const int _MaxScriptMruCount = 10;
 
     ObservableCollection<string> _RecentUsedScripts;
 

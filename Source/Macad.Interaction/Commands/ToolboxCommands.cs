@@ -20,6 +20,8 @@ public static class ToolboxCommands
     public static ActionCommand RunScriptFrom { get; } = new(
         () =>
         {
+            PrewarmScriptCompiler.Execute();
+
             var dlg = new OpenFileDialog()
             {
                 Title = "Open Script...",
@@ -74,7 +76,11 @@ public static class ToolboxCommands
         Description = (param) =>"Select and execute a script file (.csx).",
         Icon = (param) => "Tool-RunScript"
     };
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static RelayCommand PrewarmScriptCompiler { get; } = new(ScriptUtils.WarmupScriptCompiler);
+
     //--------------------------------------------------------------------------------------------------
 
     public static ActionCommand ExportViewHlr { get; } = new(

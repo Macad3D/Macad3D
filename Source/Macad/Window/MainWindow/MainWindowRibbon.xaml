@@ -620,6 +620,10 @@
 
                 <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.RunScriptFrom}"
                                     AutomationProperties.AutomationId="RunScript">
+                    <mmp:Behaviors.Behavior>
+                        <mmp:FluentDropDownCommandBehaviour OpenedCommand="{x:Static mmi:ToolboxCommands.PrewarmScriptCompiler}" />
+                    </mmp:Behaviors.Behavior>
+
                     <Fluent:GroupSeparatorMenuItem Header="Recently Used Scripts" />
                     <ItemsControl ItemsSource="{Binding Context.RecentUsedScripts}">
                         <ItemsControl.ItemTemplate>
