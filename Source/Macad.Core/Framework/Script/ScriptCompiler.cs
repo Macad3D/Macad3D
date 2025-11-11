@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Macad.Core;
 
@@ -120,22 +121,24 @@ internal sealed class ScriptCompiler
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static bool Evaluate(string source, object globals = null)
+    internal static void Warmup()
     {
-        try
+        if (_AssemblyLoader.IsValueCreated)
+            return; // Already warmed up
+        
+        Task.Run(() =>
         {
 
-            var script = CSharpScript.Create(source, _DefaultOptions.Value, null, _AssemblyLoader.Value);
-            script.Compile();
-            script.CreateDelegate().Invoke(globals);
-            return true;
-        }
-        catch (Exception e)
-        {
-            Messages.Exception("Script compilation failed.", e);
-        }
-
-        return false;
+            try
+            {
+                var script = CSharpScript.Create("Pnt pnt=new();", _DefaultOptions.Value, null, _AssemblyLoader.Value);
+                script.Compile();
+            }
+            catch (Exception e)
+            {
+                Messages.Exception("Script compilation failed.", e);
+            }
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
