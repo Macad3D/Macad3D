@@ -11,7 +11,7 @@
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="85" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -29,3 +29,4 @@
                           CommandParameter="false"/>
     </Grid>
 </mme:SettingsPanelBase>
+
