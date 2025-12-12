@@ -2,6 +2,8 @@
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Macad.Common;
+using Macad.Core;
+using Macad.Core.Converters;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
@@ -103,7 +105,10 @@ public sealed class BoxEditor : Editor<Box>
     {
         _IsScaling = true;
         SetHintMessage("__Scale box__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale relative to center.");
-        
+
+        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+        var units = appParams.ApplicationUnits;
+
         if (!_ScaleAxisReversed[1 << 3])
         {
             _ScaleAxisReversed[1 << 0] = Math.Sign(args.Direction.X) != Math.Sign(Entity.DimensionX);
@@ -162,7 +167,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[0] = new LabelHudElement();
                 Add(_HudElements[0]);
             }
-            _HudElements[0].SetValue($"Length: {Entity.DimensionX.ToInvariantString("F2")} mm");
+
+            var lengthText = ImperialLengthFormatter.FormatLength(Entity.DimensionX, units);
+            _HudElements[0].SetValue($"Length: {lengthText}");
         }
 
         if (scale.Y != 0)
@@ -178,7 +185,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[1] = new LabelHudElement();
                 Add(_HudElements[1]);
             }
-            _HudElements[1].SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
+
+            var widthText = ImperialLengthFormatter.FormatLength(Entity.DimensionY, units);
+            _HudElements[1].SetValue($"Width:  {widthText}");
         }
             
         if (scale.Z != 0)
@@ -194,7 +203,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[2] = new LabelHudElement();
                 Add(_HudElements[2]);
             }
-            _HudElements[2].SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
+
+            var heightText = ImperialLengthFormatter.FormatLength(Entity.DimensionZ, units);
+                _HudElements[2].SetValue($"Height:  {heightText}");
         }
 
         if (center)

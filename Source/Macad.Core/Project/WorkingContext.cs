@@ -26,7 +26,7 @@ public class WorkingContext
     {
         WorkingPlane = Pln.XOY;
         GridType = Workspace.GridTypes.Rectangular;
-        GridStep = 1.0;
+        GridStep = 1;
         GridRotation = 0;
         GridDivisions = 8;
     }

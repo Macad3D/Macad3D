@@ -6,11 +6,9 @@ using Macad.Core;
 
 namespace Macad.Interaction.Panels;
 
-public partial class ViewportGridInfo : PanelBase
+public partial class ViewportGridInfo : PanelBase, INotifyPropertyChanged
 {
     static double[] _Steps = new[] { 0.1, 0.2, 0.25, 0.5 };
-
-    //--------------------------------------------------------------------------------------------------
 
     public bool Visible
     {
@@ -48,18 +46,57 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public double GridStepMm
+    {
+        get => _GridStepMm;
+        private set
+        {
+            _GridStepMm = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public double VisualGridMultiplier
+    {
+        get => _VisualGridMultiplier;
+        private set
+        {
+            _VisualGridMultiplier = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public ApplicationUnits Units
+    {
+        get => _Units;
+        private set
+        {
+            _Units = value;
+            RaisePropertyChanged(nameof(Units));
+        }
+    }
+
     WorkspaceController _WorkspaceController;
     ViewportController _ViewportController;
     bool _Visible;
     double _LineWidth;
     bool _SecondStep;
     double _AvailableWidth = 200;
-
+    double _GridStepMm;
+    double _VisualGridMultiplier;
+    ApplicationUnits _Units;
+    
     //--------------------------------------------------------------------------------------------------
 
     public ViewportGridInfo()
     {
+        // Subscribe to parameter system’s global change event
+        CoreContext.Current.Parameters.ParameterChanged += _ApplicationSettingChanged;
         InteractiveContext.Current.PropertyChanged += _Context_PropertyChanged;
+
+        // Initialize units from the application parameters
+        _Units = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
+        
         _Context_PropertyChanged(InteractiveContext.Current, new PropertyChangedEventArgs(nameof(InteractiveContext.Viewport)));
 
         DataContext = this;
@@ -67,7 +104,25 @@ public partial class ViewportGridInfo : PanelBase
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    void _ApplicationSettingChanged(ParameterSet set, string key)
+    {
+        if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
+        {
+            // Get the current units from ApplicationParameterSet
+            Units = ((ApplicationParameterSet)set).ApplicationUnits;
+
+            _UpdateValues();
+
+            // Force XAML bindings to re-evaluate
+            RaisePropertyChanged(nameof(GridStepMm));
+            RaisePropertyChanged(nameof(Units));
+            RaisePropertyChanged(nameof(VisualGridMultiplier));
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
@@ -153,6 +208,9 @@ public partial class ViewportGridInfo : PanelBase
         }
 
         SecondStep = LineWidth < 30;
+
+        GridStepMm = (_WorkspaceController?.Workspace?.GridStep ?? 0.0) * (_WorkspaceController?.VisualGridMultiplier ?? 1.0);
+        VisualGridMultiplier = _WorkspaceController?.VisualGridMultiplier ?? 1.0;
     }
 
     //--------------------------------------------------------------------------------------------------

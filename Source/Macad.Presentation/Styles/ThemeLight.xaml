@@ -28,7 +28,7 @@
         <ResourceDictionary Source="CommonControls/TextBlock.xaml" />
         <ResourceDictionary Source="CommonControls/TextBox.xaml" />
         <ResourceDictionary Source="CommonControls/ToolBar.xaml" />
-        
+
         <ResourceDictionary Source="CustomControls/ColorPicker.xaml" />
         <ResourceDictionary Source="CustomControls/Dialog.xaml" />
         <ResourceDictionary Source="CustomControls/PanningScrollViewer.xaml" />
@@ -40,5 +40,5 @@
 
         <ResourceDictionary Source="PropertyPanelStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
 </ResourceDictionary>

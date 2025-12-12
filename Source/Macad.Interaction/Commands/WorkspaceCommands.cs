@@ -1,13 +1,15 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Windows.Data;
-using Macad.Common;
+﻿using Macad.Common;
+using Macad.Core.Converters;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
-
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
 using static Macad.Interaction.CommandHelper;
 
 namespace Macad.Interaction;
@@ -142,21 +144,49 @@ public static class WorkspaceCommands
     //--------------------------------------------------------------------------------------------------
 
     public static ActionCommand<double> SetGridStepValue { get; } = new(
-        param =>
-        {
-            var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
-            if (workspace != null && !double.IsNaN(param))
-            {
-                workspace.GridStep = param;
-            }
-        },
-        CanExecuteOnWorkspace)
+    param =>
     {
-        Header = param => double.IsNaN(param) ? "Stepping" : $"{param.ToString(CultureInfo.InvariantCulture)} mm",
-        Description = param => double.IsNaN(param) ? "Set the stepping between the grid lines." : null,
+        var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
+        if (workspace == null || double.IsNaN(param))
+            return;
+
+        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+        var units = appParams.ApplicationUnits;
+
+        double valueInMm = units == ApplicationUnits.Millimeters
+            ? param
+            : param * 25.4;
+
+        workspace.GridStep = valueInMm;
+    },
+    CanExecuteOnWorkspace)
+    {
+        Header = param =>
+        {
+            if (double.IsNaN(param))
+                return "Stepping";
+
+            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+            return ImperialLengthFormatter.FormatLength(param, appParams.ApplicationUnits);
+        },
+
+        Description = _ => "Set the stepping between the grid lines.",
+
         Icon = param => double.IsNaN(param) ? "Grid-Step" : null,
-        IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridStep)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
+
+        IsCheckedBinding = param =>
+            new Binding("WorkspaceController.Workspace.GridStep")
+            {
+                Source = InteractiveContext.Current,
+                Mode = BindingMode.OneWay,
+                Converter = GridStepCheckedConverter.Instance,
+                ConverterParameter = param
+            }
     };
+
+    //--------------------------------------------------------------------------------------------------
+
+
 
     //--------------------------------------------------------------------------------------------------
 

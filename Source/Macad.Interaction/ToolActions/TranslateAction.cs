@@ -407,7 +407,7 @@ public class TranslateAction : ToolAction
             var coord = _CoordinateSystem.Location.Translated(_Delta);
             _Coord3DHudElement.SetValues(coord.X, coord.Y, coord.Z);
             _Delta3DHudElement.SetValues(_Delta.X, _Delta.Y, _Delta.Z);
-            
+
             // Transform into unrotated frame
             _Delta.Transform(_InverseRotation);
             UpdateGizmo();

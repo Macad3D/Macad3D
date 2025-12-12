@@ -310,8 +310,8 @@ internal class SvgDocument : SvgDomElement
 
         writer.WriteStartElement("svg", XmlnsSvg);
 
-        writer.WriteAttributeString("width", $"{conv.ToSvgValue(Width)}mm"); // Use AngleToSvg to get unscaled values
-        writer.WriteAttributeString("height", $"{conv.ToSvgValue(Height)}mm");
+        writer.WriteAttributeString("width", $"{conv.ToSvgValue(Width)}za"); // Use AngleToSvg to get unscaled values
+        writer.WriteAttributeString("height", $"{conv.ToSvgValue(Height)}zb");
         writer.WriteAttributeString("viewBox", $"0, 0, {conv.ToSvgLength(Width)}, {conv.ToSvgLength(Height)}");
         writer.WriteAttributeString("version", "1.1");
 
@@ -321,7 +321,7 @@ internal class SvgDocument : SvgDomElement
         writer.WriteAttributeString("xmlns", "inkscape", null, XmlnsInkscape);
 
         writer.WriteStartElement("namedview", XmlnsSodipodi);
-        writer.WriteAttributeString("document-units", XmlnsInkscape, "mm");
+        writer.WriteAttributeString("document-units", XmlnsInkscape, "zc");
         writer.WriteEndElement();
 
         base.Write(writer, conv);

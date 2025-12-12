@@ -1,5 +1,6 @@
 ﻿using Macad.Common;
 using Macad.Core;
+using Macad.Interaction.Panels;
 using Macad.Presentation;
 using System;
 using System.Collections.Generic;

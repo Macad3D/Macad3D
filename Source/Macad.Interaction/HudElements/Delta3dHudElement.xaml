@@ -4,12 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:converters="clr-namespace:Macad.Core.Converters;assembly=Macad.Core"
              xmlns:mmi="clr-namespace:Macad.Interaction"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
             d:DesignHeight="25"
             d:DesignWidth="120"
              Foreground="White">
+    
+    <mmi:HudElement.Resources>
+        <converters:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
+        <mmp:ValueUnitsToStringConverter x:Key="ValueUnitsToStringConverter"/>
+        <converters:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
+    </mmi:HudElement.Resources>
     
     <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
@@ -22,18 +29,18 @@
 
         <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="&#x394;x" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaX, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaX, Converter={StaticResource LengthDimensionFormatter}}"/>
+            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal">
             <TextBlock Text="&#x394;y" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaY, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaY, Converter={StaticResource LengthDimensionFormatter}}"/>
+            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
         </StackPanel>
         <StackPanel Grid.Column="4" Orientation="Horizontal">
             <TextBlock Text="&#x394;z" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaZ, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaZ, Converter={StaticResource LengthDimensionFormatter}}"/>
+            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
         </StackPanel>
     </Grid>
     

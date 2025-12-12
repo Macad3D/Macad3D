@@ -14,7 +14,7 @@
                      Foreground="{StaticResource Macad.Brushes.Text}"
                      Background="{StaticResource Macad.Brushes.Pane.Background}"
                      >
-    
+
     <UserControl.Resources>
         <CollectionViewSource x:Key="GroupedProperties" 
                               Source="{Binding SelectedNode.Properties, Mode=OneWay}">
@@ -23,7 +23,7 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -54,7 +54,7 @@
                 Padding="3"
                 BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
                 Background="{StaticResource Macad.Brushes.Panel.Background}">
-            
+
             <treeView:TreeViewEx 
                              Style="{StaticResource {x:Type treeView:TreeViewEx}}"
                              ItemsSource="{Binding RootNodes}"
@@ -103,9 +103,10 @@
 
         <mmp:PanningScrollViewer Grid.Row="3"
                                  Padding="3"
-                                Background="{StaticResource Macad.Brushes.Panel.Background}">
+                                 Background="{StaticResource Macad.Brushes.Panel.Background}">
+            <!--                          ItemsSource="{Binding Source={StaticResource GroupedProperties}}" -->
             <ItemsControl Name="PropertyView"
-                          ItemsSource="{Binding Source={StaticResource GroupedProperties}}"
+                          ItemsSource="{Binding DisplayProperties}"
                           Foreground="{StaticResource Macad.Brushes.Text}"
                           TextOptions.TextFormattingMode="Display"
                           TextOptions.TextRenderingMode="ClearType">
@@ -152,11 +153,3 @@
         </TextBlock>
     </Grid>
 </UserControl>
-
-    
-
-    
-
-    
-
-    

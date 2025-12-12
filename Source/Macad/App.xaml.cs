@@ -8,6 +8,7 @@ using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Presentation;
 using Microsoft.Win32;
+using Macad.Core;
 
 namespace Macad.Window;
 

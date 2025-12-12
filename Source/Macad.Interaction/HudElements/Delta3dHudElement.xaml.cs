@@ -1,10 +1,12 @@
-﻿using Macad.Presentation;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Presentation;
 
 namespace Macad.Interaction;
 
 public partial class Delta3DHudElement : HudElement
 {
-    public double DeltaX
+    public double? DeltaX
     {
         get { return _DeltaX; }
         set
@@ -19,7 +21,7 @@ public partial class Delta3DHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public double DeltaY
+    public double? DeltaY
     {
         get { return _DeltaY; }
         set
@@ -34,7 +36,7 @@ public partial class Delta3DHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public double DeltaZ
+    public double? DeltaZ
     {
         get { return _DeltaZ; }
         set
@@ -64,15 +66,44 @@ public partial class Delta3DHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    double _DeltaX;
-    double _DeltaY;
-    double _DeltaZ;
+    double? _DeltaX;
+    double? _DeltaY;
+    double? _DeltaZ;
     ValueUnits _Units;
-       
+    ApplicationUnits _UnitsParameter;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public ApplicationUnits UnitsParameter
+    {
+        get { return _UnitsParameter; }
+        set
+        {
+            if (_UnitsParameter != value)
+            {
+                _UnitsParameter = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public Delta3DHudElement()
     {
+        // Get the length measurement units from the settings
+        UnitsParameter = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
+
+        // Subscribe to changes in measurement units - probably not likely in this particular context
+        // but, hey...
+        CoreContext.Current.Parameters.ParameterChanged += (set, key) =>
+        {
+            if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
+            {
+                UnitsParameter = ((ApplicationParameterSet)set).ApplicationUnits;
+            }
+        };
+
         InitializeComponent();
     }
         
@@ -83,5 +114,8 @@ public partial class Delta3DHudElement : HudElement
         DeltaX = deltaX;
         DeltaY = deltaY;
         DeltaZ = deltaZ;
+        RaisePropertyChanged(nameof(DeltaX));
+        RaisePropertyChanged(nameof(DeltaY));
+        RaisePropertyChanged(nameof(DeltaZ));
     }
 }

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Core.Converters;
+using Macad.Core;
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Macad.Common;
 
 namespace Macad.Presentation;
 
@@ -248,6 +250,12 @@ public class ValueEditBox : TextBox
         DataObject.AddPastingHandler(this, _PastingHandler);
         DataObject.AddCopyingHandler(this, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
         Text = "0";
+
+        this.Loaded += (s, e) =>
+        {
+            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+            MinWidth = appParams.ApplicationUnits == ApplicationUnits.Architectural ? 120 : 80;
+        };
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -263,47 +271,92 @@ public class ValueEditBox : TextBox
 
     void _UpdateText(double value)
     {
-        int precision = Precision;
-        Text = value.ToString("F" + (precision >= 0 ? precision : ""), CultureInfo.InvariantCulture);
+        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+        var units = appParams.ApplicationUnits;
+
+        Text = ImperialLengthFormatter.FormatLength(value, units);
     }
 
     //--------------------------------------------------------------------------------------------------
-
     void _CommitTextChange()
     {
         BindingExpression exp = GetBindingExpression(TextBox.TextProperty);
         exp?.UpdateSource();
 
-        if (BindingHelper.HasBinding(this, ValueProperty))
+        if (!BindingHelper.HasBinding(this, ValueProperty))
+            return;
+
+        double newValue = Value;  // fallback: current value
+
+        string input = Text.Trim();
+
+        // ------------------------------------------------------------
+        // 1. Handle expression input first (=5+3, =10*25.4, etc.)
+        // ------------------------------------------------------------
+        if (input.StartsWith("="))
         {
-            double newValue = Value;
-            if (Text.StartsWith("="))
+            double? result = _EvaluateExpression();
+            if (!result.HasValue)
+                return; // invalid expression → keep old value
+
+            newValue = result.Value;
+        }
+        else
+        {
+            // ------------------------------------------------------------
+            // 2. Normal numeric / imperial input
+            // ------------------------------------------------------------
+            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+            var units = appParams.ApplicationUnits;
+
+            // Use the centralized, correct parser
+            if (ImperialLengthFormatter.TryParseLength(input, units, out double parsedMm))
             {
-                // Evaluate Expression
-                double? result = _EvaluateExpression();
-                if (!result.HasValue)
-                {
-                    return;
-                }
-                if (Math.Abs(newValue - result.Value) > 1e-10)
-                    newValue = result.Value;
-                else
-                    _UpdateText(newValue);
+                newValue = parsedMm;
             }
             else
             {
-                if (!double.TryParse(Text, NumberStyles.Any, CultureInfo.InvariantCulture, out newValue))
-                    return;
+                // Invalid input → reject change, keep old value
+                _UpdateText(Value);
+                return;
             }
-
-            newValue = newValue.Clamp(MinValue, MaxValue);
-            if(Math.Abs(Value - newValue) >= SourceUpdateThreshold)
-            {
-                Value = newValue;
-            }
-            _UpdateText(Value);
         }
+
+        // ------------------------------------------------------------
+        // 3. Apply clamping and update threshold
+        // ------------------------------------------------------------
+        newValue = newValue.Clamp(MinValue, MaxValue);
+
+        if (Math.Abs(Value - newValue) >= SourceUpdateThreshold)
+        {
+            Value = newValue;  // This triggers property changed → model update
+        }
+
+        // ------------------------------------------------------------
+        // 4. Always refresh display with proper formatting
+        // ------------------------------------------------------------
+        _UpdateText(Value);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
 
     //--------------------------------------------------------------------------------------------------
 
@@ -345,7 +398,7 @@ public class ValueEditBox : TextBox
         if (Text.StartsWith("=") || ((CaretIndex==0) && text.StartsWith("=")))
             return true;
 
-        Regex regex = new Regex("[0-9.,-]+"); //regex that matches allowed text
+        Regex regex = new Regex(@"[0-9.,\-/ ]+"); //regex that matches allowed text
         return regex.IsMatch(text);
     }
 
@@ -369,6 +422,10 @@ public class ValueEditBox : TextBox
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
+        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+        var appUnits = appParams.ApplicationUnits;
+        bool isArchitecturalMode = appUnits == ApplicationUnits.Architectural;
+
         if (e.Key == Key.Return)
         {
             _CommitTextChange();
@@ -391,6 +448,31 @@ public class ValueEditBox : TextBox
         {
             if ((CaretIndex != 0 && SelectionStart != 0 || Text.Contains("-") && ! SelectedText.Contains("-")) 
                 && !IsEvaluating)
+            {
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.OemQuestion)  // / key
+        {
+            if (!IsEvaluating && !Text.Contains("/"))  // Only one fraction per input
+            {
+                // Allow it
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.OemQuotes || e.Key == Key.Oem7)  // ' key (OemQuotes or Oem7 depending on keyboard)
+        {
+            if (!isArchitecturalMode || Text.Contains("'"))  // Only allow one ' in arch mode
+            {
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.OemQuotes || e.Key == Key.D2)  // " key
+        {
+            if (!isArchitecturalMode || Text.Contains("\""))  // Only allow one " in arch mode
             {
                 e.Handled = true;
             }
