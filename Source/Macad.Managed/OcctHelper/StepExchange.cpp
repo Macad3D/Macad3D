@@ -57,7 +57,7 @@ namespace Helper
 		bool WriteToFile(String^ path)
 		{
 			char* pathCString = static_cast<char*>(Marshal::StringToCoTaskMemUTF8(path).ToPointer());
-			bool result = _Writer->Write(pathCString);
+			bool result = _Writer->Write(pathCString) == IFSelect_RetDone;
 			Marshal::FreeCoTaskMem((IntPtr)pathCString);
 			return result;
 		}
