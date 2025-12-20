@@ -1,11 +1,12 @@
-﻿using System;
-using Macad.Core.Shapes;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Geom;
-using Macad.Common;
+using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
@@ -147,7 +148,7 @@ public class FilletEditorTool : EdgeModifierTool
         double reversed = _AxisActions.First(info => info.Action == sender).Reverse ? 1.0 : -1.0;
         double newRadius = _StartRadius + args.Distance * reversed;
         newRadius += Math.Sqrt(args.Distance * args.Distance * 2.0) * Math.Sign(args.Distance) * reversed;
-        
+
         if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newRadius = Maths.RoundToNearest(newRadius, WorkspaceController.Workspace.GridStep);
@@ -163,7 +164,7 @@ public class FilletEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Radius: {_FilletShape.Radius.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Radius:", _FilletShape.Radius));
     }
 
     //--------------------------------------------------------------------------------------------------

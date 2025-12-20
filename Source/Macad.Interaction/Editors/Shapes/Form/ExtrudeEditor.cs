@@ -1,11 +1,12 @@
-﻿using System;
-using System.Windows.Input;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 using Macad.Presentation;
+using System;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -162,7 +163,7 @@ public sealed class ExtrudeEditor : Editor<Extrude>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Depth:", Entity.Depth));
     }
 
     //--------------------------------------------------------------------------------------------------

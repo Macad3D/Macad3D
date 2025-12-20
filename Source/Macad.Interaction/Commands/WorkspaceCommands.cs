@@ -1,5 +1,4 @@
 ﻿using Macad.Common;
-using Macad.Core.Converters;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
@@ -512,10 +511,11 @@ public static class WorkspaceCommands
         {
             switch (param)
             {
-                case Viewport.RenderModes.SolidShaded: return "Solid Shaded";
-                case Viewport.RenderModes.HLR:         return "Drawing";
-                case Viewport.RenderModes.Raytraced:   return "Raytraced";
-                default:                               return "Unknown";
+                case Viewport.RenderModes.SolidShaded:  return "Solid Shaded";
+                case Viewport.RenderModes.HLR:          return "Drawing";
+                case Viewport.RenderModes.Raytraced:    return "Raytraced";
+                case Viewport.RenderModes.Wireframe:    return "Wireframe";
+                default:                                return "Unknown";
             }
         },
         Icon = (param) => $"View-Render{param.ToString()}",

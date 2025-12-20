@@ -1,6 +1,7 @@
 ﻿using System.Windows.Data;
 using System.Windows.Input;
 using Macad.Presentation;
+using Macad.Core;
 
 namespace Macad.Interaction;
 

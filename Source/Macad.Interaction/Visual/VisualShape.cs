@@ -304,6 +304,17 @@ public sealed class VisualShape : VisualObject
         _AisShape.SetAttributes(attributeSet.Drawer);
         _AisShape.SynchronizeAspects();
 
+        var viewport = WorkspaceController?.ActiveViewport;
+
+        if (viewport?.RenderMode == Viewport.RenderModes.Wireframe)
+        {
+            // Ensure shape itself is in wireframe mode
+            _AisShape.SetDisplayMode((int)AIS_DisplayMode.WireFrame);
+
+            // Disable face selection in wireframe mode so that handles are selectable
+            AisContext.SetSelectionModeActive(_AisShape, 4, false, AIS_SelectionModesConcurrency.Multiple);
+        }
+
         if (_Options.HasFlag(Options.Ghosting))
         {
             _UpdatePresentationForGhost();

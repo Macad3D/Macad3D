@@ -1,10 +1,10 @@
-﻿using System;
-using Macad.Common;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
+using System;
 using System.Windows.Input;
-using Macad.Core;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -213,7 +213,7 @@ public sealed class TaperEditor : Editor<Taper>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset: {Entity.Offset.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Offset:", Entity.Offset));
     }
 
     //--------------------------------------------------------------------------------------------------

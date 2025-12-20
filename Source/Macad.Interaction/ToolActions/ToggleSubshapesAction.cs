@@ -59,8 +59,6 @@ public class ToggleSubshapesAction : ToolAction
             AisShape = new AIS_Shape(shape)
         };
 
-        //Debug.WriteLine(string.Format("Added component to sum: {0}", Subshapes.Count));
-
         subshape.AisShape.SetLocalTransformation(trsf);
         subshape.AisShape.SetColor((isSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes).ToQuantityColor());
         subshape.AisShape.Attributes().WireAspect().SetWidth(4);

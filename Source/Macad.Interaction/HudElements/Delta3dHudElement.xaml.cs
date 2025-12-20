@@ -92,7 +92,7 @@ public partial class Delta3DHudElement : HudElement
     public Delta3DHudElement()
     {
         // Get the length measurement units from the settings
-        UnitsParameter = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
+        _UnitsParameter = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
 
         // Subscribe to changes in measurement units - probably not likely in this particular context
         // but, hey...

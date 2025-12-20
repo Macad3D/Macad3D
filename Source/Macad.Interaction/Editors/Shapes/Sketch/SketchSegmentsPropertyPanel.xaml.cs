@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Macad.Common;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Presentation;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -50,12 +52,12 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
             if (segment is SketchSegmentCircle)
             {
                 Type = "Circle";
-                Info = "Radius: " + ((SketchSegmentCircle) segment).Radius(points).Round() + " mm";
+                Info = UnitsService.FormatLabelValue("Radius:", (double)((SketchSegmentCircle)segment).Radius(points).Round());
             }
             else if (segment is SketchSegmentLine)
             {
                 Type = "Line";
-                Info = "Length: " + ((SketchSegmentLine)segment).Length(points).Round() + " mm";
+                Info = UnitsService.FormatLabelValue("Length:", (double)((SketchSegmentLine)segment).Length(points).Round());
             }
             else if (segment is SketchSegmentEllipse)
             {
@@ -65,7 +67,7 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
             else if (segment is SketchSegmentArc)
             {
                 Type = "Circular Arc";
-                Info = "Radius: " + ((SketchSegmentArc)segment).Radius(points).Round() + " mm";
+                Info = UnitsService.FormatLabelValue("Radius:", (double)((SketchSegmentArc)segment).Radius(points).Round());
             }
             else if (segment is SketchSegmentEllipticalArc)
             {

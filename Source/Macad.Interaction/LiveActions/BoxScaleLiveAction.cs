@@ -3,6 +3,8 @@ using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
 using Macad.Occt;
+using Macad.SketchSolve;
+using System;
 
 namespace Macad.Interaction;
 
@@ -207,6 +209,26 @@ public sealed class BoxScaleLiveAction : LiveAction
                 return false;
 
             var value = axisDelta.Value - _StartValue;
+
+            // When in Inches16ths or Inches32nds mode, we prefer to snap to the nearest 16th or 32nd
+            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
+            var units = appParams?.ApplicationUnits;
+            double inch = 25.4; // mm per inch
+
+            double? snap = units switch
+            { 
+                ApplicationUnits.Inches16ths => inch / 16.0,
+                ApplicationUnits.Inches32nds => inch / 32.0,
+                ApplicationUnits.Architectural => inch / 8.0,
+                _ => null
+            };
+
+            if (snap.HasValue)
+            {
+                value = Math.Round(value / snap.Value) * snap.Value;
+            }
+            // ----
+
             _LastDelta = value - _DeltaSum;
             _DeltaSum = value;
 
@@ -389,9 +411,39 @@ public sealed class BoxScaleLiveAction : LiveAction
         // Handles
         for (int i = _MoveMode < 0 ? 0 : _MoveMode; i < _Handles.Length; i++)
         {
+            var pos = min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec());
+
+            // Cull handles facing away in any of the Rending modes that have occluded faces
+            // or vertices, otherwise it is confusing to the user
+            var mode = WorkspaceController.ActiveViewport.RenderMode;
+
+            if (mode == Viewport.RenderModes.HLR ||
+                mode == Viewport.RenderModes.SolidShaded ||
+                mode == Viewport.RenderModes.Raytraced)
+            {
+                var center = min.Translated(extent.Multiplied(0.5).ToVec());
+                var toHandle = new Vec(center, pos);
+                var viewDir = WorkspaceController.ActiveViewport.GetViewDirection();
+                var viewVec = new Vec(viewDir.X, viewDir.Y, viewDir.Z);
+
+                bool isFrontFacing = toHandle.Dot(viewVec) < 0;
+
+                if (!isFrontFacing)
+                {
+                    if (_Handles[i] != null)
+                    {
+                        Remove(_Handles[i]);
+                        _Handles[i] = null;
+                    }
+                    continue;
+                }
+            }
+
             if (_Handles[i] == null)
             {
-                _Handles[i] = new Marker(WorkspaceController, Marker.Styles.Bitmap, "Ball", 12)
+                // "Topmost" ensures handles are selectable even when "occluded" in the Wireframe render mode
+                // Relies on faces being deactivated in VisualShape
+                _Handles[i] = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, "Ball", 12)
                 {
                     IsSelectable = true,
                     Color = Colors.ActionWhite

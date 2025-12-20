@@ -2,9 +2,10 @@
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
-using Macad.Occt;
-using System.Windows.Input;
 using Macad.Interaction.Visual;
+using Macad.Occt;
+using Macad.Presentation;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -340,7 +341,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Length: {Entity.Length.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Length:", Entity.Length));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -381,7 +382,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Radius: {Entity.Radius.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Radius:", Entity.Radius));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -428,7 +429,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Start Gap: {Entity.StartGap.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Start Gap:", Entity.StartGap));
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -475,7 +476,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"End Gap: {Entity.EndGap.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("End Gap:", Entity.EndGap));
     }
     
     //--------------------------------------------------------------------------------------------------

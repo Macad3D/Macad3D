@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Common.Interop;
+using Macad.Core;
+using Macad.Interaction.Visual;
+using Macad.Occt;
+using Macad.Occt.Extensions;
+using Macad.Occt.Helper;
+using Macad.Resources;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
+using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Input;
-using Macad.Common;
-using Macad.Common.Interop;
-using Macad.Core;
-using Macad.Occt;
-using Macad.Occt.Helper;
-using Macad.Occt.Extensions;
-using Macad.Resources;
 using Color = Macad.Common.Color;
 using Point = System.Windows.Point;
 
@@ -1116,6 +1119,104 @@ public sealed class ViewportController : BaseObject, IDisposable
         else
         {
             renderParams.Method = Graphic3d_RenderingMode.RASTERIZATION;
+        }
+
+        _ConfigureAisForRenderMode();
+        WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ConfigureAisForRenderMode()
+    {
+        var ctx = WorkspaceController.AisContext; 
+        
+        switch (Viewport.RenderMode)
+        {
+            case Viewport.RenderModes.SolidShaded: 
+            default: 
+                ctx.DisableDrawHiddenLine(); 
+                ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost); 
+                ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false); 
+                SetWholeShapeSelectionActive(true); 
+                break;
+
+            case Viewport.RenderModes.HLR: // Standard hidden-line removal
+                ctx.EnableDrawHiddenLine(); 
+                ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost); 
+                ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false); 
+                SetWholeShapeSelectionActive(true); 
+                break; 
+            
+            case Viewport.RenderModes.Wireframe: // True wireframe via AIS display mode, but: keep computed mode OFF (we already do that above) - keep rendering in RASTERIZATION - allow select-through
+                ctx.DisableDrawHiddenLine(); 
+                ctx.SetPickingStrategy(SelectMgr_PickingStrategy.FirstAcceptable);
+                ctx.SetDisplayMode((int)AIS_DisplayMode.WireFrame, false); 
+                SetWholeShapeSelectionActive(false); 
+                break; 
+            
+            case Viewport.RenderModes.Raytraced: 
+                ctx.DisableDrawHiddenLine(); 
+                ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost); 
+                ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false); 
+                SetWholeShapeSelectionActive(true); 
+                break; 
+        } // In addition, when in wireframe, force existing AIS objects into wireframe mode
+
+        bool isWireframe = Viewport.RenderMode == Viewport.RenderModes.Wireframe;
+
+        // 1. Update all AIS objects (shapes + markers)
+        foreach (var vo in WorkspaceController.VisualObjects.GetAll())
+        {
+            var ais = vo.AisObject;
+            if (ais == null)
+                continue;
+
+            ctx.SetDisplayMode(
+                ais,
+                isWireframe ? (int)AIS_DisplayMode.WireFrame
+                            : (int)AIS_DisplayMode.Shaded,
+                false);
+
+            ctx.Redisplay(ais, false);
+
+            if (!(vo is Marker))
+            {
+                WorkspaceController.VisualObjects.Update(vo.Entity);
+            }
+        }
+
+        // 2. After redisplay, re‑activate marker selection (wireframe only)
+        if (isWireframe)
+        {
+            foreach (var vo in WorkspaceController.VisualObjects.GetAll())
+            {
+                if (vo is Marker marker)
+                {
+                    var ais = marker.AisObject;
+                    if (ais != null)
+                    {
+                        ctx.Activate(ais, 0);
+                    }
+                }
+            }
+        }
+
+        // 3. Set picking strategy
+        ctx.SetPickingStrategy(
+            isWireframe ? SelectMgr_PickingStrategy.FirstAcceptable
+                        : SelectMgr_PickingStrategy.OnlyTopmost);
+
+    }
+
+    void SetWholeShapeSelectionActive(bool active)
+    {
+        foreach (var vo in WorkspaceController.VisualObjects.GetAll().Cast<VisualObject>())
+        {
+            var ais = vo.AisObject;
+            if (ais == null)
+                continue;
+            WorkspaceController.AisContext.SetSelectionModeActive(ais, 0, active, AIS_SelectionModesConcurrency.Multiple);
         }
     }
 

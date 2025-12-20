@@ -1,6 +1,8 @@
-﻿using System.Windows.Data;
-using System.Windows.Input;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Presentation;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Macad.Interaction;
 
@@ -66,7 +68,7 @@ public partial class ValueHudElement : HudElement
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     string _Label;
     double _Value;
     ValueUnits _Units;

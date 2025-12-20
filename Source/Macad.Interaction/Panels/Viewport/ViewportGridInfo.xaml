@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-             xmlns:converters="clr-namespace:Macad.Core.Converters;assembly=Macad.Core"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -15,9 +14,9 @@
              Background="#01000000">
 
     <UserControl.Resources>
-        <converters:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
+        <mmp:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
         <mmp:ValueUnitsToStringConverter x:Key="ValueUnitsToStringConverter"/>
-        <converters:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
+        <mmp:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
     </UserControl.Resources>
     
     <StackPanel Margin="10,2,10,5">
@@ -37,7 +36,7 @@
 
                 <!-- 2. Units part -->
                 <TextBlock Foreground="White" Margin="3,0,0,0"
-                   Text="{Binding Units, Converter={StaticResource ValueUnitsToStringConverter}}" />
+                   Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" />
 
                 <!-- 3. Visual grid multiplier -->
                 <TextBlock Foreground="White" Margin="5,0,0,0"

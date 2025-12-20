@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows.Input;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
+using System;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -124,7 +124,7 @@ public sealed class OffsetEditor : Editor<Offset>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Distance: {Entity.Distance.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Distance:", Entity.Distance));
 
         _UpdateActions();
     }

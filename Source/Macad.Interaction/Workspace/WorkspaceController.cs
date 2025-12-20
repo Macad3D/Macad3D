@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Core.Topology;
+using Macad.Interaction.Visual;
+using Macad.Occt;
+using Macad.Occt.Extensions;
+using Macad.Occt.Helper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Macad.Interaction.Visual;
-using Macad.Common;
-using Macad.Core;
-using Macad.Core.Topology;
-using Macad.Occt;
-using Macad.Occt.Extensions;
-using Macad.Occt.Helper;
+using static Macad.Core.Viewport;
 
 namespace Macad.Interaction;
 
@@ -451,12 +452,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _MouseEventData.Clear();
 
         foreach (var aisObject in _CustomHighlights)
-        {
-            if (AisContext.IsDisplayed(aisObject))
             {
-                AisContext.Unhilight(aisObject, false);
+                if (AisContext.IsDisplayed(aisObject))
+                {
+                    AisContext.Unhilight(aisObject, false);
+                }
             }
-        }
         _CustomHighlights.Clear();
 
         Selection.Update();
@@ -927,8 +928,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             VisualObjects.UpdateInvalidatedEntities();
             _ViewControllers.ForEach(v =>
             {
-                if(v.Viewport.RenderMode == Viewport.RenderModes.HLR)
-                    v.V3dView?.Update();
+                v.V3dView?.Update();
             });
             V3dViewer.Redraw();
             V3dViewer.RedrawImmediate();

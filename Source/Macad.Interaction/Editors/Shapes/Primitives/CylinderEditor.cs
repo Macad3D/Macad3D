@@ -1,9 +1,11 @@
-﻿using System;
-using System.Windows.Input;
-using Macad.Common;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
+using Macad.Presentation;
+using System;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -169,7 +171,7 @@ public sealed class CylinderEditor : Editor<Cylinder>
                 _HudElements[1] = new LabelHudElement();
                 Add(_HudElements[1]);
             }
-            _HudElements[1]?.SetValue($"Height: {Entity.Height.ToInvariantString("F2")} mm");
+            _HudElements[1]?.SetValue(UnitsService.FormatHud("Height:", Entity.Height));
         }
 
         if (newRadius != 0)
@@ -187,7 +189,7 @@ public sealed class CylinderEditor : Editor<Cylinder>
                 _HudElements[0] = new LabelHudElement();
                 Add(_HudElements[0]);
             }
-            _HudElements[0]?.SetValue($"Radius:  {Entity.Radius.ToInvariantString("F2")} mm");
+            _HudElements[0]?.SetValue(UnitsService.FormatHud("Radius:", Entity.Radius));
         }
 
         Entity.Body.Position = newPosition;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Core;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes;

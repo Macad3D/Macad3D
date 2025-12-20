@@ -1,5 +1,4 @@
 ﻿using Macad.Common;
-using Macad.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,59 +6,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace Macad.Core.Converters;
+namespace Macad.Core;
 
-public class LengthDimensionFormatter : IValueConverter
+public enum ValueUnits
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is double mm)
-        {
-            // Get current application units from CoreContext
-            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-            var units = appParams.ApplicationUnits;
-
-            // Delegate to ImperialLengthFormatter
-            return ImperialLengthFormatter.FormatLength(mm, units);
-        }
-
-        return string.Empty;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        // Optional: implement parsing if you want user input to be converted back
-        throw new NotImplementedException();
-    }
+    None,
+    Length,
+    Degree,
+    Percent,
+    DotsPerInch,
+    Days,
+    Seconds,
+    Pixel
 }
 
-
-public sealed class GridStepCheckedConverter : IValueConverter
+public static class UnitsService
 {
-    public static readonly GridStepCheckedConverter Instance = new();
+    public static ApplicationUnits CurrentUnits
+        => CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
 
-    private GridStepCheckedConverter() { }
+    public static string Format(double mm)
+        => ImperialLengthFormatter.FormatLength(mm, CurrentUnits);
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is not double currentGridStepMm || parameter is not double targetDisplayValue)
-            return false;
+    public static bool TryParse(string text, out double mm)
+        => ImperialLengthFormatter.TryParseLength(text, CurrentUnits, out mm);
 
-        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-        var units = appParams.ApplicationUnits;
+    public static string FormatWithLabel(double mm)
+        => $"{Format(mm)}{UnitLabel}";
 
-        double currentInDisplay = units == ApplicationUnits.Millimeters
-            ? currentGridStepMm
-            : currentGridStepMm / 25.4;
+    public static string FormatHud(string name, double mm)
+        => $"{name}: {Format(mm)}{UnitLabel}";
 
-        return Math.Abs(currentInDisplay - targetDisplayValue) < 1e-6;
+    public static string FormatLabelValue(string label, double mm) 
+    { 
+        return $"{label}: {Format(mm)}{UnitLabel}"; 
     }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => throw new NotSupportedException();
+    public static string UnitLabel => UnitLabelProvider.GetLabel(CurrentUnits);
 }
 
+public static class UnitLabelProvider 
+{ 
+    public static string GetLabel(ApplicationUnits units) 
+    { 
+        return units switch 
+        { 
+            ApplicationUnits.Millimeters => "mm", 
+            ApplicationUnits.Inches => "\"", 
+            ApplicationUnits.Inches16ths => "\"", 
+            ApplicationUnits.Inches32nds => "\"", 
+            ApplicationUnits.Architectural => "\"", 
+            _ => "" 
+        }; 
+    } 
+}
 
 public static class ImperialLengthFormatter
 {
@@ -79,21 +80,213 @@ public static class ImperialLengthFormatter
         };
     }
 
+    public static bool TryParseExpression(string text, out double mm)
+    {
+        mm = 0; 
+        if (!text.StartsWith("=")) 
+            return false; 
+        
+        // Strip leading '='
+        string expr = text.Substring(1).Trim(); 
+        
+        // Replace unit-bearing tokens with mm values 
+        // Example: "10mm + 1/32" → "10*1 + (1/32)*25.4"
+
+        expr = ConvertUnitsInsideExpression(expr); // Evaluate using your existing evaluator
+        double? result = Common.Evaluator.Evaluator.EvaluateExpression(expr, out _); 
+        
+        if (!result.HasValue) 
+            return false; 
+        
+        mm = result.Value; 
+        return true; 
+    }
+
+    private static string ConvertUnitsInsideExpression(string expr)
+    {
+        var sb = new StringBuilder();
+        int i = 0;
+
+        while (i < expr.Length)
+        {
+            char c = expr[i];
+
+            // ------------------------------------------------------------
+            // 1. Skip whitespace
+            // ------------------------------------------------------------
+            if (char.IsWhiteSpace(c))
+            {
+                sb.Append(c);
+                i++;
+                continue;
+            }
+
+            // ------------------------------------------------------------
+            // 2. FRACTION:  number/number
+            // ------------------------------------------------------------
+            if (char.IsDigit(c))
+            {
+                int start = i;
+
+                // Parse numerator
+                while (i < expr.Length && (char.IsDigit(expr[i]) || expr[i] == '.'))
+                    i++;
+
+                double numerator = 0;
+                double denominator = 0;
+
+                // Check for slash
+                if (i < expr.Length && expr[i] == '/')
+                {
+                    string numStr = expr.Substring(start, i - start);
+                    numerator = double.Parse(numStr, CultureInfo.InvariantCulture);
+
+                    i++; // skip '/'
+
+                    int denStart = i;
+                    while (i < expr.Length && (char.IsDigit(expr[i]) || expr[i] == '.'))
+                        i++;
+
+                    string denStr = expr.Substring(denStart, i - denStart);
+                    denominator = double.Parse(denStr, CultureInfo.InvariantCulture);
+
+                    double mm = (numerator / denominator) * 25.4;
+                    sb.Append(mm.ToString(CultureInfo.InvariantCulture));
+                    continue;
+                }
+
+                // ------------------------------------------------------------
+                // 3. NUMBER (possibly with unit suffix)
+                // ------------------------------------------------------------
+                string number = expr.Substring(start, i - start);
+
+                // Look ahead for unit suffix
+                string unit = "";
+                int unitStart = i;
+
+                while (i < expr.Length && char.IsLetter(expr[i]))
+                    i++;
+
+                if (i > unitStart)
+                    unit = expr.Substring(unitStart, i - unitStart).ToLowerInvariant();
+
+                // Architectural symbols
+                bool hasFeet = false;
+                bool hasInches = false;
+
+                if (i < expr.Length && expr[i] == '\'')
+                {
+                    hasFeet = true;
+                    i++;
+                }
+                if (i < expr.Length && expr[i] == '"')
+                {
+                    hasInches = true;
+                    i++;
+                }
+
+                double value = double.Parse(number, CultureInfo.InvariantCulture);
+                double mmValue = 0;
+
+                if (unit == "mm")
+                {
+                    mmValue = value;
+                }
+                else if (unit == "in" || hasInches)
+                {
+                    mmValue = value * 25.4;
+                }
+                else if (hasFeet)
+                {
+                    mmValue = value * 304.8;
+                }
+                else
+                {
+                    // No unit → leave number as-is
+                    sb.Append(number);
+                    continue;
+                }
+
+                sb.Append(mmValue.ToString(CultureInfo.InvariantCulture));
+                continue;
+            }
+
+            // ------------------------------------------------------------
+            // 4. Operators, parentheses, etc.
+            // ------------------------------------------------------------
+            sb.Append(c);
+            i++;
+        }
+
+        return sb.ToString();
+    }
+
     // Parse back user input ---------------------------------------------------
     public static bool TryParseLength(string text, ApplicationUnits units, out double mm)
     {
-        mm = 0;
-        text = text.Trim();
+        mm = 0; 
+        text = text.Trim(); 
+        // 1. Expression mode (=...)
+        if (text.StartsWith("=")) 
+        { 
+            if (TryParseExpression(text, out mm)) 
+                return true; 
+        } 
 
-        return units switch
-        {
-            ApplicationUnits.Millimeters => TryParseMm(text, out mm),
-            ApplicationUnits.Inches => TryParseDecimalInches(text, out mm),
-            ApplicationUnits.Inches16ths => TryParseMixedFraction(text, 16, out mm),
-            ApplicationUnits.Inches32nds => TryParseMixedFraction(text, 32, out mm),
-            ApplicationUnits.Architectural => TryParseArchitectural(text, out mm),
-            _ => TryParseMm(text, out mm)
-        };
+        // 2. Explicit mm
+        if (text.EndsWith("mm", StringComparison.OrdinalIgnoreCase) && TryParseMm(text, out mm)) 
+            return true; 
+
+        // 3. Explicit inches (decimal)
+        if (text.EndsWith("in", StringComparison.OrdinalIgnoreCase) && TryParseDecimalInches(text, out mm)) 
+            return true; 
+
+        // 4. Architectural (feet/inches)
+        if (text.Contains("'") || text.Contains("\"")) 
+        { 
+            if (TryParseArchitectural(text, out mm)) return true; 
+        } 
+        
+        // 5. Generic fraction (ANY denominator)
+        if (TryParseGenericFraction(text, out mm)) 
+            return true; 
+
+        // 6. Decimal inches without unit
+        if (TryParseDecimalInches(text, out mm)) 
+            return true; 
+        
+        // 7. Fallback: mm without unit
+        if (TryParseMm(text, out mm)) 
+            return true; 
+        
+        return false; 
+    }
+
+    private static bool TryParseGenericFraction(string s, out double mm) 
+    { 
+        mm = 0; 
+        s = s.Replace("\"", "").Trim(); 
+
+        if (!s.Contains("/")) 
+            return false; 
+        
+        var parts = s.Split('/'); 
+        
+        if (parts.Length != 2) 
+            return false; 
+        
+        if (!double.TryParse(parts[0], out double num)) 
+            return false; 
+        
+        if (!double.TryParse(parts[1], out double den)) 
+            return false; 
+        
+        if (Math.Abs(den) < 1e-12) 
+            return false; 
+        
+        double inches = num / den; 
+        mm = inches * 25.4; 
+        return true; 
     }
 
     // -------------------------------------------------------------------------
@@ -139,10 +332,12 @@ public static class ImperialLengthFormatter
             if (p.Contains("/"))
             {
                 var frac = p.Split('/');
+
+                // Accept input of various power-of-2 fractions as long as they fit into the denominator
                 if (frac.Length == 2 &&
                     int.TryParse(frac[0].Trim(), out int num) &&
                     int.TryParse(frac[1].Trim(), out int den) &&
-                    den == denominator)
+                    (denominator % den == 0))
                 {
                     total += (double)num / den;
                 }
@@ -160,7 +355,7 @@ public static class ImperialLengthFormatter
     }
 
     // -------------------------------------------------------------------------
-    // 4. Architectural: 27' 11 1/8"   or 27'   or 0' 11 1/8"  etc.
+    // 4. Architectural: 27'-11 1/8"   or 27'   or 0' 11 1/8"  etc.
     private static string FormatArchitectural(double mm)
     {
         double totalInches = mm / MmPerInch;
@@ -175,7 +370,7 @@ public static class ImperialLengthFormatter
         if (string.IsNullOrEmpty(inchesPart))
             return $"{feet}'";
 
-        return $"{feet}' {inchesPart}";
+        return $"{feet}'-{inchesPart}";
     }
 
     private static string ToArchitecturalFraction(double inches)
@@ -328,23 +523,4 @@ public static class ImperialLengthFormatter
         return double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out mm);
     }
 }
-
-public sealed class GridStepDisplayConverter : IMultiValueConverter
-{
-    public static readonly GridStepDisplayConverter Instance = new();
-
-    public GridStepDisplayConverter() { }
-
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (values.Length != 2 || values[0] is not double gridStepMm || values[1] is not ApplicationUnits units)
-            return "?.??";
-
-        return ImperialLengthFormatter.FormatLength(gridStepMm, units);
-    }
-
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        => throw new NotSupportedException();
-}
-
 

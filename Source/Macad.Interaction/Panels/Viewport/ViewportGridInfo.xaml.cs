@@ -66,13 +66,13 @@ public partial class ViewportGridInfo : PanelBase, INotifyPropertyChanged
         }
     }
 
-    public ApplicationUnits Units
+    public ApplicationUnits UnitsParameter
     {
-        get => _Units;
+        get => _UnitsParameter;
         private set
         {
-            _Units = value;
-            RaisePropertyChanged(nameof(Units));
+            _UnitsParameter = value;
+            RaisePropertyChanged(nameof(UnitsParameter));
         }
     }
 
@@ -84,7 +84,7 @@ public partial class ViewportGridInfo : PanelBase, INotifyPropertyChanged
     double _AvailableWidth = 200;
     double _GridStepMm;
     double _VisualGridMultiplier;
-    ApplicationUnits _Units;
+    ApplicationUnits _UnitsParameter;
     
     //--------------------------------------------------------------------------------------------------
 
@@ -95,7 +95,7 @@ public partial class ViewportGridInfo : PanelBase, INotifyPropertyChanged
         InteractiveContext.Current.PropertyChanged += _Context_PropertyChanged;
 
         // Initialize units from the application parameters
-        _Units = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
+        _UnitsParameter = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
         
         _Context_PropertyChanged(InteractiveContext.Current, new PropertyChangedEventArgs(nameof(InteractiveContext.Viewport)));
 
@@ -110,13 +110,13 @@ public partial class ViewportGridInfo : PanelBase, INotifyPropertyChanged
         if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
         {
             // Get the current units from ApplicationParameterSet
-            Units = ((ApplicationParameterSet)set).ApplicationUnits;
+            UnitsParameter = ((ApplicationParameterSet)set).ApplicationUnits;
 
             _UpdateValues();
 
             // Force XAML bindings to re-evaluate
             RaisePropertyChanged(nameof(GridStepMm));
-            RaisePropertyChanged(nameof(Units));
+            RaisePropertyChanged(nameof(UnitsParameter));
             RaisePropertyChanged(nameof(VisualGridMultiplier));
         }
     }

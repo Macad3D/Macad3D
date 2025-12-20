@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Macad.Common;
-using Macad.Core.Geom;
+﻿using Macad.Common;
 using Macad.Core;
+using Macad.Core.Geom;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
+using Macad.Occt;
+using Macad.Presentation;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using Macad.Core.Shapes;
-using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -388,8 +390,7 @@ public class ChamferEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-
-        _HudElement?.SetValue($"Distance: {newDistance.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Distance:", newDistance));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -433,8 +434,7 @@ public class ChamferEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-
-        _HudElement?.SetValue($"Angle: {newAngle.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Angle:", newAngle));
     }
 
     //--------------------------------------------------------------------------------------------------

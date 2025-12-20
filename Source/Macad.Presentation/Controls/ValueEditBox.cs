@@ -1,5 +1,4 @@
 ﻿using Macad.Common;
-using Macad.Core.Converters;
 using Macad.Core;
 using System;
 using System.Globalization;
@@ -271,10 +270,7 @@ public class ValueEditBox : TextBox
 
     void _UpdateText(double value)
     {
-        var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-        var units = appParams.ApplicationUnits;
-
-        Text = ImperialLengthFormatter.FormatLength(value, units);
+        Text = UnitsService.FormatLabelValue("", value);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -309,16 +305,29 @@ public class ValueEditBox : TextBox
             var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
             var units = appParams.ApplicationUnits;
 
-            // Use the centralized, correct parser
-            if (ImperialLengthFormatter.TryParseLength(input, units, out double parsedMm))
+            switch (Units)
             {
-                newValue = parsedMm;
-            }
-            else
-            {
-                // Invalid input → reject change, keep old value
-                _UpdateText(Value);
-                return;
+                case ValueUnits.Length:
+                    if (ImperialLengthFormatter.TryParseLength(input, units, out double parsedMm))
+                    {
+                        newValue = parsedMm;
+                    }
+                    else
+                    {
+                        _UpdateText(Value);
+                        return;
+                    }
+                    break;
+
+                default:
+                    if (double.TryParse(input, out double val))
+                        newValue = val;
+                    else
+                    {
+                        _UpdateText(Value);
+                        return;
+                    }
+                    break;
             }
         }
 
@@ -337,26 +346,6 @@ public class ValueEditBox : TextBox
         // ------------------------------------------------------------
         _UpdateText(Value);
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-
-
-    //--------------------------------------------------------------------------------------------------
-
-
-
-    //--------------------------------------------------------------------------------------------------
-
-
-
-    //--------------------------------------------------------------------------------------------------
-
-
-
-    //--------------------------------------------------------------------------------------------------
-
-
 
     //--------------------------------------------------------------------------------------------------
 
@@ -393,13 +382,12 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
+    // Allow all non-control characters (e.g. letters, numbers, punctuation, symbols, etc.)
+    // This allows the user to enter expressions like "=5+3" or fractions like 4/32 or
+    // architectural dimensions like 5'3"
     bool _IsTextAllowed(string text)
     {
-        if (Text.StartsWith("=") || ((CaretIndex==0) && text.StartsWith("=")))
-            return true;
-
-        Regex regex = new Regex(@"[0-9.,\-/ ]+"); //regex that matches allowed text
-        return regex.IsMatch(text);
+        return !char.IsControl(text[0]);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -470,7 +458,7 @@ public class ValueEditBox : TextBox
                 e.Handled = true;
             }
         }
-        else if (e.Key == Key.OemQuotes || e.Key == Key.D2)  // " key
+        else if (e.Key == Key.OemQuotes || e.Key == Key.Oem7)  // " key
         {
             if (!isArchitecturalMode || Text.Contains("\""))  // Only allow one " in arch mode
             {

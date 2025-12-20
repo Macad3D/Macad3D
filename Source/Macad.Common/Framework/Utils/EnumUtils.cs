@@ -5,11 +5,11 @@ namespace Macad.Common;
 
 public enum ApplicationUnits
 {
-    [Description("mm")] Millimeters,
-    [Description("in")] Inches,
-    [Description("in")] Inches16ths,
-    [Description("in")] Inches32nds,
-    [Description("ft")] Architectural
+    Millimeters,
+    Inches,
+    Inches16ths,
+    Inches32nds,
+    Architectural
 }
 
 public class EnumUtils

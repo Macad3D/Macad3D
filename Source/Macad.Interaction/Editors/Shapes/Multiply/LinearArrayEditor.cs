@@ -1,11 +1,11 @@
-﻿using System;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
+using System;
 using System.Windows.Input;
-using Macad.Core.Geom;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -176,7 +176,7 @@ public sealed class LinearArrayEditor : Editor<LinearArray>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Distance: {newDistance.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Distance:", newDistance));
     }
 
     //--------------------------------------------------------------------------------------------------

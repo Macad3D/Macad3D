@@ -1,11 +1,11 @@
-﻿using System.Windows.Input;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -252,7 +252,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset X: {Entity.Offset.X.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Offset X:", Entity.Offset.X));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset Y: {Entity.Offset.Y.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Offset Y:", Entity.Offset.Y));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset Z: {Entity.Offset.Z.ToInvariantString("F2")} mm");
+        _HudElement?.SetValue(UnitsService.FormatHud("Offset Z:", Entity.Offset.Z));
     }
 
     //--------------------------------------------------------------------------------------------------
