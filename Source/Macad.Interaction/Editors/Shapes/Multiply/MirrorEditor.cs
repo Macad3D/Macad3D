@@ -295,7 +295,7 @@ public sealed class MirrorEditor : Editor<Mirror>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Offset:", Entity.Offset));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Offset, ValueUnits.Length, "Offset"));
     }
 
     //--------------------------------------------------------------------------------------------------

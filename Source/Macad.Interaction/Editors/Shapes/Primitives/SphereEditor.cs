@@ -143,7 +143,7 @@ public sealed class SphereEditor : Editor<Sphere>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Radius:", Entity.Radius));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Radius, ValueUnits.Length, "Radius"));
     }
 
     //--------------------------------------------------------------------------------------------------

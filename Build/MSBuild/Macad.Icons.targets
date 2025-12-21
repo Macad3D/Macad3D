@@ -52,7 +52,8 @@
                       Lines="@(_CurrentIconSet -> '%(XamlFile)')" 
                       Overwrite="true" />
 
-    <Exec Command="$(TargetDir)BuildTools.exe SvgToXaml In=&quot;$(_IconSvgList)&quot; Out=&quot;$(_IconXamlList)&quot;" />
+    <!-- <Exec Command="$(TargetDir)BuildTools.exe SvgToXaml In=&quot;$(_IconSvgList)&quot; Out=&quot;$(_IconXamlList)&quot;" /> -->
+    <Exec Command="&quot;$(TargetDir)BuildTools.exe&quot; SvgToXaml In=&quot;$(_IconSvgList)&quot; Out=&quot;$(_IconXamlList)&quot;" />
 
   </Target>
 

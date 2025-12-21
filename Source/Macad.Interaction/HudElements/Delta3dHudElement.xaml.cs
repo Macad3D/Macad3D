@@ -15,6 +15,7 @@ public partial class Delta3DHudElement : HudElement
             {
                 _DeltaX = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(DeltaXformatted));
             }
         }
     }
@@ -30,6 +31,7 @@ public partial class Delta3DHudElement : HudElement
             {
                 _DeltaY = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(DeltaYformatted));
             }
         }
     }
@@ -45,6 +47,7 @@ public partial class Delta3DHudElement : HudElement
             {
                 _DeltaZ = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(DeltaZformatted));
             }
         }
     }
@@ -70,43 +73,41 @@ public partial class Delta3DHudElement : HudElement
     double? _DeltaY;
     double? _DeltaZ;
     ValueUnits _Units;
-    ApplicationUnits _UnitsParameter;
-
-    //--------------------------------------------------------------------------------------------------
-
-    public ApplicationUnits UnitsParameter
+    
+    public string DeltaXformatted
     {
-        get { return _UnitsParameter; }
-        set
-        {
-            if (_UnitsParameter != value)
-            {
-                _UnitsParameter = value;
-                RaisePropertyChanged();
-            }
-        }
+        get => UnitsService.Format(DeltaX ?? 0.0, Units);
+    }
+
+    public string DeltaYformatted
+    {
+        get => UnitsService.Format(DeltaY ?? 0.0, Units);
+    }
+
+    public string DeltaZformatted
+    {
+        get => UnitsService.Format(DeltaZ ?? 0.0, Units);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public Delta3DHudElement()
     {
-        // Get the length measurement units from the settings
-        _UnitsParameter = CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
-
-        // Subscribe to changes in measurement units - probably not likely in this particular context
-        // but, hey...
-        CoreContext.Current.Parameters.ParameterChanged += (set, key) =>
-        {
-            if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
-            {
-                UnitsParameter = ((ApplicationParameterSet)set).ApplicationUnits;
-            }
-        };
-
         InitializeComponent();
+        Units = ValueUnits.Length;
+        CoreContext.Current.Parameters.ParameterChanged += _OnParameterChanged;
     }
-        
+
+    void _OnParameterChanged(ParameterSet set, string key)
+    {
+        if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
+        {
+            RaisePropertyChanged(nameof(DeltaXformatted));
+            RaisePropertyChanged(nameof(DeltaYformatted));
+            RaisePropertyChanged(nameof(DeltaZformatted));
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public void SetValues(double deltaX, double deltaY, double deltaZ)
@@ -114,8 +115,5 @@ public partial class Delta3DHudElement : HudElement
         DeltaX = deltaX;
         DeltaY = deltaY;
         DeltaZ = deltaZ;
-        RaisePropertyChanged(nameof(DeltaX));
-        RaisePropertyChanged(nameof(DeltaY));
-        RaisePropertyChanged(nameof(DeltaZ));
     }
 }

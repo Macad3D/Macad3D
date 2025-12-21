@@ -112,6 +112,11 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     internal bool NeedsRedraw;
     internal bool NeedsImmediateRedraw;
     public static bool EnableGlDebugging = false;
+    public string CursorXformatted => UnitsService.Format(CursorPosition?.X ?? 0.0, ValueUnits.Length);
+    public string CursorYformatted => UnitsService.Format(CursorPosition?.Y ?? 0.0, ValueUnits.Length);
+    public string CursorZformatted => UnitsService.Format(CursorPosition?.Z ?? 0.0, ValueUnits.Length);
+    public string CursorPosition2dXformatted => UnitsService.Format(CursorPosition2d?.X ?? 0.0, ValueUnits.Length);
+    public string CursorPosition2dYformatted => UnitsService.Format(CursorPosition2d?.Y ?? 0.0, ValueUnits.Length);
 
     //--------------------------------------------------------------------------------------------------
 
@@ -136,6 +141,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
+        
+        CoreContext.Current.Parameters.ParameterChanged += _OnParameterChanged;
 
         _RedrawTimer = new DispatcherTimer(DispatcherPriority.Render)
         {
@@ -145,6 +152,19 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _RedrawTimer.Start();
 
         _InitWorkspace();
+    }
+
+
+    void _OnParameterChanged(ParameterSet set, string key) 
+    { 
+        if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits)) 
+        { 
+            RaisePropertyChanged(nameof(CursorXformatted)); 
+            RaisePropertyChanged(nameof(CursorYformatted)); 
+            RaisePropertyChanged(nameof(CursorZformatted)); 
+            RaisePropertyChanged(nameof(CursorPosition2dXformatted)); 
+            RaisePropertyChanged(nameof(CursorPosition2dYformatted)); 
+        } 
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
-﻿using Macad.Core;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Presentation;
 
 namespace Macad.Interaction;
@@ -14,6 +15,7 @@ public partial class DeltaHudElement : HudElement
             {
                 _Delta = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(DeltaFormatted));
             }
         }
     }
@@ -29,6 +31,7 @@ public partial class DeltaHudElement : HudElement
             {
                 _Units = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(DeltaFormatted));
             }
         }
     }
@@ -38,13 +41,28 @@ public partial class DeltaHudElement : HudElement
     double _Delta;
     ValueUnits _Units;
 
+    public string DeltaFormatted
+    {
+        get => UnitsService.Format(Delta, Units);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public DeltaHudElement()
     {
         InitializeComponent();
+        Units = ValueUnits.Length;
+        CoreContext.Current.Parameters.ParameterChanged += _OnParameterChanged;
     }
         
+    void _OnParameterChanged(ParameterSet set, string key)
+    {
+        if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits))
+        {
+            RaisePropertyChanged(nameof(DeltaFormatted));
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public void SetValue(double value)

@@ -15,8 +15,6 @@
 
     <UserControl.Resources>
         <mmp:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
-        <mmp:ValueUnitsToStringConverter x:Key="ValueUnitsToStringConverter"/>
-        <mmp:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
     </UserControl.Resources>
     
     <StackPanel Margin="10,2,10,5">
@@ -32,11 +30,11 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <!-- 1. Numeric/string part -->
                 <TextBlock Foreground="White" Margin="3,0,0,0"
-                   Text="{Binding GridStepMm, Converter={StaticResource LengthDimensionFormatter}}" />
+                   Text="{Binding GridStepMm}" />
 
                 <!-- 2. Units part -->
                 <TextBlock Foreground="White" Margin="3,0,0,0"
-                   Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" />
+                   Text="{Binding UnitsParameter}" />
 
                 <!-- 3. Visual grid multiplier -->
                 <TextBlock Foreground="White" Margin="5,0,0,0"

@@ -124,7 +124,7 @@ public sealed class OffsetEditor : Editor<Offset>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Distance:", Entity.Distance));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Distance, ValueUnits.Length, "Distance"));
 
         _UpdateActions();
     }

@@ -390,7 +390,7 @@ public class ChamferEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Distance:", newDistance));
+        _HudElement?.SetValue(UnitsService.Format(newDistance, ValueUnits.Length, "Distance"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -434,7 +434,7 @@ public class ChamferEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Angle:", newAngle));
+        _HudElement?.SetValue(UnitsService.Format(newAngle, ValueUnits.Degree, "Angle"));
     }
 
     //--------------------------------------------------------------------------------------------------

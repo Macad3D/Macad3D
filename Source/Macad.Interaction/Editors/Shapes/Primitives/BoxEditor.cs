@@ -164,7 +164,7 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[0] = new LabelHudElement();
                 Add(_HudElements[0]);
             }
-            _HudElements[0].SetValue(UnitsService.FormatHud("Length:", Entity.DimensionX));
+            _HudElements[0].SetValue(UnitsService.Format(Entity.DimensionX, ValueUnits.Length, "Length"));
         }
 
         if (scale.Y != 0)
@@ -180,7 +180,7 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[1] = new LabelHudElement();
                 Add(_HudElements[1]);
             }
-            _HudElements[1].SetValue(UnitsService.FormatHud("Width:", Entity.DimensionY));
+            _HudElements[1].SetValue(UnitsService.Format(Entity.DimensionY, ValueUnits.Length, "Width"));
         }
             
         if (scale.Z != 0)
@@ -196,7 +196,7 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[2] = new LabelHudElement();
                 Add(_HudElements[2]);
             }
-            _HudElements[2].SetValue(UnitsService.FormatHud("Height:", Entity.DimensionZ));
+            _HudElements[2].SetValue(UnitsService.Format(Entity.DimensionZ, ValueUnits.Length, "Height"));
         }
 
         if (center)

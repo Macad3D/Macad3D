@@ -13,8 +13,6 @@
     
     <mmi:HudElement.Resources>
         <mmp:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
-        <mmp:ValueUnitsToStringConverter x:Key="ValueUnitsToStringConverter"/>
-        <mmp:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
     </mmi:HudElement.Resources>
     
     <Grid VerticalAlignment="Center">
@@ -28,18 +26,15 @@
 
         <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="&#x394;x" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaX, Converter={StaticResource LengthDimensionFormatter}}"/>
-            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaXformatted}"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal">
             <TextBlock Text="&#x394;y" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaY, Converter={StaticResource LengthDimensionFormatter}}"/>
-            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaYformatted}"/>
         </StackPanel>
         <StackPanel Grid.Column="4" Orientation="Horizontal">
             <TextBlock Text="&#x394;z" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaZ, Converter={StaticResource LengthDimensionFormatter}}"/>
-            <TextBlock Text="{Binding UnitsParameter, Converter={StaticResource ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <TextBlock Text="{Binding DeltaZformatted}"/>
         </StackPanel>
     </Grid>
     

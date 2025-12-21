@@ -24,26 +24,65 @@ public enum ValueUnits
 
 public static class UnitsService
 {
-    public static ApplicationUnits CurrentUnits
-        => CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits;
+    public static ApplicationUnits CurrentUnits 
+        => CoreContext.Current.Parameters.Get<ApplicationParameterSet>().ApplicationUnits; 
 
-    public static string Format(double mm)
-        => ImperialLengthFormatter.FormatLength(mm, CurrentUnits);
-
-    public static bool TryParse(string text, out double mm)
-        => ImperialLengthFormatter.TryParseLength(text, CurrentUnits, out mm);
-
-    public static string FormatWithLabel(double mm)
-        => $"{Format(mm)}{UnitLabel}";
-
-    public static string FormatHud(string name, double mm)
-        => $"{name}: {Format(mm)}{UnitLabel}";
-
-    public static string FormatLabelValue(string label, double mm) 
+    public static string Format(double value, ValueUnits units, string label = null, int? precision = null)
     { 
-        return $"{label}: {Format(mm)}{UnitLabel}"; 
+        // 1. Format the numeric part
+        string formattedValue = units switch 
+        { 
+            ValueUnits.Length => FormatLengthWithUnit(value), 
+            ValueUnits.Degree => $"{value.ToString($"F{precision ?? 2}")}°", 
+            ValueUnits.Percent => $"{value.ToString($"F{precision ?? 2}")}%", 
+            ValueUnits.DotsPerInch => $"{value.ToString($"F{precision ?? 2}")} dpi", 
+            ValueUnits.Days => $"{value.ToString($"F{precision ?? 2}")} d", 
+            ValueUnits.Seconds => $"{value.ToString($"F{precision ?? 2}")} s", 
+            ValueUnits.Pixel => $"{value.ToString($"F{precision ?? 2}")} px", 
+            ValueUnits.None => value.ToString($"F{precision ?? 2}"), 
+            _ => value.ToString($"F{precision ?? 2}") 
+        }; 
+        
+        // 2. Add label if present
+        if (!string.IsNullOrWhiteSpace(label)) 
+            return $"{label}: {formattedValue}"; 
+
+        return formattedValue; 
+    } 
+
+    public static bool TryParse(string text, ValueUnits units, out double value) 
+    { 
+        switch (units) 
+        { 
+            case ValueUnits.Length: 
+                return ImperialLengthFormatter.TryParseLength(text, CurrentUnits, out value); 
+            case ValueUnits.None: 
+            default: 
+                return double.TryParse(text, out value); 
+        } 
     }
-    public static string UnitLabel => UnitLabelProvider.GetLabel(CurrentUnits);
+
+    static string FormatLengthWithUnit(double mm)
+    {
+        var units = UnitsService.CurrentUnits;
+        string core = ImperialLengthFormatter.FormatLength(mm, units);
+        string unitLabel = UnitLabelProvider.GetLabel(units);
+
+        if (string.IsNullOrWhiteSpace(core))
+            core = "0";
+
+        if (unitLabel == "\"")
+            return core + unitLabel;
+
+        if (unitLabel == "mm")
+            return core + unitLabel;
+
+        if (!string.IsNullOrEmpty(unitLabel))
+            return core + unitLabel;
+
+        return core;
+    }
+
 }
 
 public static class UnitLabelProvider 
@@ -311,11 +350,39 @@ public static class ImperialLengthFormatter
     }
 
     // -------------------------------------------------------------------------
-    // 2. & 3. Mixed fractional inches (16ths or 32nds) → 27 11/16   (no ")
+    // 2. & 3. Mixed fractional inches (16ths or 32nds) --> 27 11/16   (no ")
     private static string FormatFractionalInches(double mm, int denominator)
     {
-        double inches = mm / MmPerInch;
-        return ToMixedFraction(inches, denominator, showZeroFraction: false, includeUnit: false, reduceFraction: false);
+        double inches = mm / MmPerInch; 
+        
+        // Whole + fractional split
+        int whole = (int)Math.Floor(inches); 
+        double frac = inches - whole; 
+        
+        // Round numerator
+        int numer = (int)Math.Round(frac * denominator, MidpointRounding.AwayFromZero); 
+        
+        // Handle overflow (e.g., 15/16 --> 1")
+        if (numer == denominator) 
+        { 
+            whole++; 
+            numer = 0; 
+        } 
+        
+        // Never return blank
+        if (whole == 0 && numer == 0) 
+            return "0"; 
+        
+        // Do not reduce denominator in fixed modes 
+        // (so 2/32 stays 2/32, not 1/16)
+        
+        if (numer == 0) 
+            return $"{whole}"; 
+        
+        if (whole == 0)     
+            return $"{numer}/{denominator}"; 
+        
+        return $"{whole} {numer}/{denominator}"; 
     }
 
     private static bool TryParseMixedFraction(string s, int denominator, out double mm)

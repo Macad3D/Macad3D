@@ -252,7 +252,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Offset X:", Entity.Offset.X));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Offset.X, ValueUnits.Length, "Offset X"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Offset Y:", Entity.Offset.Y));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Offset.Y, ValueUnits.Length, "Offset Y"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Offset Z:", Entity.Offset.Z));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Offset.Z, ValueUnits.Length, "Offset Z"));
     }
 
     //--------------------------------------------------------------------------------------------------

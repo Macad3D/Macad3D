@@ -14,14 +14,17 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="Left"
+                              Units="Length"
                               Value="{Binding PositionX, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="PositionX" />
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="HCenter"
+                              Units="Length"
                               Value="{Binding PositionY, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="PositionY" />
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="Right"
+                              Units="Length"
                               Value="{Binding PositionZ, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="PositionZ" />
         </StackPanel>

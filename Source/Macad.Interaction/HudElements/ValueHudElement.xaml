@@ -13,8 +13,6 @@
     
     <mmi:HudElement.Resources>
         <mmp:GridStepDisplayConverter x:Key="GridStepDisplayConverter"/>
-        <mmp:ValueUnitsToStringConverter x:Key="ValueUnitsToStringConverter"/>
-        <mmp:LengthDimensionFormatter x:Key="LengthDimensionFormatter"/>
     </mmi:HudElement.Resources>
     
     <Grid>

@@ -48,7 +48,7 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Rotation" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                              Units="Degree" 
+                              Units="Degree"
                               Value="{Binding Shape.Rotation, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Border" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />

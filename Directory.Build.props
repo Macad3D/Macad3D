@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <MMRootDir Condition="$(MMRootDir) == ''">$([MsBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Macad3D.sln))\</MMRootDir>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
   </PropertyGroup>
 
   <Import Project="$(MMRootDir)Build\MSBuild\Macad.Common.props" />

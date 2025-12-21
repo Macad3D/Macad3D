@@ -150,7 +150,7 @@ public sealed class ImprintEditor : Editor<Imprint>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Depth:", Entity.Depth));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Depth, ValueUnits.Length, "Depth"));
     }
 
     //--------------------------------------------------------------------------------------------------

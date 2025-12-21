@@ -229,7 +229,7 @@ public sealed class CircularArrayEditor : Editor<CircularArray>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement.SetValue(UnitsService.FormatHud("Radius:", newRadius));
+        _HudElement.SetValue(UnitsService.Format(newRadius, ValueUnits.Length, "Radius"));
     }
 
     //--------------------------------------------------------------------------------------------------

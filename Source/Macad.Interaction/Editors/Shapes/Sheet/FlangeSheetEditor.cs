@@ -341,7 +341,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Length:", Entity.Length));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Length, ValueUnits.Length, "Length"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -382,7 +382,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Radius:", Entity.Radius));
+        _HudElement?.SetValue(UnitsService.Format(Entity.Radius, ValueUnits.Length, "Radius"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -429,7 +429,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Start Gap:", Entity.StartGap));
+        _HudElement?.SetValue(UnitsService.Format(Entity.StartGap, ValueUnits.Length, "Start Gap"));
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -476,7 +476,7 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("End Gap:", Entity.EndGap));
+        _HudElement?.SetValue(UnitsService.Format(Entity.EndGap, ValueUnits.Length, "End Gap"));
     }
     
     //--------------------------------------------------------------------------------------------------

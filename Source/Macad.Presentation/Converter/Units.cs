@@ -9,62 +9,7 @@ using System.Windows.Markup;
 
 namespace Macad.Presentation;
 
-    public class ValueUnitsToStringConverter : ConverterMarkupExtension<ValueUnitsToStringConverter>
-    {
-        public ValueUnitsToStringConverter() { }
-
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is ApplicationUnits appUnits)
-            {
-                return UnitLabelProvider.GetLabel(appUnits);
-            }
-
-            if (value is ValueUnits vu)
-            {
-                return vu switch
-                {
-                    ValueUnits.Length => UnitLabelProvider.GetLabel(UnitsService.CurrentUnits),
-                    ValueUnits.Degree => "°",
-                    ValueUnits.Percent => "%",
-                    ValueUnits.DotsPerInch => "dpi",
-                    ValueUnits.Days => "d",
-                    ValueUnits.Seconds => "s",
-                    ValueUnits.Pixel => "px",
-                    _ => ""
-                };
-            }
-
-            return "";
-        }
-    }
-
-    public class LengthDimensionFormatter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is double mm)
-            {
-                // Get current application units from CoreContext
-                var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-                var units = appParams.ApplicationUnits;
-
-                // Delegate to ImperialLengthFormatter
-                return ImperialLengthFormatter.FormatLength(mm, units);
-            }
-
-            return string.Empty;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            // Optional: implement parsing if you want user input to be converted back
-            throw new NotImplementedException();
-        }
-    }
-
-
-    public sealed class GridStepDisplayConverter : IMultiValueConverter
+public sealed class GridStepDisplayConverter : IMultiValueConverter
     {
         public static readonly GridStepDisplayConverter Instance = new();
 
@@ -82,8 +27,7 @@ namespace Macad.Presentation;
             => throw new NotSupportedException();
     }
 
-
-    public sealed class GridStepCheckedConverter : IValueConverter
+public sealed class GridStepCheckedConverter : IValueConverter
     {
         public static readonly GridStepCheckedConverter Instance = new();
 

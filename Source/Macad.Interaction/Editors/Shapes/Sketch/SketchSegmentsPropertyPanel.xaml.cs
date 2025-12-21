@@ -52,12 +52,12 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
             if (segment is SketchSegmentCircle)
             {
                 Type = "Circle";
-                Info = UnitsService.FormatLabelValue("Radius:", (double)((SketchSegmentCircle)segment).Radius(points).Round());
+                Info = UnitsService.Format((double)((SketchSegmentCircle)segment).Radius(points).Round(), ValueUnits.Length, "Radius");
             }
             else if (segment is SketchSegmentLine)
             {
                 Type = "Line";
-                Info = UnitsService.FormatLabelValue("Length:", (double)((SketchSegmentLine)segment).Length(points).Round());
+                Info = UnitsService.Format((double)((SketchSegmentLine)segment).Length(points).Round(), ValueUnits.Length, "Length");
             }
             else if (segment is SketchSegmentEllipse)
             {
@@ -67,7 +67,7 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
             else if (segment is SketchSegmentArc)
             {
                 Type = "Circular Arc";
-                Info = UnitsService.FormatLabelValue("Radius:", (double)((SketchSegmentArc)segment).Radius(points).Round());
+                Info = UnitsService.Format((double)((SketchSegmentArc)segment).Radius(points).Round(), ValueUnits.Length, "Radius");
             }
             else if (segment is SketchSegmentEllipticalArc)
             {

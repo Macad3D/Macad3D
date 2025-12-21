@@ -35,6 +35,10 @@
     <InternalsVisibleTo Include="Test.Core" />
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
 
   <!-- Import the custom build targets -->
 

@@ -164,7 +164,7 @@ public class FilletEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue(UnitsService.FormatHud("Radius:", _FilletShape.Radius));
+        _HudElement?.SetValue(UnitsService.Format(_FilletShape.Radius, ValueUnits.Length, "Radius"));
     }
 
     //--------------------------------------------------------------------------------------------------

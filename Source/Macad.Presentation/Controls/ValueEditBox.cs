@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+//using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Macad.Presentation;
@@ -137,9 +138,17 @@ public class ValueEditBox : TextBox
         {
             _UpdateText((double) e.NewValue);
         }
-        else if(e.Property == PrecisionProperty)
+        else if(e.Property == PrecisionProperty || e.Property == UnitsProperty)
         {
             _UpdateText(Value);
+        }
+    }
+
+    void _OnParameterChanged(ParameterSet set, string key)
+    {
+        if (set is ApplicationParameterSet && key == nameof(ApplicationParameterSet.ApplicationUnits)) 
+        { 
+            _UpdateText(Value); 
         }
     }
 
@@ -250,11 +259,14 @@ public class ValueEditBox : TextBox
         DataObject.AddCopyingHandler(this, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
         Text = "0";
 
-        this.Loaded += (s, e) =>
-        {
-            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-            MinWidth = appParams.ApplicationUnits == ApplicationUnits.Architectural ? 120 : 80;
-        };
+        CoreContext.Current.Parameters.ParameterChanged += _OnParameterChanged;
+
+        Loaded += (s, e) => _UpdateText(Value);
+    }
+
+    private void ValueEditBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -270,7 +282,7 @@ public class ValueEditBox : TextBox
 
     void _UpdateText(double value)
     {
-        Text = UnitsService.FormatLabelValue("", value);
+        Text = UnitsService.Format(value, Units, precision: Precision);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -302,33 +314,12 @@ public class ValueEditBox : TextBox
             // ------------------------------------------------------------
             // 2. Normal numeric / imperial input
             // ------------------------------------------------------------
-            var appParams = CoreContext.Current.Parameters.Get<ApplicationParameterSet>();
-            var units = appParams.ApplicationUnits;
-
-            switch (Units)
+            if (!UnitsService.TryParse(input, Units, out double parsedValue))
             {
-                case ValueUnits.Length:
-                    if (ImperialLengthFormatter.TryParseLength(input, units, out double parsedMm))
-                    {
-                        newValue = parsedMm;
-                    }
-                    else
-                    {
-                        _UpdateText(Value);
-                        return;
-                    }
-                    break;
-
-                default:
-                    if (double.TryParse(input, out double val))
-                        newValue = val;
-                    else
-                    {
-                        _UpdateText(Value);
-                        return;
-                    }
-                    break;
+                _UpdateText(Value);
+                return;
             }
+            newValue = parsedValue;
         }
 
         // ------------------------------------------------------------
