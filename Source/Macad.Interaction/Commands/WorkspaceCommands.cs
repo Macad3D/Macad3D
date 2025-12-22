@@ -485,6 +485,7 @@ public static class WorkspaceCommands
                 case Viewport.RenderModes.SolidShaded: return "Solid Shaded";
                 case Viewport.RenderModes.HLR:         return "Drawing";
                 case Viewport.RenderModes.Raytraced:   return "Raytraced";
+                case Viewport.RenderModes.Wireframe:   return "Wireframe";
                 default:                               return "Unknown";
             }
         },
