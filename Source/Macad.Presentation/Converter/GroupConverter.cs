@@ -32,7 +32,7 @@ public class GroupConverter : MarkupExtension, IValueConverter, IMultiValueConve
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return GroupConvertBack(value, Converters.Cast<IValueConverter>().Reverse().ToArray(), parameter, culture);
+        return GroupConvertBack(value, Converters.AsEnumerable().Reverse(), parameter, culture);
     }
 
     static object GroupConvert(object value, IEnumerable<IValueConverter> converters, object parameter, CultureInfo culture)
@@ -59,7 +59,7 @@ public class GroupConverter : MarkupExtension, IValueConverter, IMultiValueConve
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         if (MultiValueConverter == null) throw new InvalidOperationException("To use the converter as a MultiValueConverter the MultiValueConverter property needs to be set."); 
-        var tailConverted = GroupConvertBack(value, Converters.Cast<IValueConverter>().Reverse().ToArray(), parameter, culture);
+        var tailConverted = GroupConvertBack(value, Converters.AsEnumerable().Reverse().ToArray(), parameter, culture);
         return MultiValueConverter.ConvertBack(tailConverted, targetTypes, parameter, culture);
     }
 

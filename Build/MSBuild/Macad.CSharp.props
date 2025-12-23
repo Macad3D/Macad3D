@@ -10,7 +10,10 @@
     <OutputPath>$(MMRootDir)bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <BaseIntermediateOutputPath>$(MMRootDir).intermediate\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <IsWpfTemporaryProject>$([System.String]::Copy('$(MSBuildProjectName)').EndsWith('_wpftmp'))</IsWpfTemporaryProject>
+    <RealProjectName>$(MSBuildProjectName)</RealProjectName>
+    <RealProjectName Condition="'$(IsWpfTemporaryProject)' == 'true'">$([System.String]::Copy('$(MSBuildProjectName)').Split('_')[0])</RealProjectName>
+    <BaseIntermediateOutputPath>$(MMRootDir).intermediate\$(RealProjectName)\</BaseIntermediateOutputPath>
 
     <CodeAnalysisRuleSet>$(MMRootDir)Source\Macad.ruleset</CodeAnalysisRuleSet>
     <WarningLevel>4</WarningLevel>

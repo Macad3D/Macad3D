@@ -140,7 +140,7 @@ public class GenerateSourceCodePass : Pass
         }
 
         // Tail code
-        foreach (var ns in _NamespaceList.Cast<string>().Reverse())
+        foreach (var ns in _NamespaceList.AsEnumerable().Reverse())
         {
             _Header.WriteLine("}; // namespace " + ns);
         }
