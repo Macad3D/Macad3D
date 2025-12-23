@@ -1138,28 +1138,28 @@ public sealed class ViewportController : BaseObject, IDisposable
                 ctx.DisableDrawHiddenLine();
                 ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
                 ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
-                SetWholeShapeSelectionActive(true);
+                _setWholeShapeSelectionActive(true);
                 break;
 
             case Viewport.RenderModes.HLR: 
                 ctx.EnableDrawHiddenLine();
                 ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
                 ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
-                SetWholeShapeSelectionActive(true);
+                _setWholeShapeSelectionActive(true);
                 break;
 
             case Viewport.RenderModes.Wireframe: 
                 ctx.DisableDrawHiddenLine();
                 ctx.SetPickingStrategy(SelectMgr_PickingStrategy.FirstAcceptable);
                 ctx.SetDisplayMode((int)AIS_DisplayMode.WireFrame, false);
-                SetWholeShapeSelectionActive(false);
+                _setWholeShapeSelectionActive(false);
                 break;
 
             case Viewport.RenderModes.Raytraced:
                 ctx.DisableDrawHiddenLine();
                 ctx.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
                 ctx.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
-                SetWholeShapeSelectionActive(true);
+                _setWholeShapeSelectionActive(true);
                 break;
         } 
         
@@ -1210,7 +1210,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     }
 
-    void SetWholeShapeSelectionActive(bool active)
+    void _setWholeShapeSelectionActive(bool active)
     {
         foreach (var vo in WorkspaceController.VisualObjects.GetAll().Cast<VisualObject>())
         {
