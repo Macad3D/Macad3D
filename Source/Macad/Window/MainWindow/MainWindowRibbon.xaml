@@ -685,8 +685,11 @@
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
                     <Fluent:MenuItem CommandParameter="HLR"
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
+                    <Fluent:MenuItem CommandParameter="Wireframe" 
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
                     <Fluent:MenuItem CommandParameter="Raytraced" 
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
+
                 </Fluent:DropDownButton>
 
             </Fluent:RibbonGroupBox>
