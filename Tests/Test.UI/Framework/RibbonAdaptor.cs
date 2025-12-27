@@ -14,7 +14,8 @@ public enum RibbonTabs
     Edit,
     Model,
     Sketch,
-    Toolbox
+    Toolbox,
+    View
 }
 
 //--------------------------------------------------------------------------------------------------

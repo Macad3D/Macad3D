@@ -324,4 +324,19 @@ public class ViewportTests
         ctx.ViewportController.PanToCenter(bodies[0].Position);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PanToCenter01"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Rendermodes([Values] Viewport.RenderModes renderMode)
+    {
+        var ctx = Context.Current;
+
+        TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.Viewport.RenderMode = renderMode;
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"Rendermodes_{renderMode}"));
+    }
+
 }
