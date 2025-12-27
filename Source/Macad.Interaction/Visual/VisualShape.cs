@@ -210,6 +210,9 @@ public sealed class VisualShape : VisualObject
         attributeSet.Drawer.SetFaceBoundaryUpperContinuity(GeomAbs_Shape.C2);
         attributeSet.Drawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, layer.Color.ToQuantityColor(), 2.0));
 
+        var hlrAspect = new Prs3d_LineAspect(layer.Color.ToQuantityColor(), Aspect_TypeOfLine.DASH, Math.Max(1.0, layer.LineThickness.LineWidth() * 0.5));
+        attributeSet.Drawer.SetHiddenLineAspect(hlrAspect);
+
         attributeSet.Drawer.SetFaceBoundaryDraw(layer.PresentationMode == PresentationMode.SolidWithBoundary);
         attributeSet.Drawer.SetDisplayMode((int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.WireFrame : AIS_DisplayMode.Shaded));
 

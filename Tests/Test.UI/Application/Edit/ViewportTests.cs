@@ -164,4 +164,19 @@ public class ViewportTests : UITestBase
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [TestCase("SolidShaded")]
+    [TestCase("HLR")]
+    [TestCase("Raytraced")]
+    public void RenderModes(string mode)
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.View);
+        MainWindow.Ribbon.ClickButton("ViewRenderMode");
+        var menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem($"ViewRenderMode{mode}");
+        Assert.AreEqual(mode, Pipe.GetValue("$Context.ViewportController.Viewport.RenderMode"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

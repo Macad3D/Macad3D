@@ -679,14 +679,19 @@
 
                 <Fluent:DropDownButton Header="Render Mode"
                                        LargeIcon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
-                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}">
+                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
+                                       AutomationProperties.AutomationId="ViewRenderMode">
                     <Fluent:GroupSeparatorMenuItem Header="Render Mode" />
                     <Fluent:MenuItem CommandParameter="SolidShaded"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}"
+                                     AutomationProperties.AutomationId="ViewRenderModeSolidShaded"/>
                     <Fluent:MenuItem CommandParameter="HLR"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}"
+                                     AutomationProperties.AutomationId="ViewRenderModeHLR" />
                     <Fluent:MenuItem CommandParameter="Raytraced" 
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}"
+                                     AutomationProperties.AutomationId="ViewRenderModeRaytraced" />
+
                 </Fluent:DropDownButton>
 
             </Fluent:RibbonGroupBox>
