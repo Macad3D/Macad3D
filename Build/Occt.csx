@@ -110,11 +110,8 @@ bool _ConfigOcctPaths(string occtPath)
 		
 #region Generate Wrapper
 
-const string _CachePath = @".intermediate\Macad.Occt\CastXml";
-const string _WrapperBinPath = @"bin\{0}\WrapperGenerator.exe";
 const string _WrapperProjectName = @"Tools\WrapperGenerator";
 const string _TargetProjectName = @"Source\Macad.Occt";
-const string _GeneratedSourcePath = @"Source\Macad.Occt\Generated";
 
 bool _GenerateWrapper()
 {

@@ -48,7 +48,7 @@
           Inputs="@(MergedDictDeps)"
           Outputs="@(MergedDict -> '%(OutFile)')">
 
-    <Exec Command="$(TargetDir)BuildTools.exe MergeResourceDicts Out=&quot;%(MergedDict.OutFile)&quot; In=&quot;%(MergedDict.Identity)&quot; depsOut=&quot;%(MergedDict.DepsFile)&quot; prjDir=&quot;$(ProjectDir)&quot;" />
+    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot; MergeResourceDicts Out=&quot;%(MergedDict.OutFile)&quot; In=&quot;%(MergedDict.Identity)&quot; depsOut=&quot;%(MergedDict.DepsFile)&quot; prjDir=&quot;$(ProjectDir)&quot;" />
 
     <ReadLinesFromFile File="%(MergedDict.DepsFile)">
       <Output TaskParameter="Lines" 

@@ -6,6 +6,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseWPF>true</UseWPF>
     <RootNamespace>Macad.Occt.Generator</RootNamespace>
+    <UseAppHost>False</UseAppHost>
     <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
   </PropertyGroup>
 </Project>

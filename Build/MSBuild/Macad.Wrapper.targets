@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <Message Importance="High" Text="Launching generator with arguments: $(Arguments)" />
-    <Exec Command="$(OutDir)\WrapperGenerator.exe $(Arguments)" ConsoleToMsBuild="true" />
+    <Exec Command="dotnet &quot;$(OutDir)\WrapperGenerator.dll&quot; $(Arguments)" ConsoleToMsBuild="true" />
   </Target>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
