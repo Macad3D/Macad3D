@@ -418,5 +418,26 @@ public class SelectionTests
         ctx.ViewportController.MouseUp();
         Assert.AreEqual(1, sel.SelectedEntities.Count);
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void WireframePicking()
+    {
+        var ctx = Context.Current;
+
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+        bodies[0].Position = new Pnt(-10, -10, 0);
+        bodies[2].Position = new Pnt(0, -30, 0);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.Viewport.RenderMode = Viewport.RenderModes.Wireframe;
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(242, 265);
+            Assert.That(ctx.WorkspaceController.Selection.SelectedEntities, Contains.Item(bodies[2]));
+            ctx.ClickAt(329, 284);
+            Assert.That(ctx.WorkspaceController.Selection.SelectedEntities, Contains.Item(bodies[0]));
+        });
+    }
 }

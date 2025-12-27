@@ -126,7 +126,8 @@ public sealed class Viewport : BaseObject, IDisposable
     {
         SolidShaded,
         HLR,
-        Raytraced
+        Raytraced,
+        Wireframe
     }
 
     //--------------------------------------------------------------------------------------------------

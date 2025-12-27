@@ -422,6 +422,20 @@ public class ViewportTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PredefinedViewsZoomFit02"));
         });
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Rendermodes([Values] Viewport.RenderModes renderMode)
+    {
+        var ctx = Context.Current;
+
+        TestGeomGenerator.CreateBoxCylinderSphere();
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.Viewport.RenderMode = renderMode;
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"Rendermodes_{renderMode}"));
+    }
 
     //--------------------------------------------------------------------------------------------------
 
