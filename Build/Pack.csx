@@ -44,6 +44,8 @@ return 0;
 bool _CreatePackage()
 {
     string basePath = Args[3];
+    string propDir = Path.Combine(Common.GetRootFolder(), "Build", "Nuget");
+    string nuspecFile = Path.Combine(propDir, packageName+".nuspec");
 
     /* Do we need to generate nuspec first? */
     if(Args[0].ToLower() == "occt")
@@ -52,11 +54,10 @@ bool _CreatePackage()
             return false;
 
         basePath = Occt.OcctPath;
+        nuspecFile = Path.Combine(Common.GetRootFolder(), ".intermediate", "Build", "Nuget", packageName+".nuspec");
     }
 
     // Check file
-    string propDir = Path.Combine(Common.GetRootFolder(), "Build", "Nuget");
-    string nuspecFile = Path.Combine(propDir, packageName+".nuspec");
     if(!File.Exists(nuspecFile))
     {
         Printer.Error($"Cannot find nuspec file for package {packageName}");

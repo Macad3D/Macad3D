@@ -20,6 +20,6 @@
   <Import Project="$(MMBuildPropsDir)Macad.Native.props" Condition="$(MMIsVcxProj) == 'true'" />
   <Import Project="$(MMBuildPropsDir)Macad.Managed.props" Condition="$(MMIsVcxManagedProj) == 'true'" />
 
-  <Import Project="$(MMBuildPropsDir)LocalSettings.props" Condition="Exists('$(MMBuildPropsDir)LocalSettings.props')" />
+  <Import Project="$(MMRootDir).intermediate\Build\MSBuild\LocalSettings.props" Condition="Exists('$(MMRootDir).intermediate\Build\MSBuild\LocalSettings.props')" />
 
 </Project>

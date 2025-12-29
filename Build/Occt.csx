@@ -99,7 +99,9 @@ bool _ConfigOcctPaths(string occtPath)
 
 	sb.AppendLine();
 	sb.AppendLine("</Project>");
-	var propsPath = Path.Combine(Common.GetRootFolder(), "Build", "MSBuild", "LocalSettings.props");
+	var propsDir = Path.Combine(Common.GetRootFolder(), ".intermediate", "Build", "MSBuild");;
+	Directory.CreateDirectory(propsDir);
+	var propsPath = Path.Combine(propsDir, "LocalSettings.props");
 	File.WriteAllText(propsPath, sb.ToString());
 	return true;
 }

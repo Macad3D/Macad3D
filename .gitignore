@@ -2,8 +2,5 @@
 /.vs
 /_ReSharper.Caches
 /bin
-/Data/UnitTests/Temp
-/Build/MSBuild/LocalSettings.props
-/Build/Setup/_GeneratedDefinitions.iss
 *.user
 launchSettings.json

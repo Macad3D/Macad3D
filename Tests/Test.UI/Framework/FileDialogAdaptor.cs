@@ -56,7 +56,7 @@ public class FileDialogAdaptor : WindowAdaptor
 
     public static string GetTempPath()
     {
-        return Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\Temp"));
+        return Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\.intermediate\Data\UITests\Temp"));
     }
 
     //--------------------------------------------------------------------------------------------------

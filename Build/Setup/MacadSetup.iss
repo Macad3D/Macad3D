@@ -10,7 +10,7 @@
 
 #define BasePath "..\..\"
 
-#include "_GeneratedDefinitions.iss"
+#include "..\..\.intermediate\Build\Setup\_GeneratedDefinitions.iss"
 #include "_Dependencies.iss"
 
 [Setup]
