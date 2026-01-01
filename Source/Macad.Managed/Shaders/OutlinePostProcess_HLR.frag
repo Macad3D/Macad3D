@@ -1,12 +1,11 @@
 // This fragment shader creates an outline effect around highlighted structures
 // by sampling neighboring pixels in the hilight alpha texture.
+// It produces fixed 2-pixel width outline for HLR renderings.
 
 // Input: hilightColorTexture - Alpha texture with highlighted structures
 //        hilightDepthTexture - Depth texture corresponding to the highlighted structures
 //        canvasSize - Size of the input textures in pixels
-//        outlineSize - Width of the outline effect in pixels
 //        outlineColor - Color of the outline
-//        roughCheckParams - Fetch parameters for rough check (x: mip width, y: mip height, z: mip level)
 
 in vec2 textureCoord;
 
@@ -26,7 +25,7 @@ void main()
     // Value of maximum alpha found
     float alpha = 0.0;
 
-    // loop over all pixels within +/-outline size  
+    // loop over all pixels within +/-outline size
     for (int y = -1; y <= 1; y++) 
     {  
         for (int x = -1; x <= 1; x++) 
@@ -42,13 +41,13 @@ void main()
         }  
     }  
     
-    // If no strong found, skip pixel
+    // If no strong neighbor found, skip pixel
     if(alpha < 0.2)
     {
         discard;
     }
 
-    // Compute final color for outline
+    // Compute final color and depth for outline
     occFragColor = vec4(outlineColor.rgb, alpha);
     float depth = texture(hilightDepthTexture, depthTestCoord).r;  
 	if (depth < 1.0)
