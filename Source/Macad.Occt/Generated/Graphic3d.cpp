@@ -6357,6 +6357,17 @@ void Macad::Occt::Graphic3d_ZLayerSettings::SetDepthOffsetNegative()
     ((::Graphic3d_ZLayerSettings*)_NativeInstance)->SetDepthOffsetNegative();
 }
 
+bool Macad::Occt::Graphic3d_ZLayerSettings::IsVisible()
+{
+    bool _result = ((::Graphic3d_ZLayerSettings*)_NativeInstance)->IsVisible();
+    return _result;
+}
+
+void Macad::Occt::Graphic3d_ZLayerSettings::SetVisible(bool theVisible)
+{
+    ((::Graphic3d_ZLayerSettings*)_NativeInstance)->SetVisible(theVisible);
+}
+
 void Macad::Occt::Graphic3d_ZLayerSettings::DumpJson(System::IO::TextWriter^ theOStream, int theDepth)
 {
     std::ostringstream oss_theOStream;

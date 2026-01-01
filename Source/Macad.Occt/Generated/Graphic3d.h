@@ -3547,6 +3547,20 @@ public:
     /// </summary>
     void SetDepthOffsetNegative();
     /// <summary>
+    /// Return if layer should be visible; TRUE by default.
+    /// </summary>
+    /// <returns>
+    /// TRUE if layer is visible, FALSE if layer is hidden.
+    /// </returns>
+    bool IsVisible();
+    /// <summary>
+    /// Set if the layer should be visible.
+    /// </summary>
+    /// <param name="theVisible">
+    /// If TRUE, the layer will be rendered; if FALSE, the layer will be hidden.
+    /// </param>
+    void SetVisible(bool theVisible);
+    /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>
     void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
