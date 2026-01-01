@@ -17,7 +17,7 @@ public:
     void Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                  const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode) override;
     void ComputeSelection(const Handle(SelectMgr_Selection)& theSelection, const Standard_Integer theMode) override;
-    void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
+    void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle,
                                const Handle(SelectMgr_EntityOwner)& theOwner) override;
     void HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq) override;
 
@@ -25,7 +25,7 @@ public:
 
     virtual Standard_Boolean IsAutoHilight() const override
     {
-        return Standard_False;
+        return myHilightDrawer.IsNull();
     }
 
     Standard_Boolean AcceptDisplayMode(const Standard_Integer theMode) const override
@@ -52,6 +52,7 @@ public:
 private:
     void _CreateQuad(Handle(Graphic3d_ArrayOfTriangles)& theTris, Handle(Graphic3d_ArrayOfSegments)& theSegs);
     void _InitDrawerAttributes();
+    void _InitHighlightDrawerAttributes();
 
     gp_Pln _Plane;
     double _SizeX, _SizeY;

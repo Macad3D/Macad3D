@@ -156,6 +156,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     AIS_AnimationCamera _AisAnimationCamera;
     AIS_ViewCubeEx _AisViewCube;
+    AISX_OutlinePostProcess _AisxOutlinePP;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -185,6 +186,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     {
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged -= _ParameterChanged;
         Viewport.PropertyChanged -= _Viewport_PropertyChanged;
+
+        _AisxOutlinePP?.Dispose();
+        _AisxOutlinePP = null;
 
         _AisViewCube?.ResetViewAnimation();
         _AisViewCube?.Dispose();
@@ -999,22 +1003,42 @@ public sealed class ViewportController : BaseObject, IDisposable
     }
 
     //--------------------------------------------------------------------------------------------------
-    
+
     #endregion
-        
+
     #region Rendering
 
-    internal bool PrepareDraw()
+    /// <summary>
+    /// Determines whether the viewport requires a redraw.
+    /// It is intended to be used by the render loop to decide whether a redraw is required.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if viewport needs to be redrawn; otherwise <see langword="false"/>.
+    /// </returns>
+    internal bool NeedsRedraw()
     {
-        bool needsRedraw = false;
+        return !_AisAnimationCamera.IsStopped();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Prepares the viewport for a draw pass.
+    /// </summary>
+    internal void PrepareDraw()
+    {
         if (!_AisAnimationCamera.IsStopped())
         {
             _AisAnimationCamera.UpdateTimer();
             _SyncViewportFromV3d();
-            needsRedraw = true;
         }
 
-        return needsRedraw;
+        // Call update for HLR to refresh hidden lines
+        // this is not needed for other render modes
+        if (Viewport.RenderMode == Viewport.RenderModes.HLR)
+        {
+            V3dView?.Update();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

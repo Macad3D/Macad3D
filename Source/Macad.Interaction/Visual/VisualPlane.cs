@@ -177,6 +177,7 @@ public sealed class VisualPlane : VisualObject
         _AisObject.SetSize(_DatumPlane.SizeX, _DatumPlane.SizeY);
         _AisObject.SetColor((_DatumPlane.Layer?.Color ?? Colors.Auxillary).ToQuantityColor());
         _AisObject.SetTransparency(_Transparency);
+        _AisObject.SetDisplayMode(1);
 
         if (!_DatumPlane.ImageFilePath.IsNullOrEmpty())
         {

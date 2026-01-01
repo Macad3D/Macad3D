@@ -1,13 +1,14 @@
-﻿using System.IO;
-using System.Linq;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core.Auxiliary;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Linq;
 
 namespace Macad.Test.Interaction.Auxiliary;
 
@@ -358,5 +359,29 @@ public class DatumPlaneToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateWithImage01"));
 
         File.Delete(filePath);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void HighlightStyles()
+    {
+        var ctx = Context.Current;
+        var datumPlane = DatumPlane.Create();
+        datumPlane.Position = new Pnt(5, 10, 10);
+        ctx.Document.Add(datumPlane);
+        ctx.ViewportController.ZoomFitAll();
+        var paramSet = ctx.Parameters.Get<VisualParameterSet>();
+
+        Assert.Multiple(() =>
+        {
+            paramSet.HighlightStyle = VisualParameterSet.HighlightStyles.Modern;
+            ctx.MoveTo(320, 160);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HighlightStyles01"));
+            paramSet.HighlightStyle = VisualParameterSet.HighlightStyles.Classic;
+            ctx.MoveTo(0, 0);
+            ctx.MoveTo(320, 160);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HighlightStyles02"));
+        });
     }
 }

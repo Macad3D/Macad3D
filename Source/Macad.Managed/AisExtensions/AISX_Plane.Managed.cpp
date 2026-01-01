@@ -10,6 +10,16 @@ namespace Macad
 	{
 		namespace Extensions
 		{
+			/// <summary>
+			/// AIS interactive object to display a plane.
+			/// </summary>
+			/// <remarks>
+			///	The following display modes are implemented:
+			///	0: Wireframe
+            ///	1: Shaded mode, with optional texture.
+            ///
+            ///	The shaded mode also reacts on FaceBoundaryDraw attribute of the drawer.
+			/// </remarks>
 			public ref class AISX_Plane sealed : public AIS_InteractiveObject
 			{
 			public:

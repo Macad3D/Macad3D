@@ -38,6 +38,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     public VisualObjectManager VisualObjects { get; init; }
 
+    public Highlighter Highlighter { get; }
+
     //--------------------------------------------------------------------------------------------------
 
     public V3d_Viewer V3dViewer { get; private set; }
@@ -127,11 +129,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         Viewport.ViewportChanged += _Viewport_ViewportChanged;
 
-        VisualObjects = new VisualObjectManager(this);
+        VisualObjects = new(this);
 
-        Selection = new SelectionManager(this);
+        Selection = new(this);
         Selection.SelectionChanging += _Selection_SelectionChanging;
         Selection.SelectionChanged += _Selection_SelectionChanged;
+
+        Highlighter = new(this);
 
         InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
@@ -181,6 +185,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Selection.SelectionChanging -= _Selection_SelectionChanging;
         Selection.Dispose();
 
+        Highlighter.Dispose();
         VisualObjects.Dispose();
 
         Viewport.ViewportChanged -= _Viewport_ViewportChanged;
@@ -222,7 +227,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             _ViewControllers.Add(viewCtrl);
         }
 
-        _InitVisualSettings();
+        _UpdateParameter();
+        Highlighter.Initialize();
 
         _Grid = new AISX_Grid();
         AisHelper.DisableGlobalClipPlanes(_Grid);
@@ -273,67 +279,6 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         var drawer = AisContext.DefaultDrawer();
         drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
         drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _InitVisualSettings()
-    {
-        var aisContext = AisContext;
-
-        _UpdateParameter();
-
-        // Highlight Selected
-        var selectionDrawer = new Prs3d_Drawer();
-        selectionDrawer.SetupOwnDefaults();
-        selectionDrawer.SetColor(Colors.Selection.ToQuantityColor());
-        selectionDrawer.SetDisplayMode(0);
-        selectionDrawer.SetZLayer(0); // Graphic3d_ZLayerId_Default
-        selectionDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
-        selectionDrawer.SetDeviationAngle(aisContext.DeviationAngle());
-        selectionDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
-        aisContext.SetSelectionStyle(selectionDrawer);
-        aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Selected, selectionDrawer);
-        aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalSelected, selectionDrawer);
-        aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.SubIntensity, selectionDrawer);
-
-        // Highlight Dynamic
-        var hilightDrawer = new Prs3d_Drawer();
-        hilightDrawer.SetupOwnDefaults();
-        hilightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
-        hilightDrawer.SetDisplayMode(0);
-        hilightDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-        hilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
-        hilightDrawer.SetDeviationAngle(aisContext.DeviationAngle());
-        hilightDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
-        aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, hilightDrawer);
-
-        // Highlight Local
-        var hilightLocalDrawer = new Prs3d_Drawer();
-        hilightLocalDrawer.SetupOwnDefaults();
-        hilightLocalDrawer.SetColor(Colors.Highlight.ToQuantityColor());
-        hilightLocalDrawer.SetDisplayMode(1);
-        hilightLocalDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-        hilightLocalDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
-        hilightLocalDrawer.SetDeviationAngle(aisContext.DeviationAngle());
-        hilightLocalDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
-
-        var shadingAspect = new Prs3d_ShadingAspect();
-        shadingAspect.SetColor(Colors.Highlight.ToQuantityColor());
-        shadingAspect.SetTransparency(0);
-        shadingAspect.Aspect().SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Fill, 0.99f, 0.0f);
-        hilightLocalDrawer.SetShadingAspect(shadingAspect);
-
-        var lineAspect = new Prs3d_LineAspect(Colors.Highlight.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 3.0);
-        hilightLocalDrawer.SetLineAspect(lineAspect);
-        hilightLocalDrawer.SetSeenLineAspect(lineAspect);
-        hilightLocalDrawer.SetWireAspect(lineAspect);
-        hilightLocalDrawer.SetFaceBoundaryAspect(lineAspect);
-        hilightLocalDrawer.SetFreeBoundaryAspect(lineAspect);
-        hilightLocalDrawer.SetUnFreeBoundaryAspect(lineAspect);
-        hilightLocalDrawer.SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.Highlight));
-
-        aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalDynamic, hilightLocalDrawer);
     }
        
     //--------------------------------------------------------------------------------------------------
@@ -909,6 +854,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Performs the workspace redraw cycle.
+    /// </summary>
+    /// <remarks>
+    /// This method drives the rendering update for the workspace. 
+    /// This routine is typically invoked from the UI thread by the redraw dispatcher timer
+    /// (<see cref="_RedrawTimer_Tick"/>).
+    /// </remarks>
     void _Redraw()
     {
         _UpdateGrid();
@@ -916,7 +869,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (V3dViewer == null)
             return;
 
-        if (_ViewControllers.Select(vc => vc.PrepareDraw())
+        if (_ViewControllers.Select(vc => vc.NeedsRedraw())
                             .Aggregate((acc, x) => acc || x))
         {
             NeedsRedraw = true;
@@ -925,20 +878,17 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (NeedsRedraw)
         {
             VisualObjects.UpdateInvalidatedEntities();
-            _ViewControllers.ForEach(v =>
-            {
-                if(v.Viewport.RenderMode == Viewport.RenderModes.HLR)
-                    v.V3dView?.Update();
-            });
+            _ViewControllers.ForEach(vc =>vc.PrepareDraw());
             V3dViewer.Redraw();
-            V3dViewer.RedrawImmediate();
-            NeedsRedraw = false;
+            NeedsImmediateRedraw = true;
         }
-        else if (NeedsImmediateRedraw)
+        if (NeedsImmediateRedraw)
         {
+            Highlighter.PrepareDraw();
             V3dViewer.RedrawImmediate();
-            NeedsImmediateRedraw = false;
         }
+        NeedsRedraw = false;
+        NeedsImmediateRedraw = false;
     }
 
     //--------------------------------------------------------------------------------------------------

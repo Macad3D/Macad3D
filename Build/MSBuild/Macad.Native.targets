@@ -1,0 +1,55 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="Macad.Common.props" Condition="!Exists('$(MMRootDir)')" />
+  
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<!-- Embed arbitrary binary files as strings in CPP projects -->
+  
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <PropertyGroup>
+    <EmbeddedBinariesOutFile>$(IntDir)EmbeddedBinaries.generated.cpp</EmbeddedBinariesOutFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="@(EmbeddedBinary) != ''">
+    <!-- Reference the BuildTools project for the binary processing tasks -->
+    <ProjectReference Include="..\..\Tools\BuildTools\BuildTools.csproj"> 
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
+
+    <!-- Add outfile to compiler -->
+    <ClCompile Include="$(EmbeddedBinariesOutFile)">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+
+  <Target Name="EmbedBinaryFiles"
+          AfterTargets="ResolveProjectReferences"
+          Inputs="@(EmbeddedBinary)"
+          Outputs="$(EmbeddedBinariesOutFile)">
+
+    <PropertyGroup>
+      <_ListFile>$(IntDir)EmbeddedBinariesList.txt</_ListFile>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(IntDir)" />  
+    <WriteLinesToFile File="$(_ListFile)" 
+                      Lines="@(EmbeddedBinary -> '%(FullPath)')" 
+                      Overwrite="true" />
+
+    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot;  EmbedBinaries In=&quot;$(_ListFile)&quot; Out=&quot;$(EmbeddedBinariesOutFile)&quot;" />
+
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="CleanEmbeddedBinaries"
+          AfterTargets="AfterClean">
+  
+    <Delete Files="$(EmbeddedBinariesOutFile)" />
+  
+  </Target>
+  
+</Project>

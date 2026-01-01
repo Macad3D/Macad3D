@@ -88,6 +88,7 @@
     <ClInclude Include="AisExtensions\AISX_Grid.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_InstanceFilter.h" />
+    <ClInclude Include="AisExtensions\AISX_OutlinePostProcess.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
     <ClInclude Include="AisExtensions\AISX_PrsTool.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />
@@ -107,6 +108,8 @@
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_InstanceFilter.cpp" />
     <ClCompile Include="AisExtensions\AISX_InstanceFilter.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_OutlinePostProcess.cpp" />
+    <ClCompile Include="AisExtensions\AISX_OutlinePostProcess.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Plane.cpp" />
     <ClCompile Include="AisExtensions\AISX_Plane.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_PrsTool.cpp" />
@@ -148,6 +151,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedBinary Include="Shaders\PostProcess.vert" />
+    <EmbeddedBinary Include="Shaders\OutlinePostProcess.frag" />
+    <EmbeddedBinary Include="Shaders\OutlinePostProcess_HLR.frag" />
+    <UpToDateCheckInput Include="@(EmbeddedBinary)" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj">

@@ -42,6 +42,10 @@ void AISX_Plane::SetColor(const Quantity_Color& theColor, bool theIncludeHilight
 
     if(theIncludeHilight)
     {
+        if (myHilightDrawer.IsNull())
+        {
+            _InitHighlightDrawerAttributes();
+        }
         Graphic3d_Vec3 hlsColor = Quantity_Color::Convert_LinearRGB_To_HLS(Graphic3d_Vec3((float)theColor.Red(), (float)theColor.Green(), (float)theColor.Blue()));
         hlsColor.y() = __min(hlsColor.y() + 0.2f, 1.0f);
         myHilightDrawer->SetColor(Quantity_Color(hlsColor.x(), hlsColor.y(), hlsColor.z(), Quantity_TOC_HLS));
@@ -99,31 +103,16 @@ void AISX_Plane::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
 
     if(theMode == 0)
     {
+        aGroup->AddPrimitiveArray(aSegArray);
+    }
+    else if(theMode == 1)
+    {
         aGroup->AddPrimitiveArray(aTriArray);
-        if(myDrawer->FaceBoundaryDraw())
+        if (myDrawer->FaceBoundaryDraw())
         {
             aGroup->AddPrimitiveArray(aSegArray);
         }
     }
-    else if(theMode == 1)
-    {
-        aGroup->AddPrimitiveArray(aSegArray);
-    }
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void AISX_Plane::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
-                                       const Handle(SelectMgr_EntityOwner)& theOwner)
-{
-    thePrsMgr->Color(this, GetContext()->HighlightStyle(Prs3d_TypeOfHighlight_Dynamic), myDynHilightDrawer->DisplayMode());
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void AISX_Plane::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq)
-{
-    thePrsMgr->Color(this, myHilightDrawer, myHilightDrawer->DisplayMode());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -193,6 +182,21 @@ void AISX_Plane::ComputeSelection(const Handle(SelectMgr_Selection)& theSelectio
 
 //--------------------------------------------------------------------------------------------------
 
+void AISX_Plane::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle,
+    const Handle(SelectMgr_EntityOwner)& theOwner)
+{
+    thePrsMgr->Color(this, GetContext()->HighlightStyle(Prs3d_TypeOfHighlight_Dynamic), myDynHilightDrawer->DisplayMode());
+}
+
+//--------------------------------------------------------------------------------------------------
+
+void AISX_Plane::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq)
+{
+    thePrsMgr->Color(this, myHilightDrawer, myHilightDrawer->DisplayMode());
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void AISX_Plane::_InitDrawerAttributes()
 {
 	Handle(Prs3d_ShadingAspect) shasp = new Prs3d_ShadingAspect();
@@ -204,20 +208,25 @@ void AISX_Plane::_InitDrawerAttributes()
     myDrawer->SetShadingAspect(shasp);
     myDrawer->SetFaceBoundaryDraw(true);
     myDrawer->SetDisplayMode(0);
+}
 
-	shasp = new Prs3d_ShadingAspect();
+//--------------------------------------------------------------------------------------------------
+
+void AISX_Plane::_InitHighlightDrawerAttributes()
+{
+    Handle(Prs3d_ShadingAspect) shasp = new Prs3d_ShadingAspect();
     shasp->Aspect()->SetEdgeWidth(2);
     shasp->Aspect()->SetPolygonOffsets(Aspect_POM_Fill, 1.0f, -3);
     myDynHilightDrawer = new Prs3d_Drawer();
     myDynHilightDrawer->Link(myDrawer);
     myDynHilightDrawer->SetFaceBoundaryDraw(true);
-    myDynHilightDrawer->SetDisplayMode(1);
+    myDynHilightDrawer->SetDisplayMode(0);
 
     myHilightDrawer = new Prs3d_Drawer();
     myHilightDrawer->Link(myDrawer);
     myHilightDrawer->SetShadingAspect(shasp);
     myHilightDrawer->SetFaceBoundaryDraw(true);
-    myHilightDrawer->SetDisplayMode(1);
+    myHilightDrawer->SetDisplayMode(0);
 }
 
 //--------------------------------------------------------------------------------------------------

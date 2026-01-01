@@ -19,6 +19,9 @@
     <Filter Include="AisExtensions">
       <UniqueIdentifier>{82b28c24-8d0f-4e84-aa4d-d2b672f9e1fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{45e4590c-236d-4fe5-ab22-6bb8de45e1b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ManagedPCH.h">
@@ -55,6 +58,9 @@
       <Filter>AisExtensions</Filter>
     </ClInclude>
     <ClInclude Include="AisExtensions\AISX_Grid.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_OutlinePostProcess.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
   </ItemGroup>
@@ -168,13 +174,25 @@
     <ClCompile Include="AisExtensions\AISX_Grid.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_OutlinePostProcess.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_OutlinePostProcess.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SketchSolve\License.txt">
-      <Filter>SketchSolve</Filter>
-    </Text>
+    <EmbeddedBinary Include="Shaders\PostProcess.vert">
+      <Filter>Shaders</Filter>
+    </EmbeddedBinary>
+    <EmbeddedBinary Include="Shaders\OutlinePostProcess.frag">
+      <Filter>Shaders</Filter>
+    </EmbeddedBinary>
+    <EmbeddedBinary Include="Shaders\OutlinePostProcess_HLR.frag">
+      <Filter>Shaders</Filter>
+    </EmbeddedBinary>
   </ItemGroup>
 </Project>

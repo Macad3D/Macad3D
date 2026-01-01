@@ -194,6 +194,7 @@ public class Plane : VisualObject
 
         _AisObject.SetColor(_Color.ToQuantityColor(), true);
         _AisObject.SetTransparency(Transparency);
+        _AisObject.SetDisplayMode(1);
         _AisObject.Attributes().SetFaceBoundaryDraw(_Boundary);
 
         AisContext.Update(_AisObject, false);

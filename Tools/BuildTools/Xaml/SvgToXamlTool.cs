@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualBasic.Logging;
 using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
 

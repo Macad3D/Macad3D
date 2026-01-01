@@ -54,7 +54,6 @@ public static class Colors
     public static readonly Color AttributeMarkerBackground = new(0.2f, 0.3f, 0.6f);
     public static readonly Color AttributeMarkerSelection = new(0.7f, 0.3f, 0.3f);
     public static readonly Color SketchEditorSegments = Color.White;
-    public static readonly Color SketchEditorHighlight = new(0.933f, 0.706f, 0.133f);
     public static readonly Color SketchEditorSelection = new(1.0f, 0.0f, 0.0f);
     public static readonly Color SketchEditorCreating = new(0.933f, 0.706f, 0.133f);
     public static readonly Color SketchEditorAuxillary = new(0.0f, 0.604f, 0.804f);

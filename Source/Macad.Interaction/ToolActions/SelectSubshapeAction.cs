@@ -81,6 +81,7 @@ public class SelectSubshapeAction : ToolAction
                     aisShape.SetLocalTransformation(_LocalTransformation.Value);
                 }
 
+                aisShape.SetDynamicHilightAttributes(WorkspaceController.Highlighter.SubshapeHighlightDrawer);
                 aisShape.SetColor(_SubshapeColor.ToQuantityColor());
                 aisShape.Attributes().SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, _SubshapeColor));
                 aisShape.Attributes().WireAspect().SetWidth(2);

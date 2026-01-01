@@ -158,6 +158,11 @@
 #include "OpenGl_Workspace.hxx"
 #include "OpenGl_Element.hxx"
 #include "OpenGl_Group.hxx"
+#include "OpenGl_FrameBuffer.hxx"
+#include "OpenGl_ShaderManager.hxx"
+#include "OpenGl_GlCore33.hxx"
+#include "OpenGl_View.hxx"
+#include "OpenGl_Window.hxx"
 
 #include <WNT_Window.hxx>
 

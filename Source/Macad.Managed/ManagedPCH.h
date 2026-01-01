@@ -18,3 +18,7 @@
 #define IMPLEMENT_TRANSIENT(klass, base) \
 	property ::klass* NativeInstance { ::klass* get() {	return static_cast<::klass*>(_NativeInstance); } } \
 	klass(::klass* instance) : Macad::Occt::base(instance) {}
+
+#define USE_EMBEDDED_BINARY(name) \
+    extern "C" const unsigned char name[]; \
+	extern "C" const int name##_size; 
