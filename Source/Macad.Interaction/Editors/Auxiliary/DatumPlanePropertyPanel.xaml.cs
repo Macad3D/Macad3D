@@ -111,6 +111,8 @@ public partial class DatumPlanePropertyPanel : PropertyPanel
             plane.SizeY = imageSizeY;
             plane.KeepAspectRatio = saveKeepAspectRatio;
         }
+
+        InteractiveContext.Current.UndoHandler?.Commit();
     });
 
     //--------------------------------------------------------------------------------------------------

@@ -65,16 +65,13 @@ public class DatumPlane : InteractiveEntity, ITransformable
                 _SizeX = Math.Max(0.01, value);
                 RaisePropertyChanged();
 
-                if (!IsDeserializing)
+                if (_KeepAspectRatio && !IsDeserializing && !_IgnoreAspectRatio)
                 {
-                    if (_KeepAspectRatio)
-                    {
-                        SizeY = _SizeX / _AspectRatio;
-                    }
-                    else
-                    {
-                        _AspectRatio = _SizeX / _SizeY;
-                    }
+                    SizeY = _SizeX / _AspectRatio;
+                }
+                else
+                {
+                    _AspectRatio = _SizeX / _SizeY;
                 }
 
                 RaiseVisualChanged();
@@ -96,16 +93,13 @@ public class DatumPlane : InteractiveEntity, ITransformable
                 _SizeY = Math.Max(0.01, value);
                 RaisePropertyChanged();
 
-                if (!IsDeserializing)
+                if (_KeepAspectRatio && !IsDeserializing && !_IgnoreAspectRatio)
                 {
-                    if (_KeepAspectRatio)
-                    {
-                        SizeX = _SizeY * _AspectRatio;
-                    }
-                    else
-                    {
-                        _AspectRatio = _SizeX / _SizeY;
-                    }
+                    SizeX = _SizeY * _AspectRatio;
+                }
+                else
+                {
+                    _AspectRatio = _SizeX / _SizeY;
                 }
 
                 RaiseVisualChanged();
@@ -151,6 +145,13 @@ public class DatumPlane : InteractiveEntity, ITransformable
 
     //--------------------------------------------------------------------------------------------------
 
+    public double AspectRatio
+    {
+        get { return _AspectRatio; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Members
@@ -162,6 +163,7 @@ public class DatumPlane : InteractiveEntity, ITransformable
     double _SizeY;
     bool _KeepAspectRatio;
     double _AspectRatio;
+    bool _IgnoreAspectRatio;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -204,6 +206,27 @@ public class DatumPlane : InteractiveEntity, ITransformable
         {
             CoreContext.Current?.Document?.MarkAsUnsaved();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Undo
+
+    public override void OnBeforeUndo()
+    {
+        base.OnBeforeUndo();
+        _IgnoreAspectRatio = true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void OnAfterUndo()
+    {
+        base.OnAfterUndo();
+        _IgnoreAspectRatio = false;
+        _AspectRatio = _SizeX / _SizeY;
     }
 
     //--------------------------------------------------------------------------------------------------

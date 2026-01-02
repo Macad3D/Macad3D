@@ -96,6 +96,15 @@ public class DatumPlaneUITests : UITestBase
         Assert.IsNotEmpty(Pipe.GetValue<string>("$Selected.ImageFilePath"));
         Assert.AreEqual(79.4, panel.GetValue<double>("DimensionX"), 0.1);
         Assert.AreEqual(39.7, panel.GetValue<double>("DimensionY"), 0.1);
+
+        // Check undo
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
+        MainWindow.Ribbon.ClickButton("Undo");
+        Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Not.Empty);
+        Assert.That(panel.GetValue<double>("DimensionX"), Is.EqualTo(100.0));
+        Assert.That(panel.GetValue<double>("DimensionY"), Is.EqualTo(100.0));
+        MainWindow.Ribbon.ClickButton("Undo");
+        Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Null.Or.Empty);
     }
 
     //--------------------------------------------------------------------------------------------------
