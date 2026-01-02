@@ -22,7 +22,7 @@ public static class TestData
     static TestData()
     {
         TestDataDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests");
-        TempDirectory = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests\Temp"));
+        TempDirectory = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\.intermediate\Data\UnitTests\Temp"));
         Directory.CreateDirectory(TempDirectory);
     }
 
