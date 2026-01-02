@@ -204,7 +204,7 @@ public class VisualStudio
         }
 
         var exePath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe";
-        var commandLine = "-prerelease -version 17.0 -latest -property installationPath -requires " + string.Join(" ", _RequiredComponents);
+        var commandLine = "-version [17.0,18.0) -latest -property installationPath -requires " + string.Join(" ", _RequiredComponents);
         var vswhereOutput = new List<string>();
 
         if (Common.Run(exePath, commandLine, output: vswhereOutput) != 0)
