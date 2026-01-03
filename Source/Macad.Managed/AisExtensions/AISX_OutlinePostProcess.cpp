@@ -221,6 +221,12 @@ bool AISX_OutlinePostProcess::_EnsureFbo(const opencascade::handle<OpenGl_Contex
         return true;
     }
 
+    // Check for OpenGL 3.3
+    if (theCtx->core33 == nullptr)
+    {
+        return false;
+    }
+
     // Create FBO
     theCtx->core33->glGenFramebuffers(1, &_HighlightFbo);
     theCtx->core33->glBindFramebuffer(GL_FRAMEBUFFER, _HighlightFbo);
