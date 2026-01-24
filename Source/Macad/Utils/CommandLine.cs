@@ -9,7 +9,6 @@ public class CommandLine
     public bool HasPathToOpen => !PathToOpen.IsNullOrEmpty();
     public bool EnableSandbox { get; }
     public bool NoWelcomeDialog { get; }
-    public bool EnableGlDebugging { get; }
     public string ScriptToRun { get; }
     public bool HasScriptToRun => !ScriptToRun.IsNullOrEmpty();
 
@@ -46,10 +45,6 @@ public class CommandLine
 
                     case "runscript":
                         ScriptToRun = parameter;
-                        break;
-
-                    case "gldebug":
-                        EnableGlDebugging = true;
                         break;
                 }
             }

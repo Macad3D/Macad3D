@@ -49,11 +49,6 @@ public class AppContext : InteractiveContext
         ExchangeModule.Initialize();
 
         ShortcutDefinition.RegisterShortcuts(Current.ShortcutHandler);
-
-        if (CommandLine.EnableGlDebugging)
-        {
-            WorkspaceController.EnableGlDebugging = true;
-        }
     }
 
     //--------------------------------------------------------------------------------------------------

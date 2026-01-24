@@ -112,7 +112,6 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     readonly List<AIS_InteractiveObject> _CustomHighlights = [];
     internal bool NeedsRedraw;
     internal bool NeedsImmediateRedraw;
-    public static bool EnableGlDebugging = false;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -244,7 +243,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     {
         if (V3dViewer == null)
         {
-            var ocGraphicDriver = Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
+            var ocGraphicDriver = Graphic3d.CreateOpenGlDriver();
             V3dViewer = new V3d_Viewer(ocGraphicDriver);
         }
 
