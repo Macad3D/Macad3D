@@ -274,7 +274,7 @@ internal class SelectionMultiple : InputSubscriberBase
             }
         }
 
-        TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
+        TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).FirstOrDefault() ?? item;
 
         List<object> itemsToSelect = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(x => x.DataContext).ToList();
         List<object> itemsToUnSelect = ((IEnumerable<object>)treeViewEx.SelectedItems).ToList();

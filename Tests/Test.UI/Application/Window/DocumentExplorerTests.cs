@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
+using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
@@ -252,6 +253,35 @@ public class DocumentExplorerTests : UITestBase
         MainWindow.Document.Click("DatumPlane_1", doubleClick: true);
 
         Assert.That(Pipe.GetValue<double>("$Context.ViewportController.Viewport.EyePoint.X"), Is.Not.EqualTo(lastX));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultiSelectFilteredEntity()
+    {
+        // Scenario: Select a body in the viewport, which is in a not active filter. Then select another body additionally
+        // in the Document Explorer. Filter by layer must be active.
+        var menu = _GetFilterMenu();
+        menu.ClickMenuItem("FilterActiveLayer");
+        
+        TestDataGenerator.GenerateBox(MainWindow);
+        var layerPanel = MainWindow.Layers;
+        var layerItem = layerPanel.AddLayer();
+        layerItem.Click(true);
+        TestDataGenerator.GenerateCylinder(MainWindow);
+
+        MainWindow.Viewport.ClickRelative(0.3, 0.1);
+        Keyboard.Press(VirtualKeyShort.SHIFT);
+        MainWindow.Document.SelectItem(0);
+        Keyboard.Release(VirtualKeyShort.SHIFT);
+        Assert.AreEqual(1, Pipe.GetValue<int>("$Context.WorkspaceController.Selection.SelectedEntities.Count"));
+
+        MainWindow.Viewport.ClickRelative(0.3, 0.1);
+        Keyboard.Press(VirtualKeyShort.CONTROL);
+        MainWindow.Document.SelectItem(0);
+        Keyboard.Release(VirtualKeyShort.CONTROL);
+        Assert.AreEqual(2, Pipe.GetValue<int>("$Context.WorkspaceController.Selection.SelectedEntities.Count"));
     }
 
     //--------------------------------------------------------------------------------------------------
