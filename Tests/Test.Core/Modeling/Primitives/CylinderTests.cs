@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using Macad.Common;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -57,6 +59,19 @@ public class CylinderTests
         Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
 
         Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "NegativeHeight")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void TransformationUpdateOnNegativeHeight()
+    {
+        var body = Body.Create(Cylinder.Create(1, -10));
+        body.Rotation = new(0, -45.0.ToRad(), 0);
+        var loc = body.GetTransformedBRep().Location();
+        body.Rotation = new(0, -44.0.ToRad(), 0);
+        body.Rotation = new(0, -45.0.ToRad(), 0);
+        Assert.That(body.GetTransformedBRep().Location().Transformation(), Is.EqualTo(loc.Transformation()));
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -298,7 +298,7 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
     {
         if (_TransformedBRep != null)
         {
-            _TransformedBRep.Location(_BRep.Location().Multiplied(new TopLoc_Location(GetTransformation())));
+            _TransformedBRep.Location(new TopLoc_Location(GetTransformation()).Multiplied(_BRep.Location()));
             RaiseShapeChanged();
             if(IsVisible)
                 Body?.RaiseVisualChanged();
