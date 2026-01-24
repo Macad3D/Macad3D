@@ -10,8 +10,11 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class SketchEditorConstraintElement : SketchEditorElement
 {
-    public readonly SketchConstraint Constraint;
-    ConstraintMarker _Marker;
+    public SketchConstraint Constraint { get; }
+    internal ConstraintMarker Marker { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     bool _IsSelectable;
 
     //--------------------------------------------------------------------------------------------------
@@ -26,31 +29,31 @@ public class SketchEditorConstraintElement : SketchEditorElement
 
     public override void UpdateVisual()
     {
-        _Marker?.SetColor(IsSelected ? Colors.AttributeMarkerSelection : Colors.AttributeMarkerBackground);
+        Marker?.SetColor(IsSelected ? Colors.AttributeMarkerSelection : Colors.AttributeMarkerBackground);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts = default)
     {
-        if (_Marker == null)
+        if (Marker == null)
         {
             if(!IsVisible)
                 return;
 
-            _Marker = _CreateMarker();
-            foreach (var visualobj in _Marker.VisualObjects)
+            Marker = _CreateMarker();
+            foreach (var visualobj in Marker.VisualObjects)
             {
                 visualobj.IsSelectable = _IsSelectable;
             }
-            _Marker?.UpdateVisual(points, segments, Plane, 
+            Marker?.UpdateVisual(points, segments, Plane, 
                                   SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale, 
                                   markerCounts);
             UpdateVisual();
         }
         else
         {
-            _Marker?.UpdateVisual(points, segments, Plane, 
+            Marker?.UpdateVisual(points, segments, Plane, 
                                   SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
                                   markerCounts);
         }
@@ -60,7 +63,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
 
     public void OnGizmoScaleChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts)
     {
-        _Marker?.UpdateVisual(points, segments, Plane, 
+        Marker?.UpdateVisual(points, segments, Plane, 
                               SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
                               markerCounts);
     }
@@ -79,10 +82,10 @@ public class SketchEditorConstraintElement : SketchEditorElement
     {
         _IsSelectable = selectable;
 
-        if (_Marker == null)
+        if (Marker == null)
             return;
 
-        foreach (var visualObj in _Marker.VisualObjects)
+        foreach (var visualObj in Marker.VisualObjects)
         {
             visualObj.IsSelectable = selectable;
         }
@@ -92,25 +95,25 @@ public class SketchEditorConstraintElement : SketchEditorElement
 
     public override void Remove()
     {
-        if (_Marker == null)
+        if (Marker == null)
             return;
 
-        foreach (var visualObj in _Marker.VisualObjects)
+        foreach (var visualObj in Marker.VisualObjects)
         {
             visualObj.Remove();
         }
 
-        _Marker = null;
+        Marker = null;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override bool IsOwnerOf(AIS_InteractiveObject aisObject)
     {
-        if (_Marker == null)
+        if (Marker == null)
             return false;
 
-        foreach (var visualObj in _Marker.VisualObjects)
+        foreach (var visualObj in Marker.VisualObjects)
         {
             if (visualObj.AisObject == null)
                 continue;
@@ -151,7 +154,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
                 for (var index = 0; index < _Constraint.Points.Length; index++)
                 {
                     var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                            Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.NoClipPlane, 
+                                            Visual.Marker.Styles.Image | Visual.Marker.Styles.Background | Visual.Marker.Styles.Topmost | Visual.Marker.Styles.NoClipPlane, 
                                             image, 24)
                     {
                         IsSelectable = true,
@@ -167,7 +170,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
                 for (var index = 0; index < _Constraint.Segments.Length; index++)
                 {
                     var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                            Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.NoClipPlane,
+                                            Visual.Marker.Styles.Image | Visual.Marker.Styles.Background | Visual.Marker.Styles.Topmost | Visual.Marker.Styles.NoClipPlane,
                                             image, 24)
                     {
                         IsSelectable = true,

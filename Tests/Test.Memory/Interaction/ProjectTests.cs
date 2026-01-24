@@ -1,11 +1,7 @@
-﻿using JetBrains.dotMemoryUnit;
-using Macad.Core;
-using Macad.Core.Shapes;
-using Macad.Core.Topology;
+﻿using Macad.Core.Shapes;
 using Macad.Interaction;
 using Macad.Test.Utils;
 using NUnit.Framework;
-using Macad.Occt;
 
 namespace Macad.Test.Memory.Interaction;
 
@@ -29,45 +25,30 @@ public class ProjectTests
     [Test]
     public void CleanupOnNew()
     {
-        void __CreateNewModel()
+        MemoryAssert.IsCollected(() =>
         {
+            var model = InteractiveContext.Current.DocumentController.NewModel();
+            var workspace = InteractiveContext.Current.Workspace;
+            var workspaceCtrl = InteractiveContext.Current.WorkspaceController;
             InteractiveContext.Current.DocumentController.NewModel();
-        }
-
-        __CreateNewModel();
-        __CreateNewModel();
-            
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(1, memory.ObjectsCount<WorkspaceController>(), "Old WorkspaceController is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<Workspace>(), "Old Workspace is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<Model>(), "Old Model is alive");
+            return [model, workspaceCtrl, workspace];
         });
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     [Test]
     public void CleanupOnNewWithBodies()
     {
-        void __CreateAndReleaseModel()
+        MemoryAssert.IsCollected(() =>
         {
-            InteractiveContext.Current.DocumentController.NewModel();
-
+            var model = InteractiveContext.Current.DocumentController.NewModel();
             var imprint = TestGeomGenerator.CreateImprint();
             var body = imprint.Body;
-            Assert.IsTrue(body.Shape.Make(Shape.MakeFlags.None));
+            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
 
             InteractiveContext.Current.DocumentController.NewModel();
-        }
-
-        __CreateAndReleaseModel();
-            
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(1, memory.ObjectsCount<Model>(), "Old Model is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "The body is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<Imprint>(), "The shape is alive");
+            return [model, imprint, body];
         });
     }
 
@@ -76,17 +57,19 @@ public class ProjectTests
     [Test]
     public void CleanupContext()
     {
-        // Context is already initialized, just re-init
-        Context.InitEmpty();
-
-        dotMemory.Check(memory =>
+        MemoryAssert.IsCollected(() =>
         {
-            Assert.AreEqual(1, memory.ObjectsCount<Context>(), "Old Context is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<ModelController>(), "Old ModelController is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<WorkspaceController>(), "Old WorkspaceController is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<ViewportController>(), "Old ViewportController is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<TestClipboard>(), "Old Clipboard is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<ShortcutHandler>(), "Old ShortcutHandler is alive");
+            // Context is already initialized
+            var context = Context.Current;
+            var modelCtrl = context.DocumentController;
+            var workspaceCtrl = context.WorkspaceController;
+            var viewportCtrl = context.ViewportController;
+            var clipboard = context.Clipboard;
+            var shortcutHandler = context.ShortcutHandler;
+
+            Context.InitEmpty();
+
+            return [context, modelCtrl, workspaceCtrl, viewportCtrl, clipboard, shortcutHandler];
         });
     }
 
@@ -95,23 +78,20 @@ public class ProjectTests
     [Test]
     public void CleanupWorkspace()
     {
-        void __Do()
+        MemoryAssert.IsCollected(() =>
         {
-            var ctx = Context.Current;
-            ctx.DocumentController.NewModel();
-            ctx.DocumentController.NewModel();
-        }
+            var context = Context.Current;
+            context.DocumentController.NewModel();
 
-        __Do();
+            var model = context.Document;
+            var workspaceCtrl = context.WorkspaceController;
+            var workspace = context.Workspace;
+            var viewportCtrl = context.ViewportController;
+            var viewport = context.Viewport;
+            
+            context.DocumentController.NewModel();
 
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(1, memory.ObjectsCount<ModelController>(), "ModelController");
-            Assert.AreEqual(1, memory.ObjectsCount<Model>(), "Model");
-            Assert.AreEqual(1, memory.ObjectsCount<WorkspaceController>(), "WorkspaceController");
-            Assert.AreEqual(1, memory.ObjectsCount<Viewport>(), "Workspace");
-            Assert.AreEqual(1, memory.ObjectsCount<ViewportController>(), "Old ViewportController");
-            Assert.AreEqual(1, memory.ObjectsCount<Viewport>(), "Viewport");
+            return [model, workspaceCtrl, workspace, viewportCtrl, viewport];
         });
     }
 

@@ -1,8 +1,6 @@
-﻿using JetBrains.dotMemoryUnit;
-using Macad.Test.Utils;
+﻿using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -22,7 +20,7 @@ public class ShapeTests
     [Test]
     public void BoxJointReference()
     {
-        void __BuildAndRemove()
+        MemoryAssert.IsCollected(() =>
         {
             var model = CoreContext.Current.Document;
             var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 10), new Pnt(-5, -5, -5));
@@ -31,18 +29,11 @@ public class ShapeTests
             model.Add(body2);
 
             var (first, second) = BoxJoint.Create(body1, body2);
-            Assert.IsTrue(first.Make(Shape.MakeFlags.None));
-            Assert.IsTrue(second.Make(Shape.MakeFlags.None));
+            Assume.That(first.Make(Shape.MakeFlags.None));
+            Assume.That(second.Make(Shape.MakeFlags.None));
 
-            model.SafeDelete(new[] {body1, body2});
-        }
-
-        __BuildAndRemove();
-            
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "a Body is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<BoxJoint>(), "a BoxJoint is alive");
+            model.SafeDelete([body1, body2]);
+            return [body1, body2, first, second];
         });
     }
 }

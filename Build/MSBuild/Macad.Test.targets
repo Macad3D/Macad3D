@@ -14,10 +14,6 @@
         <_RunSettings>$(_RunSettings) $(AdditionalRunSettings)</_RunSettings>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(PkgJetBrains_dotMemoryUnit) != ''">
-        <_RunnerCommand>"$(PkgJetBrains_dotMemoryUnit)\lib\tools\dotMemoryUnit.exe" $(_RunnerCommand) --propagate-exit-code --</_RunnerCommand>
-    </PropertyGroup>
-
     <Exec Command='$(_RunnerCommand) test "$(TargetPath)" $(_RunnerOptions) -- $(_RunSettings)' 
           WorkingDirectory="$(TargetDir)"
           EnvironmentVariables="DOTNET_NOLOGO=true"

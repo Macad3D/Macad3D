@@ -8,7 +8,6 @@
     <PackageVersion Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.1" />
     <PackageVersion Include="FlaUI.UIA3" Version="5.0.0" />
     <PackageVersion Include="Fluent.Ribbon" Version="10.0.4" />
-    <PackageVersion Include="JetBrains.dotMemoryUnit" Version="3.2.20220510" />
     <PackageVersion Include="Macad.ThirdParty.Mesa" Version="25.2.0" />
     <PackageVersion Include="Macad.ThirdParty.Occt" Version="7.9.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />

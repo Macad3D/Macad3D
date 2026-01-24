@@ -17,7 +17,6 @@
     <ProjectReference Include="..\..\Source\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.dotMemoryUnit" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" />

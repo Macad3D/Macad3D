@@ -1,5 +1,6 @@
 ﻿using Macad.Occt;
 using Macad.Occt.Helper;
+using Macad.Test.Utils;
 using NUnit.Framework;
 
 namespace Macad.Test.Memory.Core;
@@ -10,7 +11,7 @@ public class ManagedHelperTests
     [Test]
     public void CleanUpStepReader()
     {
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new StepReader();
         }, 100, 10);
@@ -21,7 +22,7 @@ public class ManagedHelperTests
     [Test]
     public void CleanUpStepWriter()
     {
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new StepWriter();
         }, 100, 10);
@@ -32,7 +33,7 @@ public class ManagedHelperTests
     [Test]
     public void CleanUpIgesReader()
     {
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new IgesReader();
         }, 100, 10);
@@ -43,7 +44,7 @@ public class ManagedHelperTests
     [Test]
     public void CleanUpIgesWriter()
     {
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new IgesWriter();
         }, 100, 10);
@@ -55,7 +56,7 @@ public class ManagedHelperTests
     public void CleanUpHlrBRepAlgo()
     {
         TopoDS_Shape[] shapes = {};
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new HlrBRepAlgo(shapes);
         }, 10000, 1000);
@@ -67,7 +68,7 @@ public class ManagedHelperTests
     public void CleanUpHlrBRepAlgoPoly()
     {
         TopoDS_Shape[] shapes = {};
-        AssertHelper.IsFreeingMemory(() =>
+        MemoryAssert.IsFreeingMemory(() =>
         {
             var obj = new HlrBRepAlgoPoly(shapes);
         }, 10000, 1000);

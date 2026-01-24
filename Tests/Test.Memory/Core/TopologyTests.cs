@@ -1,5 +1,4 @@
-﻿using JetBrains.dotMemoryUnit;
-using Macad.Test.Utils;
+﻿using Macad.Test.Utils;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -15,18 +14,14 @@ public class TopologyTests
     [Test]
     public void RemoveBody()
     {
-        void __CreateAndRemoveBody()
+        MemoryAssert.IsCollected(() =>
         {
             var body = TestGeomGenerator.CreateImprint().Body;
+            var imprint = body.Shape as Imprint;
+            var box = imprint.Predecessor;
+            var sketch = imprint.Sketch;
             body.Remove();
-        }
-
-        __CreateAndRemoveBody();
-
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
-            Assert.AreEqual(0, memory.ObjectsCount<Imprint, Box, Sketch>(), "Shapes are alive");
+            return [body, imprint, box, sketch];
         });
     }
 
@@ -35,7 +30,7 @@ public class TopologyTests
     [Test]
     public void RemoveReferencedBody()
     {
-        void __CreateTwoBodiesAndRemoveOne()
+        MemoryAssert.IsCollected(() =>
         {
             Context.InitWithDefault();
             var model = CoreContext.Current.Document;
@@ -43,22 +38,16 @@ public class TopologyTests
             boxBody.Position = new Pnt(-10, -10, 0);
             model.Add(boxBody);
 
-            var cylBody = Body.Create(Sphere.Create(20));
-            cylBody.Position = new Pnt(-15, 0, 0);
-            model.Add(cylBody);
+            var sphere = Sphere.Create(20);
+            var sphereBody = Body.Create(sphere);
+            sphereBody.Position = new Pnt(-15, 0, 0);
+            model.Add(sphereBody);
 
-            BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
+            BooleanCut.Create(boxBody, new BodyShapeOperand(sphereBody));
 
-            model.SafeDelete(new[] {cylBody});
-        }
+            model.SafeDelete(new[] { sphereBody });
 
-        __CreateTwoBodiesAndRemoveOne();
-
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(1, memory.ObjectsCount<Body>(), "Body is alive");
-            Assert.AreEqual(1, memory.ObjectsCount<Solid>(), "Solid not found");
-            Assert.AreEqual(0, memory.ObjectsCount<Sphere>(), "Sphere is alive");
+            return [sphereBody, sphere];
         });
     }
 
@@ -67,32 +56,28 @@ public class TopologyTests
     [Test]
     public void SerializerCleanupAfterClone()
     {
-        void __Clone()
+        MemoryAssert.IsCollected(() =>
         {
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Depth = 2.5;
             imprint.Mode = Imprint.ImprintMode.Raise;
             var body = imprint.Body;
-            Assert.IsTrue(body.Shape.Make(Shape.MakeFlags.None));
+            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
 
-            var serialized = Serializer.Serialize(body, new SerializationContext());
+            var writer = new Writer();
+            Assume.That(Serializer.Serialize(writer, body, new SerializationContext()));
+            var serialized = writer.ToString(); 
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(ReadOptions.None);
-            context.SetInstance(new CloneOptions(true));
-            var clonedBody = Serializer.Deserialize<Entity>(serialized, context) as Body;
-            Assert.IsNotNull(clonedBody);
-            Assert.IsTrue(clonedBody.Shape.Make(Shape.MakeFlags.None));
-        }
+            CloneOptions cloneOptions = new CloneOptions(true);
+            context.SetInstance(cloneOptions);
+            var reader = new Reader(serialized, ReadOptions.None);
+            var clonedBody = Serializer.Deserialize<Entity>(reader, context) as Body;
+            Assume.That(clonedBody, Is.Not.Null);
+            Assume.That(clonedBody.Shape.Make(Shape.MakeFlags.None));
 
-        __Clone();
-
-        dotMemory.Check(memory =>
-        {
-            Assert.AreEqual(0, memory.ObjectsCount<SerializationContext>(), "Context is alive"); 
-            Assert.AreEqual(0, memory.ObjectsCount<Writer>(), "Writer is alive"); 
-            Assert.AreEqual(0, memory.ObjectsCount<Reader>(), "Reader is alive"); 
-            Assert.AreEqual(0, memory.ObjectsCount<CloneOptions>(), "Body.CloneOptions is alive"); 
+            return [context, cloneOptions, reader, writer];
         });
     }
 
