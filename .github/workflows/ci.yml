@@ -4,6 +4,7 @@ on: [pull_request, push]
   
 permissions:
   checks: write
+  pull-requests: write
 
 jobs:
   build:
@@ -39,18 +40,17 @@ jobs:
   publish:
     name: Publish Test Results
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     if: ${{ !cancelled() }}
 
     steps:
+      - name: Download test results
+        uses: actions/download-artifact@v7
+        with:
+          name: /test-results-(.*)/
       - name: Publish test results
-        uses: dorny/test-reporter@v2
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ !cancelled() }}
         with:
-          artifact: /test-results-(.*)/
-          name: Test report ($1)
-          path: '**/*.xml'
-          reporter: dotnet-nunit
-          list-suites: all
-          list-tests: failed
-          fail-on-error: false
+          files: '**/*.xml'
+          check_name: Test Results
