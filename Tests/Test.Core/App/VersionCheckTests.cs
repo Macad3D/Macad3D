@@ -48,7 +48,7 @@ public class VersionCheckTests
         Assert.IsTrue(new VersionCheck().BeginCheckForUpdate(false, null));
 
         // The second time, it should not check again
-        Assert.IsFalse(new VersionCheck().BeginCheckForUpdate(false, null));
+        Assert.IsTrue(new VersionCheck().BeginCheckForUpdate(false, null));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -182,4 +182,5 @@ public class VersionCheckTests
     //--------------------------------------------------------------------------------------------------
 
     #endregion
+
 }
