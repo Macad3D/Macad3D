@@ -52,5 +52,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: ${{ !cancelled() }}
         with:
-          files: '**/*.xml'
+          files: '**/Test.*.xml'
           check_name: Test Results
+          report_suite_logs: any
