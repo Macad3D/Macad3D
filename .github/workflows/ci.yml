@@ -38,7 +38,7 @@ jobs:
           module: ${{ matrix.module }}
 
   publish:
-    name: Publish Test Results
+    name: Test Results
     needs: test
     runs-on: ubuntu-slim
     if: ${{ !cancelled() }}
