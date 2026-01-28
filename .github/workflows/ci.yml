@@ -38,7 +38,7 @@ jobs:
           module: ${{ matrix.module }}
 
   publish:
-    name: Test Results
+    name: Publish Test Results
     needs: test
     runs-on: ubuntu-slim
     if: ${{ !cancelled() }}
@@ -53,5 +53,4 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           files: '**/Test.*.xml'
-          check_name: Test Results
           report_suite_logs: any
