@@ -21,20 +21,21 @@ jobs:
 
     steps:
       - name: Download event file
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@e7466d1a7587ed14867642c2ca74b5bcc1e19a2d
         with:
            run_id: ${{ github.event.workflow_run.id }}
            name: event-file
            
       - name: Download test results
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@e7466d1a7587ed14867642c2ca74b5bcc1e19a2d
         with:
-          pattern: test-results-*
+          name: test-results-[a-z]+
+          name_is_regexp: true
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
         with:
           commit: ${{ github.event.workflow_run.head_sha }}
-          event_file: event.json
+          event_file: event-sanitized.json
           event_name: ${{ github.event.workflow_run.event }}
           files: '**/Test.*.xml'

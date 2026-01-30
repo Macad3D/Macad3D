@@ -12,12 +12,32 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Create sanitized event
+        shell: pwsh
+        run: |
+          jq '{
+            pull_request: {
+              head: .pull_request.head
+            },
+            repository: {
+              default_branch: .repository.default_branch,
+            },
+          }' "$env:GITHUB_EVENT_PATH" |
+          Out-File -Encoding utf8 event-sanitized.json
+
+      - name: Upload event file
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-file
+          path: ${{ github.event_path }}
+          retention-days: 1
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build
         uses: ./.github/actions/build
-
+          
   test:
     name: Run Tests
     needs: build
@@ -36,17 +56,3 @@ jobs:
         uses: ./.github/actions/test
         with:
           module: ${{ matrix.module }}
-
-  event_file:
-    name: "Upload Event File"
-    permissions:
-      checks: none
-      pull-requests: none
-    runs-on: ubuntu-slim
-    steps:
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: event-file
-        path: ${{ github.event_path }}
-
