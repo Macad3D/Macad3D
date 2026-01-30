@@ -39,6 +39,9 @@ jobs:
 
   event_file:
     name: "Upload Event File"
+    permissions:
+      checks: none
+      pull-requests: none
     runs-on: ubuntu-slim
     steps:
     - name: Upload
