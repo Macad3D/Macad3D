@@ -1,0 +1,42 @@
+name: Test Results
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+      
+permissions: {}
+
+jobs:
+  test-results:
+    name: Test Results
+    runs-on: ubuntu-slim
+    if: github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure'
+
+    permissions:
+      checks: write
+      pull-requests: write
+      actions: read
+
+    steps:
+      - name: Download event file
+        uses: dawidd6/action-download-artifact@e7466d1a7587ed14867642c2ca74b5bcc1e19a2d
+        with:
+           run_id: ${{ github.event.workflow_run.id }}
+           name: event-file
+           
+      - name: Download test results
+        uses: dawidd6/action-download-artifact@e7466d1a7587ed14867642c2ca74b5bcc1e19a2d
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: test-results-[a-z]+
+          name_is_regexp: true
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          event_file: event-sanitized.json
+          event_name: ${{ github.event.workflow_run.event }}
+          files: '**/Test.*.xml'

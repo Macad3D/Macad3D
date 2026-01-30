@@ -12,12 +12,32 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Create sanitized event
+        shell: pwsh
+        run: |
+          jq '{
+            pull_request: {
+              head: .pull_request.head
+            },
+            repository: {
+              default_branch: .repository.default_branch,
+            },
+          }' "$env:GITHUB_EVENT_PATH" |
+          Out-File -Encoding utf8 event-sanitized.json
+
+      - name: Upload event file
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-file
+          path: event-sanitized.json
+          retention-days: 1
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build
         uses: ./.github/actions/build
-
+          
   test:
     name: Run Tests
     needs: build
@@ -36,21 +56,3 @@ jobs:
         uses: ./.github/actions/test
         with:
           module: ${{ matrix.module }}
-
-  publish:
-    name: Publish Test Results
-    needs: test
-    runs-on: ubuntu-slim
-    if: ${{ !cancelled() }}
-
-    steps:
-      - name: Download test results
-        uses: actions/download-artifact@v4
-        with:
-          pattern: test-results-*
-      - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action/linux@v2
-        if: ${{ !cancelled() }}
-        with:
-          files: '**/Test.*.xml'
-          check_name: "Test Results"
