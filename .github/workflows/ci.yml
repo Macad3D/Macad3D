@@ -37,20 +37,13 @@ jobs:
         with:
           module: ${{ matrix.module }}
 
-  publish:
-    name: Publish Test Results
-    needs: test
+  event_file:
+    name: "Upload Event File"
     runs-on: ubuntu-slim
-    if: ${{ !cancelled() }}
-
     steps:
-      - name: Download test results
-        uses: actions/download-artifact@v4
-        with:
-          pattern: test-results-*
-      - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action/linux@v2
-        if: ${{ !cancelled() }}
-        with:
-          files: '**/Test.*.xml'
-          report_suite_logs: any
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: event-file
+        path: ${{ github.event_path }}
+
