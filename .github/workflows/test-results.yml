@@ -29,6 +29,7 @@ jobs:
       - name: Download test results
         uses: dawidd6/action-download-artifact@e7466d1a7587ed14867642c2ca74b5bcc1e19a2d
         with:
+          run_id: ${{ github.event.workflow_run.id }}
           name: test-results-[a-z]+
           name_is_regexp: true
 
