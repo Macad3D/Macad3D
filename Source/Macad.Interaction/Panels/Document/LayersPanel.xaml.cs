@@ -81,15 +81,11 @@ public partial class LayersPanel : UserControl
 
     public RelayCommand<DragParameters> DragCommand { get; private set; }
 
-    //--------------------------------------------------------------------------------------------------
-
     bool _CanExecuteDrag(DragParameters parameter)
     {
         var layer = parameter.DragItem?.DataContext as Layer;
         return layer != null && Model.CanMove(layer);
     }
-
-    //--------------------------------------------------------------------------------------------------
 
     void _ExecuteDrag(DragParameters parameter)
     {
@@ -100,8 +96,6 @@ public partial class LayersPanel : UserControl
         
     public RelayCommand<DropParameters> DropCommand { get; private set; }
 
-    //--------------------------------------------------------------------------------------------------
-
     bool _CanExecuteDrop(DropParameters parameter)
     {
         if (parameter.IsInsertion)
@@ -110,8 +104,6 @@ public partial class LayersPanel : UserControl
         }
         return false;
     }
-
-    //--------------------------------------------------------------------------------------------------
 
     void _ExecuteDrop(DropParameters parameter)
     {
@@ -127,10 +119,30 @@ public partial class LayersPanel : UserControl
 
     //--------------------------------------------------------------------------------------------------
 
+    public RelayCommand<Layer> OpenVisualSettingsCommand { get; private set; }
+
+    bool _CanExecuteOpenVisualSettings(Layer layer)
+    {
+        return layer != null;
+    }
+
+    void _ExecuteOpenVisualSettings(Layer layer)
+    {
+        var treeViewItem = TreeView.GetTreeViewItemFor(layer);
+        if (treeViewItem == null)
+            return;
+
+        var button = PresentationHelper.FindVisualChild<ButtonBase>(treeViewItem, "VisualSettingsBtn");
+        button?.RaiseEvent(new (ButtonBase.ClickEvent, button));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _CreateCommands()
     {
-        DragCommand = new RelayCommand<DragParameters>(_ExecuteDrag, _CanExecuteDrag);
-        DropCommand = new RelayCommand<DropParameters>(_ExecuteDrop, _CanExecuteDrop);
+        DragCommand = new(_ExecuteDrag, _CanExecuteDrag);
+        DropCommand = new(_ExecuteDrop, _CanExecuteDrop);
+        OpenVisualSettingsCommand = new(_ExecuteOpenVisualSettings, _CanExecuteOpenVisualSettings);
     }
 
     //--------------------------------------------------------------------------------------------------

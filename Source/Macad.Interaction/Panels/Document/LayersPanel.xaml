@@ -30,6 +30,10 @@
                         AutomationProperties.AutomationId="DeleteLayer"/>
                 <Button mmp:Command.Action="{Binding StartRenamingCommand}"
                         AutomationProperties.AutomationId="RenameLayer"/>
+                <Button mmp:Command.Action="{x:Static mmi:LayerCommands.LayerVisualPanel}"
+                        CommandParameter="{Binding SelectedLayer}" 
+                        Command="{Binding OpenVisualSettingsCommand, Source={mmp:RootObject}}"
+                        AutomationProperties.AutomationId="OpenLayerVisualPanel"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
                         mmp:Command.Action="{x:Static mmi:LayerCommands.MoveEntityToLayer}"
                         AutomationProperties.AutomationId="MoveEntityToLayer"/>
@@ -46,7 +50,8 @@
                    Stroke="{StaticResource Macad.Brushes.Separator}" />
 
         <!--List-->
-        <treeView:TreeViewEx ItemsSource="{Binding LayersView}"
+        <treeView:TreeViewEx x:Name="TreeView"
+                             ItemsSource="{Binding LayersView}"
                              SelectedItems="{Binding SelectedLayers, Mode=OneWay}"
                              Background="{StaticResource Macad.Brushes.Panel.Background}"
                              BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
@@ -57,8 +62,8 @@
                              AutomationProperties.AutomationId="LayerList"
                              AllowMultiSelection="False"
                              IsDragNDropEnabled="True"
-                             DragCommand="{Binding DragCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}"
-                             DropCommand="{Binding DropCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}">
+                             DragCommand="{Binding DragCommand, Source={mmp:RootObject}}"
+                             DropCommand="{Binding DropCommand, Source={mmp:RootObject}}">
 
             <mmp:Behaviors.Behavior>
                 <mmp:DoubleClickCommandBehavior Command="{Binding ActivateLayerCommand}" />
@@ -73,6 +78,9 @@
                               mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" />
                     <MenuItem mmp:Command.Action="{Binding StartRenamingCommand}"
                               InputGestureText="F2"/>
+                    <MenuItem mmp:Command.Action="{x:Static mmi:LayerCommands.LayerVisualPanel}"
+                              CommandParameter="{Binding SelectedLayer}" 
+                              Command="{Binding OpenVisualSettingsCommand, Source={mmp:RootObject}}"/>
                     <Separator />
                     <MenuItem Header="Move Entities to Layer"
                               CommandParameter="{Binding SelectedLayer}" 
@@ -100,9 +108,12 @@
                         </Border>
 
                         <!-- Menu -->
-                        <Button DockPanel.Dock="Right" 
+                        <Button x:Name="VisualSettingsBtn"
+                                DockPanel.Dock="Right" 
                                 Width="18" Height="18"
-                                Style="{StaticResource Macad.Styles.Button.GridDropDown}" Click="DrowDownButton_Click">
+                                Style="{StaticResource Macad.Styles.Button.GridDropDown}" 
+                                Click="DrowDownButton_Click"
+                                AutomationProperties.AutomationId="OpenLayerVisualPanel">
                             <mmp:Behaviors.Behavior>
                                 <mmp:DropDownButtonBehavior>
                                     <mmp:DropDownButtonBehavior.DropDownContent>

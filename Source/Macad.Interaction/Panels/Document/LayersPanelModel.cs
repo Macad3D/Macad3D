@@ -97,9 +97,9 @@ public class LayersPanelModel : BaseObject
     bool CanExecuteStartRenamingCommand()
     {
         return SelectedLayer != null
-               && CoreContext.Current?.Layers != null
-               && SelectedLayer != CoreContext.Current.Layers.Default
-               && CoreContext.Current.Layers.Contains(SelectedLayer);
+               && _Layers != null
+               && SelectedLayer != _Layers.Default
+               && _Layers.Contains(SelectedLayer);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -138,26 +138,26 @@ public class LayersPanelModel : BaseObject
     bool CanExecuteActivateLayerCommand()
     {
         return SelectedLayer != null
-               && CoreContext.Current?.Layers != null
-               && CoreContext.Current.Layers.Contains(SelectedLayer);
+               && _Layers != null
+               && _Layers.Contains(SelectedLayer);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void ExecuteActivateLayerCommand()
     {
-        CoreContext.Current.Layers.ActiveLayer = SelectedLayer;
+        _Layers.ActiveLayer = SelectedLayer;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void ExecuteCreateLayerCommand()
     {
-        var priorActiveLayer = CoreContext.Current.Layers.ActiveLayer;
+        var priorActiveLayer = _Layers.ActiveLayer;
         LayerCommands.CreateNewLayer.Execute();
-        if (CoreContext.Current.Layers.ActiveLayer != priorActiveLayer)
+        if (_Layers.ActiveLayer != priorActiveLayer)
         {
-            SelectedLayer = CoreContext.Current.Layers.ActiveLayer;
+            SelectedLayer = _Layers.ActiveLayer;
             Application.Current.Dispatcher.InvokeAsync(StartRenamingCommand.Execute, DispatcherPriority.Loaded);
         }
     }
@@ -253,8 +253,10 @@ public class LayersPanelModel : BaseObject
 
     public void MoveToIndex(Layer layer, int newIndex)
     {
+        var activeLayer = _Layers.ActiveLayer;
         if (_Layers.Move(layer, newIndex))
         {
+            _Layers.ActiveLayer = activeLayer;
             InteractiveContext.Current.UndoHandler.Commit();
         }
     }
