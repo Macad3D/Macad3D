@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -59,8 +61,11 @@ public class LayersPanelModel : BaseObject
         get { return _IsNameEditing; }
         set
         {
-            _IsNameEditing = value;
-            RaisePropertyChanged();
+            if (_IsNameEditing != value)
+            {
+                _IsNameEditing = value;
+                RaisePropertyChanged();
+            }
         }
     }
 
@@ -83,6 +88,7 @@ public class LayersPanelModel : BaseObject
 
     #region Commands
 
+    public ActionCommand CreateLayerCommand { get; private set; }
     public ActionCommand StartRenamingCommand { get; private set; }
     public ActionCommand ActivateLayerCommand { get; private set; }
 
@@ -145,6 +151,19 @@ public class LayersPanelModel : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
+    void ExecuteCreateLayerCommand()
+    {
+        var priorActiveLayer = CoreContext.Current.Layers.ActiveLayer;
+        LayerCommands.CreateNewLayer.Execute();
+        if (CoreContext.Current.Layers.ActiveLayer != priorActiveLayer)
+        {
+            SelectedLayer = CoreContext.Current.Layers.ActiveLayer;
+            Application.Current.Dispatcher.InvokeAsync(StartRenamingCommand.Execute, DispatcherPriority.Loaded);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void CreateCommands()
     {
         StartRenamingCommand = new ActionCommand(ExecuteStartRenamingCommand, CanExecuteStartRenamingCommand)
@@ -156,6 +175,14 @@ public class LayersPanelModel : BaseObject
             Shortcut = "F2"
         };
         ActivateLayerCommand = new ActionCommand(ExecuteActivateLayerCommand, CanExecuteActivateLayerCommand);
+        CreateLayerCommand = new ActionCommand(ExecuteCreateLayerCommand, LayerCommands.CreateNewLayer.CanExecute)
+        {
+            Header = LayerCommands.CreateNewLayer.Header,
+            Title = LayerCommands.CreateNewLayer.Title,
+            Description = LayerCommands.CreateNewLayer.Description,
+            Icon = LayerCommands.CreateNewLayer.Icon,
+            Shortcut = LayerCommands.CreateNewLayer.Shortcut
+        };
     }
 
     //--------------------------------------------------------------------------------------------------

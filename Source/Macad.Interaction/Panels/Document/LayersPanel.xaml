@@ -23,7 +23,7 @@
         <ToolBarTray IsLocked="true"
                      DockPanel.Dock="Top">
             <ToolBar>
-                <Button mmp:Command.Action="{x:Static mmi:LayerCommands.CreateNewLayer}"
+                <Button mmp:Command.Action="{Binding CreateLayerCommand}"
                         AutomationProperties.AutomationId="CreateLayer"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
                         mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" 

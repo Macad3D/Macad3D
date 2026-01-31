@@ -143,7 +143,28 @@ public class LayerUITests : UITestBase
         layerPanel.SelectItem(1);
         Assert.IsTrue(layerPanel.GetLayerItem(1).IsSelected);
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Create()
+    {
+        var layerPanel = MainWindow.Layers;
+
+        layerPanel.Click("CreateLayer");
+        var layerItem = layerPanel.GetLayerItem(1);
+        Assert.That(layerItem.Text == "Unnamed");
+
+        // Autostart name editing
+        layerItem.SetValue("LayerRenameBox", "MyLayer");
+        Pipe.PressKey(VirtualKeyShort.ENTER);
+        Assert.AreEqual("MyLayer", layerPanel.GetLayerItem(1).Text);
+
+        // Auto-Activated
+        var layerGuid = Pipe.GetValue("$Context.Layers.[1].Guid");
+        Assert.AreEqual(layerGuid, Pipe.GetValue("$Context.Layers.ActiveLayer.Guid"));
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
@@ -151,6 +172,7 @@ public class LayerUITests : UITestBase
     {
         var layerPanel = MainWindow.Layers;
 
+        layerPanel.AddLayer();
         layerPanel.AddLayer();
         var layerItem = layerPanel.GetLayerItem(1);
         layerItem.Click(doubleClick: true);
@@ -165,6 +187,7 @@ public class LayerUITests : UITestBase
     {
         var layerPanel = MainWindow.Layers;
 
+        layerPanel.AddLayer();
         layerPanel.AddLayer();
         var layerItem = layerPanel.GetLayerItem(1);
         layerItem.Click();

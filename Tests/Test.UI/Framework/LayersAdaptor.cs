@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Definitions;
+﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
-using FlaUI.Core.Tools;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using FlaUI.Core.WindowsAPI;
 
 namespace Macad.Test.UI.Framework;
 
@@ -57,6 +55,12 @@ public class LayersAdaptor : FormAdaptor
     public TreeItemAdaptor AddLayer()
     {
         Click("CreateLayer");
+        Wait.UntilInputIsProcessed();
+
+        // Cancel layer naming
+        Keyboard.Type(VirtualKeyShort.ENTER);
+        Wait.UntilInputIsProcessed();
+
         return GetLayerItems().Last();
     }
 

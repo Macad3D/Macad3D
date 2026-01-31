@@ -32,7 +32,7 @@ public partial class LayersPanel : UserControl
     //--------------------------------------------------------------------------------------------------
 
     #region Renaming Textbox
-
+    
     void _TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         var box = sender as TextBox;
@@ -47,9 +47,7 @@ public partial class LayersPanel : UserControl
         if (Model.SelectedLayer == null)
             return;
 
-        var box = sender as TextBox;
-        Debug.Assert(box != null, "box != null");
-        if (box.Visibility == Visibility.Visible)
+        if (sender is TextBox { Visibility: Visibility.Visible } box)
         {
             box.Text = Model.SelectedLayer.Name;
             box.SelectAll();

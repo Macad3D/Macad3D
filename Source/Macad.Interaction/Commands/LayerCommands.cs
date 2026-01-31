@@ -26,6 +26,7 @@ public static class LayerCommands
 
             var newLayer = new Layer() {Name = "Unnamed"};
             cl.Add(newLayer);
+            cl.ActiveLayer = newLayer;
             CoreContext.Current.UndoHandler.Commit();
             CoreContext.Current.Document?.MarkAsUnsaved();
         },
