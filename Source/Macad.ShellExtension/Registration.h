@@ -1,4 +1,4 @@
-﻿/****************************** Module Header ******************************\ 
+﻿/****************************** Module Header ******************************
 Module Name:  Reg.h 
 Project:      CppShellExtThumbnailHandler 
 Copyright (c) Microsoft Corporation. 

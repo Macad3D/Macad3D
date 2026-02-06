@@ -18,6 +18,5 @@
     <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageVersion Include="SharpVectors.Wpf" Version="1.8.2" />
-    <PackageVersion Include="System.Text.Encoding.CodePages" Version="9.0.7" />
   </ItemGroup>
 </Project>

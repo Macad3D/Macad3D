@@ -125,7 +125,7 @@ bool _GenerateWrapper()
 	if(!vs.IsReady)
 		return false;
 
-	var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+	var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
 	var targets = $"{_WrapperProjectName}";
 	if(_OptionClean)
 	{

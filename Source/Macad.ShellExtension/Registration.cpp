@@ -1,6 +1,6 @@
 ﻿#include "ShellExtensionPCH.h"
 
-/****************************** Module Header ******************************\ 
+/****************************** Module Header ****************************** 
 Module Name:  Reg.cpp 
 Project:      CppShellExtThumbnailHandler 
 Copyright (c) Microsoft Corporation. 

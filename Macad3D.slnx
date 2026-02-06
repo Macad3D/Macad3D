@@ -1,0 +1,63 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Source/">
+    <Project Path="Source/Macad.Common/Macad.Common.csproj" />
+    <Project Path="Source/Macad.Core/Macad.Core.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Source/Macad.Exchange/Macad.Exchange.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Source/Macad.Interaction/Macad.Interaction.csproj">
+      <BuildDependency Project="Source/Macad.Core/Macad.Core.csproj" />
+      <BuildDependency Project="Source/Macad.Presentation/Macad.Presentation.csproj" />
+      <BuildDependency Project="Source/Macad.Resources/Macad.Resources.csproj" />
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Source/Macad.Managed/Macad.Managed.vcxproj" Id="b80bd2f2-5fc2-49bf-87a3-52469c72812a">
+      <BuildDependency Project="Source/Macad.Occt/Macad.Occt.vcxproj" />
+    </Project>
+    <Project Path="Source/Macad.Occt/Macad.Occt.vcxproj" Id="d86316b3-7f16-439c-9be3-db64ed7ad058" />
+    <Project Path="Source/Macad.Presentation/Macad.Presentation.csproj">
+      <BuildDependency Project="Source/Macad.Resources/Macad.Resources.csproj" />
+    </Project>
+    <Project Path="Source/Macad.Resources/Macad.Resources.csproj" />
+    <Project Path="Source/Macad.ShellExtension/Macad.ShellExtension.vcxproj" Id="8a1a89b6-3754-41d2-a809-f398066591ac" />
+    <Project Path="Source/Macad/Macad.csproj">
+      <BuildDependency Project="Source/Macad.Core/Macad.Core.csproj" />
+      <BuildDependency Project="Source/Macad.Interaction/Macad.Interaction.csproj" />
+      <BuildDependency Project="Source/Macad.Managed/Macad.Managed.vcxproj" />
+      <BuildDependency Project="Source/Macad.Occt/Macad.Occt.vcxproj" />
+      <BuildDependency Project="Source/Macad.Presentation/Macad.Presentation.csproj" />
+      <BuildDependency Project="Source/Macad.Resources/Macad.Resources.csproj" />
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Test.Core/Test.Core.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Tests/Test.Exchange/Test.Exchange.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Tests/Test.Interaction/Test.Interaction.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Tests/Test.Memory/Test.Memory.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Tests/Test.UI/Test.UI.csproj">
+      <BuildDependency Project="Source/Macad/Macad.csproj" />
+    </Project>
+    <Project Path="Tests/Test.Utils/Test.Utils.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/Tools/">
+    <Project Path="Tools/BuildTools/BuildTools.csproj" />
+    <Project Path="Tools/SourceGenerator/SourceGenerator.csproj" />
+    <Project Path="Tools/WrapperGenerator/WrapperGenerator.csproj" />
+  </Folder>
+</Solution>

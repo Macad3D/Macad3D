@@ -11,7 +11,7 @@
     <MMIsVcxManagedProj Condition="($(MMIsVcxProj) == 'true') And ($(Keyword) == 'ManagedCProj')">true</MMIsVcxManagedProj>
     <MMIsDocProj Condition="$(MSBuildProjectExtension) == '.shfbproj'">true</MMIsDocProj>
 
-    <MMFramework>net9.0-windows</MMFramework>
+    <MMFramework>net10.0-windows</MMFramework>
     <MMRuntime>win-x64</MMRuntime>
   </PropertyGroup>
 

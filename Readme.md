@@ -10,10 +10,10 @@ Official homepage and download: https://macad3d.net
 
 ## Development requirements
 
-- Visual Studio 2022 Community Edition 
+- Visual Studio 2026 Community Edition 
   - .Net Desktop workload
   - C++ Desktop workload
-  - .Net 9 support component
+  - .Net 10 support component
   - C++/CLI support component 
 
 ## Building from source

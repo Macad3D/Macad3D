@@ -17,7 +17,7 @@ VisualStudio vs = new VisualStudio();
 if(!vs.IsReady)
     return -1;
 
-var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
 
 if (!vs.Build(solutionFile, "Restore", "", "x64"))
     return -1;

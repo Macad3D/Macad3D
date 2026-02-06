@@ -9,7 +9,7 @@ permissions:
 jobs:
   build:
     name: Build
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     steps:
       - name: Create sanitized event
@@ -41,7 +41,7 @@ jobs:
   test:
     name: Run Tests
     needs: build
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     strategy:
       fail-fast: false

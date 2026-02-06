@@ -44,7 +44,7 @@ VersionInfoProductVersion={#MyAppRevision}
 UninstallDisplayName={#MyAppTitle}
 UninstallDisplayIcon={app}\Macad.exe
 
-MinVersion=0,6.3
+MinVersion=0,10.0
 WizardSmallImageFile=WizModernSmallImage.bmp
 WizardImageFile=WizModernImage.bmp
 AlwaysShowComponentsList=False

@@ -70,7 +70,7 @@ bool _CleanConfiguration(string configuration)
     if(!_EnsureVS())
         return false;
 
-    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
 
     Printer.Success($"\nCleaning configuration {configuration}...");
     if (!_VS.Clean(solutionFile, "", configuration, "x64"))
@@ -87,7 +87,7 @@ bool _BuildConfiguration(string configuration)
     if(!_EnsureVS())
         return false;
 
-    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
 
     Printer.Success($"\nBuilding configuration {configuration}...");
     if (!_VS.Build(solutionFile, "", configuration, "x64", "-restore"))
@@ -104,7 +104,7 @@ bool _BuildPublish()
     if(!_EnsureVS())
         return false;
 
-    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad\Macad.csproj");
     var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /nologo /verbosity:minimal ";
 

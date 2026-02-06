@@ -26,9 +26,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -52,7 +50,6 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <ModuleDefinitionFile>GlobalExportFunctions.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -75,7 +72,6 @@
       <ModuleDefinitionFile>GlobalExportFunctions.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <ClInclude Include="ImageHelper.h" />
     <ClInclude Include="ModelInfoClassFactory.h" />
