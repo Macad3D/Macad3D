@@ -271,10 +271,7 @@ public class RotateAction : ToolAction
 
             if (_DeltaHudElement == null)
             {
-                _DeltaHudElement = new DeltaHudElement
-                {
-                    Units = ValueUnits.Degree,
-                };
+                _DeltaHudElement = new DeltaHudElement{};
                 Add(_DeltaHudElement);
             }
             _DeltaHudElement.Delta = _Delta.ToDeg();

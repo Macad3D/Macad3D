@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Common.Interop;
+using Macad.Core.Drawing;
+using Macad.Interaction;
+using Macad.Presentation;
+using Microsoft.Win32;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using Macad.Common;
-using Macad.Common.Interop;
-using Macad.Presentation;
-using Microsoft.Win32;
 
 namespace Macad.Window;
 
@@ -47,6 +49,9 @@ public partial class App : Application
 
         // Init context
         AppContext.Initialize(cmdLine);
+        var drawingParams = InteractiveContext.Current.Parameters.Get<DrawingParameterSet>();
+        UnitsService.SettingsProvider = new DrawingMeasurementSettingsProvider(drawingParams);
+        UnitsService.MeasurementSettingsChanged?.Invoke();
         var appParameter = AppContext.Current.Parameters.Get<ApplicationParameterSet>();
 
         // Load theme depending on settings or operating system

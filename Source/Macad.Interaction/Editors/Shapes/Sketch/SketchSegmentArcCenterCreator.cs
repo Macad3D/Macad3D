@@ -95,7 +95,7 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
                         _ValueHudElement = new()
                         {
                             Label = "Radius:",
-                            Units = ValueUnits.Length
+                            Descriptor = DescriptorLength
                         };
                         _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
                         Add(_ValueHudElement);
@@ -126,7 +126,7 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
                     _ValueHudElement = new()
                     {
                         Label = "Radius:",
-                        Units = ValueUnits.Length
+                        Descriptor = DescriptorLength
                     };
                     _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
                     Add(_ValueHudElement);
@@ -144,7 +144,7 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
                     _ValueHudElement = new()
                     {
                         Label = "Angle:",
-                        Units = ValueUnits.Degree
+                        Descriptor = DescriptorAngle
                     };
                     _ValueHudElement.ValueEntered += _ValueHudElement_AngleEntered;
                     Add(_ValueHudElement);

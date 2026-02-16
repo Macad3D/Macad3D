@@ -258,7 +258,8 @@
                 <Fluent:DropDownButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}"
                                        SizeDefinition="Large,Middle,Small">
                     <mmp:ValueEditBox Value="{Binding Context.Workspace.GridStep, NotifyOnSourceUpdated=True}" 
-                                      Units="Length" MinValue="0.01" MaxValue="1000"
+                                      Measurement="{Binding DescriptorDimensionless2dp, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      MinValue="0.01" MaxValue="1000"
                                       HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
                     <Fluent:MenuItem CommandParameter="10.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
                     <Fluent:MenuItem CommandParameter="5.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
@@ -274,7 +275,8 @@
                 <Fluent:DropDownButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}"
                                        SizeDefinition="Large,Middle,Small">
                     <mmp:ValueEditBox Value="{Binding Context.Workspace.GridRotation, NotifyOnSourceUpdated=True}" 
-                                      Units="Degree" MinValue="-359.9" MaxValue="359.9"
+                                      Measurement="{Binding DescriptorAngle, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      MinValue="-359.9" MaxValue="359.9"
                                       HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
                     <Fluent:MenuItem CommandParameter="0.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
                     <Fluent:MenuItem CommandParameter="5.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
@@ -292,7 +294,8 @@
                                        IsEnabled="{Binding Context.Workspace.GridType, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Circular}"
                                        SizeDefinition="Large,Middle,Small">
                     <mmp:ValueEditBox Value="{Binding Context.Workspace.GridDivisions, NotifyOnSourceUpdated=True}" 
-                                      Units="None" Precision="0" MinValue="1" MaxValue="60"
+                                      Measurement="{Binding DescriptorDimensionless0dp, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      MinValue="1" MaxValue="60"
                                       HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
                     <Fluent:MenuItem CommandParameter="3" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="4" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
@@ -350,7 +353,7 @@
                             <Fluent:RibbonToolBarRow>
                                 <Fluent:RibbonToolBarControlGroupDefinition>
                                     <Fluent:RibbonToolBarControlDefinition Target="Layers_MoveEntityToLayer" />
-                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_SelectAll" />
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_SelectAll" AutomationProperties.AutomationId="Layers_SelectAll"/>
                                 </Fluent:RibbonToolBarControlGroupDefinition>
                                 <Fluent:RibbonToolBarControlGroupDefinition>
                                     <Fluent:RibbonToolBarControlDefinition Target="Layers_ActiveLayerLocked" />
@@ -465,11 +468,14 @@
                                     SizeDefinition="Large,Large,Large" >
                     <Fluent:GroupSeparatorMenuItem Header="Sketch Plane Alignment" />
                     <Fluent:MenuItem CommandParameter="WorkplaneXY"
-                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" 
+                                     AutomationProperties.AutomationId="WorkplaneXY"/>
                     <Fluent:MenuItem CommandParameter="WorkplaneXZ"
-                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" 
+                                     AutomationProperties.AutomationId="WorkplaneXZ"/>
                     <Fluent:MenuItem CommandParameter="WorkplaneYZ"
-                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" 
+                                     AutomationProperties.AutomationId="WorkplaneYZ"/>
                     <Fluent:MenuItem CommandParameter="Interactive"
                                      mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}"
                                      AutomationProperties.AutomationId="CreateSketchInteractive"/>

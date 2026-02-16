@@ -11,13 +11,12 @@ public partial class ScalePropertyPanel : PropertyPanel
 {
     public double ScaleFactorX
     {
-        get { return Scale.Factor.X * 100; }
+        get { return Scale.Factor.X; }
         set
         {
-            double factor = value / 100.0;
-            if (Scale.Factor.X != factor)
+            if (!value.IsEqual(Scale.Factor.X, 1e-9))
             {
-                Scale.Factor = new Vec(factor, Scale.Factor.Y, Scale.Factor.Z);
+                Scale.Factor = new Vec(value, Scale.Factor.Y, Scale.Factor.Z);
                 RaisePropertyChanged();
             }
         }
@@ -27,13 +26,12 @@ public partial class ScalePropertyPanel : PropertyPanel
 
     public double ScaleFactorY
     {
-        get { return Scale.Factor.Y * 100; }
+        get { return Scale.Factor.Y; }
         set
         {
-            double factor = value / 100.0;
-            if (Scale.Factor.Y != factor)
+            if (!value.IsEqual(Scale.Factor.Y, 1e-9))
             {
-                Scale.Factor = new Vec(Scale.Factor.X, factor, Scale.Factor.Z);
+                Scale.Factor = new Vec(Scale.Factor.X, value, Scale.Factor.Z);
                 RaisePropertyChanged();
             }
         }
@@ -43,13 +41,12 @@ public partial class ScalePropertyPanel : PropertyPanel
 
     public double ScaleFactorZ
     {
-        get { return Scale.Factor.Z * 100; }
+        get { return Scale.Factor.Z; }
         set
         {
-            double factor = value / 100.0;
-            if (Scale.Factor.Z != factor)
+            if (!value.IsEqual(Scale.Factor.Z, 1e-9))
             {
-                Scale.Factor = new Vec(Scale.Factor.X, Scale.Factor.Y, factor);
+                Scale.Factor = new Vec(Scale.Factor.X, Scale.Factor.Y, value);
                 RaisePropertyChanged();
             }
         }
@@ -98,16 +95,28 @@ public partial class ScalePropertyPanel : PropertyPanel
         Scale = instance as Scale;
         Debug.Assert(Scale != null);
 
-        Scale.PropertyChanged += _Scale_OnPropertyChanged;
-
         InitializeComponent();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (Scale != null)
+        {
+            // Avoid duplicate subscriptions if OnApplyTemplate is called more than once
+            Scale.PropertyChanged -= _Scale_OnPropertyChanged;
+            Scale.PropertyChanged += _Scale_OnPropertyChanged;
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _Scale_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(Scale.Factor))
+        if (e.PropertyName == nameof(Scale.Factor) || string.IsNullOrEmpty(e.PropertyName))
         {
             RaisePropertyChanged(nameof(ScaleFactorX));
             RaisePropertyChanged(nameof(ScaleFactorY));

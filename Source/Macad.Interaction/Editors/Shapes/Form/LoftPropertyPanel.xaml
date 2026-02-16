@@ -67,7 +67,7 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
         <mmp:ValueEditBox Grid.Row="3" Grid.Column="1"
-                          Units="Length" 
+                          Measurement="{Binding DescriptorLength}"
                           Value="{Binding Loft.Thickness, NotifyOnSourceUpdated=True}"
                           Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
 

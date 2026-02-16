@@ -8,6 +8,8 @@ public class FilletEditor : Editor<Fillet>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<FilletPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 		

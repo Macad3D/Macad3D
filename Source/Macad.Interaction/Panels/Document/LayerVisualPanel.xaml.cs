@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Core.Topology;
+using Macad.Presentation;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Macad.Core.Topology;
-using Macad.Core;
-using Macad.Presentation;
 
 namespace Macad.Interaction.Panels;
 
@@ -13,6 +14,9 @@ namespace Macad.Interaction.Panels;
 /// </summary>
 public partial class LayerVisualPanel : UserControl
 {
+    public static readonly MeasurementDescriptor DescriptorPercentage0dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.Percentage, DimensionlessPrecision.Decimal_0);
+
+    //--------------------------------------------------------------------------------------------------
 
     public ICommand SwitchModeCommand { get; private set; }
 

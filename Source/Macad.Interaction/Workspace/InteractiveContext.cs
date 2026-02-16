@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Core.Topology;
+using Macad.Interaction.Panels;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Macad.Common;
-using Macad.Core;
-using Macad.Interaction.Panels;
 
 namespace Macad.Interaction;
 
@@ -149,6 +150,17 @@ public abstract class InteractiveContext : CoreContext
         Current = this;
         DocumentController = new ModelController();
         ShortcutHandler = new ShortcutHandler();
+        CoreContext.Current.Parameters.ParameterChanged += OnPreferencesChanged;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void OnPreferencesChanged(ParameterSet set, string key)
+    {
+        UnitsService.MeasurementSettingsChanged?.Invoke();
+
+        if (Document is not Model model)
+            return;
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -22,6 +22,8 @@ public sealed class CircularArrayEditor : Editor<CircularArray>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<CircularArrayPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -228,7 +230,9 @@ public sealed class CircularArrayEditor : Editor<CircularArray>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement.SetValue($"Radius: {newRadius.ToInvariantString("F2")} mm");
+        _HudElement.Label = "Radius";
+        _HudElement.Value = newRadius;
+        _HudElement.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -261,7 +265,9 @@ public sealed class CircularArrayEditor : Editor<CircularArray>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement.SetValue($"Original Angle: {newAngle.ToInvariantString("F2")}°");
+        _HudElement.Label = "Original Angle";
+        _HudElement.Value = newAngle;
+        _HudElement.Measurement = DescriptorAngle;
     }
 
     //--------------------------------------------------------------------------------------------------

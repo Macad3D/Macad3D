@@ -13,25 +13,48 @@ public class ValueEditBox : TextBox
 {
     #region Dependency Properties
 
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty MeasurementProperty =
+    DependencyProperty.Register(
+        nameof(Measurement),
+        typeof(MeasurementDescriptor),
+        typeof(ValueEditBox),
+        new FrameworkPropertyMetadata(null, PropertyChangedCallbackStatic));
+
+    public MeasurementDescriptor Measurement
+    {
+        get => (MeasurementDescriptor)GetValue(MeasurementProperty);
+        set => SetValue(MeasurementProperty, value);
+    }
+
+    //----------------------------------------------------------------------------------------------
+    
     public static readonly DependencyProperty ValueProperty =
-        DependencyProperty.Register(nameof(Value), typeof (double), typeof (ValueEditBox),
-                                    new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallbackStatic));
+        DependencyProperty.Register(
+            nameof(Value),
+            typeof(double),
+            typeof(ValueEditBox),
+            new FrameworkPropertyMetadata(
+                0.0,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                PropertyChangedCallbackStatic));
 
     public double Value
     {
-        get { return (double) GetValue(ValueProperty); }
-        set { SetValue(ValueProperty, value); }
+        get => (double)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public static readonly DependencyProperty PrecisionProperty =
-        DependencyProperty.Register(nameof(Precision), typeof(int), typeof(ValueEditBox), new FrameworkPropertyMetadata(2, PropertyChangedCallbackStatic));
+    public static readonly DependencyProperty SourceUpdateThresholdProperty =
+        DependencyProperty.Register(nameof(SourceUpdateThreshold), typeof(double), typeof(ValueEditBox), new(1e-10));
 
-    public int Precision
+    public double SourceUpdateThreshold
     {
-        get { return (int)GetValue(PrecisionProperty); }
-        set { SetValue(PrecisionProperty, value); }
+        get => (double)GetValue(SourceUpdateThresholdProperty);
+        set => SetValue(SourceUpdateThresholdProperty, value);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -54,17 +77,6 @@ public class ValueEditBox : TextBox
     {
         get { return (double) GetValue(MaxValueProperty); }
         set { SetValue(MaxValueProperty, value); }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static readonly DependencyProperty UnitsProperty =
-        DependencyProperty.Register(nameof(Units), typeof (ValueUnits), typeof (ValueEditBox), new(default(ValueUnits), PropertyChangedCallbackStatic));
-
-    public ValueUnits Units
-    {
-        get { return (ValueUnits) GetValue(UnitsProperty); }
-        set { SetValue(UnitsProperty, value); }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -113,17 +125,6 @@ public class ValueEditBox : TextBox
 
     //--------------------------------------------------------------------------------------------------
 
-    public static readonly DependencyProperty SourceUpdateThresholdProperty = 
-        DependencyProperty.Register(nameof(SourceUpdateThreshold), typeof(double), typeof(ValueEditBox), new( 1e-10 ));
-
-    public double SourceUpdateThreshold
-    {
-        get { return (double) GetValue(SourceUpdateThresholdProperty); }
-        set { SetValue(SourceUpdateThresholdProperty, value); }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     static void PropertyChangedCallbackStatic(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var instance = dependencyObject as ValueEditBox;
@@ -136,7 +137,7 @@ public class ValueEditBox : TextBox
         {
             _UpdateText((double) e.NewValue);
         }
-        else if(e.Property == PrecisionProperty)
+        else if(e.Property == MeasurementProperty)
         {
             _UpdateText(Value);
         }
@@ -163,6 +164,12 @@ public class ValueEditBox : TextBox
         _ClearTemplateBindings();
         base.OnApplyTemplate();
         _TextBoxElement = GetTemplateChild("PART_TextBox") as FrameworkElement;
+
+        if (_TextBoxElement is TextBox inner)
+        {
+            inner.GotKeyboardFocus += (s, e) => inner.SelectAll();
+        }
+
         if (_TextBoxElement != null)
         {
             _TextBoxElement.PreviewMouseLeftButtonDown += _TextBoxElement_OnPreviewMouseLeftButtonDown;
@@ -245,7 +252,6 @@ public class ValueEditBox : TextBox
 
     public ValueEditBox()
     {
-        DataObject.AddPastingHandler(this, _PastingHandler);
         DataObject.AddCopyingHandler(this, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
         Text = "0";
     }
@@ -263,8 +269,13 @@ public class ValueEditBox : TextBox
 
     void _UpdateText(double value)
     {
-        int precision = Precision;
-        Text = value.ToString("F" + (precision >= 0 ? precision : ""), CultureInfo.InvariantCulture);
+        if (Measurement == null || Measurement.UnitSystem == null)
+        {
+            Text = value.ToString("G", CultureInfo.InvariantCulture);
+            return;
+        }
+
+        Text = UnitsService.Format(value, Measurement);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -274,79 +285,31 @@ public class ValueEditBox : TextBox
         BindingExpression exp = GetBindingExpression(TextBox.TextProperty);
         exp?.UpdateSource();
 
-        if (BindingHelper.HasBinding(this, ValueProperty))
+        if (!BindingHelper.HasBinding(this, ValueProperty))
+            return;
+
+        double newValue;
+
+        // Unified parsing: expressions, units, architectural, mixed, default-unit
+        if (!UnitsService.TryParseExpression(Text, Measurement, out newValue))
         {
-            double newValue = Value;
-            if (Text.StartsWith("="))
-            {
-                // Evaluate Expression
-                double? result = _EvaluateExpression();
-                if (!result.HasValue)
-                {
-                    return;
-                }
-                if (Math.Abs(newValue - result.Value) > 1e-10)
-                    newValue = result.Value;
-                else
-                    _UpdateText(newValue);
-            }
-            else
-            {
-                if (!double.TryParse(Text, NumberStyles.Any, CultureInfo.InvariantCulture, out newValue))
-                    return;
-            }
-
-            newValue = newValue.Clamp(MinValue, MaxValue);
-            if(Math.Abs(Value - newValue) >= SourceUpdateThreshold)
-            {
-                Value = newValue;
-            }
-            _UpdateText(Value);
+            EvaluationError = true;
+            return;
         }
-    }
 
-    //--------------------------------------------------------------------------------------------------
-
-    double? _EvaluateExpression()
-    {
-        if (Text.StartsWith("="))
-        {
-            // Evaluate Expression
-            double? result = Common.Evaluator.Evaluator.EvaluateExpression(Text.Remove(0, 1), out _);
-            EvaluationError = !result.HasValue;
-            return result;
-        }
         EvaluationError = false;
-        return null;
-    }
 
-    //--------------------------------------------------------------------------------------------------
+        // Clamp to allowed range
+        newValue = newValue.Clamp(MinValue, MaxValue);
 
-    void _PastingHandler(object sender, DataObjectPastingEventArgs e)
-    {
-        if (e.DataObject.GetDataPresent(typeof(String)))
+        // Only update source if change exceeds threshold
+        if(Math.Abs(Value - newValue) >= SourceUpdateThreshold)
         {
-            String text = (String)e.DataObject.GetData(typeof(String));
-            if (!_IsTextAllowed(text))
-            {
-                e.CancelCommand();
-            }
+            Value = newValue;
         }
-        else
-        {
-            e.CancelCommand();
-        }
-    }
 
-    //--------------------------------------------------------------------------------------------------
-
-    bool _IsTextAllowed(string text)
-    {
-        if (Text.StartsWith("=") || ((CaretIndex==0) && text.StartsWith("=")))
-            return true;
-
-        Regex regex = new Regex("[0-9.,-]+"); //regex that matches allowed text
-        return regex.IsMatch(text);
+        // Update displayed text using UnitsService.Format
+        _UpdateText(Value);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -379,32 +342,9 @@ public class ValueEditBox : TextBox
             keyboardFocus?.MoveFocus(tRequest);
 
             e.Handled = true;
-        } 
-        else if (e.Key is Key.OemPeriod or Key.OemComma or Key.Decimal)
-        {
-            if (Text.Contains(".") && !IsEvaluating)
-            {
-                e.Handled = true;
-            }
-        }
-        else if (e.Key is Key.OemMinus or Key.Subtract)
-        {
-            if ((CaretIndex != 0 && SelectionStart != 0 || Text.Contains("-") && ! SelectedText.Contains("-")) 
-                && !IsEvaluating)
-            {
-                e.Handled = true;
-            }
         }
 
         base.OnKeyDown(e);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected override void OnPreviewTextInput(TextCompositionEventArgs e)
-    {
-        e.Handled = !_IsTextAllowed(e.Text); 
-        base.OnTextInput(e);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -430,38 +370,22 @@ public class ValueEditBox : TextBox
             return;
         }
             
-        if (Text == "0")
+        if (clearTextOnValidEntry)
         {
-            clearTextOnValidEntry = true;
+            Text = "";
         }
-
-        if (e.Key is Key.OemPeriod or Key.OemComma or Key.Decimal)
-        {
-            if (Text.Contains(".") && !IsEvaluating && !clearTextOnValidEntry)
-            {
-                return;
-            }
-        }
-        else if (e.Key is Key.OemMinus or Key.Subtract)
-        {
-            if ((CaretIndex != 0 && SelectionStart != 0 || Text.Contains("-") && SelectedText.Contains("-")) 
-                && !IsEvaluating
-                && !clearTextOnValidEntry)
-            {
-                return;
-            }
-        }
-
-        if (clearTextOnValidEntry || Text == "0")
+        else if (Text == "0")
         {
             SelectAll();
         }
 
         string keyText = InputHelper.ConvertKeyToText(e);
-        if (!_IsTextAllowed((clearTextOnValidEntry ? "" : Text) + keyText))
+        if (string.IsNullOrEmpty(keyText))
             return;
 
-        TextCompositionManager.StartComposition(new(InputManager.Current, this, keyText));
+        // Directly append the character - tokenizer will validate later
+        Text += keyText;
+
         e.Handled = true;
     }
 
@@ -469,35 +393,6 @@ public class ValueEditBox : TextBox
 
     protected override void OnTextChanged(TextChangedEventArgs e)
     {
-        using (DeclareChangeBlock())
-        {
-            foreach (var c in e.Changes)
-            {
-                if (c.AddedLength == 0) continue;
-                Select(c.Offset, c.AddedLength);
-                if (SelectedText.Contains(","))
-                {
-                    SelectedText = SelectedText.Replace(',', '.');
-                }
-                Select(c.Offset + c.AddedLength, 0);
-            }
-        }
-
-        var text = Text;
-        if (text.Length == 0)
-        {
-            Text = "0";
-        }
-        else
-        {
-            if (text[0] == '.')
-            {
-                Text.Insert(0, "0");
-            }
-        }
-
-        _EvaluateExpression();
-
         base.OnTextChanged(e);
     }
 

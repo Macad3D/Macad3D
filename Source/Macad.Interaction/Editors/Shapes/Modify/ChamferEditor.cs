@@ -8,6 +8,8 @@ public class ChamferEditor : Editor<Chamfer>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<ChamferPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

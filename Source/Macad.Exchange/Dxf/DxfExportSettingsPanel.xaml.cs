@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Macad.Common;
 using Macad.Presentation;
+using System.Collections.Generic;
 
 namespace Macad.Exchange.Dxf;
 
@@ -85,6 +86,10 @@ public sealed partial class DxfExportSettingsPanel : SettingsPanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public MeasurementDescriptor DimensionlessPercentage3dp { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public DxfExportSettingsPanel(DxfExchanger.DxfSettings dxfSettings)
     {
         _DxfSettings = dxfSettings;
@@ -94,6 +99,8 @@ public sealed partial class DxfExportSettingsPanel : SettingsPanelBase
         SetEllipseAsPolygonCommand = new RelayCommand<bool>((b) => EllipseAsPolygon = b);
 
         InitializeComponent();
+
+        DimensionlessPercentage3dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.None, DimensionlessPrecision.Decimal_3);
     }
 
     //--------------------------------------------------------------------------------------------------

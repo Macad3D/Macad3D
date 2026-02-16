@@ -25,19 +25,19 @@
 
         <TextBlock  Grid.Row="0" Grid.Column="0" Text="Length" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" Width="100"
-                          Units="Length" 
+                          Measurement="{Binding DescriptorLength}" 
                           Value="{Binding Box.DimensionX, NotifyOnSourceUpdated=True}"
                           AutomationProperties.AutomationId="BoxLength" />
 
         <TextBlock  Grid.Row="1" Grid.Column="0" Text="Width" Style="{DynamicResource Macad.Styles.TextBlock.Property}"  />
         <mmp:ValueEditBox Grid.Row="1" Grid.Column="1" Width="100"
-                          Units="Length" 
+                          Measurement="{Binding DescriptorLength}" 
                           Value="{Binding Box.DimensionY, NotifyOnSourceUpdated=True}"
                           AutomationProperties.AutomationId="BoxWidth"  />
 
         <TextBlock  Grid.Row="2" Grid.Column="0" Text="Height" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" Width="100"
-                          Units="Length" Value="{Binding Box.DimensionZ, NotifyOnSourceUpdated=True}"
+                          Measurement="{Binding DescriptorLength}" Value="{Binding Box.DimensionZ, NotifyOnSourceUpdated=True}"
                           AutomationProperties.AutomationId="BoxHeight" />
     </Grid>
 </panels:PropertyPanel>

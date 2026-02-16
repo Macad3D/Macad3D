@@ -24,7 +24,8 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         public string ParameterName { get; set; }
         public string ToggleName { get; set; }
         public bool ToggleState { get; set; }
-        public ValueUnits Units { get; set; }
+        public MeasurementDescriptor DescriptorVariable { get; set; }
+        public SketchConstraintsPropertyPanel _panel { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -51,8 +52,9 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
 
         //--------------------------------------------------------------------------------------------------
 
-        internal ConstraintData(Sketch sketch, SketchConstraint constraint, bool swapOrientation)
+        internal ConstraintData(SketchConstraintsPropertyPanel panel, Sketch sketch, SketchConstraint constraint, bool swapOrientation)
         {
+            _panel = panel;
             Sketch = sketch;
             Constraint = constraint;
             Info = "";
@@ -112,31 +114,31 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
                     Type = "Inner Angle";
                     ParameterName = "Angle";
                     Parameter = constraint.Parameter;
-                    Units = ValueUnits.Degree;
+                    _panel.DescriptorVariable = _panel.DescriptorAngle;
                     break;
                 case SketchConstraintHorizontalDistance _:
                     Type = swapOrientation ? "Horiz. Distance" : "Vert. Distance";
                     ParameterName = "Distance";
                     Parameter = constraint.Parameter;
-                    Units = ValueUnits.Length;
+                    _panel.DescriptorVariable = _panel.DescriptorLength;
                     break;
                 case SketchConstraintVerticalDistance _:
                     Type = swapOrientation ? "Vert. Distance" : "Horiz. Distance";
                     ParameterName = "Distance";
                     Parameter = constraint.Parameter;
-                    Units = ValueUnits.Length;
+                    _panel.DescriptorVariable = _panel.DescriptorLength;
                     break;
                 case SketchConstraintLength _:
                     Type = "Length";
                     ParameterName = "Length";
                     Parameter = constraint.Parameter;
-                    Units = ValueUnits.Length;
+                    _panel.DescriptorVariable = _panel.DescriptorLength;
                     break;
                 case SketchConstraintRadius _:
                     Type = "Radius";
                     ParameterName = "Radius";
                     Parameter = constraint.Parameter;
-                    Units = ValueUnits.Length;
+                    _panel.DescriptorVariable = _panel.DescriptorLength;
                     break;
                 case SketchConstraintTangent _:
                     Type = "Tangent";
@@ -215,7 +217,7 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         {
             newConstraints.AddRange(
                 (from selectedConstraint in SketchEditorTool.SelectedConstraints
-                 select new ConstraintData(_SketchEditorTool.Sketch, selectedConstraint, swapOrientation)).Take(10));
+                 select new ConstraintData(this, _SketchEditorTool.Sketch, selectedConstraint, swapOrientation)).Take(10));
         }
         Constraints = newConstraints;
     }

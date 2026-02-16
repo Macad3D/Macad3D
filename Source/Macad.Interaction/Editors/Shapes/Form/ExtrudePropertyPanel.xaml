@@ -28,7 +28,9 @@
         <!-- Depth -->
         <TextBlock Grid.Column="0" Text="Depth" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Column="1" 
-                        Units="Length" Value="{Binding Extrude.Depth, NotifyOnSourceUpdated=True}" />
+                          Measurement="{Binding DescriptorLength}"
+                          Value="{Binding Extrude.Depth, NotifyOnSourceUpdated=True}" 
+                          AutomationProperties.AutomationId="Depth"/>
         
         <!-- Symmetric -->
         <CheckBox Grid.Row="1" Grid.Column="1"
@@ -55,6 +57,13 @@
                           IsChecked="{Binding IsToolActive}"
                           Command="{Binding ReselectFaceCommand}"
                           HorizontalAlignment="Center" 
-                          Margin="0,20,0,2" />
+                          Margin="0,20,0,2" 
+                          AutomationProperties.AutomationId="ReselectFaceCommand"/>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Visibility="Collapsed"
+            Text="{Binding IsToolActive}"
+            AutomationProperties.AutomationId="IsToolActive" />
     </Grid>
 </panels:PropertyPanel>

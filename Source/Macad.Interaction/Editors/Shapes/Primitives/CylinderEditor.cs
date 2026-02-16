@@ -21,6 +21,8 @@ public sealed class CylinderEditor : Editor<Cylinder>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<CylinderPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -169,7 +171,9 @@ public sealed class CylinderEditor : Editor<Cylinder>
                 _HudElements[1] = new LabelHudElement();
                 Add(_HudElements[1]);
             }
-            _HudElements[1]?.SetValue($"Height: {Entity.Height.ToInvariantString("F2")} mm");
+            _HudElements[1]?.Label = "Height";
+            _HudElements[1]?.Value = Entity.Height;
+            _HudElements[1]?.Measurement = DescriptorLength;
         }
 
         if (newRadius != 0)
@@ -187,7 +191,9 @@ public sealed class CylinderEditor : Editor<Cylinder>
                 _HudElements[0] = new LabelHudElement();
                 Add(_HudElements[0]);
             }
-            _HudElements[0]?.SetValue($"Radius:  {Entity.Radius.ToInvariantString("F2")} mm");
+            _HudElements[0]?.Label = "Radius";
+            _HudElements[0]?.Value = Entity.Radius;
+            _HudElements[0]?.Measurement = DescriptorLength;
         }
 
         Entity.Body.Position = newPosition;

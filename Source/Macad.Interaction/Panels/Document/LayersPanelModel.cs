@@ -97,9 +97,9 @@ public class LayersPanelModel : BaseObject
     bool CanExecuteStartRenamingCommand()
     {
         return SelectedLayer != null
-               && _Layers != null
-               && SelectedLayer != _Layers.Default
-               && _Layers.Contains(SelectedLayer);
+               && CoreContext.Current?.Layers != null
+               && SelectedLayer != CoreContext.Current.Layers.Default
+               && CoreContext.Current.Layers.Contains(SelectedLayer);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -138,15 +138,15 @@ public class LayersPanelModel : BaseObject
     bool CanExecuteActivateLayerCommand()
     {
         return SelectedLayer != null
-               && _Layers != null
-               && _Layers.Contains(SelectedLayer);
+               && CoreContext.Current?.Layers != null
+               && CoreContext.Current.Layers.Contains(SelectedLayer);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void ExecuteActivateLayerCommand()
     {
-        _Layers.ActiveLayer = SelectedLayer;
+        CoreContext.Current.ActiveLayer = SelectedLayer;
     }
 
     //--------------------------------------------------------------------------------------------------

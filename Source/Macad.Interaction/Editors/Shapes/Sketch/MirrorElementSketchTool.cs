@@ -133,7 +133,9 @@ public class MirrorElementSketchTool : SketchTool
                 _AxisInfoHudElement = new LabelHudElement();
                 Add(_AxisInfoHudElement);
             }
-            _AxisInfoHudElement.Text = $"Orientation: {Maths.NormalizeAngleDegree(orientation.ToDeg(), -180, 180).ToRoundedInt()}°";
+            _AxisInfoHudElement.Label = "Orientation";
+            _AxisInfoHudElement.Value = Maths.NormalizeAngleDegree(orientation.ToDeg(), -180, 180);
+            _AxisInfoHudElement.Measurement = DescriptorAngle;
 
             // Create preview structures
             _UpdateElements();

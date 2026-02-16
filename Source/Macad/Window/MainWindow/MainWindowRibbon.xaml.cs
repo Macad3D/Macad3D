@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using Fluent;
+using Macad.Common;
 using Macad.Interaction;
 using Macad.Presentation;
 
@@ -16,10 +17,80 @@ namespace Macad.Window;
 /// </summary>
 public partial class MainWindowRibbon : UserControl
 {
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorAngleProperty =
+        DependencyProperty.Register(
+        nameof(DescriptorAngle),
+        typeof(MeasurementDescriptor),
+        typeof(MainWindowRibbon),
+        new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorAngle
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorAngleProperty);
+        set => SetValue(DescriptorAngleProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorDimensionless0dpProperty =
+        DependencyProperty.Register(
+        nameof(DescriptorDimensionless0dp),
+        typeof(MeasurementDescriptor),
+        typeof(MainWindowRibbon),
+        new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorDimensionless0dp
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorDimensionless0dpProperty);
+        set => SetValue(DescriptorDimensionless0dpProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorDimensionless2dpProperty =
+    DependencyProperty.Register(
+    nameof(DescriptorDimensionless2dp),
+    typeof(MeasurementDescriptor),
+    typeof(MainWindowRibbon),
+    new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorDimensionless2dp
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorDimensionless2dpProperty);
+        set => SetValue(DescriptorDimensionless2dpProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public MeasurementDescriptor DescriptorPercentage0dp { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public MainWindowRibbon()
     {
         InitializeComponent();
+        InitializeDescriptors();
         RibbonLocalization.Current.Culture = CultureInfo.InvariantCulture;
+        UnitsService.MeasurementSettingsChanged += OnMeasurementSettingsChanged;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void InitializeDescriptors()
+    {
+        DescriptorPercentage0dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.Percentage, DimensionlessPrecision.Decimal_0);
+        DescriptorDimensionless0dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.None, DimensionlessPrecision.Decimal_0);
+        DescriptorDimensionless2dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.None, DimensionlessPrecision.Decimal_2);
+        DescriptorAngle = UnitsService.GetDescriptor(PhysicalQuantities.Angle);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void OnMeasurementSettingsChanged()
+    {
+        InitializeDescriptors();
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -16,6 +16,8 @@ public class SketchEditor : Editor<Sketch>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<SketchPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

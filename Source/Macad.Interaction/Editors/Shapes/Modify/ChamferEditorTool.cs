@@ -389,7 +389,9 @@ public class ChamferEditorTool : EdgeModifierTool
             Add(_HudElement);
         }
 
-        _HudElement?.SetValue($"Distance: {newDistance.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Distance";
+        _HudElement?.Value = newDistance;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -434,12 +436,14 @@ public class ChamferEditorTool : EdgeModifierTool
             Add(_HudElement);
         }
 
-        _HudElement?.SetValue($"Angle: {newAngle.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Angle";
+        _HudElement?.Value = newAngle;
+        _HudElement?.Measurement = DescriptorAngle; // Original code had measurement of mm for some reason
     }
 
-    //--------------------------------------------------------------------------------------------------
-    
-    void _RotateAction_Finished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+        //--------------------------------------------------------------------------------------------------
+
+        void _RotateAction_Finished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _ActionFinished();
     }

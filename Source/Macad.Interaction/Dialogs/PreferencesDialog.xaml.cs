@@ -39,7 +39,20 @@ public partial class PreferencesDialog : Dialog
 
             _SelectedParameterSet = value;
             RaisePropertyChanged();
+            RaisePropertyChanged(nameof(SelectedParameterSet));
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void OnParametersChanged()
+    {
+        var dispatcher = Dispatcher; // capture the dialog's dispatcher
+
+        dispatcher.BeginInvoke(new Action(() =>
+        {
+            RaisePropertyChanged(nameof(SelectedParameterSet));
+        }), System.Windows.Threading.DispatcherPriority.ContextIdle);
     }
 
     ParameterSet _SelectedParameterSet;
@@ -78,6 +91,8 @@ public partial class PreferencesDialog : Dialog
 
         CoreContext.Current.Parameters.ParameterChanged += _Parameters_ParameterChanged;
 
+        UnitsService.MeasurementSettingsChanged += OnMeasurementSettingsChanged;
+
         InitializeComponent();
 
         SelectedParameterSet = ParameterSets.FirstOrDefault();
@@ -85,17 +100,34 @@ public partial class PreferencesDialog : Dialog
 
     //--------------------------------------------------------------------------------------------------
 
+    void OnMeasurementSettingsChanged()
+    {
+        RefreshParameters();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void RefreshParameters()
+    {
+        RaisePropertyChanged(nameof(SelectedParameterSet));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _Parameters_ParameterChanged(ParameterSet parameterSet, string parameterKey)
     {
-        if (parameterSet == SelectedParameterSet)
+        Dispatcher.BeginInvoke(new Action(() =>
         {
-            var parameter = parameterSet[parameterKey];
-            if ((parameter?.Flags.HasFlag(Parameter.ParameterFlags.NeedsRestart) ?? false)
-                && RestartCommand != null)
+            if (parameterSet == SelectedParameterSet)
             {
-                IsRestartRequired = true;
+                var parameter = parameterSet[parameterKey];
+                if ((parameter?.Flags.HasFlag(Parameter.ParameterFlags.NeedsRestart) ?? false)
+                    && RestartCommand != null)
+                {
+                    IsRestartRequired = true;
+                }
             }
-        }
+        }), System.Windows.Threading.DispatcherPriority.Background);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -236,7 +268,9 @@ public partial class PreferencesDialog : Dialog
                 for (var i = 0; i < enumNames.Length; i++)
                 {
                     var enumName = enumNames[i];
-                    var displayName = displayNames?.Length > i ? displayNames[i] : enumName;
+                    var field = paramDesc.ParameterType.GetField(enumName);
+                    var descriptionAttr = field.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
+                    var displayName = descriptionAttr?.Description ?? (displayNames?.Length > i ? displayNames[i] : enumName);
                     tuples.Add(new(enumName, displayName));
                 }
 

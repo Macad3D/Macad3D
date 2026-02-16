@@ -29,7 +29,8 @@
 
         <TextBlock Grid.Column="0" Text="Box Count" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Column="1" Width="90"
-                          Units="None" Precision="0" MinValue="2" IncDecButtons="True"
+                          MinValue="2" IncDecButtons="True"
+                          Measurement="{Binding DescriptorDimensionless0dp}"
                           Value="{Binding BoxJoint.BoxCount, NotifyOnSourceUpdated=True}" />
 
         <Button Grid.Row="1" Grid.Column="1" Content="Change Order" 
@@ -56,8 +57,9 @@
                    Visibility="{Binding BoxJoint.CustomBoxRatios, Converter={mmp:NotNullToInvisibleCollapsedConverter}}" />
         <DockPanel Grid.Row="5" Grid.Column="1">
             <mmp:ValueEditBox Width="40" HorizontalAlignment="Left"
-                              Units="Percent" Precision="0" MinValue="1" MaxValue="99"
-                              Value="{Binding BoxJoint.Ratio, NotifyOnSourceUpdated=True, Converter={mmp:PercentageConverter}}"
+                              MinValue="1" MaxValue="99"
+                              Measurement="{Binding DescriptorDimensionless0dp}"
+                              Value="{Binding BoxJoint.Ratio, NotifyOnSourceUpdated=True}"
                               Visibility="{Binding BoxJoint.CustomBoxRatios, Converter={mmp:NotNullToInvisibleCollapsedConverter}}" />
             <Slider Minimum="0.01" Maximum="0.99" LargeChange="0.1" Margin="10,0,0,0"
                     Value="{Binding BoxJoint.Ratio, NotifyOnSourceUpdated=True}"
@@ -77,10 +79,11 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Index, StringFormat='Box {0}:'}" Style="{DynamicResource Macad.Styles.TextBlock.Property}" Width="40" />
-                        <mmp:ValueEditBox Value="{Binding Value, Converter={mmp:PercentageConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
+                        <mmp:ValueEditBox Value="{Binding Value, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
+                                          Measurement="{Binding DescriptorDimensionless2dp}" 
                                           IsReadOnly="{Binding ReadOnly}"
                                           Tag="{Binding}"
-                                          Precision="2" Units="Percent" MinValue="0" MaxValue="99"
+                                          MinValue="0" MaxValue="99"
                                           BorderThickness="1"
                                           Width="70"
                                           Margin="0,-1,0,0"/>

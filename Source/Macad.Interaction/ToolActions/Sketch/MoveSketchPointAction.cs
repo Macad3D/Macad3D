@@ -467,7 +467,7 @@ public class MoveSketchPointAction : ToolAction
             {
                 _ValueHudElement = new ValueHudElement()
                 {
-                    Units = ValueUnits.Degree
+                    Descriptor = DescriptorAngle
                 };
                 Add(_ValueHudElement);
             }

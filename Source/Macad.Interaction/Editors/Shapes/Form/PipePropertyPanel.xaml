@@ -84,11 +84,13 @@
                     Orientation="Horizontal"
                     Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}">
             <mmp:ValueEditBox mmp:GroupControls.Position="Left"
-                              Units="Length" MinValue="0.01"
+                              MinValue="0.01"
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding Pipe.SizeX, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="DimensionX"/>
             <mmp:ValueEditBox mmp:GroupControls.Position="Right"
-                              Units="Length" MinValue="0.01" 
+                              MinValue="0.01" 
+                              Measurement="{Binding DescriptorLength}"
                               IsEnabled="{Binding Pipe.Flags, Converter={mmp:HasFlagToNotBoolConverter}, ConverterParameter=SymmetricProfile}"
                               AutomationProperties.AutomationId="DimensionY">
                 <mmp:ValueEditBox.Value>
@@ -117,7 +119,8 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}"/>
         <mmp:ValueEditBox Grid.Row="3" Grid.Column="1" 
-                          Units="Degree" MinValue="-359.9" MaxValue="359.9"
+                          MinValue="-359.9" MaxValue="359.9"
+                          Measurement="{Binding DescriptorAngle}"
                           Value="{Binding Pipe.Rotation, NotifyOnSourceUpdated=True}"
                           Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}"
                           AutomationProperties.AutomationId="Rotation"/>
@@ -128,7 +131,8 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
         <mmp:ValueEditBox Grid.Row="4" Grid.Column="1" 
-                          Units="Length" MinValue="0.01"
+                          MinValue="0.01"
+                          Measurement="{Binding DescriptorLength}"
                           Value="{Binding Pipe.Thickness, NotifyOnSourceUpdated=True}"
                           Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}}"
                           AutomationProperties.AutomationId="Thickness"/>
@@ -138,7 +142,8 @@
                    Text="Bend Radius" 
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
         <mmp:ValueEditBox Grid.Row="6" Grid.Column="1" 
-                          Units="Length" MinValue="0.01"
+                          MinValue="0.01"
+                          Measurement="{Binding DescriptorLength}"
                           IsEnabled="{Binding Pipe.Flags, Converter={mmp:HasFlagToNotBoolConverter}, ConverterParameter=AutoBendRadius}"
                           AutomationProperties.AutomationId="BendRadius">
             <mmp:ValueEditBox.Value>
@@ -162,8 +167,9 @@
         <TextBlock Grid.Row="9" Grid.Column="0" 
                    Text="Overall length" 
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
-        <TextBlock Grid.Row="9" Grid.Column="1" 
-                   Text="{Binding Pipe.MeasuredOverallLength, StringFormat={}{0:f2} mm}" 
+        <mmp:MeasurementTextBlock Grid.Row="9" Grid.Column="1" 
+                   Text="{Binding Pipe.MeasuredOverallLength}" 
+                   Measurement="{Binding DescriptorLength}"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
     </Grid>
 </panels:PropertyPanel>

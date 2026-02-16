@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmc="clr-namespace:Macad.Core;assembly=Macad.Core"
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:local="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d"
              Name="VisualPanel"
              AutomationProperties.AutomationId="LayerVisualPanel">
@@ -37,13 +38,15 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <DockPanel Grid.Row="1" Grid.Column="1">
             <mmp:ValueEditBox Width="50" HorizontalAlignment="Left"
-                              Units="Percent" Precision="0"
+                              Measurement="{x:Static local:LayerVisualPanel.DescriptorPercentage0dp}"
                               SourceUpdated="OnLayerPropSourceUpdated"
-                              Value="{Binding Transparency, NotifyOnSourceUpdated=True, Converter={mmp:PercentageConverter}}" />
+                              Value="{Binding Transparency, NotifyOnSourceUpdated=True, Converter={mmp:PercentageConverter}}" 
+                              AutomationProperties.AutomationId="TransparencyBox"/>
             <Slider Maximum="1" LargeChange="0.25" Margin="10,0,0,0"
                     Value="{Binding Transparency, NotifyOnSourceUpdated=True}"
                     SourceUpdated="OnLayerPropSourceUpdated"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center" 
+                    AutomationProperties.AutomationId="TransparencySlider"/>
         </DockPanel>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Mode"
@@ -57,13 +60,16 @@
 
             <mmp:ToggleButton Content="Wires" mmp:GroupControls.Position="Left" Grid.Column="0"
                                 IsChecked="{Binding PresentationMode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Wireframe}"
-                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="Wireframe"/>
+                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="Wireframe"
+                                AutomationProperties.AutomationId="ModeWireframe"/>
             <mmp:ToggleButton Content="Solid" mmp:GroupControls.Position="HCenter" Grid.Column="1"
                                 IsChecked="{Binding PresentationMode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Solid}"
-                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="Solid"/>
+                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="Solid"
+                                AutomationProperties.AutomationId="ModeSolid"/>
             <mmp:ToggleButton Content="Edged" mmp:GroupControls.Position="Right" Grid.Column="2"
                                 IsChecked="{Binding PresentationMode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=SolidWithBoundary}"
-                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="SolidWithBoundary"/>
+                                Command="{Binding SwitchModeCommand, ElementName=VisualPanel}" CommandParameter="SolidWithBoundary"
+                                AutomationProperties.AutomationId="ModeEdged"/>
         </Grid>
         
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Line Style"
@@ -74,7 +80,8 @@
                       ItemsSource="{Binding Source={x:Static mmc:StyleHelper.LineStyleDescriptions}}"
                       SelectedValuePath="Style"
                       SelectedValue="{Binding LineStyle, NotifyOnSourceUpdated=True}"
-                      SourceUpdated="OnLayerPropSourceUpdated">
+                      SourceUpdated="OnLayerPropSourceUpdated"
+                      AutomationProperties.AutomationId="LineStyle">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Line SnapsToDevicePixels="True" 
@@ -96,7 +103,8 @@
                       ItemsSource="{Binding Source={x:Static mmc:StyleHelper.LineThicknessDescriptions}}"
                       SelectedValuePath="Thickness"
                       SelectedValue="{Binding LineThickness, NotifyOnSourceUpdated=True}"
-                      SourceUpdated="OnLayerPropSourceUpdated">
+                      SourceUpdated="OnLayerPropSourceUpdated"
+                      AutomationProperties.AutomationId="LineThickness">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Line SnapsToDevicePixels="True" 

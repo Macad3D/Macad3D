@@ -31,7 +31,7 @@
                        Style="{StaticResource Macad.Styles.TextBlock.Property}"
                        />
             <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
-                              Units="Percent" MinValue="0.001"
+                              Measurement="{Binding DescriptorDimensionlessPercentage1dp}" MinValue="0.001"
                               Value="{Binding ScaleFactorX, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="FactorUniform"/>
 
@@ -44,16 +44,18 @@
                         Orientation="Horizontal"
                         Visibility="{Binding Scale.Uniform, Converter={mmp:BoolToVisibleCollapsedConverter}}">
                 <mmp:ValueEditBox Width="50"
-                                  MinValue="1" Precision="-1"
+                                  MinValue="1" 
                                   Value="{Binding ScaleRatioL, NotifyOnSourceUpdated=True}"
+                                  Measurement="{Binding DescriptorDimensionlessPercentage1dp}" 
                                   AutomationProperties.AutomationId="RatioL"/>
                 <TextBlock Text=":" 
                            FontWeight="Bold" FontSize="16"
                            VerticalAlignment="Center"
                            Margin="10,0,10,4"/>
                 <mmp:ValueEditBox Width="50"
-                                  MinValue="1" Precision="-1"
+                                  MinValue="1" 
                                   Value="{Binding ScaleRatioR, NotifyOnSourceUpdated=True}"
+                                  Measurement="{Binding DescriptorDimensionlessPercentage1dp}" 
                                   AutomationProperties.AutomationId="RatioR"/>
 
             </StackPanel>
@@ -81,15 +83,15 @@
                 </StackPanel.Resources>
 
                 <mmp:ValueEditBox mmp:GroupControls.Position="Left"
-                                  Units="Percent" MinValue="0.001"
+                                  Measurement="{Binding DescriptorDimensionlessPercentage1dp}" MinValue="0.001"
                                   Value="{Binding ScaleFactorX, NotifyOnSourceUpdated=True}"
                                   AutomationProperties.AutomationId="FactorX" />
                 <mmp:ValueEditBox mmp:GroupControls.Position="{Binding Scale.ShapeType, Converter={StaticResource GroupPositionConverter}}"
-                                  Units="Percent" MinValue="0.001"
+                                  Measurement="{Binding DescriptorDimensionlessPercentage1dp}" MinValue="0.001"
                                   Value="{Binding ScaleFactorY, NotifyOnSourceUpdated=True}"
                                   AutomationProperties.AutomationId="FactorY" />
                 <mmp:ValueEditBox mmp:GroupControls.Position="Right"
-                                  Units="Percent" MinValue="0.001"
+                                  Measurement="{Binding DescriptorDimensionlessPercentage1dp}" MinValue="0.001"
                                   Value="{Binding ScaleFactorZ, NotifyOnSourceUpdated=True}"
                                   AutomationProperties.AutomationId="FactorZ" 
                                   Visibility="{Binding Scale.ShapeType, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Sketch}"/>

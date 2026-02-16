@@ -27,6 +27,10 @@ public sealed partial class HalvedJointPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
 
+    public MeasurementDescriptor DescriptorPercent0dp { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public ICommand SetOrientationCommand { get; private set; }
 
     void ExecuteSetOrientation(string mode)
@@ -75,6 +79,8 @@ public sealed partial class HalvedJointPropertyPanel : PropertyPanel
         SelectOrientationCommand = new RelayCommand(ExecuteSelectOrientation);
 
         WorkspaceController.PropertyChanged += _workspaceController_PropertyChanged;
+
+        DescriptorPercent0dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.Percentage, DimensionlessPrecision.Decimal_0);
 
         InitializeComponent();
     }

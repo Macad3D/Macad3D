@@ -23,14 +23,16 @@
         </StackPanel.Effect>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding Context.Workspace.GridStep, StringFormat={}{0:0.####} mm}"
+            <mmp:MeasurementTextBlock Value="{Binding Context.Workspace.GridStep}"
+                       Measurement="{Binding DescriptorLength}"
                        Foreground="White">
-            </TextBlock>
-            <TextBlock Text="{Binding Context.WorkspaceController.VisualGridMultiplier, StringFormat={}x{0}}"
+            </mmp:MeasurementTextBlock>
+            <mmp:MeasurementTextBlock Value="{Binding Context.WorkspaceController.VisualGridMultiplier}"
+                       Measurement="{Binding DescriptorDimensionless}"
                        Visibility="{Binding Context.WorkspaceController.VisualGridMultiplier, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=1.0}"
                        Foreground="White"
                        Margin="5,0,0,0">
-            </TextBlock>
+            </mmp:MeasurementTextBlock>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal"

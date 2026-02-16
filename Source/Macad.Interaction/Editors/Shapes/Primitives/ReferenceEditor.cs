@@ -7,6 +7,8 @@ public class ReferenceEditor : Editor<Reference>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<ReferencePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

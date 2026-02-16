@@ -90,7 +90,9 @@ public class ScaleElementSketchTool : SketchTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement.Text = $"Scale: {scale:P0}";
+        _HudElement.Label = "Scale";
+        _HudElement.Measurement = DescriptorPercent0dp;
+        _HudElement.Value = scale;
     }
 
     //--------------------------------------------------------------------------------------------------

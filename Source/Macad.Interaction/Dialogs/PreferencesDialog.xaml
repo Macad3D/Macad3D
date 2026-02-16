@@ -81,7 +81,7 @@
                                       AutomationProperties.AutomationId="ParameterList">
                 <mmp:TemplateItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,0,0,10">
+                        <Grid Margin="0,0,0,10" Visibility="{Binding IsVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto" MinWidth="200" SharedSizeGroup="Name" />
@@ -141,8 +141,7 @@
         <DataTemplate x:Key="ValueTemplate">
             <mmp:ValueEditBox MinWidth="80"
                               Value="{Binding Value}"
-                              Units="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=Units}"
-                              Precision="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=Precision}"
+                              Measurement="{Binding Descriptor}"
                               MinValue="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=MinValue}"
                               MaxValue="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=MaxValue}"/>
         </DataTemplate>
@@ -150,9 +149,8 @@
         <DataTemplate x:Key="NumberTemplate">
             <mmp:ValueEditBox MinWidth="100"
                               Value="{Binding Value}"
+                              Measurement="{Binding Descriptor}"
                               IncDecButtons="True"
-                              Precision="0"
-                              Units="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=Units}"
                               MinValue="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=MinValue}"
                               MaxValue="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=MaxValue}"
                               IncDecStep="{Binding Mode=OneTime, Converter={x:Static local:PreferencesDialog.EditorHintConverter}, ConverterParameter=IncDecStep}"/>

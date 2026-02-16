@@ -53,7 +53,7 @@
                             <mmp:ValueEditBox Grid.Column="1" 
                                               HorizontalAlignment="Left" 
                                               Margin="10,0,0,0"
-                                              Units="{Binding Units}" 
+                                              Measurement="{Binding DescriptorVariable}"
                                               Tag="{Binding}"
                                               Value="{Binding Parameter, NotifyOnSourceUpdated=True}" 
                                               AutomationProperties.AutomationId="ParamValue"/>

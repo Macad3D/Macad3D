@@ -7,6 +7,8 @@ public class LoftEditor : Editor<Loft>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<LoftPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

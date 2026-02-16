@@ -1,5 +1,6 @@
-﻿using System;
+﻿using Macad.Common;
 using Macad.Presentation;
+using System;
 
 namespace Macad.Exchange.Dxf;
 
@@ -47,6 +48,8 @@ public sealed partial class DxfImportSettingsPanel : SettingsPanelBase
 
     readonly DxfExchanger.DxfSettings _DxfSettings;
     public RelayCommand<bool> SetMergePointsCommand { get; }
+    public MeasurementDescriptor DescriptorPercentage2dp { get; set; }
+
 
     //--------------------------------------------------------------------------------------------------
 
@@ -57,6 +60,8 @@ public sealed partial class DxfImportSettingsPanel : SettingsPanelBase
         SetMergePointsCommand = new RelayCommand<bool>((b) => MergePoints = b);
 
         InitializeComponent();
+
+        DescriptorPercentage2dp = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.Percentage, DimensionlessPrecision.Decimal_2);
     }
 }
 

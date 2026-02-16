@@ -45,7 +45,8 @@
                                 <ScrollViewer x:Name="PART_ContentHost"
                                               Grid.Column="0" 
                                               Margin="0" Padding="0" 
-                                              Style="{mmp:AppResource Macad.Styles.ScrollViewer}" />
+                                              Style="{mmp:AppResource Macad.Styles.ScrollViewer}" 
+                                              AutomationProperties.AutomationId="{TemplateBinding AutomationProperties.AutomationId}"/>
                                 <TextBlock Grid.Column="1" 
                                            Text="{Binding Units, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={mmp:ValueUnitsToStringConverter}}" 
                                            Margin="0,0,2,1" 

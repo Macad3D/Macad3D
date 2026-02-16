@@ -7,6 +7,8 @@ public sealed class HalvedJointEditor : Editor<HalvedJoint>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<HalvedJointPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
