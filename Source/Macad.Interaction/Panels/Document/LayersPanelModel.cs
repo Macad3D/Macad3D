@@ -146,7 +146,7 @@ public class LayersPanelModel : BaseObject
 
     void ExecuteActivateLayerCommand()
     {
-        CoreContext.Current.ActiveLayer = SelectedLayer;
+        InteractiveContext.Current.Document.Layers.ActiveLayer = SelectedLayer;
     }
 
     //--------------------------------------------------------------------------------------------------

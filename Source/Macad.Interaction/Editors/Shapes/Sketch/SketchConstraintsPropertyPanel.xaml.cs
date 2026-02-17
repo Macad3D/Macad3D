@@ -14,6 +14,12 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public partial class SketchConstraintsPropertyPanel : PropertyPanel
 {
+    //--------------------------------------------------------------------------------------------------
+
+    public MeasurementDescriptor DescriptorVariable { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public class ConstraintData : BaseObject
     {
         public Sketch Sketch { get; }
@@ -24,7 +30,6 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         public string ParameterName { get; set; }
         public string ToggleName { get; set; }
         public bool ToggleState { get; set; }
-        public MeasurementDescriptor DescriptorVariable { get; set; }
         public SketchConstraintsPropertyPanel _panel { get; set; }
 
         //--------------------------------------------------------------------------------------------------

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Macad.Interaction.Visual;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Interaction.Visual;
 using Macad.Occt;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -16,6 +17,16 @@ public class SketchEditorConstraintElement : SketchEditorElement
     //--------------------------------------------------------------------------------------------------
 
     bool _IsSelectable;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public IEnumerable<VisualObject> VisualObjects
+    {
+        get
+        {
+            return _Marker?.VisualObjects ?? Enumerable.Empty<VisualObject>();
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -42,7 +53,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
                 return;
 
             _Marker = _CreateMarker();
-            foreach (var visualobj in Marker.VisualObjects)
+            foreach (var visualobj in _Marker.VisualObjects)
             {
                 visualobj.IsSelectable = _IsSelectable;
             }
