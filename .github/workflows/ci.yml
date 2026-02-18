@@ -17,11 +17,21 @@ jobs:
         run: |
           jq '{
             pull_request: {
-              head: .pull_request.head
+              head: {
+                sha: .pull_request.head.sha
+              },
+              number: .pull_request.number,
+              base: {
+                sha: .pull_request.base.sha,
+                repo: {
+                  full_name: .pull_request.base.repo.full_name
+                }
+              }
             },
             repository: {
               default_branch: .repository.default_branch,
             },
+            before: .before
           }' "$env:GITHUB_EVENT_PATH" |
           Out-File -Encoding utf8 event-sanitized.json
 
