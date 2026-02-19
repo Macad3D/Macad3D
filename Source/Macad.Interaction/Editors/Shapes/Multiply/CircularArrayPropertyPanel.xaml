@@ -51,17 +51,17 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Quantity" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                              Units="None" Precision="0" MinValue="1" IncDecButtons="True"
+                              MinValue="1" IncDecButtons="True"
                               Value="{Binding Shape.Quantity, NotifyOnSourceUpdated=True}"/>
             
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Radius" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="2" Grid.Column="1"
-                              Units="Length" 
+                              Measurement="{Binding DescriptorLength}" 
                               Value="{Binding Shape.Radius, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Angle Range" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="3" Grid.Column="1"
-                              Units="Degree" 
+                              Measurement="{Binding DescriptorAngle}" 
                               Value="{Binding Shape.Range, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Alignment" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
@@ -85,7 +85,7 @@
 
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Original Angle" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="5" Grid.Column="1"
-                              Units="Degree" 
+                              Measurement="{Binding DescriptorAngle}" 
                               Value="{Binding Shape.OriginalAngle, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Keep Orientation" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />

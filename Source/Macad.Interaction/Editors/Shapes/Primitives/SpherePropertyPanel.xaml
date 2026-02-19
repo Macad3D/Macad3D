@@ -26,11 +26,11 @@
 
             <TextBlock  Grid.Row="0" Grid.Column="0" Text="Radius" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox  Grid.Row="0" Grid.Column="1" 
-                        Units="Length" Value="{Binding Sphere.Radius, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+                        Measurement="{Binding DescriptorLength}" Value="{Binding Sphere.Radius, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
 
             <TextBlock  Grid.Row="1" Grid.Column="0" Text="Segment" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1" 
-                        Units="Degree" Value="{Binding Sphere.SegmentAngle, NotifyOnSourceUpdated=True}" 
+                        Measurement="{Binding DescriptorAngle}" Value="{Binding Sphere.SegmentAngle, NotifyOnSourceUpdated=True}" 
                         MinValue="0" MaxValue="360"
                                HorizontalAlignment="Left" />
 
@@ -38,11 +38,11 @@
             <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
                 <mmp:ValueEditBox mmp:GroupControls.Position="Left"  
                                   HorizontalAlignment="Left"
-                                  Units="Degree" Value="{Binding Sphere.MaxLatitude, NotifyOnSourceUpdated=True}" 
+                                  Measurement="{Binding DescriptorAngle}" Value="{Binding Sphere.MaxLatitude, NotifyOnSourceUpdated=True}" 
                                   MinValue="-90" MaxValue="90" />
                 <mmp:ValueEditBox mmp:GroupControls.Position="Right"   
                                   HorizontalAlignment="Left"
-                                  Units="Degree" Value="{Binding Sphere.MinLatitude, NotifyOnSourceUpdated=True}" 
+                                  Measurement="{Binding DescriptorAngle}" Value="{Binding Sphere.MinLatitude, NotifyOnSourceUpdated=True}" 
                                   MinValue="-90" MaxValue="90" />
             </StackPanel>
         </Grid>

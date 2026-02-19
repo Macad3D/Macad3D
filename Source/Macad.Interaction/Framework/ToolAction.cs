@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Macad.Common;
 using Macad.Core.Topology;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Macad.Interaction;
 
@@ -9,6 +10,11 @@ public abstract class ToolAction : WorkspaceControl
     #region Properties
 
     public bool IsFinished { get; protected set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected MeasurementDescriptor DescriptorAngle;
+    protected MeasurementDescriptor DescriptorLength;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -21,6 +27,14 @@ public abstract class ToolAction : WorkspaceControl
     #endregion
 
     #region Start / Stop
+
+    protected ToolAction()
+    {
+        DescriptorLength = UnitsService.GetDescriptor(PhysicalQuantities.Length);
+        DescriptorAngle = UnitsService.GetDescriptor(PhysicalQuantities.Angle);
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     public bool Start()
     {

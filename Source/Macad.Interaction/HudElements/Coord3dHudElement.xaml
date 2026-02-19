@@ -20,9 +20,9 @@
             <ColumnDefinition Width="Auto" SharedSizeGroup="LC" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Text="{Binding CoordinateX, StringFormat={}{0:F3}}"/>
-        <TextBlock Grid.Column="2" Text="{Binding CoordinateY, StringFormat={}{0:F3}}"/>
-        <TextBlock Grid.Column="4" Text="{Binding CoordinateZ, StringFormat={}{0:F3}}"/>
+        <mmp:MeasurementTextBlock Grid.Column="0" Value="{Binding CoordinateX}" Measurement="{Binding DescriptorLength}"/>
+        <mmp:MeasurementTextBlock Grid.Column="2" Value="{Binding CoordinateY}" Measurement="{Binding DescriptorLength}"/>
+        <mmp:MeasurementTextBlock Grid.Column="4" Value="{Binding CoordinateZ}" Measurement="{Binding DescriptorLength}"/>
     </Grid>
     
 </mmi:HudElement>

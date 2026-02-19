@@ -48,6 +48,34 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public static readonly DependencyProperty DescriptorLengthProperty =
+        DependencyProperty.Register(nameof(DescriptorLength),
+            typeof(MeasurementDescriptor),
+            typeof(ViewportGridInfo),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public MeasurementDescriptor DescriptorLength
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorLengthProperty);
+        set => SetValue(DescriptorLengthProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorDimensionlessProperty =
+        DependencyProperty.Register(nameof(DescriptorDimensionless),
+            typeof(MeasurementDescriptor),
+            typeof(ViewportGridInfo),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public MeasurementDescriptor DescriptorDimensionless
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorDimensionlessProperty);
+        set => SetValue(DescriptorDimensionlessProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     WorkspaceController _WorkspaceController;
     ViewportController _ViewportController;
     bool _Visible;
@@ -64,10 +92,28 @@ public partial class ViewportGridInfo : PanelBase
 
         DataContext = this;
         InitializeComponent();
+
+        InitializeDescriptors();
+        UnitsService.MeasurementSettingsChanged += OnMeasurementSettingsChanged;
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    void OnMeasurementSettingsChanged()
+    {
+        InitializeDescriptors();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void InitializeDescriptors()
+    {
+        DescriptorLength = UnitsService.GetDescriptor(PhysicalQuantities.Length);
+        DescriptorDimensionless = new MeasurementDescriptor(PhysicalQuantities.Dimensionless, DimensionlessUnits.None, DimensionlessPrecision.Decimal_2);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))

@@ -32,7 +32,7 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding Shape.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=EdgeOrFace}"/>
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
-                          Units="Length" 
+                          Measurement="{Binding DescriptorLength}" 
                           Value="{Binding Shape.Offset, NotifyOnSourceUpdated=True}"
                           Visibility="{Binding Shape.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=EdgeOrFace}"
                           AutomationProperties.AutomationId="Offset"/>

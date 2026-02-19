@@ -22,18 +22,15 @@
 
         <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="&#x394;x" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaX, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <mmp:MeasurementTextBlock Text="{Binding DeltaX}" Measurement="{Binding DescriptorLength}"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal">
             <TextBlock Text="&#x394;y" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaY, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <mmp:MeasurementTextBlock Text="{Binding DeltaY}" Measurement="{Binding DescriptorLength}"/>
         </StackPanel>
         <StackPanel Grid.Column="4" Orientation="Horizontal">
             <TextBlock Text="&#x394;z" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding DeltaZ, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <mmp:MeasurementTextBlock Value="{Binding DeltaZ}" Measurement="{Binding DescriptorLength}"/>
         </StackPanel>
     </Grid>
     

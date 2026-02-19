@@ -64,9 +64,7 @@ public sealed class SketchSegmentRectangleCreator : SketchSegmentCreator
                 _ValueHudElement = new MultiValueHudElement
                 {
                     Label1 = "Size X:",
-                    Units1 = ValueUnits.Length,
                     Label2 = "Size Y:",
-                    Units2 = ValueUnits.Length
                 };
                 _ValueHudElement.MultiValueEntered += _ValueHudElement_MultiValueEntered;
                 Add(_ValueHudElement);

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Macad.Common;
+using System.Diagnostics;
 
 namespace Macad.Interaction;
 
@@ -7,6 +8,19 @@ public abstract class LiveAction : WorkspaceControl
     #region Properties
 
     public bool IsActive { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public MeasurementDescriptor DescriptorAngle { get; set; }
+    public MeasurementDescriptor DescriptorLength { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected LiveAction()
+    {
+        DescriptorAngle = UnitsService.GetDescriptor(PhysicalQuantities.Angle);
+        DescriptorLength = UnitsService.GetDescriptor(PhysicalQuantities.Length);
+    }
 
     //--------------------------------------------------------------------------------------------------
 

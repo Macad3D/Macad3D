@@ -38,12 +38,14 @@
             <StackPanel Grid.Row="0" Grid.Column="1"
                         Orientation="Horizontal">
                 <mmp:ValueEditBox mmp:GroupControls.Position="Left"
-                                  Units="Length" MinValue="0.01"
+                                  MinValue="0.01"
                                   Value="{Binding DatumPlane.SizeX, NotifyOnSourceUpdated=True}"
+                                  Measurement="{Binding DescriptorLength}"
                                   AutomationProperties.AutomationId="DimensionX"/>
                 <mmp:ValueEditBox mmp:GroupControls.Position="Right"
-                                  Units="Length" MinValue="0.01" 
+                                  MinValue="0.01" 
                                   Value="{Binding DatumPlane.SizeY, NotifyOnSourceUpdated=True}"
+                                  Measurement="{Binding DescriptorLength}"
                                   AutomationProperties.AutomationId="DimensionY"/>
             </StackPanel>
 

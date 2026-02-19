@@ -32,13 +32,16 @@
         </mmp:ToggleButton>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="2,0" >
-            <TextBlock Text="{Binding Chamfer.Edges.Length, StringFormat=Edges selected: \{0\}}" Margin="0,0,0,4"  />
+            <TextBlock Text="{Binding Chamfer.Edges.Length, StringFormat=Edges selected: \{0\}}" Margin="0,0,0,4"  
+                       AutomationProperties.AutomationId="EdgesCount"/>
                 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Content="Select All" Command="{Binding SelectAllCommand}" 
-                        mmp:GroupControls.Position="Left" />
+                        mmp:GroupControls.Position="Left" 
+                        AutomationProperties.AutomationId="SelectAllCommand"/>
                 <Button Content="Select None" Command="{Binding SelectNoneCommand}" 
-                        mmp:GroupControls.Position="Right" />
+                        mmp:GroupControls.Position="Right" 
+                        AutomationProperties.AutomationId="SelectNoneCommand"/>
             </StackPanel>
         </StackPanel>
 
@@ -51,23 +54,28 @@
             
             <mmp:ToggleButton Grid.Column="0" Content="Symmetric" mmp:GroupControls.Position="Left"
                               IsChecked="{Binding Chamfer.Mode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Symmetric}"
-                              Command="{Binding SwitchModeCommand}" CommandParameter="Symmetric"/>
+                              Command="{Binding SwitchModeCommand}" CommandParameter="Symmetric"
+                              AutomationProperties.AutomationId="Symmetric"/>
             <mmp:ToggleButton Grid.Column="1" Content="Asymmetric" mmp:GroupControls.Position="HCenter" Padding="0"
                               IsChecked="{Binding Chamfer.Mode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=TwoDistances}"
-                              Command="{Binding SwitchModeCommand}" CommandParameter="TwoDistances"/>
+                              Command="{Binding SwitchModeCommand}" CommandParameter="TwoDistances"
+                              AutomationProperties.AutomationId="TwoDistances"/>
             <mmp:ToggleButton Grid.Column="2" Content="Angle" mmp:GroupControls.Position="Right"
                               IsChecked="{Binding Chamfer.Mode, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=DistanceAngle}"
-                              Command="{Binding SwitchModeCommand}" CommandParameter="DistanceAngle"/>
+                              Command="{Binding SwitchModeCommand}" CommandParameter="DistanceAngle"
+                              AutomationProperties.AutomationId="DistanceAngle"/>
         </Grid>
 
         <TextBlock  Grid.Row="2" Grid.Column="0"  Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                     Text="Distance" />
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <mmp:ValueEditBox Units="Length"
-                              Value="{Binding Chamfer.Distance, NotifyOnSourceUpdated=True}" />
-            <mmp:ValueEditBox Units="Length" Margin="4,2" 
+            <mmp:ValueEditBox Measurement="{Binding DescriptorLength}"
+                              Value="{Binding Chamfer.Distance, NotifyOnSourceUpdated=True}" 
+                              AutomationProperties.AutomationId="Distance"/>
+            <mmp:ValueEditBox Measurement="{Binding DescriptorLength}" Margin="4,2" 
                               Value="{Binding Chamfer.SecondDistance, NotifyOnSourceUpdated=True}" 
-                              Visibility="{Binding Chamfer.Mode, Converter={mmp:EqualityToVisibleHiddenConverter}, ConverterParameter=TwoDistances}"/>
+                              Visibility="{Binding Chamfer.Mode, Converter={mmp:EqualityToVisibleHiddenConverter}, ConverterParameter=TwoDistances}"
+                              AutomationProperties.AutomationId="SecondDistance"/>
         </StackPanel>
 
         <TextBlock  Grid.Row="3" Grid.Column="0"  Style="{DynamicResource Macad.Styles.TextBlock.Property}"
@@ -75,9 +83,11 @@
                     Visibility="{Binding Chamfer.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=DistanceAngle}"/>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal"
                     Visibility="{Binding Chamfer.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=DistanceAngle}">
-            <mmp:ValueEditBox Units="Degree" Value="{Binding Chamfer.Angle, NotifyOnSourceUpdated=True}" />
+            <mmp:ValueEditBox Measurement="{Binding DescriptorAngle}" Value="{Binding Chamfer.Angle, NotifyOnSourceUpdated=True}" 
+                              AutomationProperties.AutomationId="Angle"/>
             <Button Content="Swap Side" Margin="5,0,0,0"
-                              Command="{Binding SwitchAngleSideCommand}" CommandParameter="DistanceAngle"/>
+                              Command="{Binding SwitchAngleSideCommand}" CommandParameter="DistanceAngle"
+                    AutomationProperties.AutomationId="SwitchAngleSideCommand"/>
         </StackPanel>
     </Grid>
 </panels:PropertyPanel>

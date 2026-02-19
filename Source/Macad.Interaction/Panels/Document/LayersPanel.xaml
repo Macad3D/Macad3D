@@ -23,7 +23,7 @@
         <ToolBarTray IsLocked="true"
                      DockPanel.Dock="Top">
             <ToolBar>
-                <Button mmp:Command.Action="{Binding CreateLayerCommand}"
+                <Button mmp:Command.Action="{x:Static mmi:LayerCommands.CreateNewLayer}"
                         AutomationProperties.AutomationId="CreateLayer"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
                         mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" 
@@ -62,8 +62,8 @@
                              AutomationProperties.AutomationId="LayerList"
                              AllowMultiSelection="False"
                              IsDragNDropEnabled="True"
-                             DragCommand="{Binding DragCommand, Source={mmp:RootObject}}"
-                             DropCommand="{Binding DropCommand, Source={mmp:RootObject}}">
+                             DragCommand="{Binding DragCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}"
+                             DropCommand="{Binding DragCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}">
 
             <mmp:Behaviors.Behavior>
                 <mmp:DoubleClickCommandBehavior Command="{Binding ActivateLayerCommand}" />

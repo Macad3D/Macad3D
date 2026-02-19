@@ -45,7 +45,7 @@
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Draft Angle"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="1" Grid.Column="1" 
-                          Units="Degree" 
+                          Measurement="{Binding DescriptorAngle}"
                           Value="{Binding Imprint.DraftAngle, NotifyOnSourceUpdated=True}" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Depth"
@@ -53,7 +53,7 @@
                    Visibility="{Binding Imprint.Mode, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Cutout}" />
         <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" 
                           Visibility="{Binding Imprint.Mode, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Cutout}"
-                          Units="Length" 
+                          Measurement="{Binding DescriptorLength}" 
                           Value="{Binding Imprint.Depth, NotifyOnSourceUpdated=True}" />
         
         <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 

@@ -12,7 +12,7 @@
              Foreground="White">
     
     <Grid VerticalAlignment="Center">
-        <TextBlock Grid.Column="0" Text="{Binding Text}"/>
+        <mmp:MeasurementTextBlock Grid.Column="0" Value="{Binding Text}" Measurement="{Binding Measurement}" Label="{Binding Label}"/>
     </Grid>
     
 </mmi:HudElement>

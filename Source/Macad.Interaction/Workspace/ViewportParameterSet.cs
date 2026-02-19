@@ -49,7 +49,8 @@ public sealed partial class ViewportParameterSet
         Name = "CameraAnimationDuration",
         DefaultValue = 0.3,
         Description = "Defines the duration of the camera view rotation when switching to a defined view.",
-        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.0 }, { "MaxValue", 10.0 }, { "Precision", 1 } }
+        EditorHints = new() { { "Units", "Seconds" }, { "MinValue", 0.0 }, { "MaxValue", 10.0 }, { "Precision", 1 } },
+        PhysicalQuantity = PhysicalQuantities.Time
     };
 
     //--------------------------------------------------------------------------------------------------

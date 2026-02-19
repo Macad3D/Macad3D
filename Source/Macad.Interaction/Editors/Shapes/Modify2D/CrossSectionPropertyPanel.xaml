@@ -53,17 +53,17 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Orientation"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
             <mmp:ValueEditBox Width="57"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle}"   
                               mmp:GroupControls.Position="Left"
                               Value="{Binding RotationYaw, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationY" />
             <mmp:ValueEditBox Width="56"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle}"  
                               mmp:GroupControls.Position="HCenter"
                               Value="{Binding RotationPitch, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationP" />
             <mmp:ValueEditBox Width="57"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle}" 
                               mmp:GroupControls.Position="Right"
                               Value="{Binding RotationRoll, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationR" />
@@ -75,6 +75,7 @@
                           Width="80"
                           HorizontalAlignment="Left"
                           Value="{Binding Offset, NotifyOnSourceUpdated=True}"
+                          Measurement="{Binding DescriptorLength}" 
                           AutomationProperties.AutomationId="Offset" /> 
 
         <!-- Set Working Plane -->

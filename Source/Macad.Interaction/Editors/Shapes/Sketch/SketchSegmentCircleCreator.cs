@@ -60,7 +60,7 @@ public sealed class SketchSegmentCircleCreator : SketchSegmentCreator
                 _ValueHudElement = new ValueHudElement
                 {
                     Label = "Radius:",
-                    Units = ValueUnits.Length
+                    Descriptor = DescriptorLength
                 };
                 _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
                 Add(_ValueHudElement);

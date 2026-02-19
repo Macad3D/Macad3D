@@ -21,6 +21,8 @@ public sealed class LinearArrayEditor : Editor<LinearArray>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<LinearArrayPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
         
@@ -176,7 +178,9 @@ public sealed class LinearArrayEditor : Editor<LinearArray>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Distance: {newDistance.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Distance";
+        _HudElement?.Value = newDistance;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

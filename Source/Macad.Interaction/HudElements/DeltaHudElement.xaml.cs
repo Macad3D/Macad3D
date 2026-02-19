@@ -1,4 +1,5 @@
-﻿using Macad.Presentation;
+﻿using Macad.Common;
+using Macad.Presentation;
 
 namespace Macad.Interaction;
 
@@ -19,23 +20,12 @@ public partial class DeltaHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units
-    {
-        get { return _Units; }
-        set
-        {
-            if (_Units != value)
-            {
-                _Units = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
+    public MeasurementDescriptor Measurement { get; set; }
+
 
     //--------------------------------------------------------------------------------------------------
 
     double _Delta;
-    ValueUnits _Units;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -52,9 +42,4 @@ public partial class DeltaHudElement : HudElement
     }
 
     //--------------------------------------------------------------------------------------------------
-
-    public void SetUnits(ValueUnits valueUnits)
-    {
-        Units = valueUnits;
-    }
 }

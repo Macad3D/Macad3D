@@ -11,6 +11,38 @@ namespace Macad.Interaction.Panels;
 /// </summary>
 public partial class TransformablePropertyGroup : PanelBase
 {
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorLengthProperty =
+        DependencyProperty.Register(
+            nameof(DescriptorLength),
+            typeof(MeasurementDescriptor),
+            typeof(TransformablePropertyGroup),
+            new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorLength
+    {
+        get { return (MeasurementDescriptor)GetValue(DescriptorLengthProperty); }
+        set { SetValue(DescriptorLengthProperty, value); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorAngleProperty =
+    DependencyProperty.Register(
+        nameof(DescriptorAngle),
+        typeof(MeasurementDescriptor),
+        typeof(TransformablePropertyGroup),
+        new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorAngle
+    {
+        get { return (MeasurementDescriptor)GetValue(DescriptorAngleProperty); }
+        set { SetValue(DescriptorAngleProperty, value); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static readonly DependencyProperty TransformableProperty = DependencyProperty.Register(
         "Transformable", typeof(ITransformable), typeof(TransformablePropertyGroup), new PropertyMetadata(default(ITransformable), PropertyChangedStaticCallback));
 
@@ -210,6 +242,8 @@ public partial class TransformablePropertyGroup : PanelBase
     public TransformablePropertyGroup()
     {
         InitializeComponent();
+        DescriptorLength = UnitsService.GetDescriptor(PhysicalQuantities.Length);
+        DescriptorAngle = UnitsService.GetDescriptor(PhysicalQuantities.Angle);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,15 +1,48 @@
-﻿using System;
+﻿using Macad.Common;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Macad.Common;
 
 namespace Macad.Interaction;
 
 public abstract class HudElement: UserControl, INotifyPropertyChanged, IDisposable
 {
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorLengthProperty =
+        DependencyProperty.Register(
+            nameof(DescriptorLength),
+            typeof(MeasurementDescriptor),
+            typeof(HudElement),
+            new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorLength
+    {
+        get { return (MeasurementDescriptor)GetValue(DescriptorLengthProperty); }
+        set { SetValue(DescriptorLengthProperty, value); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorAngleProperty =
+    DependencyProperty.Register(
+        nameof(DescriptorAngle),
+        typeof(MeasurementDescriptor),
+        typeof(HudElement),
+        new PropertyMetadata(null));
+
+    public MeasurementDescriptor DescriptorAngle
+    {
+        get { return (MeasurementDescriptor)GetValue(DescriptorAngleProperty); }
+        set { SetValue(DescriptorAngleProperty, value); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public WorkspaceController WorkspaceController
     {
         get { return _WorkspaceController; }
@@ -51,6 +84,8 @@ public abstract class HudElement: UserControl, INotifyPropertyChanged, IDisposab
 
     public virtual void Initialize()
     {
+        DescriptorAngle = UnitsService.GetDescriptor(PhysicalQuantities.Angle);
+        DescriptorLength = UnitsService.GetDescriptor(PhysicalQuantities.Length);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ public sealed class BooleanEditor : Editor<BooleanBase>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<BooleanPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
         

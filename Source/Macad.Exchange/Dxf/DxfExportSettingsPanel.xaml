@@ -96,7 +96,8 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
 
         <mmp:ValueEditBox Grid.Row="6" Grid.Column="1"
+                          Measurement="{Binding DimensionlessPercentage3dp}"
                           Value="{Binding PolygonPrecision}"
-                          MinValue="0.0001" MaxValue="1" Precision="3"/>
+                          MinValue="0.0001" MaxValue="1" />
     </Grid>
 </mme:SettingsPanelBase>

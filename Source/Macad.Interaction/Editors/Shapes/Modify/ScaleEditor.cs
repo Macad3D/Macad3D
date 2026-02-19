@@ -12,7 +12,9 @@ namespace Macad.Interaction.Editors.Shapes;
 public sealed class ScaleEditor : Editor<Scale>
 {
     TranslateAxisLiveAction[] _TranslateActions;
-    LabelHudElement _HudElement;
+    LabelHudElement _HudElementX;
+    LabelHudElement _HudElementY;
+    LabelHudElement _HudElementZ;
     bool _IsMoving;
     double _StartLength;
     Vec _StartFactor;
@@ -21,6 +23,8 @@ public sealed class ScaleEditor : Editor<Scale>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<ScalePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
     
@@ -36,7 +40,9 @@ public sealed class ScaleEditor : Editor<Scale>
 
     protected override void OnToolsStop()
     {
-        _HudElement = null;
+        _HudElementX = null;
+        _HudElementY = null;
+        _HudElementZ = null;
         _TranslateActions = null;
         Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
@@ -208,22 +214,38 @@ public sealed class ScaleEditor : Editor<Scale>
             _UpdateActions();
         }
 
-        if (_HudElement == null)
+        if (_HudElementX == null)
         {
-            _HudElement = new LabelHudElement();
-            Add(_HudElement);
+            _HudElementX = new LabelHudElement();
+            Add(_HudElementX);
         }
+        _HudElementX?.Label = "Scale X";
+        _HudElementX?.Value = Entity.Factor.X * 100.0;
+        _HudElementX?.Measurement = DescriptorPercent0dp;
 
-        string hudText = $"Scale Factor: {(Entity.Factor.X * 100.0).ToInvariantString("F0")}%";
         if (!Entity.Uniform)
         {
-            hudText += $" / {(Entity.Factor.Y * 100.0).ToInvariantString("F0")}%";
+            if (_HudElementY == null)
+            {
+                _HudElementY = new LabelHudElement();
+                Add(_HudElementY);
+            }
+            _HudElementY.Label = "Scale Y";
+            _HudElementY.Value = Entity.Factor.Y * 100.0;
+            _HudElementY.Measurement = DescriptorPercent0dp;
+            
             if (Entity.ShapeType != ShapeType.Sketch)
             {
-                hudText += $" / {(Entity.Factor.Z * 100.0).ToInvariantString("F0")}%";
+                if (_HudElementZ == null)
+                {
+                    _HudElementZ = new LabelHudElement();
+                    Add(_HudElementZ);
+                }
+                _HudElementZ.Label = "Scale Z";
+                _HudElementZ.Value = Entity.Factor.Z * 100.0;
+                _HudElementZ.Measurement = DescriptorPercent0dp;
             }
         }
-        _HudElement?.SetValue(hudText);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -231,8 +253,12 @@ public sealed class ScaleEditor : Editor<Scale>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        Remove(_HudElement);
-        _HudElement = null;
+        Remove(_HudElementX);
+        Remove(_HudElementY);
+        Remove(_HudElementZ);
+        _HudElementX = null;
+        _HudElementY = null;
+        _HudElementZ = null;
         RemoveHintMessage();
         CommitChanges();
         _UpdateActions();

@@ -30,7 +30,7 @@
                               x:Name="ValueEditBox1" 
                               MinWidth="60" Width="Auto" 
                               Background="#703E3E3E" Foreground="White"
-                              Units="{Binding Units1}" 
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding Value1, NotifyOnSourceUpdated=True}" 
                               SourceUpdateThreshold="0"
                               IsHighlighted="{Binding IsInKeyboardMode1}" />
@@ -50,7 +50,7 @@
                               x:Name="ValueEditBox2" 
                               MinWidth="60" Width="Auto" 
                               Background="#703E3E3E" Foreground="White"
-                              Units="{Binding Units2}" 
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding Value2, NotifyOnSourceUpdated=True}" 
                               SourceUpdateThreshold="0"
                               IsHighlighted="{Binding IsInKeyboardMode2}" />

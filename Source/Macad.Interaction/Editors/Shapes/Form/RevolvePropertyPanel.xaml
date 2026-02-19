@@ -36,13 +36,16 @@
                 
                 <mmp:ToggleButton Content="X" Grid.Column="0" mmp:GroupControls.Position="Left"
                                   IsChecked="{Binding Axis, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=0}"
-                                  Command="{Binding SwitchAxisCommand}" CommandParameter="0"/>
+                                  Command="{Binding SwitchAxisCommand}" CommandParameter="0"
+                                  AutomationProperties.AutomationId="Xaxis"/>
                 <mmp:ToggleButton Content="Y" Grid.Column="1" mmp:GroupControls.Position="HCenter"
                                   IsChecked="{Binding Axis, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=1}"
-                                  Command="{Binding SwitchAxisCommand}" CommandParameter="1"/>
+                                  Command="{Binding SwitchAxisCommand}" CommandParameter="1"
+                                  AutomationProperties.AutomationId="Yaxis"/>
                 <mmp:ToggleButton Content="Z" Grid.Column="2" mmp:GroupControls.Position="Right"
                                   IsChecked="{Binding Axis, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=2}"
-                                  Command="{Binding SwitchAxisCommand}" CommandParameter="2"/>
+                                  Command="{Binding SwitchAxisCommand}" CommandParameter="2"
+                                  AutomationProperties.AutomationId="Zaxis"/>
             </Grid>
             <Grid Width="120" Margin="10,0">
                 <Grid.ColumnDefinitions>
@@ -62,19 +65,26 @@
 
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Offset from Axis"  Style="{DynamicResource Macad.Styles.TextBlock.PropertyLine}" />
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <mmp:ValueEditBox Units="Length" mmp:GroupControls.Position="Left"
-                              Value="{Binding OffsetX, NotifyOnSourceUpdated=True}" />
-            <mmp:ValueEditBox Units="Length" mmp:GroupControls.Position="HCenter"
-                              Value="{Binding OffsetY, NotifyOnSourceUpdated=True}" />
-            <mmp:ValueEditBox Units="Length" mmp:GroupControls.Position="Right"
-                              Value="{Binding OffsetZ, NotifyOnSourceUpdated=True}" />
+            <mmp:ValueEditBox mmp:GroupControls.Position="Left"
+                              Value="{Binding OffsetX, NotifyOnSourceUpdated=True}" 
+                              Measurement="{Binding DescriptorLength}"
+                              AutomationProperties.AutomationId="OffsetX"/>
+            <mmp:ValueEditBox mmp:GroupControls.Position="HCenter"
+                              Value="{Binding OffsetY, NotifyOnSourceUpdated=True}" 
+                              Measurement="{Binding DescriptorLength}"
+                              AutomationProperties.AutomationId="OffsetY"/>
+            <mmp:ValueEditBox mmp:GroupControls.Position="Right"
+                              Value="{Binding OffsetZ, NotifyOnSourceUpdated=True}" 
+                              Measurement="{Binding DescriptorLength}"
+                              AutomationProperties.AutomationId="OffsetZ"/>
         </StackPanel>
 
 
         <TextBlock  Grid.Row="4" Grid.Column="0" Text="Segment"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox  Grid.Row="4" Grid.Column="1"
-                        Units="Degree" Value="{Binding Revolve.SegmentAngle, NotifyOnSourceUpdated=True}" 
+                        Value="{Binding Revolve.SegmentAngle, NotifyOnSourceUpdated=True}" 
                         MinValue="-360" MaxValue="360"
+                        Measurement="{Binding DescriptorAngle}" 
                         HorizontalAlignment="Left" />
     </Grid>
 </panels:PropertyPanel>

@@ -1,6 +1,7 @@
-﻿using System.Windows.Data;
-using System.Windows.Input;
+﻿using Macad.Common;
 using Macad.Presentation;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Macad.Interaction;
 
@@ -38,14 +39,14 @@ public partial class MultiValueHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units1
+    public MeasurementDescriptor Measurement1
     {
-        get { return _Units1; }
+        get { return _Descriptor1; }
         set
         {
-            if (_Units1 != value)
+            if (_Descriptor1 != value)
             {
-                _Units1 = value;
+                _Descriptor1 = value;
                 RaisePropertyChanged();
             }
         }
@@ -100,14 +101,14 @@ public partial class MultiValueHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units2
+    public MeasurementDescriptor Measurement2
     {
-        get { return _Units2; }
+        get { return _Descriptor2; }
         set
         {
-            if (_Units2 != value)
+            if (_Descriptor2 != value)
             {
-                _Units2 = value;
+                _Descriptor2 = value;
                 RaisePropertyChanged();
             }
         }
@@ -132,11 +133,11 @@ public partial class MultiValueHudElement : HudElement
 
     string _Label1;
     double _Value1;
-    ValueUnits _Units1;
+    MeasurementDescriptor _Descriptor1;
     bool _IsInKeyboardMode1;
     string _Label2;
     double _Value2;
-    ValueUnits _Units2;
+    MeasurementDescriptor _Descriptor2;
     bool _IsInKeyboardMode2;
     bool _FirstFromKeyboard = true;
 

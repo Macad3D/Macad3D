@@ -92,7 +92,7 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
                         _ValueHudElement = new ValueHudElement
                         {
                             Label = "Radius:",
-                            Units = ValueUnits.Length
+                            Descriptor = DescriptorLength
                         };
                         Add(_ValueHudElement);
                         _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;

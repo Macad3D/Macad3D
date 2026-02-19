@@ -11,7 +11,8 @@ public sealed partial class SketchEditorParameterSet
         DefaultValue = 2.0,
         Description = "Sets the maximum angular difference between tesselated parts of segments, influencing curve smoothness and display performance.",
         EditorHints = new() { { "Units", "Degree" }, { "MinValue", 0.5 }, { "MaxValue", 45.0 } },
-        Flags = Parameter.ParameterFlags.NeedsRestart
+        Flags = Parameter.ParameterFlags.NeedsRestart,
+        PhysicalQuantity = PhysicalQuantities.Angle
     };
 
     //--------------------------------------------------------------------------------------------------

@@ -96,9 +96,7 @@ public class CreateBoxTool : Tool
             _MultiValueHudElement = new MultiValueHudElement()
             {
                 Label1 = "Length:",
-                Units1 = ValueUnits.Length,
                 Label2 = "Width:",
-                Units2 = ValueUnits.Length
             };
             _MultiValueHudElement.MultiValueEntered += _MultiValueEntered;
             Add(_MultiValueHudElement);
@@ -198,7 +196,7 @@ public class CreateBoxTool : Tool
             _ValueHudElement = new ValueHudElement()
             {
                 Label = "Height:",
-                Units = ValueUnits.Length
+                Descriptor = DescriptorLength
             };
             _ValueHudElement.ValueEntered += _ValueEntered;
             Add(_ValueHudElement);

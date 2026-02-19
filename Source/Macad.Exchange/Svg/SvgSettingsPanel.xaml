@@ -23,7 +23,7 @@
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Column="1"
                           Value="{Binding DotsPerInch}"
-                          MinValue="0" MaxValue="1000" Units="DotsPerInch" Precision="0"/>
+                          MinValue="0" MaxValue="1000" />
 
         <CheckBox Grid.Row="1" Grid.Column="1"
                   Margin="0,4,0,4"

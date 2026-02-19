@@ -29,7 +29,8 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Size Ratio" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <DockPanel Grid.Row="1" Grid.Column="1">
             <mmp:ValueEditBox Width="40" HorizontalAlignment="Left"
-                              Units="Percent" Precision="0" MinValue="1" MaxValue="99"
+                              MinValue="1" MaxValue="99"
+                              Measurement="{Binding DimensionlessPercentage0dp}"
                               Value="{Binding HalvedJoint.Ratio, NotifyOnSourceUpdated=True, Converter={mmp:PercentageConverter}}" />
             <Slider Minimum="0.01" Maximum="0.99" LargeChange="0.1" Margin="10,0,0,0"
                     Value="{Binding HalvedJoint.Ratio, NotifyOnSourceUpdated=True}"

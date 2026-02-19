@@ -18,8 +18,7 @@
 
         <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="&#x394;" Margin="0,0,3,0" Foreground="#FFB0B0B0" />
-            <TextBlock Text="{Binding Delta, StringFormat={}{0:F3}}"/>
-            <TextBlock Text="{Binding Units, Converter={mmp:ValueUnitsToStringConverter}}" Margin="3,0,0,0"/>
+            <mmp:MeasurementTextBlock Value="{Binding Delta}" Measurement="{Binding Descriptor}"/>
         </StackPanel>
     </Grid>
     

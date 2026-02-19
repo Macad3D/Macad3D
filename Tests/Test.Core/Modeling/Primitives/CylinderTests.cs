@@ -68,10 +68,11 @@ public class CylinderTests
     {
         var body = Body.Create(Cylinder.Create(1, -10));
         body.Rotation = new(0, -45.0.ToRad(), 0);
-        var loc = body.GetTransformedBRep().Location();
+        var first = body.GetTransformedBRep().Location().Transformation();
         body.Rotation = new(0, -44.0.ToRad(), 0);
         body.Rotation = new(0, -45.0.ToRad(), 0);
-        Assert.That(body.GetTransformedBRep().Location().Transformation(), Is.EqualTo(loc.Transformation()));
+        var second = body.GetTransformedBRep().Location().Transformation();
+        Assert.That(second, Is.EqualTo(first));
     }
 
     //--------------------------------------------------------------------------------------------------

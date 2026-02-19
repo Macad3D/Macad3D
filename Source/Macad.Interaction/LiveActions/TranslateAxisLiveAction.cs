@@ -252,7 +252,7 @@ public sealed class TranslateAxisLiveAction : LiveAction
                 {
                     _HudElement = new DeltaHudElement
                     {
-                        Units = ValueUnits.Length,
+                        Measurement = DescriptorLength,
                         Delta = 0
                     };
                     Add(_HudElement);

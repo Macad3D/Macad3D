@@ -47,7 +47,9 @@ public partial class LayersPanel : UserControl
         if (Model.SelectedLayer == null)
             return;
 
-        if (sender is TextBox { Visibility: Visibility.Visible } box)
+        var box = sender as TextBox;
+        Debug.Assert(box != null, "box != null");
+        if (box.Visibility == Visibility.Visible)
         {
             box.Text = Model.SelectedLayer.Name;
             box.SelectAll();
@@ -81,11 +83,15 @@ public partial class LayersPanel : UserControl
 
     public RelayCommand<DragParameters> DragCommand { get; private set; }
 
+    //--------------------------------------------------------------------------------------------------
+
     bool _CanExecuteDrag(DragParameters parameter)
     {
         var layer = parameter.DragItem?.DataContext as Layer;
         return layer != null && Model.CanMove(layer);
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     void _ExecuteDrag(DragParameters parameter)
     {

@@ -17,10 +17,7 @@ public abstract class ParameterSet : ISerializeValue
 
     //--------------------------------------------------------------------------------------------------
 
-    public ICollection<Parameter> Parameters
-    {
-        get { return _Parameters?.Values; }
-    }
+    public IReadOnlyList<Parameter> Parameters => _ParametersList;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -43,14 +40,20 @@ public abstract class ParameterSet : ISerializeValue
 
     //--------------------------------------------------------------------------------------------------
 
+    readonly List<Parameter> _ParametersList = new();
+
+    //--------------------------------------------------------------------------------------------------
+
     protected void AddParameter(Parameter parameter)
     {
         _Parameters.Add(parameter.Name, parameter);
+        _ParametersList.Add(parameter);
         parameter.PropertyChanged += (source, eventParam) =>
         {
             if (eventParam.PropertyName == "Value")
             {
                 RaiseParameterChanged(parameter.Name);
+                OnParameterValueChanged(parameter.Name);
             }
         };
     }
@@ -74,8 +77,15 @@ public abstract class ParameterSet : ISerializeValue
 
     //--------------------------------------------------------------------------------------------------
 
+    protected virtual void OnParameterValueChanged(string key)
+    {
+
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
-    
+
     #region ISerializeValue
 
     public bool Write(Writer writer, SerializationContext context)
@@ -125,6 +135,8 @@ public abstract class ParameterSet : ISerializeValue
         }
 
         reader.EndMap();
+
+        OnParameterValueChanged("PhysicalQuantity");
 
         return true;
     }

@@ -25,7 +25,8 @@
         <mmp:ToggleButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                     IsChecked="{Binding IsToolActive, Mode=OneWay}"
-                    Command="{Binding StartToolCommand}" >
+                    Command="{Binding StartToolCommand}" 
+                    AutomationProperties.AutomationId="StartToolCommand">
             <Image Source="{mmp:IconResource Tool-EdgesSelection}" Width="32" Height="32" />
         </mmp:ToggleButton>
 
@@ -41,6 +42,8 @@
         <TextBlock  Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                     Text="Radius" />
         <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"  Margin="0,10"
-                        Units="Length" Value="{Binding Fillet.Radius, NotifyOnSourceUpdated=True}" />
+                        Value="{Binding Fillet.Radius, NotifyOnSourceUpdated=True}" 
+                        Measurement="{Binding DescriptorLength}" 
+                        AutomationProperties.AutomationId="Radius"/>
     </Grid>
 </panels:PropertyPanel>

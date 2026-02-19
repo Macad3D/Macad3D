@@ -524,9 +524,7 @@ public class SliceContourEditTool : Tool
         {
             _HudElement = new MultiValueHudElement();
             _HudElement.Label1 = "Interval";
-            _HudElement.Units1 = ValueUnits.Length;
             _HudElement.Label2 = "Offset";
-            _HudElement.Units2 = ValueUnits.Length;
             Add(_HudElement);
         }
         _HudElement.SetValues(newInterval[_SliceMovingIndex], newInterval.Take(_SliceMovingIndex+1).Sum());

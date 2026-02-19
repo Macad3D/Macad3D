@@ -25,6 +25,8 @@ public sealed class RevolveEditor : Editor<Revolve>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<RevolvePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -252,7 +254,9 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset X: {Entity.Offset.X.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Offset X";
+        _HudElement?.Measurement = DescriptorLength;
+        _HudElement?.Value = Entity.Offset.X;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -286,7 +290,9 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset Y: {Entity.Offset.Y.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Offset Y";
+        _HudElement?.Measurement = DescriptorLength;
+        _HudElement?.Value = Entity.Offset.Y;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -320,7 +326,9 @@ public sealed class RevolveEditor : Editor<Revolve>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset Z: {Entity.Offset.Z.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Offset Z";
+        _HudElement?.Measurement = DescriptorLength;
+        _HudElement?.Value = Entity.Offset.Z;
     }
 
     //--------------------------------------------------------------------------------------------------

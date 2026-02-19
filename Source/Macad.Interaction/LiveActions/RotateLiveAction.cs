@@ -293,7 +293,7 @@ public sealed class RotateLiveAction : LiveAction
                     }
                     if (_HudElement != null)
                     {
-                        _HudElement.Units = ValueUnits.Degree;
+                        _HudElement.Measurement = DescriptorAngle;
                         _HudElement.Delta = 0;
                     }
                 }
