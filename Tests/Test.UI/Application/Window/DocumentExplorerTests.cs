@@ -127,11 +127,11 @@ public class DocumentExplorerTests : UITestBase
 
         var menu = _GetFilterMenu();
         menu.ClickMenuItem("FilterActiveLayer");
-        Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
+        Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
-        MainWindow.Ribbon.SelectComboBoxItem("ActiveLayerSelect", "Unnamed");
-        Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
+        MainWindow.Ribbon.SelectComboBoxItem("ActiveLayerSelect", "0");
+        Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
         Assert.IsNotNull(bodyPanel);

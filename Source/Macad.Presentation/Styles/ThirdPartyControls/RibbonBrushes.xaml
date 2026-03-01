@@ -26,13 +26,13 @@
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Border" ResourceKey="Macad.Brushes.Base50" />
     
     <!-- RibbonTabItem -->
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Active.Background" ResourceKey="Macad.Brushes.Base15" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Border" ResourceKey="Macad.Brushes.Base50" />
-    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.MouseOver.Foreground" Color="#274276" />
-    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Selected.MouseOver.Foreground" Color="#274276"  />
+    <!--<mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Active.Background" ResourceKey="Macad.Brushes.Base15" />-->
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Border" ResourceKey="Macad.Brushes.Accent" />
+    <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.MouseOver.Foreground" Color="#274276" />-->
+    <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Selected.MouseOver.Foreground" Color="#274276"  />-->
 
     <!-- RibbonContextualTabGroup -->
-    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonContextualTabGroup.Background.OpacityMask" Color="#20000000"  />
+    <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonContextualTabGroup.Background.OpacityMask" Color="#20000000"  />-->
 
     <!-- Menu -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Ribbon.Background" ResourceKey="Macad.Brushes.Window.Background" /> 

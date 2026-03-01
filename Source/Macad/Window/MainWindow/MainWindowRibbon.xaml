@@ -13,7 +13,9 @@
 
     <Fluent:Ribbon x:Name="Ribbon" 
                    AutomaticStateManagement="False"
-		           ContentHeight="90" ContentGapHeight="2"
+                   ContentHeight="90" 
+                   ContentGapHeight="2"
+                   CanUseSimplified="False"
                    >
 
         <!--region Quick access -->
@@ -48,7 +50,7 @@
         <!--region App menu -->
         <Fluent:Ribbon.Menu>
             <Fluent:ApplicationMenu x:Name="RibbonFileMenu" 
-                                    Header="FILE" 
+                                    Header="FILE"
                                     IsDropDownOpen="False" 
                                     MaxDropDownHeight="500"
                                     RightPaneWidth="350"
