@@ -39,8 +39,11 @@ public class SubshapeReference : ISerializeValue, IEquatable<SubshapeReference>
         Type = type;
         ShapeId = shapeId;
         Name = name;
-        Debug.Assert(!Name.Contains("-"));
         Index = index;
+        if (!Name.IsNullOrEmpty())
+        {
+            Debug.Assert(!Name.Contains("-"));
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -66,7 +69,7 @@ public class SubshapeReference : ISerializeValue, IEquatable<SubshapeReference>
     [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
     public override int GetHashCode()
     {
-        return ShapeId.GetHashCode() ^ (int)Type ^ Index ^ Name.GetHashCode();
+        return ShapeId.GetHashCode() ^ (int)Type ^ Index ^ (Name ?? string.Empty).GetHashCode();
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -376,6 +376,16 @@ public class SubshapeReferenceTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void NameIsNull()
+    {
+        SubshapeReference ref1 = new(SubshapeType.Edge, Guid.Empty, null, 0);
+        SubshapeReference ref2 = new(SubshapeType.Edge, Guid.Empty, String.Empty, 0);
+        Assert.That(ref1.GetHashCode(), Is.EqualTo(ref2.GetHashCode()));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #region Utils
 
     struct ShapeDesc
