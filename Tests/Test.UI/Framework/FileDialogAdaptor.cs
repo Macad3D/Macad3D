@@ -13,7 +13,7 @@ public class FileDialogAdaptor : WindowAdaptor
 {
     //--------------------------------------------------------------------------------------------------
 
-    readonly MainWindowAdaptor _MainWindow;
+    readonly WindowAdaptor _MainWindow;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ public class FileDialogAdaptor : WindowAdaptor
           .Or(cf.ByClassName("FileDialogHost"))
           .Or(cf.ByClassName("Shell_Dialog")))
     {
-        _MainWindow = (MainWindowAdaptor)mainWindow;
+        _MainWindow = mainWindow;
     }
 
     //--------------------------------------------------------------------------------------------------

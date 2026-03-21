@@ -12,6 +12,7 @@ public class ViewportAdaptor
 {
     public AutomationElement _ViewportControl;
     readonly Window _Window;
+    public AutomationElement Element => _ViewportControl;
 
     //--------------------------------------------------------------------------------------------------
 

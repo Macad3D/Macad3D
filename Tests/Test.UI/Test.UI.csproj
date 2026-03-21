@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Interaction\Macad.Interaction.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\Test.Common\Test.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FlaUI.UIA3" />

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Test.Common\Test.Common.csproj" />
     <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
     <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />

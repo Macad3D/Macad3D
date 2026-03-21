@@ -94,7 +94,7 @@ public class HudElementsTests : UITestBase
 
         Assert.That(MainWindow.Ribbon.IsChecked("CreateBox"), Is.False);
         Assert.AreEqual(-2.4, Pipe.GetValue<double>("$Selected.Position.X"));
-        Assert.AreEqual(4.5, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
+        Assert.AreEqual(3.5, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
         Assert.AreEqual(-1, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
     }
 

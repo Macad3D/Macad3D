@@ -113,8 +113,10 @@ public class DatumPlaneUITests : UITestBase
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         MainWindow.Ribbon.ClickButton("Undo");
         Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Not.Empty);
-        Assert.That(panel.GetValue<double>("DimensionX"), Is.EqualTo(100.0));
-        Assert.That(panel.GetValue<double>("DimensionY"), Is.EqualTo(100.0));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernel);
+        Assert.AreEqual(100.0, kernel);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernel);
+        Assert.AreEqual(100.0, kernel);
         MainWindow.Ribbon.ClickButton("Undo");
         Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Null.Or.Empty);
     }

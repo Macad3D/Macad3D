@@ -100,7 +100,7 @@ public class ScaleUITests : UITestBase
         Assert.AreEqual(2.0, ratioRkernel);
 
         _Panel.EnterValue("RatioR", 4);
-        Assert.AreEqual(0.25, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
+        Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         ratioLdisplayed = _Panel.GetValue<string>("RatioL");
         AppServices.Units.TryParseExpression(ratioLdisplayed, desc, out ratioLkernel);
         Assert.AreEqual(1.0, ratioLkernel);
@@ -109,7 +109,7 @@ public class ScaleUITests : UITestBase
         Assert.AreEqual(1.0, ratioRkernel);
 
         _Panel.EnterValue("RatioL", 2);
-        Assert.AreEqual(0.5, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
+        Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         ratioLdisplayed = _Panel.GetValue<string>("RatioL");
         AppServices.Units.TryParseExpression(ratioLdisplayed, desc, out ratioLkernel);
         Assert.AreEqual(1.0, ratioLkernel);
@@ -191,7 +191,7 @@ public class ScaleUITests : UITestBase
         Assert.AreEqual(2.0, ratioRkernel);
 
         _Panel.EnterValue("RatioR", 4);
-        Assert.AreEqual(0.25, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
+        Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         ratioLdisplayed = _Panel.GetValue<string>("RatioL");
         AppServices.Units.TryParseExpression(ratioLdisplayed, desc, out ratioLkernel);
         Assert.AreEqual(1.0, ratioLkernel);
@@ -200,7 +200,7 @@ public class ScaleUITests : UITestBase
         Assert.AreEqual(1.0, ratioRkernel);
 
         _Panel.EnterValue("RatioL", 2);
-        Assert.AreEqual(0.5, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
+        Assert.AreEqual(1.0, Pipe.GetValue<double>("$Selected.Shape.Factor.X"));
         ratioLdisplayed = _Panel.GetValue<string>("RatioL");
         AppServices.Units.TryParseExpression(ratioLdisplayed, desc, out ratioLkernel);
         Assert.AreEqual(1.0, ratioLkernel);

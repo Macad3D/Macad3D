@@ -8,6 +8,7 @@ using Macad.Occt;
 using NUnit.Framework;
 using Macad.Interaction;
 using System.Linq;
+using Macad.Test.Unit.Common;
 
 namespace Macad.Test.Core.Modeling.Assemble;
 
@@ -21,6 +22,7 @@ public class BoxJointTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithDefault();
     }
 
