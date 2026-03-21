@@ -27,6 +27,34 @@ public class RibbonAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public bool TabExists(string automationId)
+    {
+        var tab = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
+        return tab != null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void ClickSplitButtonMenuItem(string itemId)
+    {
+        // Find popup created by the split button
+        foreach (var popup in _MainWindow.FindAllChildren(cf => cf.ByClassName("Popup")))
+        {
+            var menuItem = popup.FindFirstDescendant(cf => cf.ByAutomationId(itemId));
+            if (menuItem != null)
+            {
+                menuItem.AsMenuItem().Click();
+                Wait.UntilInputIsProcessed();
+                Wait.UntilResponsive(_FormControl);
+                return;
+            }
+        }
+
+        Assert.Fail($"SplitButton menu item {itemId} not found in popup.");
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public RibbonAdaptor(Window window)
     {
         _MainWindow = window;

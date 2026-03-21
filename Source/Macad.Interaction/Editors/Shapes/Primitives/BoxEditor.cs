@@ -23,6 +23,8 @@ public sealed class BoxEditor : Editor<Box>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<BoxPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -162,7 +164,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[0] = new LabelHudElement();
                 Add(_HudElements[0]);
             }
-            _HudElements[0].SetValue($"Length: {Entity.DimensionX.ToInvariantString("F2")} mm");
+            _HudElements[0].Label = "Length";
+            _HudElements[0].Measurement = DescriptorLength;
+            _HudElements[0].Value = Entity.DimensionX;
         }
 
         if (scale.Y != 0)
@@ -178,7 +182,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[1] = new LabelHudElement();
                 Add(_HudElements[1]);
             }
-            _HudElements[1].SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
+            _HudElements[1].Label = "Width";
+            _HudElements[1].Measurement = DescriptorLength;
+            _HudElements[1].Value = Entity.DimensionY;
         }
             
         if (scale.Z != 0)
@@ -194,7 +200,9 @@ public sealed class BoxEditor : Editor<Box>
                 _HudElements[2] = new LabelHudElement();
                 Add(_HudElements[2]);
             }
-            _HudElements[2].SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
+            _HudElements[2].Label = "Height";
+            _HudElements[2].Measurement = DescriptorLength;
+            _HudElements[2].Value = Entity.DimensionZ;
         }
 
         if (center)

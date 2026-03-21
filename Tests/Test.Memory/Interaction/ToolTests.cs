@@ -268,7 +268,7 @@ public class ToolTests
             objectsToCheck.AddRange(sketch.Constraints);
             var constraintElements = sketchEditTool.Elements.ConstraintElements;
             objectsToCheck.AddRange(constraintElements);
-            var constraintVisuals = constraintElements.SelectMany(elem => elem.Marker.VisualObjects);
+            var constraintVisuals = constraintElements.SelectMany(elem => elem.VisualObjects);
             objectsToCheck.AddRange(constraintVisuals);
             objectsToCheck.AddRange(constraintVisuals.Select(visObj => visObj.AisObject));
 

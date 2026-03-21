@@ -29,7 +29,7 @@
                    Text="Distance" 
                    Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
-                          Units="Length"
+                          Measurement="{Binding DescriptorLength}"
                           Value="{Binding Offset.Distance, NotifyOnSourceUpdated=True}"
                           AutomationProperties.AutomationId="Distance"/>
 

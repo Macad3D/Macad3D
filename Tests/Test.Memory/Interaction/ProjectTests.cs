@@ -1,6 +1,7 @@
 ﻿using Macad.Core.Shapes;
 using Macad.Interaction;
 using Macad.Test.Utils;
+using Macad.Test.Unit.Common;
 using NUnit.Framework;
 
 namespace Macad.Test.Memory.Interaction;
@@ -11,6 +12,7 @@ public class ProjectTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithDefault();
     }
 

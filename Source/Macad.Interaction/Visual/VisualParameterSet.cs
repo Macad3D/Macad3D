@@ -38,8 +38,9 @@ public sealed partial class VisualParameterSet
         Name = "DeviationAngle",
         DefaultValue = 12.0,
         Description = "Sets the maximum angular difference between adjacent mesh facets, influencing surface smoothness and display performance.",
-        EditorHints = new() { { "Units", "Degree" }, { "MinValue", 0.5 }, { "MaxValue", 45.0 } },
-        Flags = Parameter.ParameterFlags.NeedsRestart
+        EditorHints = new() { { "Units", "Angle" }, { "MinValue", 0.5 }, { "MaxValue", 45.0 } },
+        Flags = Parameter.ParameterFlags.NeedsRestart,
+        PhysicalQuantity = PhysicalQuantity.Angle,
     };
 
     //--------------------------------------------------------------------------------------------------

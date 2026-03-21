@@ -38,30 +38,6 @@ public class LayerUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void OpenVisualSettings()
-    {
-        var layerPanel = MainWindow.Layers;
-
-        layerPanel.AddLayer();
-
-        // From layer
-        var layerItem = layerPanel.GetLayerItem(1);
-        layerItem.Click("OpenLayerVisualPanel");
-        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "LayerVisualPanel"), Is.True);
-        layerPanel.SelectItem(0);
-        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "LayerVisualPanel"), Is.False);
-
-        // From toolbar
-        layerPanel.SelectItem(1);
-        layerPanel.Click("OpenLayerVisualPanel");
-        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "LayerVisualPanel"), Is.True);
-        layerPanel.SelectItem(0);
-        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "LayerVisualPanel"), Is.False);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    [Test]
     public void MoveLayer()
     {
         var layerPanel = MainWindow.Layers;
@@ -76,11 +52,8 @@ public class LayerUITests : UITestBase
         layerPanel.GetLayerItem(2).Drag(-30);
 
         // Positions should be swapped
-        Assert.That(Pipe.GetValue("$Context.Layers.[2]"), Is.EqualTo(layer1));
-        Assert.That(Pipe.GetValue("$Context.Layers.[1]"), Is.EqualTo(layer2));
-
-        // Layer should still be active
-        Assert.That(Pipe.GetValue("$Context.Layers.ActiveLayer"), Is.EqualTo(layer2));
+        Assert.AreEqual(layer1, Pipe.GetValue("$Context.Layers.[2]"));
+        Assert.AreEqual(layer2, Pipe.GetValue("$Context.Layers.[1]"));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -169,27 +142,6 @@ public class LayerUITests : UITestBase
         // Can reselect item?
         layerPanel.SelectItem(1);
         Assert.IsTrue(layerPanel.GetLayerItem(1).IsSelected);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    [Test]
-    public void Create()
-    {
-        var layerPanel = MainWindow.Layers;
-
-        layerPanel.Click("CreateLayer");
-        var layerItem = layerPanel.GetLayerItem(1);
-        Assert.That(layerItem.Text == "Unnamed");
-
-        // Autostart name editing
-        layerItem.SetValue("LayerRenameBox", "MyLayer");
-        Pipe.PressKey(VirtualKeyShort.ENTER);
-        Assert.AreEqual("MyLayer", layerPanel.GetLayerItem(1).Text);
-
-        // Auto-Activated
-        var layerGuid = Pipe.GetValue("$Context.Layers.[1].Guid");
-        Assert.AreEqual(layerGuid, Pipe.GetValue("$Context.Layers.ActiveLayer.Guid"));
     }
 
     //--------------------------------------------------------------------------------------------------

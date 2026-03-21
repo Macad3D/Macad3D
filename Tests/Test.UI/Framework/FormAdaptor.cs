@@ -20,9 +20,24 @@ public class FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public AutomationElement Element => _FormControl;
+
+    //--------------------------------------------------------------------------------------------------
+
     public FormAdaptor(AutomationElement formControl)
     {
         _FormControl = formControl;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsVisible(string id)
+    {
+        var ctrl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
+        if (ctrl == null)
+            return false;
+
+        return !ctrl.IsOffscreen && ctrl.BoundingRectangle.Width > 0 && ctrl.BoundingRectangle.Height > 0;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -33,12 +48,70 @@ public class FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    protected AutomationElement Find(string automationId)
+    {
+        var element = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
+        if (element == null)
+            return null;
+
+        var innerEdit = element.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit));
+        if (innerEdit != null)
+            return innerEdit;
+
+        return element;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public T GetValue<T>(string id)
     {
-        var control = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
-        Assert.That(control, Is.Not.Null, $"Element {id} not found in form.");
-        Assert.That(control.Patterns.Value.IsSupported, $"Value pattern not supported on element {id}.");
-        return (T)Convert.ChangeType(control.Patterns.Value.Pattern.Value.Value, typeof(T), CultureInfo.InvariantCulture);
+        var element = this.Find(id);
+        if (element == null)
+            throw new Exception($"Element {id} not found in form.");
+
+        if (typeof(T) == typeof(bool))
+        {
+            if (element.Patterns.Toggle.IsSupported)
+            {
+                var toggle = element.Patterns.Toggle.Pattern;
+                bool state = toggle.ToggleState.Value == ToggleState.On;
+                return (T)(object)state;
+            }
+
+            if (element.Patterns.Value.IsSupported)
+            {
+                var rawBool = element.Patterns.Value.Pattern.Value;
+                bool parsed = rawBool == "True" || rawBool == "true" || rawBool == "1" || rawBool == "On";
+                return (T)(object)parsed;
+            }
+
+            var nameBool = element.Name;
+            bool nameParsed = nameBool == "True" || nameBool == "On" || nameBool == "Checked";
+            return (T)(object)nameParsed;
+        }
+
+        if (typeof(T) == typeof(string))
+        {
+            // Prefer ValuePattern
+            if (element.Patterns.Value.IsSupported)
+            {
+                var raw = element.Patterns.Value.Pattern.Value;
+                return (T)(object)(raw ?? string.Empty);
+            }
+
+            // Then TextPattern
+            if (element.Patterns.Text.IsSupported)
+            {
+                var raw = element.Patterns.Text.Pattern.DocumentRange.GetText(-1) ?? string.Empty;
+                return (T)(object)raw;
+            }
+
+            // Finally, Name
+            return (T)(object)(element.Name ?? string.Empty);
+        }
+
+        throw new NotSupportedException(
+            $"GetValue<{typeof(T).Name}> is not supported. Only bool and string are handled.");
     }
 
 
@@ -127,7 +200,19 @@ public class FormAdaptor
             Assert.IsNotNull(button, $"Button {id} is a SplitButton, but the ToggleButton part was not found.");
         }
 
-        return button.Patterns.Toggle.Pattern.ToggleState.Value == ToggleState.On;
+        if (button.Patterns.Toggle.IsSupported)
+        {
+            var toggle = button.Patterns.Toggle.Pattern;
+            return toggle.ToggleState.Value == ToggleState.On;
+        }
+
+        if (button.Patterns.Value.IsSupported)
+        {
+            var raw = button.Patterns.Value.Pattern.Value;
+            return raw == "True" || raw == "On" || raw == "Checked";
+        }
+
+        return button.Name == "True" || button.Name == "On" || button.Name == "Checked";
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -43,7 +43,7 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                        Text="Layer Count" />
             <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"
-                               Units="None" MinValue="1" MaxValue="1000" Precision="0" IncDecButtons="True"
+                               MinValue="1" MaxValue="1000" IncDecButtons="True"
                                Value="{Binding Tool.Component.LayerCount, NotifyOnSourceUpdated=True}" />
             
             <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 

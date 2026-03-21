@@ -1,14 +1,15 @@
-﻿using System.IO;
-using System.Windows;
-using System.Windows.Input;
-using Macad.Test.Utils;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
-using NUnit.Framework;
-using Macad.Common;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
+using NUnit.Framework;
+using System.IO;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Macad.Test.Interaction.Sheet;
 
@@ -22,6 +23,7 @@ public class FlangeSheetToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

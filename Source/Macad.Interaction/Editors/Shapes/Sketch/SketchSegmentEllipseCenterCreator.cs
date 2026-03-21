@@ -76,7 +76,7 @@ public sealed class SketchSegmentEllipseCenterCreator : SketchSegmentCreator
                     _ValueHudElement = new ValueHudElement
                     {
                         Label = "Distance:",
-                        Units = ValueUnits.Length
+                        Descriptor = DescriptorLength
                     };
                     Add(_ValueHudElement);
                     _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;

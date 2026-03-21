@@ -1,17 +1,24 @@
-﻿using System.IO;
-using Macad.Common.Serialization;
+﻿using Macad.Common.Serialization;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Core.Modeling.Primitives;
 
 [TestFixture]
 public class SolidTests
 {
+    [SetUp]
+    public void SetUp()
+    {
+        TestEnvironment.EnsureUnits();
+    }
+
     [Test]
     public void UnsavedFlagAfterLoad()
     {

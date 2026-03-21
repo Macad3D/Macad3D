@@ -19,6 +19,8 @@ public sealed class ImprintEditor : Editor<Imprint>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         var panel = CreatePanel<ImprintPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
 
         if (Entity.Sketch != null)
@@ -150,7 +152,9 @@ public sealed class ImprintEditor : Editor<Imprint>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Depth";
+        _HudElement?.Value = Entity.Depth;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -18,6 +18,8 @@ public sealed class OffsetEditor : Editor<Offset>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<OffsetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -124,7 +126,9 @@ public sealed class OffsetEditor : Editor<Offset>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Distance: {Entity.Distance.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Distance";
+        _HudElement?.Value = Entity.Distance;
+        _HudElement?.Measurement = DescriptorLength;
 
         _UpdateActions();
     }

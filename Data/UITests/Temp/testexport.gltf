@@ -1,0 +1,119 @@
+{
+  "asset": {
+    "generator": "Macad|3D",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "0 (Default)"
+    },
+    {
+      "translation": [
+        -1.433,
+        0,
+        4.255
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "mesh": 0,
+      "name": "Box_1"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 612,
+      "uri": "data:application/octet-stream;base64,AAAAAAAAAAAAAACAAACAvwAAAAAAAAAAAAAAAN9PiUAAAACAAACAvwAAAAAAAAAAAAAAAAAAAAAlBs3AAACAvwAAAAAAAAAAAAAAAN9PiUAlBs3AAACAvwAAAAAAAAAAMzMLQAAAAAAAAACAAACAPwAAAIAAAACAMzMLQN9PiUAAAACAAACAPwAAAIAAAACAMzMLQAAAAAAlBs3AAACAPwAAAIAAAACAMzMLQN9PiUAlBs3AAACAPwAAAIAAAACAAAAAAAAAAAAAAACAAAAAAAAAAIAAAIA/MzMLQAAAAAAAAACAAAAAAAAAAIAAAIA/AAAAAN9PiUAAAACAAAAAAAAAAIAAAIA/MzMLQN9PiUAAAACAAAAAAAAAAIAAAIA/AAAAAAAAAAAlBs3AAAAAgAAAAAAAAIC/MzMLQAAAAAAlBs3AAAAAgAAAAAAAAIC/AAAAAN9PiUAlBs3AAAAAgAAAAAAAAIC/MzMLQN9PiUAlBs3AAAAAgAAAAAAAAIC/AAAAAAAAAAAAAACAAAAAgAAAgL8AAAAAAAAAAAAAAAAlBs3AAAAAgAAAgL8AAAAAMzMLQAAAAAAAAACAAAAAgAAAgL8AAAAAMzMLQAAAAAAlBs3AAAAAgAAAgL8AAAAAAAAAAN9PiUAAAACAAAAAAAAAgD8AAACAAAAAAN9PiUAlBs3AAAAAAAAAgD8AAACAMzMLQN9PiUAAAACAAAAAAAAAgD8AAACAMzMLQN9PiUAlBs3AAAAAAAAAgD8AAACAAQIAAQMCBQQGBQYHCwgJCwoIDw0MDwwOExARExIQFxUUFxQW"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 576,
+      "byteStride": 24,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 576,
+      "byteLength": 36,
+      "target": 34963
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC3",
+      "max": [
+        2.175,
+        4.291,
+        -0
+      ],
+      "min": [
+        0,
+        0,
+        -6.407
+      ]
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 12,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 0,
+      "componentType": 5121,
+      "count": 36,
+      "type": "SCALAR"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.52711517,
+          0.52711517,
+          0.52711517,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0
+      }
+    }
+  ]
+}

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Common.Interop;
+using Macad.Interaction;
+using Macad.Presentation;
+using Microsoft.Win32;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using Macad.Common;
-using Macad.Common.Interop;
-using Macad.Presentation;
-using Microsoft.Win32;
 
 namespace Macad.Window;
 
@@ -48,6 +49,7 @@ public partial class App : Application
         // Init context
         AppContext.Initialize(cmdLine);
         var appParameter = AppContext.Current.Parameters.Get<ApplicationParameterSet>();
+        AppServices.Units = InteractiveContext.CurrentUnits;
 
         // Load theme depending on settings or operating system
         _LoadTheme(appParameter?.Theme ?? ApplicationTheme.Auto);

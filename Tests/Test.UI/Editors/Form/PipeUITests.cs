@@ -1,7 +1,9 @@
-﻿using System.Windows.Input;
-using FlaUI.Core.WindowsAPI;
+﻿using FlaUI.Core.WindowsAPI;
+using Macad.Common;
+using Macad.Presentation;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
+using System.Windows.Input;
 
 namespace Macad.Test.UI.Editors.Form;
 
@@ -81,9 +83,12 @@ public class PipeUITests : UITestBase
         _CreateRectPipe();
         var panel = MainWindow.PropertyView.FindPanelByClass("PipePropertyPanel");
         Assert.That(panel, Is.Not.Null);
+        var desc = new MeasurementDescriptor(UnitId.Millimeter, 2);
         Assert.That(panel.IsChecked("SymmetricProfile"));
         Assert.That(!panel.IsEnabled("DimensionY"));
-        Assert.That(panel.GetValue<double>("DimensionY"), Is.EqualTo(panel.GetValue<double>("DimensionX")));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out var kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out var kernelDimensionY);
+        Assert.That(kernelDimensionY, Is.EqualTo(kernelDimensionX));
 
         panel.Click("SymmetricProfile");
         Assert.That(!panel.IsChecked("SymmetricProfile"));
@@ -91,12 +96,16 @@ public class PipeUITests : UITestBase
 
         panel.EnterValue("DimensionY", 2.0);
         Assert.That(Pipe.GetValue<double>("$Selected.Shape.SizeY"), Is.EqualTo(2.0));
-        Assert.That(panel.GetValue<double>("DimensionY"), Is.Not.EqualTo(panel.GetValue<double>("DimensionX")));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernelDimensionY);
+        Assert.That(kernelDimensionY, Is.Not.EqualTo(kernelDimensionX));
 
         panel.Click("SymmetricProfile");
         Assert.That(panel.IsChecked("SymmetricProfile"));
         Assert.That(!panel.IsEnabled("DimensionY"));
-        Assert.That(panel.GetValue<double>("DimensionY"), Is.EqualTo(panel.GetValue<double>("DimensionX")));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernelDimensionY);
+        Assert.That(kernelDimensionY, Is.EqualTo(kernelDimensionX));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -109,7 +118,10 @@ public class PipeUITests : UITestBase
         Assert.That(panel, Is.Not.Null);
         Assert.That(panel.IsChecked("AutoBendRadius"));
         Assert.That(!panel.IsEnabled("BendRadius"));
-        Assert.That(panel.GetValue<double>("BendRadius"), Is.EqualTo(panel.GetValue<double>("DimensionX")));
+        var desc = new MeasurementDescriptor(UnitId.Millimeter, 2);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out var kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("BendRadius"), desc, out var kernelBendRadius);
+        Assert.That(kernelBendRadius, Is.EqualTo(kernelDimensionX));
 
         panel.Click("AutoBendRadius");
         Assert.That(!panel.IsChecked("AutoBendRadius"));
@@ -117,12 +129,16 @@ public class PipeUITests : UITestBase
 
         panel.EnterValue("BendRadius", 2.0);
         Assert.That(Pipe.GetValue<double>("$Selected.Shape.BendRadius"), Is.EqualTo(2.0));
-        Assert.That(panel.GetValue<double>("BendRadius"), Is.Not.EqualTo(panel.GetValue<double>("DimensionX")));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("BendRadius"), desc, out kernelBendRadius);
+        Assert.That(kernelBendRadius, Is.Not.EqualTo(kernelDimensionX));
 
         panel.Click("AutoBendRadius");
         Assert.That(panel.IsChecked("AutoBendRadius"));
         Assert.That(!panel.IsEnabled("BendRadius"));
-        Assert.That(panel.GetValue<double>("BendRadius"), Is.EqualTo(panel.GetValue<double>("DimensionX")));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernelDimensionX);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("BendRadius"), desc, out kernelBendRadius);
+        Assert.That(kernelBendRadius, Is.EqualTo(kernelDimensionX));
     }
 
     //--------------------------------------------------------------------------------------------------

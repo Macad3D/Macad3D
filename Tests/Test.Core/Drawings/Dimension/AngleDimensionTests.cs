@@ -1,11 +1,13 @@
-﻿using System.IO;
-using Macad.Core.Drawing;
+﻿using Macad.Core.Drawing;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Exchange.Svg;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Text;
 
 namespace Macad.Test.Core.Drawings.Dimension;
 
@@ -30,7 +32,8 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ExtentToBottom.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        var normalized = NormalizeSvg(svg);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ExtentToBottom.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -50,7 +53,8 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ExtentToTop.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        var normalized = NormalizeSvg(svg);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ExtentToTop.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -70,7 +74,8 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ScaleLabeling.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        var normalized = NormalizeSvg(svg);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ScaleLabeling.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -91,7 +96,8 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "IsNotToScale.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        var normalized = NormalizeSvg(svg);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "IsNotToScale.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -111,7 +117,8 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ReversedCoordinates.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        var normalized = NormalizeSvg(svg);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ReversedCoordinates.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -135,11 +142,40 @@ public class AngleDimensionTests
 
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
+        var normalized = NormalizeSvg(svg);
 
         // Write to file and compare
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Sense.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Sense.svg"), normalized, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    static MemoryStream NormalizeSvg(MemoryStream svg)
+    {
+        svg.Position = 0;
+        string text;
+
+        using (var reader = new StreamReader(svg, Encoding.UTF8, true, 1024, leaveOpen: true))
+        {
+            text = reader.ReadToEnd();
+        }
+
+        const string prefix = "id=\"Drawing_";
+        int index = text.IndexOf(prefix, StringComparison.Ordinal);
+
+        if (index >= 0)
+        {
+            int start = index + prefix.Length;
+            int end = text.IndexOf('"', start);
+
+            if (end > start)
+            {
+                text = text.Remove(index, end - index + 1).Insert(index, "id=\"Drawing\"");
+            }
+        }
+
+        return new MemoryStream(Encoding.UTF8.GetBytes(text));
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }

@@ -2,6 +2,7 @@
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Test.Unit.Common;
 using NUnit.Framework;
 
 namespace Macad.Test.Interaction.Assemble;
@@ -16,6 +17,7 @@ public class BoxJointToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

@@ -151,7 +151,7 @@ public class OffsetSegmentSketchTool : SketchTool
         _OffsetHudElement = new()
         {
             Label = "Distance",
-            Units = ValueUnits.Length,
+            Descriptor = DescriptorLength,
             Value = 0
         };
         Add(_OffsetHudElement);
@@ -159,7 +159,8 @@ public class OffsetSegmentSketchTool : SketchTool
 
         _JoinTypeHudElement = new()
         {
-            Text = $"Join Type: {_CurrentJoinType}"
+            Label = "Join Type",
+            TextValue = _CurrentJoinType.ToString()
         };
         Add(_JoinTypeHudElement);
 
@@ -289,7 +290,8 @@ public class OffsetSegmentSketchTool : SketchTool
     {
         _CurrentJoinType = newType;
         _Data.ForEach(data => data.MakeOffset = new(data.Face, _CurrentJoinType, false));
-        _JoinTypeHudElement.Text = $"Join Type: {_CurrentJoinType}";
+        _JoinTypeHudElement.Label = "Join Type";
+        _JoinTypeHudElement.TextValue = _CurrentJoinType.ToString();
         _DoOffsets();
         _UpdatePreviews();
     }

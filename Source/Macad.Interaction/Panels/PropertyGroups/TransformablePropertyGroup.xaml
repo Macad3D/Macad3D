@@ -5,9 +5,10 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
            xmlns:panels="clr-namespace:Macad.Interaction.Panels"
-           mc:Ignorable="d" >
+           mc:Ignorable="d" 
+           AutomationProperties.AutomationId="TransformablePropertyGroup">
 
-    <StackPanel DataContext="{Binding Mode=OneTime, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type panels:TransformablePropertyGroup}}}" >
+    <StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type panels:TransformablePropertyGroup}}}" >
     
         <!--Position-->
         <TextBlock Text="Position [X, Y, Z]" Style="{StaticResource Macad.Styles.TextBlock.PropertyLine}" />
@@ -15,32 +16,35 @@
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="Left"
                               Value="{Binding PositionX, NotifyOnSourceUpdated=True}"
-                              AutomationProperties.AutomationId="PositionX" />
+                              AutomationProperties.AutomationId="PositionX" 
+                              Measurement="{Binding DescriptorLength, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"/>
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="HCenter"
                               Value="{Binding PositionY, NotifyOnSourceUpdated=True}"
-                              AutomationProperties.AutomationId="PositionY" />
+                              AutomationProperties.AutomationId="PositionY" 
+                              Measurement="{Binding DescriptorLength, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"/>
             <mmp:ValueEditBox Width="75"
                               mmp:GroupControls.Position="Right"
                               Value="{Binding PositionZ, NotifyOnSourceUpdated=True}"
-                              AutomationProperties.AutomationId="PositionZ" />
+                              AutomationProperties.AutomationId="PositionZ" 
+                              Measurement="{Binding DescriptorLength, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"/>
         </StackPanel>
         
         <!--Orientation-->
         <TextBlock Text="Orientation [Yaw, Pitch, Roll]" Style="{StaticResource Macad.Styles.TextBlock.PropertyLine}" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <mmp:ValueEditBox Width="75"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"  
                               mmp:GroupControls.Position="Left"
                               Value="{Binding RotationYaw, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationY" />
             <mmp:ValueEditBox Width="75"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"  
                               mmp:GroupControls.Position="HCenter"
                               Value="{Binding RotationPitch, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationP" />
             <mmp:ValueEditBox Width="75"
-                              Units="Degree"  
+                              Measurement="{Binding DescriptorAngle, RelativeSource={RelativeSource AncestorType=panels:PropertyPanel}}"  
                               mmp:GroupControls.Position="Right"
                               Value="{Binding RotationRoll, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationR" />

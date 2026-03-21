@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>{D2A1C6A4-0E5B-4F7A-9A1D-1F1F3C7B9A11}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <Platforms>x64</Platforms>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Macad.Test.Unit.Common</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Interaction\Macad.Interaction.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+
+  <!-- Import the custom build targets -->
+  <Import Project="$(MMBuildPropsDir)Macad.Test.targets" />
+
+</Project>

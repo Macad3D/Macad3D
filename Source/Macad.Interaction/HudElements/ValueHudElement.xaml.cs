@@ -1,11 +1,30 @@
-﻿using System.Windows.Data;
-using System.Windows.Input;
+﻿using Macad.Common;
 using Macad.Presentation;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Macad.Interaction;
 
 public partial class ValueHudElement : HudElement
 {
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorProperty =
+        DependencyProperty.Register(
+            nameof(Descriptor),
+            typeof(MeasurementDescriptor),
+            typeof(HudElement),
+            new PropertyMetadata(null));
+
+    public MeasurementDescriptor Descriptor
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorProperty);
+        set => SetValue(DescriptorProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public string Label
     {
         get { return _Label; }
@@ -37,21 +56,6 @@ public partial class ValueHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units
-    {
-        get { return _Units; }
-        set
-        {
-            if (_Units != value)
-            {
-                _Units = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public bool IsInKeyboardMode
     {
         get { return _IsInKeyboardMode; }
@@ -69,7 +73,6 @@ public partial class ValueHudElement : HudElement
         
     string _Label;
     double _Value;
-    ValueUnits _Units;
     bool _IsInKeyboardMode;
 
     //--------------------------------------------------------------------------------------------------

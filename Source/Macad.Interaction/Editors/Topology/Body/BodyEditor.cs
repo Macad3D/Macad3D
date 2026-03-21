@@ -20,6 +20,8 @@ public sealed class BodyEditor : Editor<Body>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<BodyPropertyPanel>(Entity, PropertyPanelSortingKey.Body);
         _ShapePanel = CreatePanel<BodyShapePropertyPanel>(Entity, PropertyPanelSortingKey.BodyShape);
 

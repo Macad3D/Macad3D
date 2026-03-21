@@ -1,10 +1,11 @@
-﻿using System.IO;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core.Topology;
-using Macad.Test.Utils;
 using Macad.Interaction;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Interaction.Common;
 
@@ -18,6 +19,7 @@ public class AlignWorkingPlaneToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
         var ctx = Context.Current;
         ctx.Workspace.GridEnabled = true;

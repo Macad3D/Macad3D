@@ -147,8 +147,21 @@ public abstract class InteractiveContext : CoreContext
     {
         InteractionModule.Initialize();
         Current = this;
+        Units = new UnitsService(new UnitsSettingsProvider(CoreContext.Current.Parameters.Get<UnitsParameterSet>()));
+        CurrentUnits = Units;
         DocumentController = new ModelController();
         ShortcutHandler = new ShortcutHandler();
+        CoreContext.Current.Parameters.ParameterChanged += OnPreferencesChanged;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void OnPreferencesChanged(ParameterSet set, string key)
+    {
+        if (set is UnitsParameterSet)
+        {
+            Units.RebuildDescriptors();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -167,6 +180,11 @@ public abstract class InteractiveContext : CoreContext
     //--------------------------------------------------------------------------------------------------
 
     #region Statics
+
+    public UnitsService Units { get; }
+    public static UnitsService CurrentUnits { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
 
     public new static InteractiveContext Current { get; private set; }
 

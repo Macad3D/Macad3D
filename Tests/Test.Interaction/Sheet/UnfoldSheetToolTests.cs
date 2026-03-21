@@ -1,11 +1,12 @@
-﻿using System.IO;
-using System.Windows;
-using Macad.Test.Utils;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Windows;
 
 namespace Macad.Test.Interaction.Sheet;
 
@@ -19,6 +20,7 @@ public class UnfoldSheetToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

@@ -1,12 +1,13 @@
-﻿using System.IO;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Interaction.Sketch;
 
@@ -20,6 +21,7 @@ public class CreateSegmentTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
         Context.Current.Workspace.GridEnabled = true;
         // Set background color to black to better the helper lines

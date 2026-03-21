@@ -30,6 +30,8 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
         
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<FlangeSheetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 
@@ -297,7 +299,9 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Angle: {Entity.Angle.ToInvariantString("F2")} °");
+        _HudElement?.Label = "Angle";
+        _HudElement?.Value = Entity.Angle;
+        _HudElement?.Measurement = DescriptorAngle;
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -340,7 +344,9 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Length: {Entity.Length.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Length";
+        _HudElement?.Value = Entity.Length;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -381,7 +387,9 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Radius: {Entity.Radius.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Radius";
+        _HudElement?.Value = Entity.Radius;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -428,7 +436,9 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Start Gap: {Entity.StartGap.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Start Gap";
+        _HudElement?.Value = Entity.StartGap;
+        _HudElement?.Measurement = DescriptorLength;
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -475,7 +485,9 @@ public sealed class FlangeSheetEditor : Editor<FlangeSheet>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"End Gap: {Entity.EndGap.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "End Gap";
+        _HudElement?.Value = Entity.EndGap;
+        _HudElement?.Measurement = DescriptorLength;
     }
     
     //--------------------------------------------------------------------------------------------------

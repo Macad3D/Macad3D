@@ -8,6 +8,8 @@ public class PipeEditor : Editor<Pipe>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         var panel = CreatePanel<PipePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
 
         if (Entity.Predecessor is Sketch sketch)

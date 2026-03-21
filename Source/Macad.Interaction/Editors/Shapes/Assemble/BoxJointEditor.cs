@@ -7,6 +7,8 @@ public class BoxJointEditor : Editor<BoxJoint>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<BoxJointPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

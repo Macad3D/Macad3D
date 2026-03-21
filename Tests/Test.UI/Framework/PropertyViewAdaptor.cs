@@ -1,5 +1,7 @@
 ﻿using FlaUI.Core.AutomationElements;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Macad.Test.UI.Framework;
 
@@ -7,6 +9,31 @@ public class PropertyViewAdaptor
 {
     readonly AutomationElement _ViewControl;
     readonly AutomationElement _PaneControl;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public PanelAdaptor GetPanel(string className)
+    {
+        var control = _PaneControl.FindFirstDescendant(cf => cf.ByClassName(className));
+        Assert.That(control, Is.Not.Null, $"Panel '{className}' not found in PropertyView.");
+        return new PanelAdaptor(control);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public LayerVisualPanelAdaptor GetLayerVisualPanel()
+    {
+        var panel = GetPanel("LayerVisualPanel");
+        return new LayerVisualPanelAdaptor(panel);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public IEnumerable<FormAdaptor> FindPanelsByClass(string className)
+    {
+        var controls = _PaneControl.FindAllDescendants(cf => cf.ByClassName(className));
+        return controls.Select(c => new FormAdaptor(c));
+    }
 
     //--------------------------------------------------------------------------------------------------
 

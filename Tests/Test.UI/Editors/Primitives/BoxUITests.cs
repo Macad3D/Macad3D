@@ -1,4 +1,6 @@
-﻿using Macad.Test.UI.Framework;
+﻿using Macad.Common;
+using Macad.Presentation;
+using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Primitives;
@@ -21,6 +23,9 @@ public class BoxUITests : UITestBase
     [Test, Order(1)]
     public void CreateBox()
     {
+        var desc = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        string displayedValue = "";
+        double kernelValue = 0.0;
         Assert.That(_Viewport, Is.Not.Null);
 
         // Start tool
@@ -43,9 +48,18 @@ public class BoxUITests : UITestBase
 
         _BoxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
         Assert.That(_BoxPanel, Is.Not.Null);
-        Assert.That(_BoxPanel.GetValue<double>("BoxLength"), Is.GreaterThan(0.35));
-        Assert.That(_BoxPanel.GetValue<double>("BoxWidth"), Is.GreaterThan(5.0));
-        Assert.That(_BoxPanel.GetValue<double>("BoxHeight"), Is.GreaterThan(3.0));
+
+        displayedValue = _BoxPanel.GetValue<string>("BoxLength");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.GreaterThan(0.35));
+
+        displayedValue = _BoxPanel.GetValue<string>("BoxWidth");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.GreaterThan(5.0));
+
+        displayedValue = _BoxPanel.GetValue<string>("BoxHeight");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.GreaterThan(3.0));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -53,6 +67,10 @@ public class BoxUITests : UITestBase
     [Test, Order(2)]
     public void ChangeDimensions()
     {
+        var desc = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        string displayedValue = "";
+        double kernelValue = 0.0;
+        
         Assert.That(_BoxPanel, Is.Not.Null);
         Assert.That(_Viewport, Is.Not.Null);
 
@@ -75,8 +93,16 @@ public class BoxUITests : UITestBase
         Assert.That(_BoxPanel, Is.Not.Null);
 
         // Check Values 
-        Assert.That(_BoxPanel.GetValue<double>("BoxLength"), Is.EqualTo(3.0));
-        Assert.That(_BoxPanel.GetValue<double>("BoxWidth"), Is.EqualTo(7.0));
-        Assert.That(_BoxPanel.GetValue<double>("BoxHeight"), Is.EqualTo(2.0));
+        displayedValue = _BoxPanel.GetValue<string>("BoxLength");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(3.0));
+
+        displayedValue = _BoxPanel.GetValue<string>("BoxWidth");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(7.0));
+
+        displayedValue = _BoxPanel.GetValue<string>("BoxHeight");
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(2.0));
     }
 }

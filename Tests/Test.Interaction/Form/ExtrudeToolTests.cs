@@ -1,12 +1,13 @@
-﻿using System.IO;
-using Macad.Common;
-using Macad.Test.Utils;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 using System.Windows.Input;
-using Macad.Core;
 
 namespace Macad.Test.Interaction.Form;
 
@@ -20,6 +21,7 @@ public class ExtrudeToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

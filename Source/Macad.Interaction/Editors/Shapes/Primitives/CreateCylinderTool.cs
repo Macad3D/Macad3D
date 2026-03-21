@@ -99,7 +99,7 @@ public class CreateCylinderTool : Tool
             _ValueHudElement = new ValueHudElement
             {
                 Label = "Radius:",
-                Units = ValueUnits.Length
+                Descriptor = DescriptorLength
             };
             _ValueHudElement.ValueEntered += _ValueEntered;
             Add(_ValueHudElement);

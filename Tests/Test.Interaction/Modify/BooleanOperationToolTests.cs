@@ -1,11 +1,12 @@
-﻿using System.IO;
-using System.Windows.Input;
-using Macad.Test.Utils;
-using Macad.Core.Shapes;
+﻿using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Windows.Input;
 
 namespace Macad.Test.Interaction.Modify;
 
@@ -19,6 +20,7 @@ public class BooleanToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

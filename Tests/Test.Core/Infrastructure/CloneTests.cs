@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Macad.Test.Utils;
+using Macad.Test.Unit.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -17,6 +18,7 @@ public class CloneTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithDefault();
     }
 

@@ -163,7 +163,9 @@ public class FilletEditorTool : EdgeModifierTool
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Radius: {_FilletShape.Radius.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Radius";
+        _HudElement?.Value = _FilletShape.Radius;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

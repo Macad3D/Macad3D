@@ -1,0 +1,86 @@
+solid Written by Macad3D STL-Export
+ facet normal -1 0 0
+  outer loop
+   vertex -1.433 -4.255 4.291
+   vertex -1.433 2.152 0
+   vertex -1.433 -4.255 0
+  endloop
+ endfacet
+ facet normal -1 0 0
+  outer loop
+   vertex -1.433 -4.255 4.291
+   vertex -1.433 2.152 4.291
+   vertex -1.433 2.152 0
+  endloop
+ endfacet
+ facet normal 1 0 0
+  outer loop
+   vertex 0.742 -4.255 4.291
+   vertex 0.742 -4.255 0
+   vertex 0.742 2.152 0
+  endloop
+ endfacet
+ facet normal 1 -0 0
+  outer loop
+   vertex 0.742 -4.255 4.291
+   vertex 0.742 2.152 0
+   vertex 0.742 2.152 4.291
+  endloop
+ endfacet
+ facet normal 0 -1 -0
+  outer loop
+   vertex 0.742 -4.255 4.291
+   vertex -1.433 -4.255 0
+   vertex 0.742 -4.255 0
+  endloop
+ endfacet
+ facet normal -0 -1 0
+  outer loop
+   vertex 0.742 -4.255 4.291
+   vertex -1.433 -4.255 4.291
+   vertex -1.433 -4.255 0
+  endloop
+ endfacet
+ facet normal 0 1 0
+  outer loop
+   vertex 0.742 2.152 4.291
+   vertex 0.742 2.152 0
+   vertex -1.433 2.152 0
+  endloop
+ endfacet
+ facet normal 0 1 0
+  outer loop
+   vertex 0.742 2.152 4.291
+   vertex -1.433 2.152 0
+   vertex -1.433 2.152 4.291
+  endloop
+ endfacet
+ facet normal -0 0 -1
+  outer loop
+   vertex 0.742 2.152 0
+   vertex -1.433 -4.255 0
+   vertex -1.433 2.152 0
+  endloop
+ endfacet
+ facet normal 0 -0 -1
+  outer loop
+   vertex 0.742 2.152 0
+   vertex 0.742 -4.255 0
+   vertex -1.433 -4.255 0
+  endloop
+ endfacet
+ facet normal 0 0 1
+  outer loop
+   vertex 0.742 2.152 4.291
+   vertex -1.433 2.152 4.291
+   vertex -1.433 -4.255 4.291
+  endloop
+ endfacet
+ facet normal 0 0 1
+  outer loop
+   vertex 0.742 2.152 4.291
+   vertex -1.433 -4.255 4.291
+   vertex 0.742 -4.255 4.291
+  endloop
+ endfacet
+endsolid Written by Macad3D STL-Export
