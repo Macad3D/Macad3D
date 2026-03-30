@@ -34,7 +34,6 @@
                     Style="{StaticResource {x:Type treeView:TreeViewEx}}"
                     AutomationProperties.AutomationId="ShapeTree"
                     BorderThickness="1" 
-                    TextOptions.TextFormattingMode="Display" 
                     HorizontalContentAlignment="Stretch"
                     Margin="2" 
                     KeyDown="_TreeView_KeyDown">

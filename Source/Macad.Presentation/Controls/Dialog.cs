@@ -2,10 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using ControlzEx;
 
 namespace Macad.Presentation;
 
-public class Dialog : Window, INotifyPropertyChanged
+public class Dialog : WindowChromeWindow, INotifyPropertyChanged
 {
     public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer), typeof(object), typeof(Dialog), 
                                                                                            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsParentMeasure));

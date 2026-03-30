@@ -16,8 +16,7 @@
                         BorderBrush="Transparent" 
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="Transparent" 
-                        CornerRadius="2"
-                        TextOptions.TextFormattingMode="Display">
+                        CornerRadius="2">
                     <Grid Height="Auto">
                         <ContentPresenter Margin="{TemplateBinding Padding}" 
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -31,6 +30,7 @@
                 <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Background}" />
                 <Setter Property="BorderBrush" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.Pressed.Border}" />
             </Trigger>
+
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
@@ -38,6 +38,7 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
             </MultiTrigger>
+
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
@@ -64,6 +65,10 @@
                 <Setter TargetName="border" Property="CornerRadius" Value="0,2,2,0" />
                 <Setter TargetName="border1" Property="CornerRadius" Value="0,2,2,0" />
                 <Setter TargetName="border" Property="BorderThickness" Value="0,1,1,1" />
+            </Trigger>
+
+            <Trigger Property="IsDefault" Value="True">
+                <Setter Property="FontWeight" Value="SemiBold" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -96,8 +101,7 @@
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             CornerRadius="3">
                             <Border x:Name="border1" Height="Auto" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="Transparent" CornerRadius="3"
-                                 TextOptions.TextFormattingMode="Display">
+                                Background="Transparent" CornerRadius="3">
                                 <Grid Height="Auto">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -251,4 +255,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <Style x:Key="Macad.Styles.Button.DialogFooter" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="MinHeight" Value="27"/>
+        <Setter Property="MinWidth" Value="80"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
+    </Style>
+
+
 </ResourceDictionary>

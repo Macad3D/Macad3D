@@ -16,7 +16,6 @@
 	MaxWidth="500"
 	MinWidth="375"
 	SnapsToDevicePixels="True"
-	TextOptions.TextFormattingMode="Display"
     AutomationProperties.AutomationId="TaskDialog">
 
     <mmp:Dialog.Footer>

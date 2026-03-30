@@ -22,7 +22,7 @@
 
     <!-- RibbonTabControl -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Background" ResourceKey="Macad.Brushes.Window.Background" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Background" ResourceKey="Macad.Brushes.Base15" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Background" ResourceKey="Macad.Brushes.Base10" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Border" ResourceKey="Macad.Brushes.Base50" />
     
     <!-- RibbonTabItem -->
@@ -37,7 +37,7 @@
     <!-- Menu -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Ribbon.Background" ResourceKey="Macad.Brushes.Window.Background" /> 
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.MenuItem.Background" ResourceKey="Macad.Brushes.Base10" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.GroupSeparator.Background" ResourceKey="Macad.Brushes.Base30" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.GroupSeparator.Background" ResourceKey="Macad.Brushes.Popup.Header.Background" />
     
     <!-- Window -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonWindow.TitleBackground" ResourceKey="Macad.Brushes.Window.Background" />

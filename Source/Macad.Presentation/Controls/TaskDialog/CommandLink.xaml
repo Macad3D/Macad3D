@@ -9,8 +9,7 @@
 	x:Name="UserControl"
 	d:DataContext="{d:DesignData Source=DesignData/DesignData_CommandLink.xaml}"
 	d:DesignWidth="382"
-	SnapsToDevicePixels="True"
-	TextOptions.TextFormattingMode="Display">
+	SnapsToDevicePixels="True">
 
 	<UserControl.Resources>
 		<ResourceDictionary>

@@ -30,8 +30,8 @@
                                 <ColumnDefinition Width="19" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Path Grid.Column="0" HorizontalAlignment="Center" x:Name="Right_Arrow" VerticalAlignment="Center" Fill="{mmp:AppResource Macad.Brushes.Glyph}" Data="M 0 0 L 0 8 L 8 4 Z" />
-                            <Path Grid.Column="0" Visibility="Collapsed" HorizontalAlignment="Center" x:Name="Down_Arrow" VerticalAlignment="Center" Fill="{mmp:AppResource Macad.Brushes.Glyph}" Data="M 0 0 L 8 0 L 4 8 Z" />
+                            <Path Grid.Column="0" HorizontalAlignment="Center" x:Name="Right_Arrow" VerticalAlignment="Center" Fill="{mmp:AppResource Macad.Brushes.Expander.Foreground}" Data="M 0 0 L 0 8 L 8 4 Z" />
+                            <Path Grid.Column="0" Visibility="Collapsed" HorizontalAlignment="Center" x:Name="Down_Arrow" VerticalAlignment="Center" Fill="{mmp:AppResource Macad.Brushes.Expander.Foreground}" Data="M 0 0 L 8 0 L 4 8 Z" />
                             
                             <ContentPresenter Grid.Column="1" SnapsToDevicePixels="True" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" Margin="4,2,0,2" VerticalAlignment="Center" RecognizesAccessKey="True" />
                         </Grid>

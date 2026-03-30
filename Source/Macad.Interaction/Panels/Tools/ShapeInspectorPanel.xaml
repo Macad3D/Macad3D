@@ -9,7 +9,6 @@
                      mc:Ignorable="d" 
                      d:DesignHeight="500" d:DesignWidth="200" 
                      BorderThickness="0" 
-                     TextOptions.TextFormattingMode="Display"
                      BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
                      Foreground="{StaticResource Macad.Brushes.Text}"
                      Background="{StaticResource Macad.Brushes.Pane.Background}"
@@ -106,9 +105,7 @@
                                 Background="{StaticResource Macad.Brushes.Panel.Background}">
             <ItemsControl Name="PropertyView"
                           ItemsSource="{Binding Source={StaticResource GroupedProperties}}"
-                          Foreground="{StaticResource Macad.Brushes.Text}"
-                          TextOptions.TextFormattingMode="Display"
-                          TextOptions.TextRenderingMode="ClearType">
+                          Foreground="{StaticResource Macad.Brushes.Text}">
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

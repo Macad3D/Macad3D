@@ -67,25 +67,25 @@
     
     <!--#region Window -->
 
-    <mmp:AppResource x:Key="Macad.Brushes.Window.Background" ResourceKey="Macad.Brushes.Base40" />
-    <mmp:AppResource x:Key="Macad.Brushes.Window.Border" ResourceKey="Macad.Brushes.Base80" />
+    <mmp:AppResource x:Key="Macad.Brushes.Window.Background" ResourceKey="Macad.Brushes.Base25" />
+    <mmp:AppResource x:Key="Macad.Brushes.Window.Border" ResourceKey="Macad.Brushes.Base40" />
     
-    <mmp:AppResource x:Key="Macad.Brushes.StatusBar.Background" ResourceKey="Macad.Brushes.Base50" />
+    <mmp:AppResource x:Key="Macad.Brushes.StatusBar.Background" ResourceKey="Macad.Brushes.Base30" />
     <SolidColorBrush x:Key="Macad.Brushes.MessageBar.Background" Color="LemonChiffon" />
+
+    <mmp:AppResource x:Key="Macad.Brushes.Pane.Background" ResourceKey="Macad.Brushes.Window.Background" />
+    <mmp:AppResource x:Key="Macad.Brushes.Pane.Border" ResourceKey="Macad.Brushes.Base40" />
     
-    <mmp:AppResource x:Key="Macad.Brushes.Pane.Background" ResourceKey="Macad.Brushes.Base40" />
-    <mmp:AppResource x:Key="Macad.Brushes.Pane.Border" ResourceKey="Macad.Brushes.Base80" />
-    
-    <mmp:AppResource x:Key="Macad.Brushes.Panel.Background" ResourceKey="Macad.Brushes.Base30" />
+    <mmp:AppResource x:Key="Macad.Brushes.Panel.Background" ResourceKey="Macad.Brushes.Base20" />
     <mmp:AppResource x:Key="Macad.Brushes.Panel.Border" ResourceKey="Macad.Brushes.Base60" />
     <mmp:AppResource x:Key="Macad.Brushes.Panel.Header.Background" ResourceKey="Macad.Brushes.Base25" />
-    <mmp:AppResource x:Key="Macad.Brushes.Panel.Header.Border" ResourceKey="Macad.Brushes.Base60" />
-    
-    <mmp:AppResource x:Key="Macad.Brushes.Popup.Border" ResourceKey="Macad.Brushes.Black" />
+    <mmp:AppResource x:Key="Macad.Brushes.Panel.Header.Border" ResourceKey="Macad.Brushes.Base40" />
+
+    <mmp:AppResource x:Key="Macad.Brushes.Popup.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.Popup.Background" ResourceKey="Macad.Brushes.Base10" />
-    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Border" ResourceKey="Macad.Brushes.Base80" />
-    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Background" ResourceKey="Macad.Brushes.Base30" />
-    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Text" ResourceKey="Macad.Brushes.Base80" />
+    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Border" ResourceKey="Macad.Brushes.Base40" />
+    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Background" ResourceKey="Macad.Brushes.Base20" />
+    <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Text" ResourceKey="Macad.Brushes.Base70" />
     
     <!--#endregion-->
     
@@ -121,7 +121,7 @@
     
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Text" ResourceKey="Macad.Brushes.Text" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Border" ResourceKey="Macad.Brushes.Black" />
-    <mmp:AppResource x:Key="Macad.Brushes.ListView.Background" ResourceKey="Macad.Brushes.Base20" />
+    <mmp:AppResource x:Key="Macad.Brushes.ListView.Background" ResourceKey="Macad.Brushes.Base15" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.MouseOver.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.MouseOver.Background" ResourceKey="Macad.Brushes.Base10" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Focused.Border" ResourceKey="Macad.Brushes.Base50" />
@@ -139,8 +139,8 @@
     <mmp:AppResource x:Key="Macad.Brushes.Glyph.MouseOver" ResourceKey="Macad.Brushes.Base100" />
     <mmp:AppResource x:Key="Macad.Brushes.Glyph.Disabled" ResourceKey="Macad.Brushes.Base50" />
     
-    <mmp:AppResource x:Key="Macad.Brushes.ScrollBar.Foreground" ResourceKey="Macad.Brushes.Base70" />
-    
+    <mmp:AppResource x:Key="Macad.Brushes.ScrollBar.Foreground" ResourceKey="Macad.Brushes.Base50" />
+    <mmp:AppResource x:Key="Macad.Brushes.Expander.Foreground" ResourceKey="Macad.Brushes.Base50" />
     <mmp:AppResource x:Key="Macad.Brushes.Separator" ResourceKey="Macad.Brushes.Base70" />
 
     <SolidColorBrush x:Key="Macad.Brushes.HudElement.Background" Color="#7F3B424F" />

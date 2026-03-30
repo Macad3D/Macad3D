@@ -15,9 +15,7 @@
         <Setter Property="Margin" Value="10,0,0,0"/>
     </Style>
 
-    <Style x:Key="Macad.Styles.PropertyPanelStyle" TargetType="{x:Type UserControl}">
-        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
-        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+    <Style x:Key="Macad.Styles.PropertyPanel" TargetType="{x:Type UserControl}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="240" />
         <Setter Property="Height" Value="Auto" />

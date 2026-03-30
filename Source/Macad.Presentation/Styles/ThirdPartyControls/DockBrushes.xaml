@@ -111,7 +111,7 @@
 
     <!-- Auto Hide : Tab -->
     <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultBackground}" Color="Transparent" />
-    <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultBorder}" ResourceKey="Macad.Brushes.Base60" />
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultBorder}" Color="Transparent" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultText}" ResourceKey="Macad.Brushes.Dock.InactiveText" />
     <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabHoveredBackground}" Color="Transparent" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.AutoHideTabHoveredBorder}" ResourceKey="Macad.Brushes.Dock.Accent" />

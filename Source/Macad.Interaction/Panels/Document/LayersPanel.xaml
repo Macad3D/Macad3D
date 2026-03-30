@@ -9,7 +9,6 @@
              xmlns:treeView="clr-namespace:Macad.Presentation.TreeView;assembly=Macad.Presentation"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1000" 
-             TextOptions.TextFormattingMode="Display"
              BorderThickness="0"
              Background="{StaticResource Macad.Brushes.Pane.Background}"
              BorderBrush="{StaticResource Macad.Brushes.Pane.Border}">

@@ -15,17 +15,17 @@
                                     >
             <mmp:TemplateItemsControl ItemsSource="{Binding PropertyPanels}" 
                                       Background="{x:Null}"
-                                      BorderThickness="0,0,1,1" 
-                                      BorderBrush="{DynamicResource Macad.Brushes.Panel.Border}"
                                       HorizontalContentAlignment="Stretch" 
                                       VerticalAlignment="Top"
+                                      BorderBrush="{StaticResource Macad.Brushes.Panel.Header.Border}"
+                                      BorderThickness="0,0,0,1"
                                     >
 
                 <mmp:TemplateItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Expander IsExpanded="{Binding Panel.IsCollapsed, Converter={mmp:BoolToNotBoolConverter}}"
-                                  Focusable="False" TextOptions.TextFormattingMode="Display"
-                                  BorderBrush="{StaticResource Macad.Brushes.Panel.Border}" BorderThickness="1">
+                                  Focusable="False"
+                                  Margin="0">
                             <Expander.Header>
                                 <Grid Height="16">
                                     <StackPanel HorizontalAlignment="Right" Margin="3,0,5,0" Orientation="Horizontal">

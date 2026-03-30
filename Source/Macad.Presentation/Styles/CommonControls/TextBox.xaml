@@ -24,8 +24,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             Background="{TemplateBinding Background}"
                             CornerRadius="2"
-                            SnapsToDevicePixels="True"
-                            TextOptions.TextFormattingMode="Display">
+                            SnapsToDevicePixels="True">
                         <ScrollViewer HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                         Margin="{TemplateBinding Padding}" 
                                         Padding="0" 

@@ -210,6 +210,7 @@
                         <TextBlock Margin="7,1" 
                                    FontSize="11" 
                                    FontWeight="SemiBold"
+                                   Foreground="{mmp:AppResource Macad.Brushes.Popup.Header.Text}"
                                    Text="{TemplateBinding Header, Converter={mmp:StringUppercaseConverter}}"
                                    TextWrapping="Wrap"
                                    VerticalAlignment="Center"
