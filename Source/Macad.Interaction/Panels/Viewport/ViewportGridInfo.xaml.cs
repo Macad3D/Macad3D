@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Presentation;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using Macad.Common;
-using Macad.Core;
 
 namespace Macad.Interaction.Panels;
 
@@ -48,6 +49,34 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public static readonly DependencyProperty DescriptorLengthProperty =
+    DependencyProperty.Register(nameof(DescriptorLength),
+        typeof(MeasurementDescriptor),
+        typeof(ViewportGridInfo),
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public MeasurementDescriptor DescriptorLength
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorLengthProperty);
+        set => SetValue(DescriptorLengthProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static readonly DependencyProperty DescriptorDimensionlessProperty =
+        DependencyProperty.Register(nameof(DescriptorDimensionless),
+            typeof(MeasurementDescriptor),
+            typeof(ViewportGridInfo),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public MeasurementDescriptor DescriptorDimensionless
+    {
+        get => (MeasurementDescriptor)GetValue(DescriptorDimensionlessProperty);
+        set => SetValue(DescriptorDimensionlessProperty, value);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     WorkspaceController _WorkspaceController;
     ViewportController _ViewportController;
     bool _Visible;
@@ -64,10 +93,28 @@ public partial class ViewportGridInfo : PanelBase
 
         DataContext = this;
         InitializeComponent();
+
+        InitializeDescriptors();
+        AppServices.Units.MeasurementSettingsChanged += OnMeasurementSettingsChanged;
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    void OnMeasurementSettingsChanged()
+    {
+        InitializeDescriptors();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void InitializeDescriptors()
+    {
+        DescriptorLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        DescriptorDimensionless = new MeasurementDescriptor(UnitId.Number, 3);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))

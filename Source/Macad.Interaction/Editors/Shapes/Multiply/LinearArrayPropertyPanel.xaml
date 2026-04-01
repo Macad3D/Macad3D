@@ -48,7 +48,7 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Rotation" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                              Units="Degree" 
+                              Measurement="{Binding DescriptorAngle}" 
                               Value="{Binding Shape.Rotation, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Border" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
@@ -80,12 +80,12 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Quantity" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                              Units="None" Precision="0" MinValue="1" IncDecButtons="True"
+                              MinValue="1" IncDecButtons="True"
                               Value="{Binding Shape.Quantity1, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Distance" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="2" Grid.Column="1"
-                              Units="Length"
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding Shape.Distance1, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Distance Mode" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
@@ -157,12 +157,12 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Quantity" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                              Units="None" Precision="0" MinValue="1" IncDecButtons="True"
+                              MinValue="1" IncDecButtons="True"
                               Value="{Binding Shape.Quantity2, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Distance" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
             <mmp:ValueEditBox Grid.Row="2" Grid.Column="1"
-                              Units="Length"
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding Shape.Distance2, NotifyOnSourceUpdated=True}"/>
 
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Distance Mode" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />

@@ -1,5 +1,7 @@
 ﻿using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
+using Macad.Common;
+using Macad.Presentation;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework;
@@ -20,6 +22,21 @@ public class UITestBase
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
+        if (AppServices.Units == null)
+        {
+            var set = new UnitsParameterSet()
+            {
+                LengthUnit = UnitId.Millimeter,
+                LengthPrecision = 2,
+                AngleUnit = UnitId.Degree,
+                AnglePrecision = 2,
+                TimeUnit = UnitId.Second,
+                TimePrecision = 2,
+            };
+
+            AppServices.Units = new UnitsService(new UnitsSettingsProvider(set));
+        }
+        
         App = new ApplicationAdaptor();
         App.Init(EnableWelcomeDialog ? "" : "-nowelcome");
 
@@ -43,26 +60,37 @@ public class UITestBase
         App = null;
 
         Pipe?.Cleanup();
-        App = null;
+        Pipe = null;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public void Reset()
     {
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(MainWindow.Window);
         MainWindow.Ribbon.ClickFileMenuItem("NewModel");
 
         // Save model?
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(MainWindow.Window);
+        
         if (TaskDialogAdaptor.IsTaskDialogOpen(MainWindow))
         {
             var dlg = new TaskDialogAdaptor(MainWindow);
             Assert.That(dlg, Is.Not.Null);
             Assert.That(dlg.Title, Is.EqualTo("Unsaved Changes"));
             dlg.ClickButton(TaskDialogAdaptor.Button.No);
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(MainWindow.Window);
         }
+
+        AppServices.Units.RebuildDescriptors();
+        AppServices.Units.RaiseMeasurementSettingsChanged();
 
         Mouse.Position = MainWindow.Window.BoundingRectangle.Center();
         Wait.UntilResponsive(MainWindow.Window);
+        MainWindow.Viewport.WaitUntilReady();
     }
 
     //--------------------------------------------------------------------------------------------------

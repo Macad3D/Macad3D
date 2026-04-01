@@ -1,4 +1,6 @@
-﻿using Macad.Test.UI.Framework;
+﻿using Macad.Common;
+using Macad.Presentation;
+using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Modify2D;
@@ -75,12 +77,21 @@ public class CrossSectionUITests : UITestBase
     [TestCase("Offset")]
     public void PropPanelValues(string valueId)
     {
+        var desc = AppServices.Units.GetDescriptor(PhysicalQuantity.Angle);
+
+        if (valueId == "Offset")
+        {
+            desc = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        }
+        
         _CreateCrossSection();
 
         var panel = MainWindow.PropertyView.FindPanelByClass("CrossSectionPropertyPanel");
         Assert.That(panel, Is.Not.Null);
 
-        Assert.AreEqual(0.0, panel.GetValue<double>(valueId));
+        var displayedValue = panel.GetValue<string>(valueId);
+        AppServices.Units.TryParseExpression(displayedValue, desc, out var kernelValue);
+        Assert.AreEqual(0.0, kernelValue);
 
         panel.SetValue(valueId, 10.0);
 
@@ -89,7 +100,10 @@ public class CrossSectionUITests : UITestBase
         MainWindow.Document.SelectItem("Box_1");
         panel = MainWindow.PropertyView.FindPanelByClass("CrossSectionPropertyPanel");
         Assert.That(panel, Is.Not.Null);
-        Assert.AreEqual(10.0, panel.GetValue<double>(valueId));
+
+        displayedValue = panel.GetValue<string>(valueId);
+        AppServices.Units.TryParseExpression(displayedValue, desc, out kernelValue);
+        Assert.AreEqual(10.0, kernelValue);
     }
 
     //--------------------------------------------------------------------------------------------------

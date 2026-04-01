@@ -1,4 +1,6 @@
-﻿using Macad.Test.UI.Framework;
+﻿using Macad.Common;
+using Macad.Presentation;
+using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Primitives;
@@ -9,11 +11,17 @@ public class CylinderUITests : UITestBase
     FormAdaptor _BodyPanel;
     FormAdaptor _CylinderPanel;
     ViewportAdaptor _Viewport;
+    MeasurementDescriptor descLength;
+    MeasurementDescriptor descAngle;
+    string displayedValue;
+    double kernelValue;
 
     [OneTimeSetUp]
     public new void OneTimeSetUp()
     {
         _Viewport = MainWindow.Viewport;
+        descLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        descAngle = AppServices.Units.GetDescriptor(PhysicalQuantity.Angle);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -43,9 +51,18 @@ public class CylinderUITests : UITestBase
 
         _CylinderPanel = MainWindow.PropertyView.FindPanelByClass("CylinderPropertyPanel");
         Assert.That(_CylinderPanel, Is.Not.Null);
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderRadius"), Is.GreaterThan(3.0));
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderHeight"), Is.GreaterThan(2.0));
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(360.0));
+
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderRadius");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.That(kernelValue, Is.GreaterThan(3.0));
+
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderHeight");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.That(kernelValue, Is.GreaterThan(2.0));
+
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderSegment");
+        AppServices.Units.TryParseExpression(displayedValue, descAngle, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(360.0));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -74,13 +91,24 @@ public class CylinderUITests : UITestBase
 
         // Segment should clamp between 0...360
         _CylinderPanel.EnterValue("CylinderSegment", 0.0);
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(0.0));
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderSegment");
+        AppServices.Units.TryParseExpression(displayedValue, descAngle, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(0.0));
+        
         _CylinderPanel.EnterValue("CylinderSegment", -1.0);
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(0.0));
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderSegment");
+        AppServices.Units.TryParseExpression(displayedValue, descAngle, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(0.0));
+        
         _CylinderPanel.EnterValue("CylinderSegment", 360.0);
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(360.0));
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderSegment");
+        AppServices.Units.TryParseExpression(displayedValue, descAngle, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(360.0));
+
         _CylinderPanel.EnterValue("CylinderSegment", 370.0);
-        Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(360.0));
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderSegment");
+        AppServices.Units.TryParseExpression(displayedValue, descAngle, out kernelValue);
+        Assert.That(kernelValue, Is.EqualTo(360.0));
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -92,7 +120,9 @@ public class CylinderUITests : UITestBase
 
         // Set new values
         _CylinderPanel.EnterValue("CylinderHeight", -2.0);
-        Assert.AreEqual(-2.0, _CylinderPanel.GetValue<double>("CylinderHeight"));
+        displayedValue = _CylinderPanel.GetValue<string>("CylinderHeight");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.AreEqual(-2.0, kernelValue);
         Assert.AreEqual(-2.0, Pipe.GetValue<double>("$Selected.Shape.Height"));
     }
 

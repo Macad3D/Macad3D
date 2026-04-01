@@ -85,7 +85,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
                     _ValueHudElement = new ValueHudElement
                     {
                         Label = "Distance:",
-                        Units = ValueUnits.Length
+                        Descriptor = DescriptorLength
                     };
                     _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
                     Add(_ValueHudElement);

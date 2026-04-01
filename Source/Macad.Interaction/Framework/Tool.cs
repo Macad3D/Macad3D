@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
 using Macad.Occt;
+using Macad.Presentation;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Macad.Interaction;
 
@@ -33,12 +35,16 @@ public abstract class Tool : WorkspaceControl
 
     List<ToolAction> _Actions;
     List<InteractiveEntity> _OverriddenVisualShapes;
+    public MeasurementDescriptor DescriptorLength { get; set; }
+    public MeasurementDescriptor DescriptorAngle { get; set; }
 
     //--------------------------------------------------------------------------------------------------
 
     protected Tool()
     {
         Id = GetType().Name;
+        DescriptorLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        DescriptorAngle = AppServices.Units.GetDescriptor(PhysicalQuantity.Angle);
     }
 
     //--------------------------------------------------------------------------------------------------

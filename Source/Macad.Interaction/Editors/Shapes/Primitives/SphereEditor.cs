@@ -19,6 +19,8 @@ public sealed class SphereEditor : Editor<Sphere>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<SpherePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
                     
@@ -141,7 +143,9 @@ public sealed class SphereEditor : Editor<Sphere>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Radius: {Entity.Radius.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Radius";
+        _HudElement?.Value = Entity.Radius;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

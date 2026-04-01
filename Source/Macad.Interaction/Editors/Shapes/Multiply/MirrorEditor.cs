@@ -22,6 +22,8 @@ public sealed class MirrorEditor : Editor<Mirror>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<MirrorPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
         
@@ -295,7 +297,9 @@ public sealed class MirrorEditor : Editor<Mirror>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset: {Entity.Offset.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Offset";
+        _HudElement?.Value = Entity.Offset;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

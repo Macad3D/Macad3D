@@ -22,6 +22,8 @@ public sealed class TaperEditor : Editor<Taper>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<TaperPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
     
@@ -172,7 +174,9 @@ public sealed class TaperEditor : Editor<Taper>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Angle: {Entity.Angle.ToInvariantString("F2")} °");
+        _HudElement?.Label = "Angle";
+        _HudElement?.Value = Entity.Angle;
+        _HudElement?.Measurement = DescriptorAngle;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -213,7 +217,9 @@ public sealed class TaperEditor : Editor<Taper>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Offset: {Entity.Offset.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Offset";
+        _HudElement?.Value = Entity.Offset;
+        _HudElement?.Measurement = DescriptorLength;
     }
 
     //--------------------------------------------------------------------------------------------------

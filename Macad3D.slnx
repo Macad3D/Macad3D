@@ -36,6 +36,9 @@
     </Project>
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="Tests/Test.Common/Test.Common.csproj">
+      <Platform Project="x64" />
+    </Project>
     <Project Path="Tests/Test.Core/Test.Core.csproj">
       <Platform Project="x64" />
     </Project>

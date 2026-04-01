@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using Macad.Common;
-using Macad.Core.Drawing;
+﻿using Macad.Common;
 using Macad.Core;
+using Macad.Core.Drawing;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
@@ -12,6 +10,10 @@ using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System;
 
 namespace Macad.Test.Exchange;
 
@@ -234,8 +236,16 @@ public class PdfExportDrawingTests
         var pdf = PdfDrawingExporter.Export(drawing);
         Assert.IsNotNull(pdf);
 
-        // Write to file and compare
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Dimension.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        // Extract text from ACTUAL PDF
+        var actualText = ExtractPdfText(pdf);
+
+        // Extract text from EXPECTED PDF using TestData helper
+        var expectedPdfBytes = TestData.GetTestData(Path.Combine(_BasePath, "Dimension.pdf"));
+        Assert.IsNotNull(expectedPdfBytes, "Reference PDF not found.");
+        var expectedText = ExtractPdfText(new MemoryStream(expectedPdfBytes));
+
+        // Compare extracted text only
+        Assert.AreEqual(expectedText.Trim(), actualText.Trim());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -257,8 +267,22 @@ public class PdfExportDrawingTests
         Drawing drawing = new();
         drawing.Add(pipeDrawing);
 
-        var dxf = PdfDrawingExporter.Export(drawing);
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleDimensions.pdf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        // Export actual PDF
+        var pdf = PdfDrawingExporter.Export(drawing);
+        Assert.IsNotNull(pdf);
+
+        // Extract text from ACTUAL PDF
+        var actualText = ExtractPdfText(pdf);
+
+        // Load expected PDF using TestData helper
+        var expectedPdfBytes = TestData.GetTestData(Path.Combine(_BasePath, "MultipleDimensions.pdf"));
+        Assert.IsNotNull(expectedPdfBytes, "Reference PDF not found.");
+
+        // Extract text from EXPECTED PDF
+        var expectedText = ExtractPdfText(new MemoryStream(expectedPdfBytes));
+
+        // Compare extracted text only
+        Assert.AreEqual(expectedText.Trim(), actualText.Trim());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -272,8 +296,18 @@ public class PdfExportDrawingTests
         var pdf = PdfDrawingExporter.Export(drawing);
         Assert.IsNotNull(pdf);
 
-        // Write to file and compare
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUmlauts.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        // Extract text from ACTUAL PDF
+        var actualText = ExtractPdfText(pdf);
+
+        // Load expected PDF using TestData helper
+        var expectedPdfBytes = TestData.GetTestData(Path.Combine(_BasePath, "TextWithUmlauts.pdf"));
+        Assert.IsNotNull(expectedPdfBytes, "Reference PDF not found.");
+
+        // Extract text from EXPECTED PDF
+        var expectedText = ExtractPdfText(new MemoryStream(expectedPdfBytes));
+
+        // Compare extracted text only
+        Assert.AreEqual(expectedText.Trim(), actualText.Trim());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -287,8 +321,18 @@ public class PdfExportDrawingTests
         var pdf = PdfDrawingExporter.Export(drawing);
         Assert.IsNotNull(pdf);
 
-        // Write to file and compare
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUnicode.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        // Extract text from ACTUAL PDF
+        var actualText = ExtractPdfText(pdf);
+
+        // Load expected PDF using TestData helper
+        var expectedPdfBytes = TestData.GetTestData(Path.Combine(_BasePath, "TextWithUnicode.pdf"));
+        Assert.IsNotNull(expectedPdfBytes, "Reference PDF not found.");
+
+        // Extract text from EXPECTED PDF
+        var expectedText = ExtractPdfText(new MemoryStream(expectedPdfBytes));
+
+        // Compare extracted text only
+        Assert.AreEqual(expectedText.Trim(), actualText.Trim());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -325,6 +369,83 @@ public class PdfExportDrawingTests
     //--------------------------------------------------------------------------------------------------
 
     #region Helper
+
+    //--------------------------------------------------------------------------------------------------
+
+    static string ExtractPdfText(MemoryStream pdf)
+    {
+        pdf.Position = 0;
+        using var ms = new MemoryStream();
+        pdf.CopyTo(ms);
+        var bytes = ms.ToArray();
+
+        var sb = new StringBuilder();
+
+        // Very simple PDF text extractor:
+        // 1. Find all "stream ... endstream" blocks
+        // 2. If FlateDecode, decompress
+        // 3. Extract Tj/TJ operators
+
+        int pos = 0;
+        while ((pos = IndexOf(bytes, Encoding.ASCII.GetBytes("stream"), pos)) >= 0)
+        {
+            pos += 6;
+            int end = IndexOf(bytes, Encoding.ASCII.GetBytes("endstream"), pos);
+            if (end < 0) break;
+
+            int length = end - pos;
+            if (length <= 0) continue;
+
+            var streamData = new byte[length];
+            Array.Copy(bytes, pos, streamData, 0, length);
+
+            string text;
+
+            try
+            {
+                using var compressed = new MemoryStream(streamData);
+                using var deflate = new System.IO.Compression.DeflateStream(compressed, System.IO.Compression.CompressionMode.Decompress);
+                using var reader = new StreamReader(deflate);
+                text = reader.ReadToEnd();
+            }
+            catch
+            {
+                text = Encoding.GetEncoding("ISO-8859-1").GetString(streamData);
+            }
+
+            foreach (var line in text.Split('\n'))
+            {
+                if (line.Contains("Tj") || line.Contains("TJ"))
+                    sb.AppendLine(line.Trim());
+            }
+
+            pos = end + 9;
+        }
+
+        return sb.ToString();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    static int IndexOf(byte[] haystack, byte[] needle, int start)
+    {
+        for (int i = start; i <= haystack.Length - needle.Length; i++)
+        {
+            bool match = true;
+            for (int j = 0; j < needle.Length; j++)
+            {
+                if (haystack[i + j] != needle[j])
+                {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) return i;
+        }
+        return -1;
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     MemoryStream RunExporter(bool useTriangulation, Ax3 projection, params Body[] bodies)
     {

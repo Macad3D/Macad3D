@@ -1,8 +1,10 @@
-﻿using System.IO;
-using FlaUI.Core.Input;
+﻿using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
+using Macad.Common;
+using Macad.Presentation;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.UI.Editors.Auxiliary;
 
@@ -38,18 +40,23 @@ public class DatumPlaneUITests : UITestBase
 
         // Edit size, keep aspect
         Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
+        var desc = new MeasurementDescriptor(UnitId.Millimeter, 2);
         panel.EnterValue("DimensionX", 50.0);
-        Assert.AreEqual(50.0, panel.GetValue<double>("DimensionY"));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out var kernel);
+        Assert.AreEqual(50.0, kernel);
         panel.EnterValue("DimensionY", 25.0);
-        Assert.AreEqual(25.0, panel.GetValue<double>("DimensionX"));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernel);
+        Assert.AreEqual(25.0, kernel);
 
         // Edit size, no aspect
         panel.Click("KeepAspectRatio");
         Assert.IsFalse(panel.IsChecked("KeepAspectRatio"));
         panel.EnterValue("DimensionX", 10.0);
-        Assert.AreEqual(25.0, panel.GetValue<double>("DimensionY"));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernel);
+        Assert.AreEqual(25.0, kernel);
         panel.EnterValue("DimensionY", 15.0);
-        Assert.AreEqual(10.0, panel.GetValue<double>("DimensionX"));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernel);
+        Assert.AreEqual(10.0, kernel);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -64,6 +71,7 @@ public class DatumPlaneUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CreateDatumPlane");
         var panel = MainWindow.PropertyView.FindPanelByClass("DatumPlanePropertyPanel");
         Assert.NotNull(panel);
+        var desc = new MeasurementDescriptor(UnitId.Millimeter, 2);
 
         // Load without aspect correction
         Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
@@ -78,8 +86,10 @@ public class DatumPlaneUITests : UITestBase
         taskDialog.ClickButton(TaskDialogAdaptor.Button.No);
 
         Assert.IsNotEmpty(Pipe.GetValue<string>("$Selected.ImageFilePath"));
-        Assert.AreEqual(100.0, panel.GetValue<double>("DimensionX"));
-        Assert.AreEqual(100.0, panel.GetValue<double>("DimensionY"));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out var kernel);
+        Assert.AreEqual(100.0, kernel);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernel);
+        Assert.AreEqual(100.0, kernel);
 
         // Load with aspect correction
         Assert.IsTrue(panel.IsChecked("KeepAspectRatio"));
@@ -94,15 +104,19 @@ public class DatumPlaneUITests : UITestBase
         taskDialog.ClickButton(TaskDialogAdaptor.Button.Yes);
 
         Assert.IsNotEmpty(Pipe.GetValue<string>("$Selected.ImageFilePath"));
-        Assert.AreEqual(79.4, panel.GetValue<double>("DimensionX"), 0.1);
-        Assert.AreEqual(39.7, panel.GetValue<double>("DimensionY"), 0.1);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernel);
+        Assert.AreEqual(79.4, kernel, 0.1);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernel);
+        Assert.AreEqual(39.7, kernel, 0.1);
 
         // Check undo
         MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         MainWindow.Ribbon.ClickButton("Undo");
         Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Not.Empty);
-        Assert.That(panel.GetValue<double>("DimensionX"), Is.EqualTo(100.0));
-        Assert.That(panel.GetValue<double>("DimensionY"), Is.EqualTo(100.0));
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionX"), desc, out kernel);
+        Assert.AreEqual(100.0, kernel);
+        AppServices.Units.TryParseExpression(panel.GetValue<string>("DimensionY"), desc, out kernel);
+        Assert.AreEqual(100.0, kernel);
         MainWindow.Ribbon.ClickButton("Undo");
         Assert.That(Pipe.GetValue<string>("$Selected.ImageFilePath"), Is.Null.Or.Empty);
     }

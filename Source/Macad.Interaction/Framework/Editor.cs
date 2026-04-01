@@ -56,7 +56,11 @@ public abstract class Editor : WorkspaceControl
     //--------------------------------------------------------------------------------------------------
 
     protected virtual void OnStart()
-    {}
+    {
+        DescriptorLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        DescriptorAngle = AppServices.Units.GetDescriptor(PhysicalQuantity.Angle);
+        DescriptorPercent0dp = new MeasurementDescriptor(UnitId.Percentage, 0);
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -211,8 +215,14 @@ public abstract class Editor : WorkspaceControl
     //--------------------------------------------------------------------------------------------------
 
     #endregion
-    
+
     #region Start Editing
+
+    public MeasurementDescriptor DescriptorLength { get; private set; }
+    public MeasurementDescriptor DescriptorAngle { get; private set; }
+    public MeasurementDescriptor DescriptorPercent0dp { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
 
     public virtual (IActionCommand Command, object Parameter) GetStartEditingCommand()
     {

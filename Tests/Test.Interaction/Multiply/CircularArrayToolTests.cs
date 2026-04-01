@@ -1,11 +1,12 @@
-﻿using System.IO;
-using Macad.Test.Utils;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction;
-using Macad.Occt;
-using NUnit.Framework;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
+using NUnit.Framework;
+using System.IO;
 using System.Windows.Input;
 
 namespace Macad.Test.Interaction.Multiply;
@@ -20,6 +21,7 @@ public class CircularArrayToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
         Context.Current.ViewportController.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }

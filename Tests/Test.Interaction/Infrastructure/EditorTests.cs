@@ -1,12 +1,13 @@
-﻿using System.IO;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Topology;
 using Macad.Presentation;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Interaction.Infrastructure;
 
@@ -20,6 +21,7 @@ public class EditorTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

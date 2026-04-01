@@ -78,10 +78,9 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
                 _ValueHudElement = new ValueHudElement
                 {
                     Label = "Length:",
-                    Units = ValueUnits.Length
+                    Descriptor = DescriptorLength
                 };
                 _ValueHudElement.Label = "Length:";
-                _ValueHudElement.Units = ValueUnits.Length;
                 _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
                 Add(_ValueHudElement);
             }

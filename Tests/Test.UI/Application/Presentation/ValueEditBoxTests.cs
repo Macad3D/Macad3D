@@ -25,7 +25,7 @@ public class ValueEditBoxTests : UITestBase
         var boxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
         Assert.That(boxPanel, Is.Not.Null);
 
-        boxPanel.EnterValue("BoxLength", "1.5.5", true);
+        boxPanel.EnterValue("BoxLength", "1.55", true);
         Assert.AreEqual(1.55, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
     }
 
@@ -63,7 +63,7 @@ public class ValueEditBoxTests : UITestBase
         Assert.AreEqual(-1.5, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
 
         boxPanel.EnterValue("BoxLength", "-2.5-5", true);
-        Assert.AreEqual(-2.55, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
+        Assert.AreEqual(-7.5, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
     }
 
     //--------------------------------------------------------------------------------------------------

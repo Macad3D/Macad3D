@@ -25,22 +25,25 @@
         <mmp:ToggleButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                     IsChecked="{Binding IsToolActive, Mode=OneWay}"
-                    Command="{Binding StartToolCommand}" >
+                    Command="{Binding StartToolCommand}" AutomationProperties.AutomationId="StartToolCommand">
             <Image Source="{mmp:IconResource Tool-EdgesSelection}" Width="32" Height="32" />
         </mmp:ToggleButton>
 
         <StackPanel Grid.Row="0" Grid.Column="1" >
-            <TextBlock Text="{Binding Fillet.Edges.Length, StringFormat=Edges selected: \{0\}}"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" Margin="0,0,0,4" />
+            <TextBlock Text="{Binding Fillet.Edges.Length, StringFormat=Edges selected: \{0\}}"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" Margin="0,0,0,4" 
+                       AutomationProperties.AutomationId="EdgesCount"/>
                 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Content="Select All" Command="{Binding SelectAllCommand}"  mmp:GroupControls.Position="Left" />
-                <Button Content="Select None" Command="{Binding SelectNoneCommand}" mmp:GroupControls.Position="Right"  />
+                <Button Content="Select All" Command="{Binding SelectAllCommand}"  mmp:GroupControls.Position="Left" AutomationProperties.AutomationId="SelectAllCommand"/>
+                <Button Content="Select None" Command="{Binding SelectNoneCommand}" mmp:GroupControls.Position="Right" AutomationProperties.AutomationId="SelectNoneCommand" />
             </StackPanel>
         </StackPanel>
 
         <TextBlock  Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                     Text="Radius" />
         <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"  Margin="0,10"
-                        Units="Length" Value="{Binding Fillet.Radius, NotifyOnSourceUpdated=True}" />
+                        Measurement="{Binding DescriptorLength}" 
+                        AutomationProperties.AutomationId="Radius"
+                        Value="{Binding Fillet.Radius, NotifyOnSourceUpdated=True}" />
     </Grid>
 </panels:PropertyPanel>

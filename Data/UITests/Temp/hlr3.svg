@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="26.06839mm" height="27.142126mm" viewBox="0, 0, 98.5262, 102.58442" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g id="Drawing_3" transform="translate(51.149906,59.813683)">
+    <g id="HiddenOutline" stroke-width="0.37795275" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
+      <path d="M-13.35463,-5.420509 L-7.541878,-8.776503 M-7.541878,-22.018406 L-7.541878,-8.776503 L9.581018,1.1094067 M8.500157,0.06789137 A8.500157,4.907568 0 1 0 -8.500157,0.06789137 M-8.500157,-2.6177776 L3.7682667,4.4654007 L7.6217155,2.2406108 A8.500157,4.907568 0 0 0 8.500157,0.06789137 L8.500157,-12.756532 M3.7682667,-8.776503 L3.7682667,4.4654007" />
+    </g>
+    <g id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
+      <path d="M8.500157,-12.756532 L8.500157,-13.174011 A8.500157,4.907568 0 1 0 -8.500157,-13.174011 A8.500157,4.907568 0 0 0 -6.010519,-9.703836 A8.500157,4.907568 0 0 0 8.500157,-13.174011 M9.581018,-12.132496 L3.7682667,-8.776503 L-13.35463,-18.66241 L-13.35463,-5.420509 L-8.500157,-2.6177776 M9.581018,-12.132496 L-7.541878,-22.018406 L-13.35463,-18.66241 M-8.500157,-13.174011 L-8.500157,0.06789137 A8.500157,4.907568 0 0 0 -6.010519,3.5380661 A8.500157,4.907568 0 0 0 7.6217155,2.2406108 L9.581018,1.1094067 L9.581018,-12.132496" />
+    </g>
+  </g>
+</svg>

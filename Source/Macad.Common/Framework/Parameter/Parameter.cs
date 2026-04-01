@@ -30,6 +30,23 @@ public abstract class Parameter : INotifyPropertyChanged, ISerializeValue
     public string Description { get; init; }
     public Dictionary<string, object> EditorHints { get; init; }
     public ParameterFlags Flags { get; init; }
+    public PhysicalQuantity PhysicalQuantity { get; init; } = PhysicalQuantity.Dimensionless;
+
+    //--------------------------------------------------------------------------------------------------
+
+    bool _IsVisible = true;
+    public bool IsVisible
+    {
+        get => _IsVisible;
+        set
+        {
+            if (_IsVisible == value)
+                return;
+
+            _IsVisible = value;
+            RaisePropertyChanged(nameof(IsVisible));
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 

@@ -20,6 +20,8 @@ public sealed class ExtrudeEditor : Editor<Extrude>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<ExtrudePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
     
@@ -162,7 +164,9 @@ public sealed class ExtrudeEditor : Editor<Extrude>
             _HudElement = new LabelHudElement();
             Add(_HudElement);
         }
-        _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
+        _HudElement?.Label = "Depth";
+        _HudElement?.Measurement = DescriptorLength;
+        _HudElement?.Value = Entity.Depth;
     }
 
     //--------------------------------------------------------------------------------------------------

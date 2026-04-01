@@ -8,8 +8,9 @@ public sealed partial class DrawingParameterSet
     readonly Parameter<double> _DimensionArrowLength = new () {
         Name = "DimensionArrowLength",
         DefaultValue = 3.0,
-        Description = "Length of the dimension arrow in mm.",
-        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+        Description = "Length of the dimension arrow.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } },
+        PhysicalQuantity = PhysicalQuantity.Length
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -18,8 +19,9 @@ public sealed partial class DrawingParameterSet
     {
         Name = "DimensionArrowWidth",
         DefaultValue = 1.0,
-        Description = "Width of the dimension arrow in mm.",
-        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+        Description = "Width of the dimension arrow.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } },
+        PhysicalQuantity = PhysicalQuantity.Length
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -38,8 +40,9 @@ public sealed partial class DrawingParameterSet
     {
         Name = "DefaultFontSize",
         DefaultValue = 3.0f,
-        Description = "Default font size in mm.",
-        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } }
+        Description = "Default font size.",
+        EditorHints = new() { { "Units", "Length" }, { "MinValue", 0.01 } },
+        PhysicalQuantity = PhysicalQuantity.Length
     };
 
     //--------------------------------------------------------------------------------------------------

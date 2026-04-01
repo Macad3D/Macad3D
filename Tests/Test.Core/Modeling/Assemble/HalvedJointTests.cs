@@ -1,14 +1,15 @@
-﻿using System.IO;
-using System.Linq;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
+using System.Linq;
 
 namespace Macad.Test.Core.Modeling.Assemble;
 
@@ -22,6 +23,7 @@ public class HalvedJointTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithDefault();
     }
 

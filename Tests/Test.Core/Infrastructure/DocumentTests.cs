@@ -1,15 +1,22 @@
-﻿using System.IO;
-using Macad.Common.Serialization;
+﻿using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Core.Infrastructure;
 
 [TestFixture]
 public class DocumentTests
 {
+    [SetUp]
+    public void SetUp()
+    {
+        TestEnvironment.EnsureUnits();
+    }
+
     [Test]
     public void UnsavedFlag()
     {

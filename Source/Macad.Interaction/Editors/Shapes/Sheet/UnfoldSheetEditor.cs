@@ -7,6 +7,8 @@ public class UnfoldSheetEditor : Editor<UnfoldSheet>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<UnfoldSheetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

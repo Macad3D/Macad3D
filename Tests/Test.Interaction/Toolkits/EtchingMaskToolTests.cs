@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Macad.Test.Utils;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
@@ -8,7 +6,10 @@ using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Toolkits;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System.IO;
 
 namespace Macad.Test.Interaction.Toolkits;
 
@@ -17,6 +18,14 @@ public class EtchingMaskToolTests
 {
     const string _BasePath = @"Interaction\Toolkits\EtchingMask";
 
+    //--------------------------------------------------------------------------------------------------
+
+    [SetUp]
+    public void SetUp()
+    {
+        TestEnvironment.EnsureUnits();
+    }
+    
     //--------------------------------------------------------------------------------------------------
 
     [TearDown]

@@ -1,14 +1,20 @@
-﻿using System.IO;
-using FlaUI.Core.AutomationElements;
+﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using Macad.Common;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Macad.Test.UI.Framework;
 
 public class FileDialogAdaptor : WindowAdaptor
 {
+    //--------------------------------------------------------------------------------------------------
+
+    readonly WindowAdaptor _MainWindow;
+
     //--------------------------------------------------------------------------------------------------
 
     public enum Button
@@ -20,8 +26,17 @@ public class FileDialogAdaptor : WindowAdaptor
     //--------------------------------------------------------------------------------------------------
 
     public FileDialogAdaptor(WindowAdaptor mainWindow)
-        : base(mainWindow, cf => cf.ByClassName("#32770") )
+        : base(mainWindow, cf => 
+              cf.ByName("Saving Model...")
+          .Or(cf.ByName("Open Model..."))
+          .Or(cf.ByClassName("#32770"))
+          .Or(cf.ByClassName("DirectUIHWND"))
+          .Or(cf.ByClassName("DUIViewWndClassName"))
+          .Or(cf.ByClassName("CabinetWClass"))
+          .Or(cf.ByClassName("FileDialogHost"))
+          .Or(cf.ByClassName("Shell_Dialog")))
     {
+        _MainWindow = mainWindow;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -97,10 +112,17 @@ public class FileDialogAdaptor : WindowAdaptor
         Directory.CreateDirectory(Path.GetDirectoryName(path));
         if(File.Exists(path))
             File.Delete(path);
-        var fileNameCtrl = Window.FindFirstDescendant(cf => cf.ByAutomationId("FileNameControlHost"))?.AsComboBox();
-        Assert.IsNotNull(fileNameCtrl, $"ComboBox FileNameControlHost not found in file dialog.");
-        Assert.That(fileNameCtrl.Patterns.Value.IsSupported, $"Value pattern not supported on element FileNameControlHost.");
-        fileNameCtrl.Patterns.Value.Pattern.SetValue(path);
+
+        // Windows uses multiple dialog templates. On some builds the filename textbox
+        // is not exposed in the UIA tree at all. In those cases the only reliable way
+        // to set the filename is to locate the underlying Win32 Edit control.
+        var dialogHwnd = new IntPtr(Window.Properties.NativeWindowHandle.Value);
+        var editHwnd = FileDialogNative.FindFilenameEdit(dialogHwnd);
+
+        Assert.AreNotEqual(IntPtr.Zero, editHwnd, "Could not locate filename Edit control.");
+
+        FileDialogNative.SetEditText(editHwnd, path);
+
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(Window);
 
@@ -112,6 +134,76 @@ public class FileDialogAdaptor : WindowAdaptor
         {
             CheckFileExists(path);
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal static class FileDialogNative
+    {
+        private const int EM_SETSEL = 0x00B1;
+        private const int EM_REPLACESEL = 0x00C2;
+
+        public static IntPtr FindFilenameEdit(IntPtr dialogHwnd)
+        {
+            IntPtr result = IntPtr.Zero;
+
+            Win32.EnumChildWindows(dialogHwnd, (hwnd, lParam) =>
+            {
+                var edit = Win32.FindWindowEx(hwnd, IntPtr.Zero, "Edit", null);
+                if (edit != IntPtr.Zero)
+                {
+                    result = edit;
+                    return false; // stop enumeration
+                }
+
+                return true; // continue
+            }, IntPtr.Zero);
+
+            return result;
+        }
+
+        public static void SetEditText(IntPtr editHwnd, string text)
+        {
+            // Select all
+            Win32.SendMessage(editHwnd, EM_SETSEL, 0, -1);
+
+            // Replace
+            Win32.SendMessage(editHwnd, EM_REPLACESEL, 1, text);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal static class Win32
+    {
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr FindWindowEx(
+            IntPtr parentHandle,
+            IntPtr childAfter,
+            string className,
+            string windowTitle);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessage(
+            IntPtr hWnd,
+            int msg,
+            int wParam,
+            int lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessage(
+            IntPtr hWnd,
+            int msg,
+            int wParam,
+            string lParam);
+
+        public delegate bool EnumChildProc(IntPtr hwnd, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern bool EnumChildWindows(
+            IntPtr hwnd,
+            EnumChildProc callback,
+            IntPtr lParam);
     }
 
     //--------------------------------------------------------------------------------------------------

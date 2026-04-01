@@ -38,21 +38,6 @@ public partial class MultiValueHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units1
-    {
-        get { return _Units1; }
-        set
-        {
-            if (_Units1 != value)
-            {
-                _Units1 = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public bool IsInKeyboardMode1
     {
         get { return _IsInKeyboardMode1; }
@@ -100,21 +85,6 @@ public partial class MultiValueHudElement : HudElement
 
     //--------------------------------------------------------------------------------------------------
 
-    public ValueUnits Units2
-    {
-        get { return _Units2; }
-        set
-        {
-            if (_Units2 != value)
-            {
-                _Units2 = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public bool IsInKeyboardMode2
     {
         get { return _IsInKeyboardMode2; }
@@ -132,11 +102,9 @@ public partial class MultiValueHudElement : HudElement
 
     string _Label1;
     double _Value1;
-    ValueUnits _Units1;
     bool _IsInKeyboardMode1;
     string _Label2;
     double _Value2;
-    ValueUnits _Units2;
     bool _IsInKeyboardMode2;
     bool _FirstFromKeyboard = true;
 

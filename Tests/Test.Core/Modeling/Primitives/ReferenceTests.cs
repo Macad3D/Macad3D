@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Macad.Test.Utils;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Macad.Test.Core.Modeling.Primitives;
 
@@ -16,6 +17,15 @@ namespace Macad.Test.Core.Modeling.Primitives;
 public class ReferenceTests
 {
     const string _BasePath = @"Modeling\Primitives\Reference";
+
+    //--------------------------------------------------------------------------------------------------
+
+    [SetUp]
+    public void SetUp()
+    {
+        TestEnvironment.EnsureUnits();
+        Context.InitWithView(500);
+    }
 
     //--------------------------------------------------------------------------------------------------
 

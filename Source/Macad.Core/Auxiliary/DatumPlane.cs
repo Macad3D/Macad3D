@@ -65,7 +65,10 @@ public class DatumPlane : InteractiveEntity, ITransformable
                 _SizeX = Math.Max(0.01, value);
                 RaisePropertyChanged();
 
-                if (_KeepAspectRatio && !IsDeserializing && !_IgnoreAspectRatio)
+                if (IsDeserializing || _IgnoreAspectRatio)
+                    return;
+
+                if (_KeepAspectRatio)
                 {
                     SizeY = _SizeX / _AspectRatio;
                 }
@@ -93,7 +96,10 @@ public class DatumPlane : InteractiveEntity, ITransformable
                 _SizeY = Math.Max(0.01, value);
                 RaisePropertyChanged();
 
-                if (_KeepAspectRatio && !IsDeserializing && !_IgnoreAspectRatio)
+                if (IsDeserializing || _IgnoreAspectRatio)
+                    return;
+
+                if (_KeepAspectRatio)
                 {
                     SizeX = _SizeY * _AspectRatio;
                 }

@@ -7,6 +7,8 @@ public sealed class DatumPlaneEditor : Editor<DatumPlane>
 {
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<DatumPlanePropertyPanel>(Entity, PropertyPanelSortingKey.Body);
     }
         

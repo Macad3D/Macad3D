@@ -5,6 +5,7 @@ using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Visual;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
 using System.IO;
@@ -23,6 +24,7 @@ public class DatumPlaneToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

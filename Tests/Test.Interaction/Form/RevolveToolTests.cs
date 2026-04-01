@@ -6,6 +6,7 @@ using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -21,6 +22,7 @@ public class RevolveToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

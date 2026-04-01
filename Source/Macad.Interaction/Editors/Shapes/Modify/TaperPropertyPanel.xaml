@@ -27,14 +27,14 @@
                    Text="Taper Angle"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1"
-                          Units="Degree" MinValue="-89" MaxValue="89"
+                          Measurement="{Binding DescriptorAngle}" MinValue="-89" MaxValue="89"
                           Value="{Binding Taper.Angle, NotifyOnSourceUpdated=True}" />
 
         <TextBlock Grid.Row="1" Grid.Column="0" 
                    Text="Offset"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
-                          Units="Length" MinValue="0"
+                          Measurement="{Binding DescriptorLength}" MinValue="0"
                           Value="{Binding Taper.Offset, NotifyOnSourceUpdated=True}" />
         
         <mmp:ToggleButton Grid.Row="2" Grid.ColumnSpan="2" 

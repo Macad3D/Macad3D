@@ -24,6 +24,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     protected override void OnStart()
     {
+        base.OnStart();
+
         CreatePanel<CrossSectionPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
 

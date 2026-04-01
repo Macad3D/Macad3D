@@ -1,4 +1,6 @@
-﻿using Macad.Core.Shapes;
+﻿using Macad.Common;
+using Macad.Core.Shapes;
+using Macad.Presentation;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -11,6 +13,21 @@ public abstract class SketchTool : WorkspaceControl
     public Sketch Sketch { get; private set; }
 
     List<ToolAction> _Actions;
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected readonly MeasurementDescriptor DescriptorLength;
+    protected readonly MeasurementDescriptor DescriptorAngle;
+    protected readonly MeasurementDescriptor DescriptorPercent0dp;
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected SketchTool()
+    {
+        DescriptorLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
+        DescriptorAngle = AppServices.Units.GetDescriptor(PhysicalQuantity.Angle);
+        DescriptorPercent0dp = new MeasurementDescriptor(UnitId.Percentage, 0);
+    }
 
     //--------------------------------------------------------------------------------------------------
 

@@ -1,4 +1,6 @@
 ﻿using FlaUI.Core.WindowsAPI;
+using Macad.Common;
+using Macad.Presentation;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 using System;
@@ -8,10 +10,15 @@ namespace Macad.Test.UI.Editors.Toolkits;
 [TestFixture]
 public class SliceContourUITests : UITestBase
 {
+    MeasurementDescriptor descLength;
+    string displayedValue = "";
+    double kernelValue = 0.0;
+
     [SetUp]
     public void SetUp()
     {
         Reset();
+        descLength = AppServices.Units.GetDescriptor(PhysicalQuantity.Length);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -239,20 +246,28 @@ public class SliceContourUITests : UITestBase
         // Set Values
         propPanel.EnterValue("CustomIntervalValue0", 2);
         Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[0]);
-        Assert.AreEqual(2, propPanel.GetValue<double>("CustomIntervalOffset0"));
+        displayedValue = propPanel.GetValue<string>("CustomIntervalOffset0");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.AreEqual(2, kernelValue);
 
         propPanel.EnterValue("CustomIntervalValue1", 3);
         Assert.AreEqual(3, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[1]);
-        Assert.AreEqual(5, propPanel.GetValue<double>("CustomIntervalOffset1"));
+        displayedValue = propPanel.GetValue<string>("CustomIntervalOffset1");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.AreEqual(5, kernelValue);
 
         // Set Offset
         propPanel.EnterValue("CustomIntervalOffset0", 3);
         Assert.AreEqual(3, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[0]);
-        Assert.AreEqual(3, propPanel.GetValue<double>("CustomIntervalValue0"));
+        displayedValue = propPanel.GetValue<string>("CustomIntervalValue0");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.AreEqual(3, kernelValue);
 
         propPanel.EnterValue("CustomIntervalOffset1", 5);
         Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[1]);
-        Assert.AreEqual(2, propPanel.GetValue<double>("CustomIntervalValue1"));
+        displayedValue = propPanel.GetValue<string>("CustomIntervalValue1");
+        AppServices.Units.TryParseExpression(displayedValue, descLength, out kernelValue);
+        Assert.AreEqual(2, kernelValue);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,14 +1,15 @@
-﻿using System.IO;
-using System.Windows;
-using System.Windows.Input;
-using Macad.Common;
-using Macad.Test.Utils;
+﻿using Macad.Common;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Unit.Common;
+using Macad.Test.Utils;
 using NUnit.Framework;
-using Macad.Core.Shapes;
+using System.IO;
 using System.Linq;
-using Macad.Core.Topology;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Macad.Test.Interaction.Primitives;
 
@@ -22,6 +23,7 @@ public class BoxToolTests
     [SetUp]
     public void SetUp()
     {
+        TestEnvironment.EnsureUnits();
         Context.InitWithView(500);
     }
 

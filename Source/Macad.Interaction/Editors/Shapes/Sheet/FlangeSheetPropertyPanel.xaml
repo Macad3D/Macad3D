@@ -28,12 +28,12 @@
 
         <TextBlock  Grid.Row="0" Grid.Column="0" Text="Length" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1"
-                          Units="Length"
+                          Measurement="{Binding DescriptorLength}"
                           Value="{Binding FlangeSheet.Length, NotifyOnSourceUpdated=True}" />
 
         <TextBlock  Grid.Row="1" Grid.Column="0" Text="Angle" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-            <mmp:ValueEditBox  Units="Degree" 
+            <mmp:ValueEditBox  Measurement="{Binding DescriptorAngle}" 
                                Value="{Binding FlangeSheet.Angle, NotifyOnSourceUpdated=True}" />
             <Button Content="Swap Side" Margin="5,0,0,0" 
                     Command="{Binding SwitchAngleSideCommand}"/>
@@ -41,16 +41,16 @@
 
         <TextBlock  Grid.Row="2" Grid.Column="0" Text="Radius" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" 
-                          Units="Length"
+                          Measurement="{Binding DescriptorLength}"
                           Value="{Binding FlangeSheet.Radius, NotifyOnSourceUpdated=True}" />
 
         <TextBlock  Grid.Row="3" Grid.Column="0" Text="Gaps" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
             <mmp:ValueEditBox mmp:GroupControls.Position="Left"
-                              Units="Length"
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding FlangeSheet.StartGap, NotifyOnSourceUpdated=True}"/>
             <mmp:ValueEditBox mmp:GroupControls.Position="Right"
-                              Units="Length"
+                              Measurement="{Binding DescriptorLength}"
                               Value="{Binding FlangeSheet.EndGap, NotifyOnSourceUpdated=True}"/>
         </StackPanel>
 
