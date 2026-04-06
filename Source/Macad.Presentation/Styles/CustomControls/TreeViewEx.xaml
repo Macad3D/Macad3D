@@ -46,6 +46,7 @@
         <Setter Property="Padding" Value="1" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Control.Foreground" Value="{mmp:AppResource Macad.Brushes.ListView.Text}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
@@ -151,8 +152,8 @@
                                     Value="{Binding BackgroundSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type treeview:TreeViewExItem}, AncestorLevel=1}}" />
                             <Setter Property="Border.BorderBrush" TargetName="border"
                                     Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type treeview:TreeViewExItem}, AncestorLevel=1}}" />
-                            <!--<Setter Property="Control.Foreground" TargetName="content"
-                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />-->
+                            <Setter Property="Control.Foreground" TargetName="content"
+                                    Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Text}" />
                         </Trigger>
                         <Trigger Property="treeview:TreeViewExItem.IsFocused" Value="True">
                             <Setter Property="Border.BorderBrush" TargetName="border"
@@ -196,18 +197,10 @@
                         </MultiDataTrigger>
 
                         <Trigger Property="UIElement.IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground">
-                                <Setter.Value>
-                                    <DynamicResource ResourceKey="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="TextElement.Foreground" Value="{mmp:AppResource Macad.Brushes.ListView.Disabled.Text}" />
                         </Trigger>
                         <Trigger Property="IsEditable" Value="False">
-                            <Setter Property="TextElement.Foreground" TargetName="content">
-                                <Setter.Value>
-                                    <DynamicResource ResourceKey="{mmp:AppResource Macad.Brushes.TextBox.Disabled.Text}" />
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="TextElement.Foreground" TargetName="content" Value="{mmp:AppResource Macad.Brushes.ListView.Disabled.Text}" />
                         </Trigger>
                         <Trigger Property="treeview:TreeViewExItem.IsCurrentDropTarget" Value="True">
                             <Setter Property="Control.Background" TargetName="border"
@@ -265,7 +258,7 @@
         <Setter Property="InsertionMarkerBrush" Value="{mmp:AppResource Macad.Brushes.Glyph}" />
         <Setter Property="Panel.Background" Value="{mmp:AppResource Macad.Brushes.ListView.Background}" />
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False" />
-        <Setter Property="Border.BorderBrush" Value="#FF828790" />
+        <Setter Property="Border.BorderBrush" Value="{mmp:AppResource Macad.Brushes.ListView.Border}" />
         <Setter Property="Border.BorderThickness" Value="1" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="TextElement.Foreground">

@@ -9,6 +9,7 @@
         <Setter Property="Padding" Value="4,4" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Button.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Button.Text}" />
         <Setter Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.Button.Border}" />
         <Setter Property="Template">
             <Setter.Value>

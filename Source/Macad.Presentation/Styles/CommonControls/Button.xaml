@@ -100,8 +100,12 @@
                             Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Height="Auto"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             CornerRadius="3">
-                            <Border x:Name="border1" Height="Auto" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="Transparent" CornerRadius="3">
+                            <Border x:Name="border1" 
+                                    Height="Auto" 
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="Transparent" 
+                                    CornerRadius="3">
                                 <Grid Height="Auto">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>

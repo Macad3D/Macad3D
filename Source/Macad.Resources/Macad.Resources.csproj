@@ -16,15 +16,26 @@
   
   <ItemGroup>
     <IconSet Include="Icons\**\*.svg">
-      <KeyPrefix>Icon</KeyPrefix>
+      <Dictionary>Icon</Dictionary>
     </IconSet>
     <IconSet Include="Types\**\*.svg">
-      <KeyPrefix>TypeIcon</KeyPrefix>
-      <Aliases>Types\Aliases.txt</Aliases>
+      <Dictionary>TypeIcon</Dictionary>
+      <Aliases>Types\Aliases.json</Aliases>
     </IconSet>
     <IconSet Include="Marker\**\*.svg">
-      <KeyPrefix>Marker</KeyPrefix>
+      <Dictionary>Marker</Dictionary>
     </IconSet>
+  </ItemGroup>
+
+  <ItemGroup>
+    <IconVariant Include="Icons\Variance_Dark.json">
+      <Dictionary>IconDark</Dictionary>
+      <BasedOn>Icon</BasedOn>
+    </IconVariant>
+    <IconVariant Include="Icons\Variance_Dark.json">
+      <Dictionary>TypeIconDark</Dictionary>
+      <BasedOn>TypeIcon</BasedOn>
+    </IconVariant>
   </ItemGroup>
 
   <ItemGroup>

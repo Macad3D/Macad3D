@@ -8,6 +8,7 @@
     <Color x:Key="Macad.Colors.Black">#FF000000</Color>
 
     <Color x:Key="Macad.Colors.Base10">#FFF0F0F0</Color>
+    <Color x:Key="Macad.Colors.Base12">#FFEAEAEA</Color>
     <Color x:Key="Macad.Colors.Base15">#FFE4E4E4</Color>
     <Color x:Key="Macad.Colors.Base20">#FFD8D8D8</Color>
     <Color x:Key="Macad.Colors.Base25">#FFCBCBCB</Color>
@@ -38,6 +39,7 @@
     <SolidColorBrush x:Key="Macad.Brushes.Black" Color="{StaticResource Macad.Colors.Black}" />
 
     <SolidColorBrush x:Key="Macad.Brushes.Base10" Color="{StaticResource Macad.Colors.Base10}" />
+    <SolidColorBrush x:Key="Macad.Brushes.Base12" Color="{StaticResource Macad.Colors.Base12}" />
     <SolidColorBrush x:Key="Macad.Brushes.Base15" Color="{StaticResource Macad.Colors.Base15}" />
     <SolidColorBrush x:Key="Macad.Brushes.Base20" Color="{StaticResource Macad.Colors.Base20}" />
     <SolidColorBrush x:Key="Macad.Brushes.Base25" Color="{StaticResource Macad.Colors.Base25}" />
@@ -59,18 +61,22 @@
     <SolidColorBrush x:Key="Macad.Brushes.Error" Color="{StaticResource Macad.Colors.Error}" />
     <SolidColorBrush x:Key="Macad.Brushes.ErrorLight" Color="{StaticResource Macad.Colors.ErrorLight}" />
     <SolidColorBrush x:Key="Macad.Brushes.Warning" Color="{StaticResource Macad.Colors.Warning}" />
-    
+
+    <Color x:Key="Macad.Colors.Text">#FF000000</Color>
     <mmp:AppResource x:Key="Macad.Brushes.Text" ResourceKey="Macad.Brushes.Black" />
-    <mmp:AppResource x:Key="Macad.Brushes.TextLight" ResourceKey="Macad.Brushes.Base60" />
+    <mmp:AppResource x:Key="Macad.Brushes.TextLight" ResourceKey="Macad.Brushes.Base80" />
 
     <!--#endregion-->
     
     <!--#region Window -->
 
     <mmp:AppResource x:Key="Macad.Brushes.Window.Background" ResourceKey="Macad.Brushes.Base25" />
+    <mmp:AppResource x:Key="Macad.Colors.Window.Border" ResourceKey="Macad.Colors.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.Window.Border" ResourceKey="Macad.Brushes.Base40" />
-    
+    <mmp:AppResource x:Key="Macad.Colors.Window.Inactive.Border" ResourceKey="Macad.Colors.Base20" />
+
     <mmp:AppResource x:Key="Macad.Brushes.StatusBar.Background" ResourceKey="Macad.Brushes.Base30" />
+    <mmp:AppResource x:Key="Macad.Brushes.StatusBar.Text" ResourceKey="Macad.Brushes.Text" />
     <SolidColorBrush x:Key="Macad.Brushes.MessageBar.Background" Color="LemonChiffon" />
 
     <mmp:AppResource x:Key="Macad.Brushes.Pane.Background" ResourceKey="Macad.Brushes.Window.Background" />
@@ -86,13 +92,13 @@
     <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Background" ResourceKey="Macad.Brushes.Base20" />
     <mmp:AppResource x:Key="Macad.Brushes.Popup.Header.Text" ResourceKey="Macad.Brushes.Base70" />
-    
+
     <!--#endregion-->
     
     <!--#region Controls -->
 
     <mmp:AppResource x:Key="Macad.Brushes.Button.Text" ResourceKey="Macad.Brushes.Text" />
-    <mmp:AppResource x:Key="Macad.Brushes.Button.Border" ResourceKey="Macad.Brushes.Black" />
+    <mmp:AppResource x:Key="Macad.Brushes.Button.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.Button.Background" ResourceKey="Macad.Brushes.Base25" />
     <mmp:AppResource x:Key="Macad.Brushes.Button.MouseOver.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.Button.MouseOver.Background" ResourceKey="Macad.Brushes.Base15" />
@@ -108,7 +114,7 @@
     <mmp:AppResource x:Key="Macad.Brushes.Button.Link.MouseOver.Text" ResourceKey="Macad.Brushes.Complementary" />
 
     <mmp:AppResource x:Key="Macad.Brushes.TextBox.Text" ResourceKey="Macad.Brushes.Text" />
-    <mmp:AppResource x:Key="Macad.Brushes.TextBox.Border" ResourceKey="Macad.Brushes.Black" />
+    <mmp:AppResource x:Key="Macad.Brushes.TextBox.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.TextBox.Background" ResourceKey="Macad.Brushes.Base15" />
     <mmp:AppResource x:Key="Macad.Brushes.TextBox.MouseOver.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.TextBox.MouseOver.Background" ResourceKey="Macad.Brushes.Base10" />
@@ -120,12 +126,13 @@
     <mmp:AppResource x:Key="Macad.Brushes.TextBox.Invalid.Background" ResourceKey="Macad.Brushes.ErrorLight" />
     
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Text" ResourceKey="Macad.Brushes.Text" />
-    <mmp:AppResource x:Key="Macad.Brushes.ListView.Border" ResourceKey="Macad.Brushes.Black" />
+    <mmp:AppResource x:Key="Macad.Brushes.ListView.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Background" ResourceKey="Macad.Brushes.Base15" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.MouseOver.Border" ResourceKey="Macad.Brushes.Base40" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.MouseOver.Background" ResourceKey="Macad.Brushes.Base10" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Focused.Border" ResourceKey="Macad.Brushes.Base50" />
     <SolidColorBrush x:Key="Macad.Brushes.ListView.Focused.Background" Color="Transparent" />
+    <mmp:AppResource x:Key="Macad.Brushes.ListView.Selected.Text" ResourceKey="Macad.Brushes.Text" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Selected.Border" ResourceKey="Macad.Brushes.Accent" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.Selected.Background" ResourceKey="Macad.Brushes.Accent" />
     <mmp:AppResource x:Key="Macad.Brushes.ListView.SelectedFocused.Border" ResourceKey="Macad.Brushes.AccentDark" />
@@ -143,9 +150,29 @@
     <mmp:AppResource x:Key="Macad.Brushes.Expander.Foreground" ResourceKey="Macad.Brushes.Base50" />
     <mmp:AppResource x:Key="Macad.Brushes.Separator" ResourceKey="Macad.Brushes.Base70" />
 
+    <mmp:AppResource x:Key="Macad.Brushes.Label.Keyboard.Background" ResourceKey="Macad.Brushes.White" />
+    <mmp:AppResource x:Key="Macad.Brushes.Label.Keyboard.Border" ResourceKey="Macad.Brushes.Base20" />
+    <mmp:AppResource x:Key="Macad.Brushes.Label.Keyboard.Text" ResourceKey="Macad.Brushes.Base80" />
+
+    <SolidColorBrush x:Key="Macad.Brushes.Link.Text" Color="Blue" />
+    <SolidColorBrush x:Key="Macad.Brushes.Link.MouseOver.Text" Color="Red" />
+
     <SolidColorBrush x:Key="Macad.Brushes.HudElement.Background" Color="#7F3B424F" />
     <SolidColorBrush x:Key="Macad.Brushes.HudElement.Border" Color="#BF000000" />
 
     <!--#endregion-->
 
+    <!--#region ThirdParty-->
+
+    <mmp:AppResource x:Key="Macad.Brushes.Ribbon.Background" ResourceKey="Macad.Brushes.Base10" />
+
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.Accent" ResourceKey="Macad.Brushes.Accent" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.Background" ResourceKey="Macad.Brushes.Pane.Background" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.Border" ResourceKey="Macad.Brushes.Base40" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveText" ResourceKey="Macad.Brushes.Black" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveBackground" ResourceKey="Macad.Brushes.Dock.Accent" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.InactiveText" ResourceKey="Macad.Brushes.Base70" />
+
+    <!--#endregion-->
+    
 </ResourceDictionary>

@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignWidth="1024"
              Background="{StaticResource Macad.Brushes.StatusBar.Background}" 
+             Foreground="{StaticResource Macad.Brushes.StatusBar.Text}"
              FontSize="14">
     
     <UserControl.Resources>

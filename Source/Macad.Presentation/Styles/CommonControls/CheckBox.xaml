@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Focusable" Value="True" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">

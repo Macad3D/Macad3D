@@ -18,6 +18,26 @@ public class ResourceUtils
 
     //--------------------------------------------------------------------------------------------------
 
+    static Dictionary<Category, string> _CategoryFilenames = new()
+    {
+        { Category.Icon, "Icon.xaml" },
+        { Category.TypeIcon, "TypeIcon.xaml" },
+        { Category.Marker, "Marker.xaml" },
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void SetCategoryFilename(Category category, string filename)
+    {
+        _CategoryFilenames[category] = filename;
+        if (_Resources.ContainsKey(category))
+        {
+            _Resources.Remove(category);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     static readonly string _AssemblyName;
     static readonly Dictionary<Category, ResourceDictionary> _Resources = new();
 
@@ -65,7 +85,7 @@ public class ResourceUtils
             {
                 dict = new()
                 {
-                    Source = GetResourceUri($"{category}.xaml")
+                    Source = GetResourceUri(_CategoryFilenames[category]),
                 };
                 _Resources[category] = dict;
             }

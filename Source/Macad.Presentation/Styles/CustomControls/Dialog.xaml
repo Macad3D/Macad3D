@@ -17,8 +17,8 @@
         <Setter Property="CornerPreference" Value="Round"/>
         <Setter Property="PreferDWMBorderColor" Value="True"/>
         <Setter Property="AllowsTransparency" Value="False"/>
-        <Setter Property="GlowColor" Value="{mmp:AppResource Macad.Colors.Base60}"/>
-        <Setter Property="NonActiveGlowColor" Value="{mmp:AppResource Macad.Colors.Base40}"/>
+        <Setter Property="GlowColor" Value="{mmp:AppResource Macad.Colors.Window.Border}"/>
+        <Setter Property="NonActiveGlowColor" Value="{mmp:AppResource Macad.Colors.Window.Inactive.Border}"/>
 
         <Setter Property="Template">
             <Setter.Value>

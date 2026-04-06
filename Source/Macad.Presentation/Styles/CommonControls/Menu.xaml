@@ -34,6 +34,7 @@
                               ContentSource="Header"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                               ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                              TextElement.Foreground="{mmp:AppResource Macad.Brushes.Text}"
                               Width="Auto"
                               Height="Auto"
                               Margin="5,3,3,3"
@@ -75,7 +76,7 @@
                                VerticalAlignment="Center"
                                Grid.Column="2" />
             <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
-                <Path x:Name="ArrowPanelPath" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="M0,0 L0,8 L4,4 z" />
+                <Path x:Name="ArrowPanelPath" VerticalAlignment="Center" Fill="{mmp:AppResource Macad.Brushes.Glyph}" Data="M0,0 L0,8 L4,4 z" />
             </Grid>
             <Popup IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" x:Name="SubMenuPopup" Focusable="false" AllowsTransparency="true" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                 <Grid x:Name="SubMenu">
@@ -192,6 +193,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="Template" Value="{StaticResource MenuItemTemplate}" />
     </Style>
 
@@ -227,6 +229,7 @@
 
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -238,7 +241,10 @@
                         <mmp:DropShadow Margin="6">
                             <Grid>
                                 <Border x:Name="Border" BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="1">
-                                    <StackPanel Background="{TemplateBinding Background}" IsItemsHost="True" ClipToBounds="True" Orientation="Vertical" />
+                                    <StackPanel Background="{TemplateBinding Background}" 
+                                                IsItemsHost="True" 
+                                                ClipToBounds="True" 
+                                                Orientation="Vertical" />
                                 </Border>
                             </Grid>
                         </mmp:DropShadow>
@@ -254,6 +260,7 @@
 
     <Style TargetType="{x:Type mmp:ToolbarContextMenu}">
         <Setter Property="Background" Value="{mmp:AppResource Macad.Brushes.Popup.Background}" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -287,7 +294,10 @@
                                 Grid.Row="1">
                             <mmp:DropShadow Margin="6">
                                     <Border x:Name="Border" BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Border}" BorderThickness="1">
-                                        <StackPanel Background="{TemplateBinding Background}" IsItemsHost="True" ClipToBounds="True" Orientation="Vertical" />
+                                        <StackPanel Background="{TemplateBinding Background}" 
+                                                    IsItemsHost="True" 
+                                                    ClipToBounds="True" 
+                                                    Orientation="Vertical" />
                                     </Border>
                             </mmp:DropShadow>
                         </Border>

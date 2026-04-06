@@ -81,7 +81,8 @@
                               RenderOptions.EdgeMode="Aliased"
                               Height="20"
                               X1="6" Y1="10" X2="136" Y2="10"
-                              Stroke="Black" StrokeDashArray="{Binding Pattern, Converter={mmp:DoubleCollectionConverter}}"
+                              Stroke="{StaticResource Macad.Brushes.Text}" 
+                              StrokeDashArray="{Binding Pattern, Converter={mmp:DoubleCollectionConverter}}"
                               StrokeThickness="2" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -103,7 +104,7 @@
                               RenderOptions.EdgeMode="Aliased"
                               Height="20"
                               X1="6" Y1="10" X2="136" Y2="10"
-                              Stroke="Black" 
+                              Stroke="{StaticResource Macad.Brushes.Text}" 
                               StrokeThickness="{Binding Width}"
                               />
                     </DataTemplate>

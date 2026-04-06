@@ -73,46 +73,43 @@
                             SnapsToDevicePixels="True">
                         <Grid HorizontalAlignment="Stretch"
                               VerticalAlignment="Top">
-                            <Grid HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Top">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      MinWidth="100" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"
+                                                  MinWidth="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                                <ScrollViewer Style="{DynamicResource Fluent.Ribbon.Styles.MenuScrollViewer}"
-                                              Grid.Row="0"
-                                              Grid.Column="0"
+                            <ScrollViewer Style="{DynamicResource Fluent.Ribbon.Styles.MenuScrollViewer}"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          IsTabStop="False"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <StackPanel IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                                            Orientation="Vertical"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                            </ScrollViewer>
+
+                            <Border Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="{TemplateBinding RightPaneWidth}"
+                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Separator.Border}"
+                                    BorderThickness="1 0 0 0">
+                                <ScrollViewer x:Name="PART_ScrollViewer"
+                                              Style="{DynamicResource Fluent.Ribbon.Styles.MenuScrollViewer}"
+                                              Margin="1"
                                               IsTabStop="False"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                              ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                    <StackPanel IsItemsHost="True"
-                                                KeyboardNavigation.DirectionalNavigation="Cycle"
-                                                Orientation="Vertical"
-                                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                              SnapsToDevicePixels="True">
+                                    <ContentPresenter x:Name="PART_RightContentPresenter"
+                                                      ContentSource="RightPaneContent" />
                                 </ScrollViewer>
-
-                                <Border Grid.Row="0"
-                                        Grid.Column="1"
-                                        Width="{TemplateBinding RightPaneWidth}"
-                                        BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Separator.Border}"
-                                        BorderThickness="1 0 0 0">
-                                    <ScrollViewer x:Name="PART_ScrollViewer"
-                                                  Style="{DynamicResource Fluent.Ribbon.Styles.MenuScrollViewer}"
-                                                  Margin="1"
-                                                  IsTabStop="False"
-                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                  SnapsToDevicePixels="True">
-                                        <ContentPresenter x:Name="PART_RightContentPresenter"
-                                                          ContentSource="RightPaneContent" />
-                                    </ScrollViewer>
-                                </Border>
-                            </Grid>
+                            </Border>
                         </Grid>
                     </Border>
                 </Grid>
@@ -205,7 +202,7 @@
     <!--region Menu Item MRU Template -->
 
     <Style x:Key="Macad.Styles.MenuItem.MRU"  TargetType="Fluent:MenuItem">
-        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Black}"/>
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}"/>
         <Setter Property="Margin" Value="2,0"/>
         <Setter Property="RecognizesAccessKey" Value="false"/>
         <Setter Property="Fluent:RibbonProperties.IconSize" Value="Medium" />
@@ -300,7 +297,7 @@
            TargetType="{x:Type Rectangle}">
         <Setter Property="Margin" Value="-1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Stroke" Value="{mmp:AppResource Macad.Brushes.Black}" />
+        <Setter Property="Stroke" Value="{mmp:AppResource Macad.Brushes.Text}" />
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="StrokeDashArray" Value="2 2" />
     </Style>

@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}" 
              BorderBrush="{StaticResource Macad.Brushes.Popup.Border}"
-             Background="{StaticResource Macad.Brushes.Popup.Background}">
+             Background="{StaticResource Macad.Brushes.Popup.Background}"
+             BorderThickness="1"
+             >
     
     <UserControl.Resources>
 

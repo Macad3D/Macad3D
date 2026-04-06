@@ -7,7 +7,7 @@
     <SelfContained>false</SelfContained>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-    <OutputPath>$(MMRootDir)bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(MMRootDir)Bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <IsWpfTemporaryProject>$([System.String]::Copy('$(MSBuildProjectName)').EndsWith('_wpftmp'))</IsWpfTemporaryProject>

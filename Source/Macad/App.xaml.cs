@@ -7,6 +7,7 @@ using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Presentation;
+using Macad.Resources;
 using Microsoft.Win32;
 
 namespace Macad.Window;
@@ -103,6 +104,12 @@ public partial class App : Application
             Source = new Uri($"pack://application:,,,/Macad.Presentation;Component/Styles/" + themeName)
         };
         Resources.MergedDictionaries.Add(themeDict);
+
+        if (theme == ApplicationTheme.Dark)
+        {
+            ResourceUtils.SetCategoryFilename(ResourceUtils.Category.Icon, "IconDark.xaml");
+            ResourceUtils.SetCategoryFilename(ResourceUtils.Category.TypeIcon, "TypeIconDark.xaml");
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

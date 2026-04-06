@@ -1,0 +1,16 @@
+{
+    "*": {
+        "Fill": {
+            "ColorScale": 0.75,
+            "ColorMap": {
+                "#FF595959": "#FFBAB8B6",
+                "#FF808080": "#FF6C6C67"
+            }
+        },
+        "Stroke": {
+            "ColorScale": 0.75,
+            "ColorMap": {
+            }
+        }
+    }
+}

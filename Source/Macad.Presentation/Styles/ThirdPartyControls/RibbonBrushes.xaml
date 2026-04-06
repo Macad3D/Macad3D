@@ -16,33 +16,48 @@
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.AccentColor80" ResourceKey="Macad.Brushes.Ribbon.Base80" />
 
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Highlight" ResourceKey="Macad.Brushes.Ribbon.Base100" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Black" ResourceKey="Macad.Brushes.Text" />
 
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.IdealForegroundColor" ResourceKey="Macad.Brushes.Black" />
-    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.IdealForegroundDisabled" Opacity="0.4" Color="{mmp:AppResource Macad.Colors.Black}" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.IdealForegroundColor" ResourceKey="Macad.Brushes.Text" />
+    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.IdealForegroundDisabled" Opacity="0.4" Color="{mmp:AppResource Macad.Colors.Text}" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.LabelText" ResourceKey="Macad.Brushes.Text" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Separator.Border" ResourceKey="Macad.Brushes.Ribbon.Base40" />
 
     <!-- RibbonTabControl -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Background" ResourceKey="Macad.Brushes.Window.Background" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Background" ResourceKey="Macad.Brushes.Base10" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Background" ResourceKey="Macad.Brushes.Ribbon.Background" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabControl.Content.Border" ResourceKey="Macad.Brushes.Base50" />
     
     <!-- RibbonTabItem -->
     <!--<mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Active.Background" ResourceKey="Macad.Brushes.Base15" />-->
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Foreground" ResourceKey="Macad.Brushes.Text" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Border" ResourceKey="Macad.Brushes.Accent" />
-    <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.MouseOver.Foreground" Color="#274276" />-->
-    <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Selected.MouseOver.Foreground" Color="#274276"  />-->
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.MouseOver.Foreground" ResourceKey="Macad.Brushes.Text" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Selected.Foreground" ResourceKey="Macad.Brushes.TextLight" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonTabItem.Selected.MouseOver.Foreground" ResourceKey="Macad.Brushes.Text" />
 
     <!-- RibbonContextualTabGroup -->
     <!--<SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonContextualTabGroup.Background.OpacityMask" Color="#20000000"  />-->
 
     <!-- Menu -->
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Ribbon.Background" ResourceKey="Macad.Brushes.Window.Background" /> 
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.MenuItem.Background" ResourceKey="Macad.Brushes.Base10" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.GroupSeparator.Background" ResourceKey="Macad.Brushes.Popup.Header.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Ribbon.Background" ResourceKey="Macad.Brushes.Window.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.MenuItem.Background" ResourceKey="Macad.Brushes.Popup.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.GroupSeparator.Background" ResourceKey="Macad.Brushes.Ribbon.Base20" />
     
     <!-- Window -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonWindow.TitleBackground" ResourceKey="Macad.Brushes.Window.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonWindow.TitleForeground" ResourceKey="Macad.Brushes.Text" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Foreground" ResourceKey="Macad.Brushes.Glyph" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.MouseOver.Background" ResourceKey="Macad.Brushes.Ribbon.Base10" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.WindowCommands.CaptionButton.Pressed.Background" ResourceKey="Macad.Brushes.Ribbon.Base40" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Images.RibbonDisplayOptions" ResourceKey="Macad.Brushes.Glyph" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Images.QuickAccessToolbarDropDown" ResourceKey="Macad.Brushes.Glyph" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Images.QuickAccessToolbarDropDown.BelowRibbon" ResourceKey="Macad.Brushes.Glyph" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Images.QuickAccessToolbarExtender" ResourceKey="Macad.Brushes.Glyph" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Images.QuickAccessToolbarExtender.BelowRibbon" ResourceKey="Macad.Brushes.Glyph" />
+
+    <!-- RibbonGroupBox -->
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.RibbonGroupBox.Header.Foreground" ResourceKey="Macad.Brushes.Ribbon.Base60" />
 
     <!-- Button -->
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.Button.MouseOver.Background" ResourceKey="Macad.Brushes.Ribbon.Base10" />
@@ -62,13 +77,13 @@
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.GalleryItem.MouseOver" ResourceKey="Macad.Brushes.Ribbon.Base20" />
 
     <!-- DropDown -->
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Background" ResourceKey="Macad.Brushes.Base10" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Border" ResourceKey="Macad.Brushes.Base50" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Background" ResourceKey="Macad.Brushes.Popup.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Border" ResourceKey="Macad.Brushes.Popup.Border" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Resize.Border" ResourceKey="Macad.Brushes.Base70" />
     <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.DropDown.Resize.Background" ResourceKey="Macad.Brushes.Base80" />
     
     <!-- ScreenTip -->
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.ScreenTip.Border" ResourceKey="Macad.Brushes.Base50" />
-    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.ScreenTip.Background" ResourceKey="Macad.Brushes.Base10" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.ScreenTip.Background" ResourceKey="Macad.Brushes.Popup.Background" />
+    <mmp:AppResource x:Key="Fluent.Ribbon.Brushes.ScreenTip.Border" ResourceKey="Macad.Brushes.Popup.Border" />
 
 </ResourceDictionary>

@@ -161,13 +161,6 @@
         </Setter>
     </Style>
 
-    <!-- TextBox -->
-    <Style x:Key="Macad.Styles.TextBox.ToolBar" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Margin" Value="2" />
-        <Setter Property="Padding" Value="2" />
-    </Style>
-
     <!-- Toolbar -->
     <Style x:Key="Macad.Styles.Thumb.ToolBar" TargetType="{x:Type Thumb}">
         <Setter Property="Template">

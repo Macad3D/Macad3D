@@ -102,7 +102,7 @@
     <path
        sodipodi:nodetypes="cccccccccccccccccccccc"
        id="path858"
-       style="fill:none;stroke:#040000;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.26458300000000001;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.26458300000000001;stroke-dashoffset:0;stroke-opacity:1"
        d="M 16.271218,11.912114 11.112496,8.6998454 M 8.5331377,10.305979 11.112496,8.6998454 m 0,0 V 2.2753085 M 8.5331377,13.518249 11.112496,15.124384 m 0,0 5.158722,-3.21227 m 0,0 V 5.4875754 m 0,0 -5.158722,-3.2122669 m 0,0 -2.5793583,1.6061287 M 11.112496,8.6998454 V 15.124384 M 8.5331377,7.0937104 11.112496,8.6998454 m 0,0 5.158722,-3.21227" />
   </g>
 </svg>

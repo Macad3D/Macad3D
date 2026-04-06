@@ -4,7 +4,6 @@
     <MMScriptDir Condition="$(MMScriptDir) == ''">$(MMRootDir)Build\</MMScriptDir>
     <MMBuildPropsDir Condition="$(MMBuildPropsDir) == ''">$(MMRootDir)Build\MSBuild\</MMBuildPropsDir>
     <MMCsiPath Condition="$(MMCsiPath) == ''">$(MSBuildBinPath)\Roslyn\csi.exe</MMCsiPath>
-    <MMExtensionAssemblyFile Condition="$(MMExtensionAssemblyFile) == ''">$(MMRootDir)bin\Build\MSBuildExtension.dll</MMExtensionAssemblyFile>
     
     <MMIsCsProj Condition="$(MSBuildProjectExtension) == '.csproj'">true</MMIsCsProj>
     <MMIsVcxProj Condition="$(MSBuildProjectExtension) == '.vcxproj'">true</MMIsVcxProj>

@@ -69,6 +69,7 @@
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Border}"/>
+                            <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.ListView.Selected.Text}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{mmp:AppResource Macad.Brushes.ListView.Focused.Background}"/>

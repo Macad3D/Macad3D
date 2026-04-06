@@ -69,4 +69,12 @@
         </Setter>
     </Style>
 
+
+    <!-- ToolBar -->
+    <Style x:Key="Macad.Styles.TextBox.ToolBar" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="2" />
+    </Style>
+
 </ResourceDictionary>

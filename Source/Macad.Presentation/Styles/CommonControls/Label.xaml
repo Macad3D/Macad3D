@@ -1,6 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mmp="clr-namespace:Macad.Presentation">
+    
+    <!--Label-->
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Text}" />
+    </Style>
+
 
     <!--Keyboard Button-->
     <Style x:Key="Macad.Styles.Label.Keyboard" TargetType="{x:Type Label}">
@@ -8,8 +14,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Background="{mmp:AppResource Macad.Brushes.White}"
-                            BorderBrush="{mmp:AppResource Macad.Brushes.Base20}"
+                    <Border Background="{mmp:AppResource Macad.Brushes.Label.Keyboard.Background}"
+                            BorderBrush="{mmp:AppResource Macad.Brushes.Label.Keyboard.Border}"
                             BorderThickness="1,1,2,2" 
                             CornerRadius="3"
                             Padding="4,0"
@@ -17,7 +23,7 @@
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}">
                         <TextBlock Text="{TemplateBinding Content}"
-                                   Foreground="{mmp:AppResource Macad.Brushes.Glyph}"
+                                   Foreground="{mmp:AppResource Macad.Brushes.Label.Keyboard.Text}"
                                    FontWeight="SemiBold"
                                    FontFamily="Cascadia Mono"/>
                     </Border>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration>Release</Configuration>
     <Platform>x64</Platform>
-    <PublishDir>$(MMRootDir)bin\Publish</PublishDir>
+    <PublishDir>$(MMRootDir)Bin\Publish</PublishDir>
     <PublishProtocol>FileSystem</PublishProtocol>
     <TargetFramework>$(MMFramework)</TargetFramework>
     <RuntimeIdentifier>$(MMRuntime)</RuntimeIdentifier>

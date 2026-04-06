@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace Macad.Build.Xaml;
@@ -10,20 +11,20 @@ public class MergeIconsTool : BuildTool
     public override bool Execute(Parameters parameters)
     {
         // Input list
-        string inputDir = parameters.GetValueOrDefault("In");
-        if (string.IsNullOrEmpty(inputDir))
+        string inputListFile = parameters.GetValueOrDefault("In");
+        if (string.IsNullOrEmpty(inputListFile))
         {
-            LogError($"No input directory specified.");
+            LogError($"No input list file specified.");
             return false;
         }
 
-        if (!Directory.Exists(inputDir))
+        if (!File.Exists(inputListFile))
         {
-            LogError($"Input directory does not exist: {inputDir}.");
+            LogError($"Input list file does not exist: {inputListFile}.");
             return false;
         }
 
-        string[] inputs = Directory.GetFiles(inputDir, "*.xaml");
+        string[] inputs = File.ReadAllLines(inputListFile);
         if (inputs.Length == 0)
         {
             LogError($"No input files for merged icon file.");
@@ -58,40 +59,34 @@ public class MergeIconsTool : BuildTool
         }
 
         // Process aliases
+        string inputDir = Path.GetDirectoryName(inputListFile);
         if (!string.IsNullOrEmpty(aliasFileName) & File.Exists(aliasFileName))
         {
-            var lines = File.ReadLines(aliasFileName);
-            var linecount = 0;
-            foreach (var line in lines)
+            string jsonContent = File.ReadAllText(aliasFileName);
+            var aliases = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
+            if (aliases == null)
             {
-                linecount++;
-                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("//"))
-                    continue;
+                LogError($"{Path.GetFileName(aliasFileName)} is not a valid json map.");
+                result = false;
+            }
 
-                var splitted = line.Split('=');
-                if (splitted.Length != 2)
+            foreach (var kvp in aliases)
+            {
+                if (fileList.ContainsKey(kvp.Key))
                 {
-                    LogError($"{Path.GetFileName(aliasFileName)} line {linecount}: More than two segments.");
-                    result = false;
+                    LogWarning($"{Path.GetFileName(aliasFileName)}: Key '{kvp.Key}' has already a file assignment.");
                     continue;
                 }
 
-                var key = splitted[0];
-                if (fileList.ContainsKey(key))
-                {
-                    LogWarning($"{Path.GetFileName(aliasFileName)} line {linecount}: Key has already a file assignment: {key}");
-                    continue;
-                }
-
-                var filePath = Path.Combine(inputDir, splitted[1]);
+                var filePath = Path.Combine(inputDir, kvp.Value);
                 if (!File.Exists(filePath))
                 {
-                    LogError($"Aliases.txt Line {linecount}: File does not exist for key {splitted[0]}");
+                    LogError($"Aliases.txt: File does not exist for key '{kvp.Key}': {kvp.Value}");
                     result = false;
                     continue;
                 }
 
-                fileList[key] = filePath;
+                fileList[kvp.Key] = filePath;
             }
         }
 

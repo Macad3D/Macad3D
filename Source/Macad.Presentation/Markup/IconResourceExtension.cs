@@ -11,7 +11,7 @@ namespace Macad.Presentation;
 [Localizability(LocalizationCategory.NeverLocalize)]
 public class IconResourceExtension : MarkupExtension
 {
-    [ConstructorArgument("iconName")] 
+    [ConstructorArgument(nameof(IconName))] 
     public string IconName { get; set; }
 
     //--------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ public class IconResourceExtension : MarkupExtension
         var drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.Icon, IconName);
         if (drawing == null)
         {
-            return DependencyProperty.UnsetValue;
+            return null;
         }
 
         var drawingImage = new DrawingImage(drawing);

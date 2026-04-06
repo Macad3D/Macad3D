@@ -39,10 +39,12 @@
             <StackPanel>
                 <TextBlock Text="Welcome to Macad|3D." 
                            FontSize="20"
-                           FontWeight="SemiBold" />
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource Macad.Brushes.Text}" />
                 <TextBlock Text="Where do you want to start?" 
                            Margin="20,10,10,10"
-                           FontSize="14" />
+                           FontSize="14"
+                           Foreground="{StaticResource Macad.Brushes.Text}" />
             </StackPanel>
         </DockPanel>
 
@@ -88,10 +90,10 @@
                    Fill="{StaticResource Macad.Brushes.Popup.Header.Border}" />
 
         <TextBlock Grid.Row="4" 
+                   Text="Open Recent Model:"
                    Margin="10,5"
-                   FontSize="14">
-            Open Recent Model:
-        </TextBlock>
+                   FontSize="14"
+                   Foreground="{StaticResource Macad.Brushes.Text}" />
 
         <ListBox Grid.Row="5" 
                  AutomationProperties.AutomationId="RecentList"

@@ -13,16 +13,22 @@
   <ItemGroup>
     <!-- Setup some metadata for icon groups dicts -->
     <IconSet Update="@(IconSet)">
-      <XamlFile>$(XamlIconsBaseDirectory)%(IconSet.KeyPrefix)\%(Filename).xaml</XamlFile>
+      <XamlFile>$(XamlIconsBaseDirectory)%(RelativeDir)%(Filename).xaml</XamlFile>
     </IconSet>
+    <IconVariant Update="@(IconVariant)">
+      <BasedOnXamlFile>$(XamlIconsBaseDirectory)%(BasedOn).xaml</BasedOnXamlFile>
+      <TargetXamlFile>$(XamlIconsBaseDirectory)%(IconVariant.Dictionary).xaml</TargetXamlFile>
+    </IconVariant> 
 
     <!-- Fast up to date check -->
     <UpToDateCheckInput Include="@(IconSet)" />
     <UpToDateCheckInput Include="@(IconSet -> '%(Aliases)')" />
+    <UpToDateCheckInput Include="@(IconVariant)" />
+    <UpToDateCheckInput Include="@(IconVariant -> '%(BasedOnXamlFile)')" />
   </ItemGroup>
 
   <!-- Reference the BuildTools project for the icon processing tasks -->
-  <ItemGroup Condition="@(IconSet) != ''">
+  <ItemGroup Condition="@(IconSet) != '' Or @(IconVariant) != ''">
     <ProjectReference Include="..\..\Tools\BuildTools\BuildTools.csproj"> 
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
@@ -60,9 +66,17 @@
 
   <Target Name="_MergeXamlIcons"
           Inputs="@(IconSet);@(IconSet -> '%(Aliases)')"
-          Outputs="@(IconSet -> '$(XamlIconsBaseDirectory)%(KeyPrefix).xaml')">
+          Outputs="$(XamlIconsBaseDirectory)%(Dictionary).xaml">
+
+    <PropertyGroup>
+      <_IconList>$(XamlIconsBaseDirectory)IconSet_%(IconSet.Dictionary).txt</_IconList>
+    </PropertyGroup>
+
+    <WriteLinesToFile File="$(_IconList)" 
+                      Lines="@(IconSet -> '%(XamlFile)')" 
+                      Overwrite="true" />
   
-    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot; MergeIcons In=&quot;$(XamlIconsBaseDirectory)%(IconSet.KeyPrefix)&quot; Out=&quot;$(XamlIconsBaseDirectory)%(IconSet.KeyPrefix).xaml&quot; Alias=&quot;$(ProjectDir)%(IconSet.Aliases)&quot;" />
+    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot; MergeIcons In=&quot;$(_IconList)&quot; Out=&quot;$(XamlIconsBaseDirectory)%(IconSet.Dictionary).xaml&quot; Alias=&quot;$(ProjectDir)%(IconSet.Aliases)&quot;" />
   
   </Target>
 
@@ -73,7 +87,23 @@
           DependsOnTargets="_ConvertSvgFiles;_MergeXamlIcons">
   
     <ItemGroup>
-      <Page Include="@(IconSet -> '$(XamlIconsBaseDirectory)%(KeyPrefix).xaml'->Distinct())" />
+      <Page Include="@(IconSet -> '$(XamlIconsBaseDirectory)%(Dictionary).xaml'->Distinct())" />
+    </ItemGroup>
+  
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="BuildXamlIconVariants"
+          Inputs="@(IconVariant);@(IconVariant -> '%(BasedOnXamlFile)')"
+          Outputs="@(IconVariant -> '%(TargetXamlFile)')"
+          AfterTargets="ResolveProjectReferences"
+          DependsOnTargets="_MergeXamlIcons">
+
+    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot; CreateIconsVariant In=&quot;%(IconVariant.BasedOnXamlFile)&quot; Out=&quot;%(IconVariant.TargetXamlFile)&quot; Config=&quot;$(ProjectDir)%(IconVariant.Identity)&quot;" />
+
+    <ItemGroup>
+      <Page Include="%(IconVariant.TargetXamlFile)" />
     </ItemGroup>
   
   </Target>
@@ -86,5 +116,7 @@
     <RemoveDir Directories="$(XamlIconsBaseDirectory)" />
   
   </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   
 </Project>

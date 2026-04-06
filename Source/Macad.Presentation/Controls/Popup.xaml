@@ -29,6 +29,7 @@
             <StackPanel>
                 <TextBlock Style="{StaticResource Macad.Styles.TextBlock.PopupHeader}" 
                            Text="{Binding Header, ElementName=This}" />
+                <Rectangle Height="1" Stroke="{StaticResource Macad.Brushes.Popup.Header.Border}" />
 
                 <ContentPresenter Content="{Binding Body, ElementName=This}" />
             </StackPanel>

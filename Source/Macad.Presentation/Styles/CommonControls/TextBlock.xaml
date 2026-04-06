@@ -12,11 +12,11 @@
     <!--Span Hyperlink-->
     <Style TargetType="{x:Type Hyperlink}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="Blue" />
+        <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Link.Text}" />
         <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="Red" />
+                <Setter Property="Foreground" Value="{mmp:AppResource Macad.Brushes.Link.MouseOver.Text}" />
                 <Setter Property="TextBlock.TextDecorations" Value="Underline" />
             </Trigger>
         </Style.Triggers>

@@ -197,7 +197,6 @@
 					<TextBlock x:Name="MainInstruction"
 							   Text="{Binding MainInstruction, Mode=OneWay}"
 							   FontSize="16" Margin="3,7,5,3"
-							   Foreground="Black"
 							   Visibility="{Binding MainInstruction, Converter={mmp:NotNullToVisibleCollapsedConverter}, Mode=OneWay}" FontWeight="SemiBold"/>
 					<TextBlock x:Name="ContentText" Grid.Row="1"
 							   Margin="3,12,3,8"

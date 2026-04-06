@@ -127,6 +127,7 @@
 
                             <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
                                        Margin="0,2,0,0"
+                                       Foreground="{StaticResource Macad.Brushes.TextLight}"
                                        Text="{Binding Description}"
                                        TextWrapping="Wrap"
                                        TextAlignment="Left" />

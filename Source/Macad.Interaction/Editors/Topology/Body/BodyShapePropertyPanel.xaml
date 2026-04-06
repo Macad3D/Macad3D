@@ -31,7 +31,6 @@
                     Name="TreeView"
                     ItemsSource="{Binding Items}"
                     SelectedItems="{Binding SelectedItems}"
-                    Style="{StaticResource {x:Type treeView:TreeViewEx}}"
                     AutomationProperties.AutomationId="ShapeTree"
                     BorderThickness="1" 
                     HorizontalContentAlignment="Stretch"
@@ -159,7 +158,6 @@
                                 <TextBlock Text="{Binding Shape.Name}" Margin="3,0">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Shape.HasErrors, Mode=OneWay}" Value="True">
                                                     <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>

@@ -7,14 +7,6 @@
     <!-- File cannot start with StaticResource -->
     <SolidColorBrush x:Key="Dummy" Color="Black" />
 
-    <!-- Main Colors -->
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.Accent" ResourceKey="Macad.Brushes.Accent" />
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.Background" ResourceKey="Macad.Brushes.Pane.Background" />
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.Border" ResourceKey="Macad.Brushes.Window.Border" />
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveText" ResourceKey="Macad.Brushes.Black" />
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveBackground" ResourceKey="Macad.Brushes.Dock.Accent" />
-    <mmp:AppResource x:Key="Macad.Brushes.Dock.InactiveText" ResourceKey="Macad.Brushes.Base70" />
-
     <!--  Accent Keys  -->
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ControlAccentBrushKey}" ResourceKey="Macad.Brushes.Dock.Accent" />
 
