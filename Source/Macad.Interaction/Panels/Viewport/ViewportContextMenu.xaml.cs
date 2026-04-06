@@ -71,7 +71,7 @@ public partial class ViewportContextMenu : ToolbarContextMenu
 
     protected override void OnMouseMove(MouseEventArgs e)
     {
-        if (ActualHeight != 0 && ActualHeight != 0)
+        if (ActualWidth != 0 && ActualHeight != 0)
         {
             var relPosition = e.GetPosition(this);
             if (relPosition.X < -50
@@ -79,12 +79,18 @@ public partial class ViewportContextMenu : ToolbarContextMenu
                 || relPosition.X > ActualWidth + 50
                 || relPosition.Y > ActualHeight + 50)
             {
-                IsOpen = false;
+                // If the mouse is over this context menu or any of its submenus, do not close
+                if(ReferenceEquals(Mouse.DirectlyOver, this))
+                {
+                    IsOpen = false;
+                }
             }
         }
 
         base.OnMouseMove(e);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
 
-//--------------------------------------------------------------------------------------------------

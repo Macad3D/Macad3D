@@ -46,8 +46,10 @@ public class ViewportTests : UITestBase
         Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
 
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
-        Thread.Sleep(1000); // Allow fadeout
+        Thread.Sleep(500); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.False.After(1000, 100));
         Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
 
         // Select button prior to ESC
@@ -55,7 +57,7 @@ public class ViewportTests : UITestBase
         var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
         menu.Click("SnappingEnabled");
         Pipe.TypeKey(VirtualKeyShort.ESCAPE);
-        Thread.Sleep(1000); // Allow fadeout
+        Thread.Sleep(500); // Allow fadeout
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
         Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
     }
@@ -73,8 +75,7 @@ public class ViewportTests : UITestBase
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
         Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Left);
-        Thread.Sleep(1000); // Allow fadeout
-        Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.False.After(1000, 100));
         Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
 
         // Select button prior to LMB
@@ -82,8 +83,7 @@ public class ViewportTests : UITestBase
         var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
         menu.Click("SnappingEnabled");
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Left);
-        Thread.Sleep(1000); // Allow fadeout
-        Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.False.After(1000, 100));
         Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSphere"));
     }
         
@@ -100,8 +100,30 @@ public class ViewportTests : UITestBase
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
         Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
         MainWindow.Viewport.MoveRelative(0.3, 0.3);
-        Thread.Sleep(1000); // Allow fadeout
-        Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.False.After(1000, 100));
+        Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSphere"));
+        MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
+        Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSphere"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MoveAwayClosesContextMenuBigMenus()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSphere");
+        Assert.That(MainWindow.Ribbon.IsChecked("CreateSphere"));
+        MainWindow.Viewport.ClickRelative(0.5, 0.5);
+
+        MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+        Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+        var contextMenu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
+        contextMenu.ClickMenuItem("Stepping");
+        MainWindow.Viewport.MoveRelative(0.6, 0.55);
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.True.After(1000, 100));
+        MainWindow.Viewport.MoveRelative(0.7, 0.55);
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"), Is.False.After(1000, 100));
         Assert.IsTrue(MainWindow.Ribbon.IsChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
         Assert.IsFalse(MainWindow.Ribbon.IsChecked("CreateSphere"));

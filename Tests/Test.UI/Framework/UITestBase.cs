@@ -50,6 +50,11 @@ public class UITestBase
 
     public void Reset()
     {
+        if (App.Application.HasExited)
+        {
+            OneTimeSetUp();
+        }
+
         MainWindow.Ribbon.ClickFileMenuItem("NewModel");
 
         // Save model?
