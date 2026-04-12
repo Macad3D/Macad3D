@@ -106,7 +106,15 @@ bool _BuildPublish()
 
     var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.slnx");
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad\Macad.csproj");
-    var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /nologo /verbosity:minimal ";
+    var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /p:_IsPublishing=true /nologo";
+    if (_OptionLog)
+    {
+        commandLine += $" /bl:logfile=\"{Path.ChangeExtension(solutionFile, ".MSBuild.binlog")}\" /fl /flp:logfile=\"{Path.ChangeExtension(solutionFile, ".MSBuild.log")}\";verbosity=diag"; // Detailed, Diagnostic
+    }
+    else
+    {
+        commandLine += " /verbosity:minimal";
+    }
 
     Printer.Success($"\nPublishing...");
     if (Common.Run(_VS.PathToMSBuild, commandLine) != 0)

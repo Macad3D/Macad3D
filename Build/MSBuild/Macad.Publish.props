@@ -6,9 +6,11 @@
     <PublishProtocol>FileSystem</PublishProtocol>
     <TargetFramework>$(MMFramework)</TargetFramework>
     <RuntimeIdentifier>$(MMRuntime)</RuntimeIdentifier>
-    <SelfContained>false</SelfContained>
+    <PublishSelfContained>False</PublishSelfContained>
     <PublishSingleFile>False</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
     <IsPublishable>True</IsPublishable>
+    <AppHostDotNetSearch>AppRelative</AppHostDotNetSearch>
+    <AppHostRelativeDotNet>DotNetRuntime</AppHostRelativeDotNet>
   </PropertyGroup>
 </Project>

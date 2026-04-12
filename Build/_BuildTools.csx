@@ -36,7 +36,9 @@ public class VisualStudio
     {
         var target = "Clean";
         if (!string.IsNullOrEmpty(projectName))
+        {
             target = projectName.Replace(".", "_") + ":Clean";
+        }
 
         var commandLine = $"\"{pathToSolution}\" /t:{target} /p:Configuration={configuration} /p:Platform=\"{platform}\" /m /nologo /v:minimal /ds";
 
@@ -58,15 +60,21 @@ public class VisualStudio
         var commandLine = $"\"{pathToSolution}\" /t:{target}";
 
         if (!string.IsNullOrEmpty(configuration))
+        {
             commandLine += $" /p:Configuration={configuration}";
+        }
 
         if (!string.IsNullOrEmpty(platform))
+        {
             commandLine += $" /p:Platform=\"{platform}\"";
+        }
 
         commandLine += " /m /nologo /ds /verbosity:minimal /clp:NoSummary;EnableMPLogging";
 
         if (LogToFile)
-            commandLine += $" /fl /flp:logfile=\"{Path.ChangeExtension(pathToSolution, ".MSBuild.log")}\";verbosity=Detailed"; // Detailed, Diagnostic
+        {
+            commandLine += $" /bl:logfile=\"{Path.ChangeExtension(pathToSolution, ".MSBuild.binlog")}\" /fl /flp:logfile=\"{Path.ChangeExtension(pathToSolution, ".MSBuild.log")}\";verbosity=Detailed"; // Detailed, Diagnostic
+        }
 
         commandLine += " /nr:false"; // Disable node reuse to prevent locking of MSBuilExtension.dll
         commandLine += " " + additionalOptions;

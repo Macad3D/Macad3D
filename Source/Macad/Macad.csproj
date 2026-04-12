@@ -29,6 +29,9 @@
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(_IsPublishing)' == 'true'">
+    <ProjectReference Include="..\Macad.ShellExtension\Macad.ShellExtension.vcxproj" />
+  </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Test.Core" />
     <InternalsVisibleTo Include="Test.Memory" />

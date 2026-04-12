@@ -51,5 +51,28 @@
     <Delete Files="$(EmbeddedBinariesOutFile)" />
   
   </Target>
-  
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- Target to add VC runtime files to main publish output -->
+  <Target Name="GetVCRuntimeCopyToPublishDirectoryItems"
+          BeforeTargets="GetCopyToPublishDirectoryItems"
+          Returns="@(AllPublishItemsFullPathWithTargetPath)">
+
+    <ItemGroup>
+      <VCRuntimeFiles Include="$(VC_CppRuntimeFilesPath_x64)\Microsoft.VC$(PlatformToolsetVersion).CRT\*.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AllPublishItemsFullPathWithTargetPath Include="@(VCRuntimeFiles)">
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AllPublishItemsFullPathWithTargetPath>
+    </ItemGroup>
+
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 </Project>

@@ -11,6 +11,40 @@
         <CopyToPublishDirectory>Always</CopyToPublishDirectory>
       </AllPublishItemsFullPathWithTargetPath>
     </ItemGroup>
+
   </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- Target to copy DotNetRuntime to publish directory -->
+  <Target Name="CopyDotNetRuntime" 
+          AfterTargets="Publish"
+          Condition="'$(AppHostRelativeDotNet)' != ''">
+    <ItemGroup>
+      <_RuntimePackAsset Include="@(RuntimePackAsset)"
+                         RuntimePack="$([System.String]::Copy('%(NuGetPackageId)').Replace('.Runtime.win-x64', ''))"
+                         RuntimeVersion="%(NuGetPackageVersion)" />
+      <_DotNetRuntimeFiles Include="@(_RuntimePackAsset)"
+                           TargetPath="shared\%(RuntimePack)\%(RuntimeVersion)\" />
+      <_DotNetRuntimeFiles Include="@(_DotNetRuntimeFiles -> '%(RootDir)%(Directory)%(RuntimePack).deps.json');
+                              @(_DotNetRuntimeFiles -> '%(RootDir)%(Directory)%(RuntimePack).runtimeconfig.json')"
+                           Condition="Exists('%(RootDir)%(Directory)%(RuntimePack).deps.json')" 
+                           TargetPath="%(TargetPath)" />
+      <_DotNetRuntimeFiles Include="@(RuntimePackAsset)" 
+                           Condition="'%(DestinationSubPath)' == 'hostfxr.dll'"
+                           TargetPath="" />
+      <_DotNetRuntimeFiles Include="@(ResolvedRuntimePack -> '%(PackageDirectory)\LICENSE.TXT');
+                              @(ResolvedRuntimePack -> '%(PackageDirectory)\THIRD-PARTY-NOTICES.TXT')"
+                           Condition="%(ResolvedRuntimePack.FrameworkName) == 'Microsoft.NETCore.App'" 
+                           TargetPath="" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(PublishDir)$(AppHostRelativeDotNet)" />
+  
+    <Copy SourceFiles="@(_DotNetRuntimeFiles)"
+          DestinationFolder="$(PublishDir)$(AppHostRelativeDotNet)\%(TargetPath)" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 </Project>

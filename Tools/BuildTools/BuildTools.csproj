@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>Macad.Build</RootNamespace>
     <UseAppHost>False</UseAppHost>
+    <HasRuntimeOutput>True</HasRuntimeOutput>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="SharpVectors.Wpf" />
