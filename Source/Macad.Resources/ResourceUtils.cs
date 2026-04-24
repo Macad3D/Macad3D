@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 
 namespace Macad.Resources;
@@ -29,9 +30,9 @@ public class ResourceUtils
 
     public static void SetCategoryFilename(Category category, string filename)
     {
-        _CategoryFilenames[category] = filename;
-        if (_Resources.ContainsKey(category))
+        lock (_ResourcesDictionaryLock)
         {
+            _CategoryFilenames[category] = filename;
             _Resources.Remove(category);
         }
     }
@@ -40,6 +41,7 @@ public class ResourceUtils
 
     static readonly string _AssemblyName;
     static readonly Dictionary<Category, ResourceDictionary> _Resources = new();
+    static readonly Lock _ResourcesDictionaryLock = new();
 
     static ResourceUtils()
     {
@@ -81,16 +83,19 @@ public class ResourceUtils
     {
         try
         {
-            if (!_Resources.TryGetValue(category, out var dict))
+            lock (_ResourcesDictionaryLock)
             {
-                dict = new()
+                if (!_Resources.TryGetValue(category, out var dict))
                 {
-                    Source = GetResourceUri(_CategoryFilenames[category]),
-                };
-                _Resources[category] = dict;
-            }
+                    dict = new()
+                    {
+                        Source = GetResourceUri(_CategoryFilenames[category]),
+                    };
+                    _Resources[category] = dict;
+                }
 
-            return dict[name] as T;
+                return dict[name] as T;
+            }
         }
         catch (Exception e)
         {
