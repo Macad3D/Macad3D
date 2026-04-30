@@ -1,4 +1,5 @@
-﻿using Macad.Common.Serialization;
+using Macad.Common.Serialization;
+using Macad.Core.Plugin;
 
 namespace Macad.Interaction;
 
@@ -17,6 +18,9 @@ public static partial class InteractionModule
         Serializer.RegisterNamespaceAlias("Editors", "Macad.Interaction.Editors");
 
         _DoAutoRegister(); 
+
+        // Allow plugins to register editors via IPluginContext.RegisterEditor(Type)
+        PluginManager.RegisterEditorCallback = Editor.RegisterEditor;
 
         _IsInitialized = true;
     }

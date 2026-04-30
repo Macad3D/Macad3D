@@ -38,4 +38,9 @@
     <None Remove="Macad.csproj.DotSettings" />
     <None Remove="Properties\launchSettings.json" />
   </ItemGroup>
+  
+  <!-- Copy Plugins directory to output -->
+  <ItemGroup>
+    <CopyToOutput Include="Plugins\**\*" />
+  </ItemGroup>
 </Project>
