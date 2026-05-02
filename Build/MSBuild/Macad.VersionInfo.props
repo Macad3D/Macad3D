@@ -1,8 +1,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Version>5.0.2109.3</Version>
-    <Copyright>Copyright © 2015-2025 Tobias Schachte</Copyright>
-    <Company>Tobias Schachte</Company>
     <Product>Macad|3D</Product>
+    <Version>5.0</Version>
+    <VersionSuffix>develop</VersionSuffix>
+    <Company>Tobias Schachte</Company>
+    <Copyright>Copyright © 2015-2026 $(Company)</Copyright>
+
+    <DaysSinceEpoch>$([System.Convert]::ToInt32($([System.DateTime]::Now.Subtract($([System.DateTime]::new(2015, 8, 29))).TotalDays)))</DaysSinceEpoch>
+    <ProductVersion>$(Version).$(DaysSinceEpoch)</ProductVersion>
+    <AssemblyVersion>$(ProductVersion)</AssemblyVersion>
+    <FileVersion>$(ProductVersion).0</FileVersion>
+    <InformationalVersion>$(ProductVersion)-$(VersionSuffix)</InformationalVersion>
   </PropertyGroup>
 </Project>

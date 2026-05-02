@@ -13,18 +13,13 @@ public partial class AboutDialog : Dialog
     {
         get
         {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            var flags = "";
-            switch (version.Revision)
-            {
-                case 1: flags = "Beta"; 
-                    break;
-                case 2: flags = "Alpha"; 
-                    break;
-                case 3: flags = "Development Build"; 
-                    break;
-            }
-            return $"{version.Major}.{version.Minor} {flags} (Revision {version.Build})";
+            var assembly = Assembly.GetExecutingAssembly();
+            var version = assembly.GetName()
+                                  .Version;
+            var informationalVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                                               ?.InformationalVersion
+                                               ?? "Unknown Build";
+            return $"{version.Major}.{version.Minor}  ({informationalVersion})";
         }
     }
 
@@ -34,7 +29,9 @@ public partial class AboutDialog : Dialog
     {
         get
         {
-            return Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+            return Assembly.GetExecutingAssembly()
+                           .GetCustomAttribute<AssemblyCopyrightAttribute>()
+                           ?.Copyright;
         }
     }
 

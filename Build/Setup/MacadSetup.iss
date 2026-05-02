@@ -18,8 +18,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={#MyAppGuid}
 AppName={#MyAppTitle}
-AppVersion={#MyAppVersionStr}
-AppVerName={#MyAppTitle} {#MyAppVersionStr}
+AppVersion={#MyAppVersionInfo}
+AppVerName={#MyAppTitle} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
@@ -30,14 +30,14 @@ AppMutex=MacadInstanceRunning,Global\MacadInstanceRunning
 DefaultDirName={autopf64}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir={#BasePath}\Bin\Deploy
-OutputBaseFilename={#MyAppName}_{#MyAppVersionStr}_Setup
+OutputBaseFilename={#MyAppName}_{#MyAppVersion}_Setup
 Compression=lzma
 
-VersionInfoVersion={#MyAppRevision}
+VersionInfoVersion={#MyAppVersionNum}
 VersionInfoCompany={#MyAppPublisher}
 VersionInfoCopyright=Copyright (c) {#MyAppPublisher}
 VersionInfoProductName={#MyAppTitle}
-VersionInfoProductVersion={#MyAppRevision}
+VersionInfoProductVersion={#MyAppVersionNum}
 
 UninstallDisplayName={#MyAppTitle}
 UninstallDisplayIcon={app}\Macad.exe

@@ -1,6 +1,5 @@
 #load "_Common.csx"
 #load "_BuildTools.csx"
-#load "_Version.csx"
 #load "_Packages.csx"
 
 using System;

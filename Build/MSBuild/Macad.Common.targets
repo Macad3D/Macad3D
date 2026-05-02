@@ -12,6 +12,7 @@
 
   <Import Project="$(MMBuildPropsDir)Macad.CSharp.targets" Condition="$(MMIsCsProj) == 'true'" />
   <Import Project="$(MMBuildPropsDir)Macad.Native.targets" Condition="$(MMIsVcxProj) == 'true'" />
+  <Import Project="$(MMBuildPropsDir)Macad.Managed.targets" Condition="$(MMIsVcxManagedProj) == 'true'" />
   <Import Project="$(MMBuildPropsDir)Macad.Publish.targets" />
   
 </Project>

@@ -1,0 +1,40 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Target to create version info file -->
+    
+  <PropertyGroup>
+    <VersionInfoCppFile>$(IntDir)VersionInfo.generated.cpp</VersionInfoCppFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ClCompile Include="$(VersionInfoCppFile)">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Visible>False</Visible>
+    </ClCompile>
+  </ItemGroup>
+
+  <Target Name="GenerateVersionInfoCpp" 
+          BeforeTargets="ClCompile">
+    <ItemGroup>
+        <AssemblyInfoLines Include="using namespace System::Reflection%3B" />
+        <AssemblyInfoLines Include="[assembly:AssemblyVersionAttribute(&quot;$(ProductVersion)&quot;)]%3B" />
+        <AssemblyInfoLines Include="[assembly:AssemblyCopyrightAttribute(L&quot;$(Copyright)&quot;)]%3B" />
+        <AssemblyInfoLines Include="[assembly:AssemblyCompanyAttribute(L&quot;$(Company)&quot;)]%3B" />
+        <AssemblyInfoLines Include="[assembly:AssemblyProductAttribute(L&quot;$(Product)&quot;)]%3B" />
+    </ItemGroup>
+
+    <WriteLinesToFile
+        File="$(VersionInfoCppFile)"
+        Lines="@(AssemblyInfoLines)"
+        Overwrite="true"
+        Encoding="UTF-8" />
+  </Target>
+
+  <Target Name="CleanAssemblyVersionInfo"
+          AfterTargets="AfterClean">
+    <Delete Files="$(VersionInfoCppFile)" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+</Project>

@@ -76,5 +76,60 @@
   </Target>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  
+  <!-- Target to create version info file -->
+  <PropertyGroup>
+    <VersionInfoRcFile>$(IntDir)VersionInfo.generated.rc</VersionInfoRcFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ResourceCompile Include="$(VersionInfoRcFile)">
+      <Visible>False</Visible>
+    </ResourceCompile>
+  </ItemGroup>
+
+  <Target Name="GenerateVersionInfoRc" 
+          BeforeTargets="ResourceCompile">
+    <PropertyGroup>
+      <VersionCommas>$([System.String]::Copy('$(FileVersion)').Replace('.', ','))</VersionCommas>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <VersionInfoLines Include="#include &lt;winres.h&gt;" />
+      <VersionInfoLines Include="VS_VERSION_INFO VERSIONINFO" />
+      <VersionInfoLines Include="    FILEVERSION    $(VersionCommas)" />
+      <VersionInfoLines Include="    PRODUCTVERSION $(VersionCommas)" />
+      <VersionInfoLines Include="BEGIN" />
+      <VersionInfoLines Include="    BLOCK &quot;StringFileInfo&quot;" />
+      <VersionInfoLines Include="    BEGIN" />
+      <VersionInfoLines Include="        BLOCK &quot;040904b0&quot;" />
+      <VersionInfoLines Include="        BEGIN" />
+      <VersionInfoLines Include="            VALUE &quot;FileVersion&quot;, &quot;$(FileVersion)\0&quot;%3B" />
+      <VersionInfoLines Include="            VALUE &quot;ProductVersion&quot;, &quot;$(ProductVersion)\0&quot;%3B" />
+      <VersionInfoLines Include="            VALUE &quot;ProductName&quot;, &quot;$(Product)\0&quot;%3B" />
+      <VersionInfoLines Include="            VALUE &quot;LegalCopyright&quot;, &quot;$(Copyright)\0&quot;%3B" />
+      <VersionInfoLines Include="            VALUE &quot;CompanyName&quot;, &quot;$(Company)\0&quot;%3B" />
+      <VersionInfoLines Include="        END" />
+      <VersionInfoLines Include="    END" />
+      <VersionInfoLines Include="    BLOCK &quot;VarFileInfo&quot;" />
+      <VersionInfoLines Include="    BEGIN" />
+      <VersionInfoLines Include="            VALUE &quot;Translation&quot;, 0x409, 1200" />
+      <VersionInfoLines Include="    END" />
+      <VersionInfoLines Include="END" />
+    </ItemGroup>
+
+    <WriteLinesToFile
+        File="$(VersionInfoRcFile)"
+        Lines="@(VersionInfoLines)"
+        Overwrite="true"
+        Encoding="UTF-8" />
+  </Target>
+
+  <Target Name="CleanAssemblyVersionInfo"
+          AfterTargets="AfterClean">
+    <Delete Files="$(VersionInfoRcFile)" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 </Project>

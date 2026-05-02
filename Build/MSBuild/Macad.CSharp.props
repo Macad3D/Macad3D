@@ -49,6 +49,4 @@
     <RuntimeHostConfigurationOption Include="System.Runtime.LegacyExceptionHandling" Value="true" />
   </ItemGroup>
 
-  <Import Project="Macad.VersionInfo.props" />
-
 </Project>
