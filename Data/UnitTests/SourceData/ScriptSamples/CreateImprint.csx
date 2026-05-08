@@ -16,7 +16,7 @@ var boxBRep = box.GetBRep();
 var findFaceResult = FaceAlgo.FindFaceByAreaSize(boxBRep, (area1, area2) => area1 > area2);
 
 // Create reference to the found brep subshape
-var subshapeReference = box.GetSubshapeReference(findFaceResult.Item1);
+var subshapeReference = box.GetSubshapeReference(findFaceResult.face);
 
 // Create imprint
 var imprint = Imprint.Create(body, subshapeReference);
