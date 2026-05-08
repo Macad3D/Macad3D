@@ -16,7 +16,9 @@
                          SnapsToDevicePixels="True" 
                          UseLayoutRounding="False"
                          ForceCursor="False"
-                         AnchorablePaneControlStyle="{StaticResource Macad.Styles.Dock.AnchorablePaneControlStyle}">
+                         AnchorablePaneControlStyle="{StaticResource Macad.Styles.Dock.AnchorablePaneControl}"
+                         DocumentPaneControlStyle="{StaticResource Macad.Styles.Dock.DocumentPaneControl}"
+                         AnchorTemplate="{StaticResource Macad.Templates.Dock.AnchorTemplate}">
 
         <dock:LayoutRoot>
             <dock:LayoutPanel Orientation="Horizontal">

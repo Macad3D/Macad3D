@@ -3,9 +3,9 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="ControlzEx" Version="7.0.3" />
-    <PackageVersion Include="Dirkster.AvalonDock" Version="4.72.1" />
-    <PackageVersion Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.1" />
+    <PackageVersion Include="ControlzEx" Version="7.0.4" />
+    <PackageVersion Include="Dirkster.AvalonDock" Version="4.74.1" />
+    <PackageVersion Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.74.1" />
     <PackageVersion Include="FlaUI.UIA3" Version="5.0.0" />
     <PackageVersion Include="Fluent.Ribbon" Version="11.0.2" />
     <PackageVersion Include="Macad.ThirdParty.Mesa" Version="25.2.0" />

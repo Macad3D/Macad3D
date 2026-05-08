@@ -34,7 +34,7 @@
 
     <!--  Tool Window : Caption  -->
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveBackground}" ResourceKey="Macad.Brushes.Dock.ActiveBackground" />
-    <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveGrip}" ResourceKey="Macad.Brushes.Dock.ActiveText" />
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveGrip}" Opacity="0.5" Color="{mmp:AppResource Macad.Colors.AccentDark}" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveText}" ResourceKey="Macad.Brushes.Dock.ActiveText" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionInactiveBackground}" ResourceKey="Macad.Brushes.Dock.Background" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionInactiveGrip}" ResourceKey="Macad.Brushes.Dock.InactiveText" />
@@ -69,7 +69,7 @@
     <!--  Document Well : Tab  -->
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedActiveBackground}" ResourceKey="Macad.Brushes.Dock.ActiveBackground" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedActiveText}" ResourceKey="Macad.Brushes.Dock.ActiveText" />
-    <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveBackground}" ResourceKey="Macad.Brushes.Base30" />
+    <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveBackground}" ResourceKey="Macad.Brushes.Dock.InactiveBackground" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveText}" ResourceKey="Macad.Brushes.Dock.InactiveText" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedBackground}" ResourceKey="Macad.Brushes.Dock.Background" />
     <mmp:AppResource x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedText}" ResourceKey="Macad.Brushes.Dock.InactiveText" />

@@ -5,7 +5,7 @@
                     xmlns:mmp="clr-namespace:Macad.Presentation">
 
     <!--  AnchorablePaneControlStyle  -->
-    <Style x:Key="Macad.Styles.Dock.AnchorablePaneControlStyle" 
+    <Style x:Key="Macad.Styles.Dock.AnchorablePaneControl" 
            TargetType="{x:Type dockControls:LayoutAnchorablePaneControl}"
            BasedOn="{mmp:AppResource AvalonDockThemeVs2013AnchorablePaneControlStyle}">
         <Setter Property="ItemContainerStyle">
@@ -98,5 +98,171 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--  DocumentPaneControl  -->
+    <Style x:Key="Macad.Styles.Dock.DocumentPaneControl" 
+           TargetType="{x:Type dockControls:LayoutDocumentPaneControl}"
+           BasedOn="{mmp:AppResource AvalonDockThemeVs2013DocumentPaneControlStyle}">
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.TabBackground}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type dockControls:LayoutDocumentPaneControl}">
+                    <Grid
+						ClipToBounds="true"
+						KeyboardNavigation.TabNavigation="Local"
+						SnapsToDevicePixels="true">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--  Following border is required to catch mouse events  -->
+                        <Border Grid.RowSpan="2" Background="Transparent" />
+                        <Grid
+							Margin="1,0"
+							Grid.Row="0"
+							Panel.ZIndex="1"
+							Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dockControls:LayoutDocumentPaneControl}}, Path=Model.ShowHeader, Converter={mmp:BoolToVisibleCollapsedConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+								x:Name="BD"
+								Grid.ColumnSpan="2"
+								BorderBrush="{DynamicResource {x:Static dock:ResourceKeys.PanelBorderBrush}}"
+								BorderThickness="0,0,0,0" />
+                            <dockControls:DocumentPaneTabPanel
+								x:Name="HeaderPanel"
+								Grid.Row="0"
+								Grid.Column="0"
+								Margin="0"
+								IsItemsHost="true"
+								KeyboardNavigation.TabIndex="1" />
+                            <dockControls:DropDownButton
+								x:Name="MenuDropDownButton"
+                                Width="14"
+                                Height="14"
+                                Margin="0,0,-1,5"
+								Grid.Column="1"
+								VerticalAlignment="Bottom"
+								Focusable="False"
+								Style="{mmp:AppResource AvalonDockThemeVs2013ToolButtonStyle}">
+                                <dockControls:DropDownButton.DropDownContextMenu>
+                                    <dockControls:ContextMenuEx ItemsSource="{Binding Model.ChildrenSorted, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </dockControls:DropDownButton.DropDownContextMenu>
+                                <Path
+									x:Name="MenuDropDownButtonImage"
+									Height="8"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Data="{DynamicResource PinDocMenu}"
+									Fill="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonDefaultGlyph}}"
+									Stretch="Uniform" />
+                            </dockControls:DropDownButton>
+                        </Grid>
+                        <Border
+							x:Name="ContentPanel"
+							Grid.Row="1"
+							Grid.Column="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{DynamicResource {x:Static dock:ResourceKeys.PanelBorderBrush}}"
+							BorderThickness="1,1,1,1"
+							KeyboardNavigation.DirectionalNavigation="Contained"
+							KeyboardNavigation.TabIndex="2"
+							KeyboardNavigation.TabNavigation="Cycle">
+                            <ContentPresenter
+								x:Name="PART_SelectedContentHost"
+								Margin="0"
+								ContentSource="SelectedContent"
+								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="MenuDropDownButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredBackground}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredBorder}}" />
+                            <Setter TargetName="MenuDropDownButtonImage" Property="Fill" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredGlyph}}" />
+                        </Trigger>
+
+                        <Trigger SourceName="MenuDropDownButton" Property="IsChecked" Value="True">
+                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedBackground}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedBorder}}" />
+                            <Setter TargetName="MenuDropDownButtonImage" Property="Fill" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedGlyph}}" />
+                        </Trigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding SelectedItem.IsActive, RelativeSource={RelativeSource Self}}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="BD" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveBackground}}" />
+                        </MultiDataTrigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Model.ChildrenCount}" Value="0">
+                            <Setter TargetName="BD" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="ContentPanel" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="MenuDropDownButton" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Model.ShowHeader}" Value="False">
+                            <Setter TargetName="ContentPanel" Property="BorderThickness" Value="1" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border BorderThickness="1,1,1,0"
+                            BorderBrush="{DynamicResource {x:Static dock:ResourceKeys.PanelBorderBrush}}">
+                        <dockControls:LayoutDocumentTabItem Model="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- LayoutAnchorControl -->
+    <ControlTemplate x:Key="Macad.Templates.Dock.AnchorTemplate" 
+                     TargetType="{x:Type dockControls:LayoutAnchorControl}">
+        <Border x:Name="Bd"
+    			Margin="0,0,12,4"
+	    		Padding="0,4,0,2"
+		    	Background="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabDefaultBackground}}"
+			    BorderBrush="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabDefaultBorder}}"
+    			BorderThickness="0,0,0,2"
+	    		TextOptions.TextFormattingMode="Display"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True"
+    			TextElement.Foreground="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabDefaultText}}">
+            <ContentPresenter
+				Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
+				ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type DockingManager}, Mode=FindAncestor}}"
+				ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type DockingManager}, Mode=FindAncestor}}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Side" Value="Right">
+                <Setter TargetName="Bd" Property="BorderThickness" Value="0,0,0,2" />
+            </Trigger>
+
+            <Trigger Property="Side" Value="Top">
+                <Setter TargetName="Bd" Property="BorderThickness" Value="0,2,0,0" />
+            </Trigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabHoveredBackground}}" />
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabHoveredBorder}}" />
+                <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static dock:ResourceKeys.AutoHideTabHoveredText}}" />
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
 </ResourceDictionary>

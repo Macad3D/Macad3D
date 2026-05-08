@@ -171,6 +171,7 @@
     <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveText" ResourceKey="Macad.Brushes.Text" />
     <mmp:AppResource x:Key="Macad.Brushes.Dock.ActiveBackground" ResourceKey="Macad.Brushes.Base15" />
     <mmp:AppResource x:Key="Macad.Brushes.Dock.InactiveText" ResourceKey="Macad.Brushes.Base70" />
+    <mmp:AppResource x:Key="Macad.Brushes.Dock.InactiveBackground" ResourceKey="Macad.Brushes.Base15" />
 
     <!--#endregion-->
 
