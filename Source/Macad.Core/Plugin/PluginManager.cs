@@ -45,9 +45,24 @@ public static class PluginManager
         {
             _EnsureDirectoryExists(dir);
 
+            // 1. Load plugins directly in the top-level Plugins directory
             foreach (var dllPath in Directory.EnumerateFiles(dir, "*.dll", SearchOption.TopDirectoryOnly))
             {
                 _LoadPlugin(dllPath);
+            }
+
+            // 2. Load plugins from immediate subdirectories
+            // To avoid loading dependency DLLs into separate load contexts, we use a convention:
+            // The main plugin DLL must have the same name as the subdirectory.
+            foreach (var subDir in Directory.EnumerateDirectories(dir))
+            {
+                var dirName = Path.GetFileName(subDir);
+                var expectedDll = Path.Combine(subDir, dirName + ".dll");
+
+                if (File.Exists(expectedDll))
+                {
+                    _LoadPlugin(expectedDll);
+                }
             }
         }
     }

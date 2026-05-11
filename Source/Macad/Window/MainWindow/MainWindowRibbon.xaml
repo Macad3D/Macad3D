@@ -1,4 +1,4 @@
-﻿﻿<UserControl
+<UserControl
     x:Class="Macad.Window.MainWindowRibbon"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -705,7 +705,7 @@
         <!--  endregion  -->
 
         <!--  region Plugins  -->
-        <Fluent:RibbonTabItem x:Name="PluginsTab" AutomationProperties.AutomationId="Plugins" Header="PLUGINS">
+        <Fluent:RibbonTabItem x:Name="PluginsTab" AutomationProperties.AutomationId="Plugins" Header="PLUGINS" Visibility="Collapsed">
         </Fluent:RibbonTabItem>
         <!--  endregion  -->
 
@@ -911,3 +911,4 @@
     </Fluent:Ribbon>
 
 </UserControl>
+

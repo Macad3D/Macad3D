@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -36,7 +36,6 @@ public partial class MainWindowRibbon : UserControl
         var contributors = PluginManager.GetPlugins<IPluginRibbonContributor>();
         if (!contributors.Any())
         {
-            PluginsTab.Visibility = Visibility.Collapsed;
             return;
         }
 
@@ -57,9 +56,9 @@ public partial class MainWindowRibbon : UserControl
             }
         }
 
-        if (!hasPlugins)
+        if (hasPlugins)
         {
-            PluginsTab.Visibility = Visibility.Collapsed;
+            PluginsTab.Visibility = Visibility.Visible;
         }
     }
 
