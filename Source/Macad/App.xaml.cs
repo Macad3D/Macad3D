@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
+using Macad.Core.Plugin;
 using Macad.Presentation;
 using Macad.Resources;
 using Microsoft.Win32;
@@ -46,12 +47,18 @@ public partial class App : Application
 
         CreateInstanceMutexes();
 
-        // Init context
+        // Init context — also calls all Module.Initialize() methods (including InteractionModule)
         AppContext.Initialize(cmdLine);
         var appParameter = AppContext.Current.Parameters.Get<ApplicationParameterSet>();
 
+        // Load plugins after all modules are initialized
+        PluginManager.LoadPlugins();
+
         // Load theme depending on settings or operating system
         _LoadTheme(appParameter?.Theme ?? ApplicationTheme.Auto);
+
+        // Merge plugin-contributed WPF resource dictionaries before the main window is created
+        PluginResourceLoader.MergePluginResources();
             
         // Show Welcome Dialog while initializing
         bool bSkipWelcome = !appParameter.ShowWelcomeScreen || cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
@@ -68,9 +75,14 @@ public partial class App : Application
         GlobalEventHandler.Init();
 
         // Start main window
-        MainWindow = new MainWindow(new MainWindowModel());
-        WelcomeDialog.Current?.SetMainWindow(MainWindow);
-        MainWindow.Show();
+        var mainWindow = new MainWindow(new MainWindowModel());
+        MainWindow = mainWindow;
+        WelcomeDialog.Current?.SetMainWindow(mainWindow);
+
+        // Apply plugin ribbon contributions before showing the window
+        mainWindow.Ribbon.ApplyPluginContributions();
+
+        mainWindow.Show();
 
         ShutdownMode = ShutdownMode.OnMainWindowClose;
 
@@ -116,6 +128,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        PluginManager.ShutdownPlugins();
         base.OnExit(e);
         AppContext.Current?.Dispose();
     }

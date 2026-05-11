@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Presentation;
@@ -246,6 +247,62 @@ public abstract class Editor : WorkspaceControl
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Runtime registration entry point for plugins. Validates that <paramref name="editorType"/>
+    /// derives from <see cref="Editor"/> and closes the generic <c>Editor&lt;T&gt;</c> type so
+    /// the target entity type can be inferred.
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// Thrown when <paramref name="editorType"/> does not derive from <c>Editor&lt;T&gt;</c>
+    /// or when the target entity type cannot be determined.
+    /// </exception>
+    public static void RegisterEditor(Type editorType)
+    {
+        if (editorType == null)
+            throw new ArgumentException("editorType must not be null.", nameof(editorType));
+
+        if (!typeof(Editor).IsAssignableFrom(editorType) || editorType.IsAbstract)
+            throw new ArgumentException(
+                $"Type '{editorType.FullName}' must be a non-abstract class deriving from Editor.", nameof(editorType));
+
+        // Walk the base-type chain to find the closed generic Editor<T>.
+        Type targetEntityType = null;
+        var current = editorType.BaseType;
+        while (current != null)
+        {
+            if (current.IsGenericType && current.GetGenericTypeDefinition() == typeof(Editor<>))
+            {
+                targetEntityType = current.GetGenericArguments()[0];
+                break;
+            }
+            current = current.BaseType;
+        }
+
+        if (targetEntityType == null)
+            throw new ArgumentException(
+                $"Type '{editorType.FullName}' does not derive from Editor<T>; cannot determine target entity type.",
+                nameof(editorType));
+
+        if (_RegisteredEditors.TryGetValue(targetEntityType, out var existing))
+        {
+            // Allow re-registration for the same type (e.g. plugin loaded twice in tests).
+            if (existing != editorType)
+            {
+                Messages.Warning(
+                    $"EditorRegistry: Two editors of equal specificity registered for entity type " +
+                    $"'{targetEntityType.FullName}': '{existing.FullName}' and '{editorType.FullName}'. " +
+                    $"The last registration wins.");
+                _RegisteredEditors[targetEntityType] = editorType;
+            }
+        }
+        else
+        {
+            _RegisteredEditors.Add(targetEntityType, editorType);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static void UnregisterEditor(Type objectType, Type editorType)
     {
         if (_RegisteredEditors.ContainsKey(objectType))
@@ -256,12 +313,45 @@ public abstract class Editor : WorkspaceControl
 
     public static Editor CreateEditor(Entity entity)
     {
-        if (!_RegisteredEditors.TryGetValue(entity.GetType(), out var editorType))
+        var entityType = entity.GetType();
+
+        // Exact match first.
+        if (!_RegisteredEditors.TryGetValue(entityType, out var editorType))
+        {
+            // Most-specific-type-wins: walk the inheritance chain.
+            editorType = _FindMostSpecificEditor(entityType);
+        }
+
+        if (editorType == null)
             return null;
 
         var editor = Activator.CreateInstance(editorType) as Editor;
         editor?.Init(InteractiveContext.Current.WorkspaceController, entity);
         return editor;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    static Type _FindMostSpecificEditor(Type entityType)
+    {
+        // Collect all registered target types that are assignable from entityType,
+        // then pick the one deepest in the hierarchy (most specific).
+        Type bestTargetType = null;
+        Type bestEditorType = null;
+
+        foreach (var kvp in _RegisteredEditors)
+        {
+            if (!kvp.Key.IsAssignableFrom(entityType))
+                continue;
+
+            if (bestTargetType == null || kvp.Key.IsSubclassOf(bestTargetType))
+            {
+                bestTargetType = kvp.Key;
+                bestEditorType = kvp.Value;
+            }
+        }
+
+        return bestEditorType;
     }
 
     //--------------------------------------------------------------------------------------------------
