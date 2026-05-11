@@ -190,13 +190,36 @@ Plugins can be placed in one of two locations:
 
 **Global Installation** (for all users):
 ```
-%AppData%\Macad3D\Plugins\MyPlugin.dll
+%AppData%\Macad3D\Plugins\
 ```
 
 **Local Installation** (application directory):
 ```
-<ApplicationDir>\Plugins\MyPlugin.dll
+<ApplicationDir>\Plugins\
 ```
+
+#### Supported Folder Structures
+
+The Plugin Manager supports two ways to organize your plugin files:
+
+1. **Single File Deployment**:
+   If your plugin is just one DLL, you can place it directly in the `Plugins\` root.
+   ```
+   Plugins/
+   └── MyPlugin.dll
+   ```
+
+2. **Isolated Folder Deployment (Recommended for large plugins)**:
+   If your plugin has many third-party dependency DLLs, resources, or config files, **you should place it in an isolated subdirectory**.
+   To ensure the Plugin Manager finds the correct entry point without mistakenly loading dependencies, **the subdirectory name MUST match the main plugin DLL name**:
+   ```
+   Plugins/
+   └── MyBigPlugin/              <-- Folder name
+       ├── MyBigPlugin.dll       <-- Must match the folder name exactly
+       ├── Newtonsoft.Json.dll   <-- Other dependencies
+       ├── CsvHelper.dll
+       └── config.json
+   ```
 
 ### 5.3 Dependency Management
 
@@ -380,7 +403,12 @@ Macad automatically:
 2. **Don't throw from Initialize** - Causes plugin load failure
 3. **Don't assume load order** - Plugin loading order is not guaranteed
 4. **Don't modify global state** - May affect other plugins
-5. **Don't hardcode paths** - Use CoreContext to get app information
+5. **Don't use relative paths or `Environment.CurrentDirectory`** - The host application's working directory is usually the folder containing `Macad.exe`. If your plugin needs to load bundled configuration files (like `log4net.config`) or local resources, always construct an absolute path using your plugin assembly's location:
+   ```csharp
+   // Correct approach: Get the directory of the current plugin DLL
+   string pluginDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+   string configPath = Path.Combine(pluginDir, "log4net.config");
+   ```
 
 ## 9. Debugging
 

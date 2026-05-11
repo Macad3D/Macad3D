@@ -220,13 +220,36 @@ public class MyPlugin : IPlugin, IPluginRibbonContributor
 
 **全局安装**（对所有用户）：
 ```
-%AppData%\Macad3D\Plugins\MyPlugin.dll
+%AppData%\Macad3D\Plugins\
 ```
 
 **本地安装**（应用程序目录）：
 ```
-<ApplicationDir>\Plugins\MyPlugin.dll
+<ApplicationDir>\Plugins\
 ```
+
+#### 支持的文件结构
+
+Macad|3D 的插件管理器支持两种存放方式：
+
+1. **单文件直接放置**：
+   如果你的插件只有一个 DLL，可以直接放在 `Plugins\` 根目录下。
+   ```
+   Plugins/
+   └── MyPlugin.dll
+   ```
+
+2. **独立文件夹放置（推荐用于大型插件）**：
+   如果你的插件带有大量的第三方依赖 DLL、资源文件或配置文件，**强烈建议将其放在一个独立的子目录中**。
+   为了让插件管理器能快速找到入口而不误加载依赖项，**子目录的名称必须与插件的主 DLL 名称完全一致**：
+   ```
+   Plugins/
+   └── MyBigPlugin/              <-- 文件夹名称
+       ├── MyBigPlugin.dll       <-- 必须与文件夹同名
+       ├── Newtonsoft.Json.dll   <-- 其他依赖项
+       ├── CsvHelper.dll
+       └── config.json
+   ```
 
 ### 5.3 依赖管理
 
@@ -410,7 +433,12 @@ Macad在启动时会自动：
 2. **不要在 Initialize 中抛异常** - 会导致插件加载失败
 3. **不要依赖应用程序顺序** - 插件加载顺序不保证
 4. **不要修改全局状态** - 可能影响其他插件
-5. **不要使用硬编码路径** - 使用 CoreContext 获取应用程序信息
+5. **不要使用相对路径或 `Environment.CurrentDirectory`** - 主程序的运行目录通常是 `Macad.exe` 所在目录。如果插件需要读取自带的配置文件（如 `log4net.config`）或资源文件，请始终通过获取当前插件程序集的物理路径来拼接绝对路径：
+   ```csharp
+   // 正确做法：获取当前插件 DLL 所在的目录
+   string pluginDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+   string configPath = Path.Combine(pluginDir, "log4net.config");
+   ```
 
 ## 9. 调试
 
