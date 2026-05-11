@@ -37,9 +37,6 @@
     <Project Path="Source/Macad.Plugin.CylinderPlus/Macad.Plugin.CylinderPlus.csproj">
       <Platform Project="x64" />
     </Project>
-    <Project Path="Source/Macad.Plugin.GeometryListener/Macad.Plugin.GeometryListener.csproj">
-      <Platform Project="x64" />
-    </Project>
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/Test.Core/Test.Core.csproj">
