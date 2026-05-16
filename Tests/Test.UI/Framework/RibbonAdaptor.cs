@@ -50,6 +50,15 @@ public class RibbonAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public bool IsSelected(RibbonTabs id)
+    {
+        var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id.ToString()));
+        Assert.That(tabControl, Is.Not.Null, $"Ribbon tab control {id} not found.");
+        return tabControl.Patterns.SelectionItem.Pattern.IsSelected;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     AutomationElement _FindButton(string id)
     {
         Assert.That(_ButtonBarControl != null, "Select ribbon group prior to use any button.");

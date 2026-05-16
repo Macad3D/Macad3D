@@ -44,6 +44,19 @@ public class SketchUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void ShowRibbonTab()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+
+        Assert.That(MainWindow.Ribbon.IsSelected(RibbonTabs.Sketch), Is.True);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void CreateSketchOnFace()
     {
         TestDataGenerator.GenerateBox(MainWindow);

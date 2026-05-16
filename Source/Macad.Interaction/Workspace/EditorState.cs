@@ -45,31 +45,15 @@ public sealed class EditorState : BaseObject, IDisposable
         
     //--------------------------------------------------------------------------------------------------
 
-    public bool SketchGroupVisible
-    {
-        get { return _SketchGroupVisible; }
-        private set
-        {
-            _SketchGroupVisible = value;
-            RaisePropertyChanged();
-        }
-    }
-
-    bool _SketchGroupVisible;
-
-    //--------------------------------------------------------------------------------------------------
-
     public string ActiveSketchTool
     {
-        get { return _ActiveSketchTool; }
+        get;
         private set
         {
-            _ActiveSketchTool = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
-
-    string _ActiveSketchTool;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -96,12 +80,10 @@ public sealed class EditorState : BaseObject, IDisposable
             _CurrentSketchEditorTool.PropertyChanged -= _SketchEditorTool_PropertyChanged;
             _CurrentSketchEditorTool = null;
             ActiveSketchTool = "";
-            SketchGroupVisible = false;
         }
 
         if (sketchEditorTool != null)
         {
-            SketchGroupVisible = true;
             _CurrentSketchEditorTool = sketchEditorTool;
             _CurrentSketchEditorTool.PropertyChanged += _SketchEditorTool_PropertyChanged;
             RaisePropertyChanged(nameof(SketchClipPlaneEnabled));
@@ -134,30 +116,26 @@ public sealed class EditorState : BaseObject, IDisposable
     [SerializeMember]
     public TransformTool.PivotPoint TransformPivot
     {
-        get { return _TransformPivot; }
+        get;
         set
         {
-            _TransformPivot = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
-
-    TransformTool.PivotPoint _TransformPivot;
 
     //--------------------------------------------------------------------------------------------------
 
     [SerializeMember]
     public TransformTool.Options TransformOptions
     {
-        get { return _TransformOptions; }
+        get;
         set
         {
-            _TransformOptions = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
-
-    TransformTool.Options _TransformOptions;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -168,29 +146,25 @@ public sealed class EditorState : BaseObject, IDisposable
     [SerializeMember]
     public ViewportController.RubberbandSelectionMode RubberbandSelectionMode
     {
-        get { return _RubberbandSelectionMode; }
+        get;
         set
         {
-            _RubberbandSelectionMode = value; 
+            field = value; 
             RaisePropertyChanged();
         }
     }
-
-    ViewportController.RubberbandSelectionMode _RubberbandSelectionMode;
 
     //--------------------------------------------------------------------------------------------------
 
     public bool RubberbandIncludeTouched
     {
-        get { return _RubberbandIncludeTouched; }
+        get;
         set
         {
-            _RubberbandIncludeTouched = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
-
-    bool _RubberbandIncludeTouched;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -215,79 +189,71 @@ public sealed class EditorState : BaseObject, IDisposable
     #endregion
 
     #region Snapping
-        
+
     [SerializeMember]
     public bool SnapToGridSelected
     {
-        get { return _SnapToGridSelected; }
+        get;
         set
         {
-            if (_SnapToGridSelected != value)
+            if (field != value)
             {
-                _SnapToGridSelected = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
     }
-
-    bool _SnapToGridSelected;
 
     //--------------------------------------------------------------------------------------------------
 
     [SerializeMember]
     public bool SnapToVertexSelected
     {
-        get { return _SnapToVertexSelected; }
+        get;
         set
         {
-            if (_SnapToVertexSelected != value)
+            if (field != value)
             {
-                _SnapToVertexSelected = value;
+                field = value;
                 RaisePropertyChanged();
                 _WorkspaceController?.Selection?.Invalidate();
             }
         }
     }
-
-    bool _SnapToVertexSelected;
 
     //--------------------------------------------------------------------------------------------------
 
     [SerializeMember]
     public bool SnapToEdgeSelected
     {
-        get { return _SnapToEdgeSelected; }
+        get;
         set
         {
-            if (_SnapToEdgeSelected != value)
+            if (field != value)
             {
-                _SnapToEdgeSelected = value;
+                field = value;
                 RaisePropertyChanged();
                 _WorkspaceController?.Selection?.Invalidate();
             }
         }
     }
-
-    bool _SnapToEdgeSelected;
 
     //--------------------------------------------------------------------------------------------------
 
     [SerializeMember]
     public bool SnappingEnabled
     {
-        get { return _SnappingEnabled; }
+        get;
         set
         {
-            if (_SnappingEnabled != value)
+            if (field != value)
             {
-                _SnappingEnabled = value;
+                field = value;
                 RaisePropertyChanged();
                 _WorkspaceController?.Selection?.Invalidate();
             }
         }
     }
-
-    bool _SnappingEnabled;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -310,18 +276,16 @@ public sealed class EditorState : BaseObject, IDisposable
     [SerializeMember]
     public DocumentFilterFlags DocumentFilterFlags
     {
-        get { return _DocumentFilterFlags; }
+        get;
         set
         {
-            if (_DocumentFilterFlags == value)
+            if (field == value)
                 return;
 
-            _DocumentFilterFlags = value; 
+            field = value; 
             RaisePropertyChanged();
         }
-    }
-
-    DocumentFilterFlags _DocumentFilterFlags = DocumentFilterFlags.None;
+    } = DocumentFilterFlags.None;
 
     //--------------------------------------------------------------------------------------------------
 

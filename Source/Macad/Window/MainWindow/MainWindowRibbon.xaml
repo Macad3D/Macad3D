@@ -15,8 +15,7 @@
                    AutomaticStateManagement="False"
                    ContentHeight="90" 
                    ContentGapHeight="2"
-                   CanUseSimplified="False"
-                   >
+                   CanUseSimplified="False">
 
         <!--region Quick access -->
         <Fluent:Ribbon.QuickAccessItems>
@@ -31,8 +30,7 @@
             <Fluent:RibbonContextualTabGroup x:Name="SketchGroup" 
                                              Header="Sketch" 
                                              Background="Green"
-                                             Visibility="{Binding Context.EditorState.SketchGroupVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}" 
-                                             IsVisibleChanged="_ContextualGroup_IsVisibleChanged"/>
+                                             Visibility="{Binding IsSketchGroupVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
         </Fluent:Ribbon.ContextualGroups>
         <!--endregion-->
 
@@ -703,6 +701,7 @@
         <!--region Sketch -->
         <Fluent:RibbonTabItem Header="SKETCH" 
                               Group="{Binding ElementName=SketchGroup}" 
+                              IsSelected="{Binding IsSketchTabSelected}"
                               ReduceOrder="Segment,Constraint,Constraint,Tools"
                               AutomationProperties.AutomationId="Sketch">
             <Fluent:RibbonGroupBox Name="Segment" Header="Create Segment">

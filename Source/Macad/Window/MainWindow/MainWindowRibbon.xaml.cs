@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,21 +18,6 @@ public partial class MainWindowRibbon : UserControl
     {
         InitializeComponent();
         RibbonLocalization.Current.Culture = CultureInfo.InvariantCulture;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _ContextualGroup_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-    {
-        if ((!(bool)e.OldValue) && (bool)e.NewValue)
-        {
-            var group = sender as RibbonContextualTabGroup;
-            var tabItem = group?.Items.FirstOrDefault();
-            if (tabItem != null)
-            {
-                Dispatcher.BeginInvoke(() => tabItem.IsSelected = true);
-            }
-        }
     }
 
     //--------------------------------------------------------------------------------------------------
