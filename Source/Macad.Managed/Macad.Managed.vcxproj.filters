@@ -180,6 +180,10 @@
     <ClCompile Include="AisExtensions\AISX_OutlinePostProcess.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
+    <ClCompile Include="$(EmbeddedBinariesOutFile)" />
+    <ClCompile Include="OcctHelper\V3dHelper.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc" />

@@ -517,7 +517,7 @@ public class TaperToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(157, 292);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetClamp01"));
-            ctx.MoveTo(157, 292, ModifierKeys.Control);
+            ctx.MoveTo(157, 292, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(4.0, taper.Offset);
@@ -741,7 +741,7 @@ public class TaperToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(74, 278);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleClamp01"));
-            ctx.MoveTo(74, 278, ModifierKeys.Control);
+            ctx.MoveTo(74, 278, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(40.0, taper.Angle);

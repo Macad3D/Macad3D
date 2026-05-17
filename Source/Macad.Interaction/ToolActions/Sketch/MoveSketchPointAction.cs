@@ -286,7 +286,7 @@ public class MoveSketchPointAction : ToolAction
             }
             else if (_CircleGizmo != null && Equals(data.DetectedAisObject, _CircleGizmo.AisObject))
             {
-                if (WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
+                if (WorkspaceController.ViewportController.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
                 {
                     var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
                     _RotateStartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
@@ -402,7 +402,7 @@ public class MoveSketchPointAction : ToolAction
             }
             else
             {
-                _Snap();
+                _Snap(data.ViewportController);
             }
             _ApplyConstraints();
                 
@@ -436,7 +436,7 @@ public class MoveSketchPointAction : ToolAction
         else if (_Rotating)
         {
             Pnt resultPnt;
-            if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+            if (!WorkspaceController.ViewportController.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
                 return false;
 
             var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
@@ -527,11 +527,11 @@ public class MoveSketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    void _Snap()
+    void _Snap(ViewportController viewportController)
     {
         var snapCount = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping;
         var points = _Points.Take(snapCount).Select(index => _Sketch.Points[index].Translated(_MoveDelta)).ToList();
-        var snapInfo = _SnapHandler.Snap(points, out var snappedPointListIndex);
+        var snapInfo = _SnapHandler.Snap(viewportController, points, out var snappedPointListIndex);
         if (snapInfo.Mode != SnapModes.None)
         {
             int pointIndex = _Points[snappedPointListIndex];
@@ -551,7 +551,7 @@ public class MoveSketchPointAction : ToolAction
             return null;
 
         Dictionary<int, int> mergeCandidates = new();
-        double mergeDistance = WorkspaceController.ActiveViewControlller.GizmoScale * 0.2; 
+        double mergeDistance = WorkspaceController.ViewportController.GizmoScale * 0.2; 
         HashSet<int> pointSet = [.._Points];
 
         foreach (var point in _Points)

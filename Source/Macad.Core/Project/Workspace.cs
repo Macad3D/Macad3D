@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Macad.Core.Topology;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Common.Serialization;
+using Macad.Core.Topology;
 using Macad.Occt;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Macad.Core;
 
@@ -15,7 +16,43 @@ public sealed class Workspace : BaseObject, IDisposable
     [SerializeMember]
     public List<Viewport> Viewports { get; private set; }
 
-    public Model Model { get; private set; }
+    //--------------------------------------------------------------------------------------------------
+
+    public Viewport Viewport
+    {
+        get
+        {
+            return field ?? (Viewports.Count > 0 ? Viewports[0] : null);
+        }
+        set
+        {
+            if (field != value)
+            {
+                var oldViewport = field;
+                field = value;
+                RaisePropertyChanged();
+                CoreContext.Current?.OnViewportActivated(oldViewport, value);
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [SerializeMember]
+    public IViewportFrame ViewportLayout
+    {
+        get { return _ViewportLayout; }
+        set
+        {
+            if (_ViewportLayout != value)
+            {
+                _ViewportLayout = value;
+                _EnsureViewportCount(_ViewportLayout.GetContentFrames().Max(frame => frame.ViewportIndex) + 1);
+                Model.MarkAsUnsaved();
+                RaisePropertyChanged();
+            }
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -148,8 +185,12 @@ public sealed class Workspace : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
+    public Model Model { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
-                
+
     #region Events
 
     public delegate void GridChangedEventHandler(Workspace sender);
@@ -181,8 +222,9 @@ public sealed class Workspace : BaseObject, IDisposable
 
     bool _GridEnabled;
 
-    readonly WorkingContext _GlobalWorkingContext = new WorkingContext();
+    readonly WorkingContext _GlobalWorkingContext = new();
     WorkingContext _CurrentWorkingContext;
+    IViewportFrame _ViewportLayout;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -200,11 +242,7 @@ public sealed class Workspace : BaseObject, IDisposable
     internal Workspace(Model model)
     {
         Init();
-
         Model = model;
-
-        // Create default setup
-        Viewports.Add(new Viewport(this));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -218,8 +256,9 @@ public sealed class Workspace : BaseObject, IDisposable
 
     void Init()
     {
-        Viewports = new List<Viewport>();
-
+        Viewports = [new(this)];
+        _ViewportLayout = new ViewportContentFrame { ViewportIndex = 0 };
+        _EnsureViewportCount(_ViewportLayout.GetContentFrames().Max(frame => frame.ViewportIndex) + 1);
         _CurrentWorkingContext = _GlobalWorkingContext;
 
         _GridEnabled = true;
@@ -273,9 +312,40 @@ public sealed class Workspace : BaseObject, IDisposable
                 break;
         }
     }
-        
+
     //--------------------------------------------------------------------------------------------------
- 
+
     #endregion
 
+    #region Viewports
+
+    void _EnsureViewportCount(int count)
+    {
+        if (Viewports.Count == count)
+        {
+            return;
+        }
+
+        while (Viewports.Count < count)
+        {
+            var viewport = new Viewport(this);
+            Viewports.Add(viewport);
+        }
+
+        RaisePropertyChanged(nameof(Viewports));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal Viewport CreateViewport()
+    {
+        var viewport = new Viewport(this);
+        Viewports.Add(viewport);
+        RaisePropertyChanged(nameof(Viewports));
+        return viewport;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }

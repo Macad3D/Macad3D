@@ -358,7 +358,7 @@ public class FlangeSheetToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(174, 370);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleClamp01"));
-            ctx.MoveTo(174, 370, ModifierKeys.Control);
+            ctx.MoveTo(174, 370, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(50.0, flange.Angle);
@@ -385,7 +385,7 @@ public class FlangeSheetToolTests
 
         ctx.MoveTo(174, 353);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(174, 370, ModifierKeys.Control);
+        ctx.MoveTo(174, 370, modifierKeys: ModifierKeys.Control);
         ctx.ViewportController.MouseUp();
         ctx.WorkspaceController.StopEditor();
             
@@ -545,7 +545,7 @@ public class FlangeSheetToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(165, 307);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLengthClamp01"));
-            ctx.MoveTo(165, 307, ModifierKeys.Control);
+            ctx.MoveTo(165, 307, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLengthClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(2.0, flange.Length);
@@ -573,7 +573,7 @@ public class FlangeSheetToolTests
 
         ctx.MoveTo(131, 197);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(165, 307, ModifierKeys.Control);
+        ctx.MoveTo(165, 307, modifierKeys: ModifierKeys.Control);
         ctx.ViewportController.MouseUp();
         ctx.WorkspaceController.StopEditor();
             
@@ -723,7 +723,7 @@ public class FlangeSheetToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(271, 431);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusClamp01"));
-            ctx.MoveTo(271, 431, ModifierKeys.Control);
+            ctx.MoveTo(271, 431, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(5.0, flange.Radius);
@@ -752,7 +752,7 @@ public class FlangeSheetToolTests
 
         ctx.MoveTo(265, 372);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(271, 431, ModifierKeys.Control);
+        ctx.MoveTo(271, 431, modifierKeys: ModifierKeys.Control);
         ctx.ViewportController.MouseUp();
         ctx.WorkspaceController.StopEditor();
             
@@ -932,7 +932,7 @@ public class FlangeSheetToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(183, 257);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveStartGapClamp01"));
-            ctx.MoveTo(183, 257, ModifierKeys.Control);
+            ctx.MoveTo(183, 257, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveStartGapClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(4.0, flange.StartGap);
@@ -961,7 +961,7 @@ public class FlangeSheetToolTests
 
         ctx.MoveTo(215, 215);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(183, 257, ModifierKeys.Control);
+        ctx.MoveTo(183, 257, modifierKeys: ModifierKeys.Control);
         ctx.ViewportController.MouseUp();
         ctx.WorkspaceController.StopEditor();
             
@@ -1143,7 +1143,7 @@ public class FlangeSheetToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(149, 311);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveEndGapClamp01"));
-            ctx.MoveTo(149, 311, ModifierKeys.Control);
+            ctx.MoveTo(149, 311, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveEndGapClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(4.0, flange.EndGap);
@@ -1172,7 +1172,7 @@ public class FlangeSheetToolTests
 
         ctx.MoveTo(121, 347);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(149, 311, ModifierKeys.Control);
+        ctx.MoveTo(149, 311, modifierKeys: ModifierKeys.Control);
         ctx.ViewportController.MouseUp();
         ctx.WorkspaceController.StopEditor();
             

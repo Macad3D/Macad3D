@@ -17,41 +17,34 @@ public abstract class CoreContext: BaseObject, IDisposable
     /// </summary>
     public static CoreContext Current
     {
-        get { return _Current; }
+        get { return field; }
         set
         {
-            _Current?.Dispose();
-            _Current = value;
+            field?.Dispose();
+            field = value;
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// The currently active workspace.
+    /// </summary>
     public virtual Workspace Workspace
     {
         get { return _Workspace; }
         protected set
         {
             _Workspace = value;
-            Viewport = _Workspace?.Viewports.FirstOrDefault();
             RaisePropertyChanged();
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public virtual Viewport Viewport
-    {
-        get { return _Viewport; }
-        protected set
-        {
-            _Viewport = value;
-            RaisePropertyChanged();
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    /// <summary>
+    /// The currently active document.
+    /// </summary>
     public virtual Model Document
     {
         get { return _Document; }
@@ -126,7 +119,6 @@ public abstract class CoreContext: BaseObject, IDisposable
         }
 
         _Workspace = null;
-        _Viewport = null;
         _Document = null;
     }
 
@@ -151,12 +143,21 @@ public abstract class CoreContext: BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    static CoreContext _Current;
     Model _Document;
     Workspace _Workspace;
-    Viewport _Viewport;
     ParameterSets _ParameterSets;
 
     //--------------------------------------------------------------------------------------------------
+
+    #region Events
+
+    protected internal virtual void OnViewportActivated(Viewport oldViewport, Viewport newViewport)
+    {
+        // Left empty by intent, can be used by derived classes to react on viewport changes
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 
 }

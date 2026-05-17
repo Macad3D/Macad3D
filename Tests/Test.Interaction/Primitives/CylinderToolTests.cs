@@ -77,12 +77,12 @@ public class CylinderToolTests
             // Center point
             ctx.ClickAt(250, 250);
             // Radius
-            ctx.MoveTo(450, 250, ModifierKeys.Control);
+            ctx.MoveTo(450, 250, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderClamp1"));
             ctx.ClickAt(450, 250, ModifierKeys.Control);
 
             // Height
-            ctx.MoveTo(450, 200, ModifierKeys.Control);
+            ctx.MoveTo(450, 200, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderClamp2"));
             ctx.ClickAt(450, 200, ModifierKeys.Control);
 
@@ -110,7 +110,7 @@ public class CylinderToolTests
             // Radius
             ctx.ClickAt(450, 250, ModifierKeys.Control);
             // Height
-            ctx.MoveTo(450, 300, ModifierKeys.Control);
+            ctx.MoveTo(450, 300, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateNegativeHeight01"));
             ctx.ClickAt(450, 300, ModifierKeys.Control);
 
@@ -381,14 +381,14 @@ public class CylinderToolTests
         ctx.WorkspaceController.Workspace.GridStep = 5.0;
         Assert.Multiple(() =>
         {
-            ctx.MoveTo(476, 183, ModifierKeys.Control);
+            ctx.MoveTo(476, 183, modifierKeys: ModifierKeys.Control);
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(435, 205, ModifierKeys.Control);
+            ctx.MoveTo(435, 205, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped02"));
             
-            ctx.MoveTo(342, 232, ModifierKeys.Control);
+            ctx.MoveTo(342, 232, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped03"));
 
             ctx.ViewportController.MouseUp();
@@ -410,11 +410,11 @@ public class CylinderToolTests
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
         {
-            ctx.MoveTo(476, 183, ModifierKeys.Shift);
+            ctx.MoveTo(476, 183, modifierKeys: ModifierKeys.Shift);
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(435, 205, ModifierKeys.Shift);
+            ctx.MoveTo(435, 205, modifierKeys: ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter02"));
             ctx.MoveTo(435, 205);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter03"));

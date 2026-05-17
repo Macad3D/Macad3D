@@ -225,6 +225,52 @@
 
     <!--endregion-->
 
+    <!--region MenuItem-->
+    <Style x:Key="Macad.Styles.MenuItem.LargeIcon" TargetType="{x:Type MenuItem}">
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="border"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0"
+                            Width="Auto"
+                            Background="{mmp:AppResource Macad.Brushes.Popup.Background}"
+                            BorderBrush="{mmp:AppResource Macad.Brushes.Popup.Background}"
+                            BorderThickness="1">
+                        <ContentPresenter x:Name="iconImage"
+                              HorizontalAlignment="Center" 
+                              VerticalAlignment="Center"
+                              Content="{fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '32,32', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
+                              Margin="2"
+                              SnapsToDevicePixels="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsHighlighted" Value="True" />
+                                <Condition Property="IsEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{mmp:AppResource Macad.Brushes.Button.MouseOver.Border}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="iconImage" Value="0.5" />
+                            <Setter Property="Effect" TargetName="iconImage">
+                                <Setter.Value>
+                                    <fluent:GrayscaleEffect />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--endregion-->
+
     <!--region ContextMenu-->
 
     <Style TargetType="{x:Type ContextMenu}">

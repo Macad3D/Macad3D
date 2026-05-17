@@ -665,21 +665,29 @@
 
             <Fluent:RibbonGroupBox Header="Zoom">
 
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitAll}" />
-
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitSelected}" />
-
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomIn}" />
 
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomOut}" />
+
+                <Fluent:Button CommandParameter="false"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitAll}" />
+
+                <Fluent:Button CommandParameter="false"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitSelected}" />
+
+                <Fluent:Button CommandParameter="true"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitAll}" />
+
+                <Fluent:Button CommandParameter="true"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitSelected}" />
 
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Display">
 
                 <Fluent:DropDownButton Header="Render Mode"
-                                       LargeIcon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
-                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
+                                       LargeIcon="{Binding Context.Workspace.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
+                                       Icon="{Binding Context.Workspace.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
                                        AutomationProperties.AutomationId="ViewRenderMode">
                     <Fluent:GroupSeparatorMenuItem Header="Render Mode" />
                     <Fluent:MenuItem CommandParameter="SolidShaded"
@@ -693,6 +701,76 @@
                                      AutomationProperties.AutomationId="ViewRenderModeRaytraced" />
 
                 </Fluent:DropDownButton>
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Layout">
+
+                <Fluent:DropDownButton Header="Change Layout"
+                                       ToolTip="Change the viewport layout to show multiple views at the same time."
+                                       LargeIcon="{mmp:IconResource View-LayoutQuad}"
+                                       Icon="{mmp:IconResource View-LayoutQuad}"
+                                       AutomationProperties.AutomationId="ViewportLayout">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Fluent:MenuItem CommandParameter="Single"
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutSingle"/>
+                            <Fluent:MenuItem CommandParameter="DualVertical" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutDualVertical"/>
+                            <Fluent:MenuItem CommandParameter="DualHorizontal" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutDualHorizontal"/>
+                            <Fluent:MenuItem CommandParameter="Quad" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutQuad"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Fluent:MenuItem CommandParameter="TripleRight" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutTripleRight"/>
+                            <Fluent:MenuItem CommandParameter="TripleLeft" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutTripleLeft"/>
+                            <Fluent:MenuItem CommandParameter="TripleBottom" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutTripleBottom"/>
+                            <Fluent:MenuItem CommandParameter="TripleTop" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutTripleTop"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Fluent:MenuItem CommandParameter="QuadRight" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutQuadRight"/>
+                            <Fluent:MenuItem CommandParameter="QuadLeft" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutQuadLeft"/>
+                            <Fluent:MenuItem CommandParameter="QuadBottom" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutQuadBottom"/>
+                            <Fluent:MenuItem CommandParameter="QuadTop" 
+                                             mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ChangeViewportLayout}" 
+                                             Style="{mmp:AppResource Macad.Styles.MenuItem.LargeIcon}"
+                                             AutomationProperties.AutomationId="ViewportLayoutQuadTop"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Fluent:DropDownButton>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleMaximizeViewport}"
+                                     AutomationProperties.AutomationId="ToggleMaximizeViewport"/>
 
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>

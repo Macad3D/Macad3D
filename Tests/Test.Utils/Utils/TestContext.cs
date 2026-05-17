@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
@@ -7,6 +8,7 @@ using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Interaction.Panels;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -19,6 +21,9 @@ public sealed class Context : InteractiveContext
     //--------------------------------------------------------------------------------------------------
 
     public TestHudManager TestHudManager => WorkspaceController.HudManager as TestHudManager;
+    internal ViewportRenderWindow RenderWindow { get; private set; }
+    public IViewportMouseControl MouseControl { get; set; } = new ViewportMouseControlDefault();
+    public IViewportTouchControl TouchControl { get; set; } = new ViewportTouchControlDefault();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -44,6 +49,8 @@ public sealed class Context : InteractiveContext
         if (disposing)
         {
             MessageHandler.MessageThrown -= MessageHub_MessageThrown;
+            RenderWindow?.Dispose();
+            RenderWindow = null;
         }
 
         base.Dispose(disposing);
@@ -55,7 +62,6 @@ public sealed class Context : InteractiveContext
     {
         Current?.Dispose();
         Current = new Context();
-
 
         return Current;
     }
@@ -81,7 +87,8 @@ public sealed class Context : InteractiveContext
     {
         InitWithDefault();
 
-        Current.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
+        Current.RenderWindow = new (Current.WorkspaceController, Color.Black, 1.0);
+        Current.RenderWindow.Init(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
 
         // Neutralize View
         var ocView = Current.ViewportController.V3dView;
@@ -115,6 +122,23 @@ public sealed class Context : InteractiveContext
 
     //--------------------------------------------------------------------------------------------------
 
+    protected override void RaisePropertyChanged(string propertyName = "")
+    {
+        base.RaisePropertyChanged(propertyName);
+        if (propertyName == nameof(InteractiveContext.WorkspaceController))
+        {
+            if (RenderWindow != null)
+            {
+                var size = RenderWindow.Size();
+                RenderWindow.Dispose();
+                RenderWindow = new(Current.WorkspaceController, Color.Black, 1.0);
+                RenderWindow.Init(IntPtr.Zero, new Int32Rect(0, 0, size.Width, size.Height));
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public void Deinit()
     {
         InitEmpty();
@@ -124,26 +148,47 @@ public sealed class Context : InteractiveContext
 
     public void ClickAt(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
     {
-        ViewportController.MouseMove(new Point(x, y), modifierKeys);
-        ViewportController.MouseDown(modifierKeys);
-        ViewportController.MouseUp(modifierKeys);
+        WorkspaceController.ViewportLayoutManager.FindViewport(new(x, y), out var viewport, out var viewportPosition);
+        MouseControl?.MouseMove(viewport, viewportPosition, MouseButtons.None, modifierKeys);
+        MouseControl?.MouseDown(viewport, viewportPosition, MouseButtons.Left, 1, MouseButtons.Left, modifierKeys);
+        MouseControl?.MouseUp(viewport, viewportPosition, MouseButtons.Left, MouseButtons.None, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public void SelectAt(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
     {
-        ViewportController.MouseMove(new Point(x, y), modifierKeys);
-        ViewportController.MouseDown(modifierKeys);
-        ViewportController.MouseUp(modifierKeys);
-        ViewportController.MouseMove(new Point(0, 0), modifierKeys);
+        WorkspaceController.ViewportLayoutManager.FindViewport(new(x, y), out var viewport, out var viewportPosition);
+        MouseControl?.MouseMove(viewport, viewportPosition, MouseButtons.None, modifierKeys);
+        MouseControl?.MouseDown(viewport, viewportPosition, MouseButtons.Left, 1, MouseButtons.Left, modifierKeys);
+        MouseControl?.MouseUp(viewport, viewportPosition, MouseButtons.Left, MouseButtons.None, modifierKeys);
+        MouseControl?.MouseMove(viewport, new(0, 0), MouseButtons.None, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MoveTo(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
+    public void MouseDown(int x, int y, MouseButtons buttons, ModifierKeys modifierKeys = ModifierKeys.None)
     {
-        ViewportController.MouseMove(new Point(x, y), modifierKeys);
+        Debug.Assert(buttons != MouseButtons.None);
+        WorkspaceController.ViewportLayoutManager.FindViewport(new(x, y), out var viewport, out var viewportPosition);
+        MouseControl?.MouseDown(viewport, viewportPosition, buttons, 1, buttons, modifierKeys);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void MouseUp(int x, int y, MouseButtons buttons, ModifierKeys modifierKeys = ModifierKeys.None)
+    {
+        Debug.Assert(buttons != MouseButtons.None);
+        WorkspaceController.ViewportLayoutManager.FindViewport(new(x, y), out var viewport, out var viewportPosition);
+        MouseControl?.MouseUp(viewport, viewportPosition, buttons, MouseButtons.None, modifierKeys);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void MoveTo(int x, int y, MouseButtons pressedButtons = MouseButtons.None, ModifierKeys modifierKeys = ModifierKeys.None)
+    {
+        WorkspaceController.ViewportLayoutManager.FindViewport(new(x, y), out var viewport, out var viewportPosition);
+        MouseControl?.MouseMove(viewport, viewportPosition, pressedButtons, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------

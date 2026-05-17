@@ -261,7 +261,7 @@ public class CircularArrayToolTests
         {
             ctx.MoveTo(283, 232);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(316, 186, ModifierKeys.Control);
+            ctx.MoveTo(316, 186, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusClamp01"));
             Assert.AreEqual(90.0, array.Radius);
@@ -372,7 +372,7 @@ public class CircularArrayToolTests
         {
             ctx.MoveTo(284, 254);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(324, 282, ModifierKeys.Control);
+            ctx.MoveTo(324, 282, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOriginalAngleClamp01"));
             Assert.AreEqual(-10.0, array.OriginalAngle);

@@ -9,7 +9,7 @@ namespace Macad
 	{
 		namespace Helper
 		{
-			public ref class Graphic3d
+			public ref class Graphic3dHelper
 			{
 			public:
 				static Macad::Occt::Graphic3d_GraphicDriver^ CreateOpenGlDriver()

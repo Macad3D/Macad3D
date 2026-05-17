@@ -1,6 +1,7 @@
 ﻿using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
+using System;
 
 namespace Macad.Interaction.Visual;
 
@@ -57,7 +58,11 @@ public abstract class VisualObject
     //--------------------------------------------------------------------------------------------------
         
     public InteractiveEntity Entity { get; }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public ViewportController[] ViewAffinity { get; set; }
+
     //--------------------------------------------------------------------------------------------------
 
     public abstract void Remove();
@@ -98,7 +103,28 @@ public abstract class VisualObject
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    protected void ApplyViewAffinity()
+    {
+        if (AisObject == null)
+            return;
+
+        if (ViewAffinity is { Length: > 0 })
+        {
+            AisObject.ViewAffinity().SetVisible(false);
+            foreach (var vc in ViewAffinity)
+            {
+                AisContext.SetViewAffinity(AisObject, vc.V3dView, true);
+            }
+        }
+        else
+        {
+            AisObject.ViewAffinity().SetVisible(true);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
     #region Events
 
     public delegate void AisObjectChangedEventHandler(VisualObject visualObject);

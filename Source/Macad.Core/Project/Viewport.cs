@@ -1,8 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
+using System;
 
 namespace Macad.Core;
 
@@ -10,6 +9,15 @@ namespace Macad.Core;
 public sealed class Viewport : BaseObject, IDisposable
 {
     #region Properties
+
+    [SerializeMember]
+    public string Name
+    {
+        get { return field ?? ""; }
+        set;
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [SerializeMember]
     public Pnt EyePoint
@@ -117,9 +125,9 @@ public sealed class Viewport : BaseObject, IDisposable
     }
 
     //--------------------------------------------------------------------------------------------------
-
+    
     #endregion
-            
+
     #region Enumerations
 
     public enum RenderModes
@@ -137,11 +145,11 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public delegate void ViewportChangedEventHandler(Viewport sender);
         
-    public static event ViewportChangedEventHandler ViewportChanged;
+    public static event ViewportChangedEventHandler ParameterChanged;
 
     void _RaiseViewportChanged()
     {
-        ViewportChanged?.Invoke(this);
+        ParameterChanged?.Invoke(this);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -184,7 +192,7 @@ public sealed class Viewport : BaseObject, IDisposable
 
         base.OnBeginDeserializing(context);
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public void Dispose()

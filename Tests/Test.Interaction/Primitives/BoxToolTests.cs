@@ -78,12 +78,12 @@ public class BoxToolTests
             ctx.ClickAt(50, 250);
 
             // Right corner
-            ctx.MoveTo(450, 250, ModifierKeys.Control);
+            ctx.MoveTo(450, 250, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClamp1"));
             ctx.ClickAt(450, 250, ModifierKeys.Control);
 
             // Height
-            ctx.MoveTo(450, 200, ModifierKeys.Control);
+            ctx.MoveTo(450, 200, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClamp2"));
             ctx.ClickAt(450, 200, ModifierKeys.Control);
 
@@ -111,12 +111,12 @@ public class BoxToolTests
             ctx.ClickAt(450, 200);
 
             // Right corner
-            ctx.MoveTo(50, 200, ModifierKeys.Control);
+            ctx.MoveTo(50, 200, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClampNegative1"));
             ctx.ClickAt(50, 200, ModifierKeys.Control);
 
             // Height
-            ctx.MoveTo(50, 250, ModifierKeys.Control);
+            ctx.MoveTo(50, 250, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClampNegative2"));
             ctx.ClickAt(50, 250, ModifierKeys.Control);
 
@@ -337,10 +337,10 @@ public class BoxToolTests
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(400, 170, ModifierKeys.Control);
+            ctx.MoveTo(400, 170, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped02"));
             
-            ctx.MoveTo(344, 211, ModifierKeys.Control);
+            ctx.MoveTo(344, 211, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamped03"));
             ctx.ViewportController.MouseUp();
 
@@ -366,7 +366,7 @@ public class BoxToolTests
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(400, 170, ModifierKeys.Shift);
+            ctx.MoveTo(400, 170, modifierKeys: ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter02"));
             ctx.MoveTo(400, 170);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter03"));

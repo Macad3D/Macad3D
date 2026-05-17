@@ -14,10 +14,10 @@ public partial class ViewportGridInfo : PanelBase
 
     public bool Visible
     {
-        get { return _Visible; }
+        get { return field; }
         private set
         {
-            _Visible = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
@@ -26,10 +26,10 @@ public partial class ViewportGridInfo : PanelBase
 
     public double LineWidth
     {
-        get { return _LineWidth; }
+        get { return field; }
         private set
         {
-            _LineWidth = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
@@ -38,10 +38,10 @@ public partial class ViewportGridInfo : PanelBase
 
     public bool SecondStep
     {
-        get { return _SecondStep; }
+        get { return field; }
         private set
         {
-            _SecondStep = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
@@ -50,9 +50,6 @@ public partial class ViewportGridInfo : PanelBase
 
     WorkspaceController _WorkspaceController;
     ViewportController _ViewportController;
-    bool _Visible;
-    double _LineWidth;
-    bool _SecondStep;
     double _AvailableWidth = 200;
 
     //--------------------------------------------------------------------------------------------------
@@ -60,14 +57,18 @@ public partial class ViewportGridInfo : PanelBase
     public ViewportGridInfo()
     {
         InteractiveContext.Current.PropertyChanged += _Context_PropertyChanged;
-        _Context_PropertyChanged(InteractiveContext.Current, new PropertyChangedEventArgs(nameof(InteractiveContext.Viewport)));
+        _Context_PropertyChanged(InteractiveContext.Current, new(nameof(InteractiveContext.ViewportController)));
+
+        InteractiveContext.Current.ActiveViewportChanged += _Current_ActiveViewportChanged;
+        _Current_ActiveViewportChanged(InteractiveContext.Current, new());
+
 
         DataContext = this;
         InitializeComponent();
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     void _Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
@@ -82,19 +83,6 @@ public partial class ViewportGridInfo : PanelBase
             {
                 _WorkspaceController.PropertyChanged += _WorkspaceController_PropertyChanged;
                 _WorkspaceController.Workspace.PropertyChanged += _Workspace_PropertyChanged;
-            }
-        }
-        else if (e.PropertyName == nameof(InteractiveContext.ViewportController))
-        {
-            if (_ViewportController != null)
-            {
-                _ViewportController.PropertyChanged -= _ViewportController_PropertyChanged;
-            }
-            _ViewportController = InteractiveContext.Current.ViewportController;
-            if (_ViewportController != null)
-            {
-                _ViewportController.PropertyChanged += _ViewportController_PropertyChanged;
-                _ViewportController_PropertyChanged(_ViewportController, new(nameof(ViewportController.PixelSize)));
             }
         }
     }
@@ -122,6 +110,19 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    void _Current_ActiveViewportChanged(InteractiveContext sender, InteractiveContext.ActiveViewportChangedEventArgs _)
+    {
+        _ViewportController?.PropertyChanged -= _ViewportController_PropertyChanged;
+        _ViewportController = sender.ViewportController;
+        if (_ViewportController != null)
+        {
+            _ViewportController.PropertyChanged += _ViewportController_PropertyChanged;
+            _ViewportController_PropertyChanged(_ViewportController, new(nameof(ViewportController.PixelSize)));
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _ViewportController_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ViewportController.PixelSize))
@@ -134,6 +135,9 @@ public partial class ViewportGridInfo : PanelBase
 
     double _CalcLineWidth(double viewportWidth)
     {
+        if(_ViewportController == null)
+            return 1;
+
         return viewportWidth / _ViewportController.PixelSize / _ViewportController.DpiScale;
     }
 

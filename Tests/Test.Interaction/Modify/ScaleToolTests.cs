@@ -288,7 +288,7 @@ public class ScaleToolTests
             // X
             ctx.MoveTo(188, 272);
             ctx.ViewportController.MouseDown(ModifierKeys.Control);
-            ctx.MoveTo(213, 260, ModifierKeys.Control);
+            ctx.MoveTo(213, 260, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSketchClamp01"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(1.55, scale.Factor.X);

@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Test.Core" />
+    <InternalsVisibleTo Include="Test.Interaction" />
     <InternalsVisibleTo Include="Test.Utils" />
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>

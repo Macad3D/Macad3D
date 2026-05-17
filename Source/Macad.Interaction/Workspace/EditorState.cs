@@ -171,7 +171,7 @@ public sealed class EditorState : BaseObject, IDisposable
     #endregion
 
     #region Workspace
-    
+
     WorkspaceController _WorkspaceController;
 
     //--------------------------------------------------------------------------------------------------

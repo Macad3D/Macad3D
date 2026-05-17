@@ -59,13 +59,13 @@ public static class AssertHelper
         var fullPath = Path.Combine(TestData.TestDataDirectory, referenceFilename);
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
-        int width = 0, height = 0;
-        Context.Current.ViewportController.V3dView.Window().Size(ref width, ref height);
+        var (width, height) = Context.Current.WorkspaceController.ViewportLayoutManager.GetSize();
 
         // Get screenshot
         var screenshot = new Image_AlienPixMap();
         screenshot.InitZero(Image_Format.RGB, (ulong)width, (ulong)height);
-        Context.Current.ViewportController.V3dView.ToPixMap(screenshot, (int)width, (int)height);
+        V3d_View view = Context.Current.WorkspaceController.ViewportLayoutManager.V3dComposerView ?? Context.Current.ViewportController.V3dView;
+        view.ToPixMap(screenshot, (int)width, (int)height);
 
         // Load Reference
         var refshot = new Image_AlienPixMap();

@@ -60,7 +60,6 @@ public class DeployDataTests
         }
 
         // Screenshot
-        ctx.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, 500, 500));
         ctx.ViewportController.ZoomFitAll();
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"Samples_{Path.GetFileNameWithoutExtension(filename)}"), 0.1);
     }

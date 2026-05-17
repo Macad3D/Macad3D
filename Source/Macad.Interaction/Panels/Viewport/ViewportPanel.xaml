@@ -5,6 +5,7 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                     xmlns:panels="clr-namespace:Macad.Interaction.Panels"
                      mc:Ignorable="d" 
                      d:DesignHeight="300" d:DesignWidth="300" 
                      Focusable="True" 
@@ -17,8 +18,8 @@
                     ForceCursor="True">
 
                 <Grid x:Name="HudContainer" Visibility="Hidden"
-                          HorizontalAlignment="Left" VerticalAlignment="Top"
-                          IsSharedSizeScope="True">
+                      HorizontalAlignment="Left" VerticalAlignment="Top"
+                      IsSharedSizeScope="True">
                     <Border
                         Visibility="{Binding HudElements.Count, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=0}"
                         CornerRadius="3"
@@ -33,10 +34,68 @@
 
                         </mmp:TemplateItemsControl>
                     </Border>
-
                 </Grid>
+
             </Border>
 
+            <!--region Active viewport-->
+            <Border x:Name="ActiveViewport"
+                    BorderThickness="2"
+                    Visibility="{Binding HasMultipleViewports, Converter={mmp:BoolToVisibleCollapsedConverter}}"
+                    BorderBrush="{StaticResource Macad.Brushes.Accent}"
+                    Margin="{Binding ActiveViewportMargin}">
+
+                <!--region Grid Info -->
+                <panels:ViewportGridInfo DockPanel.Dock="Bottom"
+                                         VerticalContentAlignment="Bottom"
+                                         HorizontalAlignment="Right"
+                                         Margin="0,0,50,30" />
+                <!--endregion-->
+
+            </Border>
+            <!--endregion-->
+
+            <!--region Viewports-->
+            <mmp:TemplateItemsControl ItemsSource="{Binding ViewportDefinitions}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left"
+                                Value="{Binding Left}" />
+
+                        <Setter Property="Canvas.Top"
+                                Value="{Binding Top}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+
+            <mmp:TemplateItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="{Binding Width}" 
+                              Height="{Binding Height}" >
+
+                            <mmp:OutlinedTextBlock Text="{Binding ViewportController.Label}"
+                                                   Visibility="{Binding ViewportController.IsViewCubeVisible, Converter={mmp:BoolToInvisibleHiddenConverter}}"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Top"
+                                                   Margin="20,10"
+                                                   Fill="White"
+                                                   Stroke="DimGray"
+                                                   StrokePosition="Outside"
+                                                   Opacity="0.7"/>
+                        </Grid>
+                    </DataTemplate>
+                </mmp:TemplateItemsControl.ItemTemplate>
+            </mmp:TemplateItemsControl>
+            <!--endregion-->
+
+            <!-- Content from app -->
             <ContentPresenter x:Name="OverlayContentPresenter"  />
         </Grid>
 

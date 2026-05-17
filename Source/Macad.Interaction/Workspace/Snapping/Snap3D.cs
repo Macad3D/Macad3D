@@ -36,9 +36,10 @@ public sealed class Snap3D : SnapBase
 
         SnapInfo3D snapInfo = SnapInfo3D.Empty;
 
-        var (mode, point, curve) = Snap(mouseEvent.ScreenPoint,
-                                   mouseEvent.DetectedBrepShape,
-                                   mouseEvent.DetectedAisObject);
+        var (mode, point, curve) = Snap(mouseEvent.ViewportController,
+                                        mouseEvent.ScreenPoint,
+                                        mouseEvent.DetectedBrepShape,
+                                        mouseEvent.DetectedAisObject);
         if (mode != SnapModes.None)
         {
             snapInfo = new SnapInfo3D(mode, point, curve)
@@ -48,7 +49,7 @@ public sealed class Snap3D : SnapBase
         }
         else
         {
-            snapInfo = _SnapGrid(mouseEvent.ScreenPoint);
+            snapInfo = _SnapGrid(mouseEvent.ViewportController, mouseEvent.ScreenPoint);
         }
 
         CurrentInfo = snapInfo;
@@ -57,16 +58,16 @@ public sealed class Snap3D : SnapBase
 
     //--------------------------------------------------------------------------------------------------
 
-    SnapInfo3D _SnapGrid(Point screenPoint)
+    SnapInfo3D _SnapGrid(ViewportController viewportController, Point screenPoint)
     {
         if (SupportedModes.HasFlag(SnapModes.Grid)
             && InteractiveContext.Current.EditorState.SnapToGridSelected
             && WorkspaceController.Workspace.GridEnabled)
         {
-            if (ProjectToGrid(WorkspaceController.ActiveViewport,
-                    Convert.ToInt32(screenPoint.X),
-                    Convert.ToInt32(screenPoint.Y),
-                    out Pnt gridPnt))
+            if (ProjectToGrid(viewportController,
+                              Convert.ToInt32(screenPoint.X),
+                              Convert.ToInt32(screenPoint.Y),
+                              out Pnt gridPnt))
             {
                 // On Grid
                 return new SnapInfo3D(SnapModes.Grid, gridPnt, null);

@@ -289,7 +289,7 @@ public class TranslateAction : ToolAction
 
         if ((_MoveMode & MoveMode.Plane) != 0)
         {
-            if (WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
+            if (data.ViewportController.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
             {
                 _MoveStartValue = ProjLib.Project(_MovePlane, resultPnt);
             }
@@ -333,6 +333,7 @@ public class TranslateAction : ToolAction
             WorkspaceController.Invalidate();
             return true;
         }
+
         return base.OnMouseUp(data);
     }
 
@@ -366,7 +367,7 @@ public class TranslateAction : ToolAction
             else if ((_MoveMode & MoveMode.Plane) != 0)
             {
                 Pnt resultPnt;
-                if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int) data.ScreenPoint.X, (int) data.ScreenPoint.Y, out resultPnt))
+                if (!data.ViewportController.ScreenToPoint(_MovePlane, (int) data.ScreenPoint.X, (int) data.ScreenPoint.Y, out resultPnt))
                     return false;
 
                 _Delta = Vec.Zero;
@@ -429,16 +430,16 @@ public class TranslateAction : ToolAction
 
     double? _ProcessMouseInputForAxis(MouseEventData data)
     {
-        var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+        var planeDir = data.ViewportController.Viewport.GetRightDirection();
         if (planeDir.IsParallel(_MoveAxis.Direction, 0.1))
         {
-            planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            planeDir = data.ViewportController.Viewport.GetUpDirection();
         }
         planeDir.Cross(_MoveAxis.Direction);
         var plane = new Pln(new Ax3(_MoveAxis.Location, planeDir, _MoveAxis.Direction));
 
         Pnt convertedPoint;
-        if (WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
+        if (data.ViewportController.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
         {
             var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_MoveAxis)), 1.0e-10);
             if (extrema.IsDone() && extrema.NbExt() >= 1)

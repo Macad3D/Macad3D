@@ -99,7 +99,7 @@ internal sealed class U3dBodyExporter
 
     void _DoViews()
     {
-        var vp = CoreContext.Current?.Viewport;
+        var vp = CoreContext.Current?.Workspace.Viewport;
         if (vp == null)
             return;
 

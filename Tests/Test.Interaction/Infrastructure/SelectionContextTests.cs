@@ -545,6 +545,7 @@ public class SelectionContextTests
         // Enter selection context
         var selContext = sel.OpenContext(SelectionContext.Options.NewSelectedList | SelectionContext.Options.IncludeAll);
         selContext.Exclude(body1);
+        Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Neutral"));
 
         // Hide - should be unselected ghost
@@ -557,6 +558,8 @@ public class SelectionContextTests
 
         // Back to neutral - should be selected again
         sel.CloseContext(selContext);
+        Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
+        Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
     }
 }

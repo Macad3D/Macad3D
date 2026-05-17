@@ -4,50 +4,60 @@ using Macad.Common;
 
 namespace Macad.Interaction.Panels;
 
-public class ViewportMouseControlDefault : IViewportMouseControl
+internal class ViewportMouseControlDefault : IViewportMouseControl
 {
-    public ViewportController ViewportController { get; set; } 
-
-    //--------------------------------------------------------------------------------------------------
-
+    ViewportController _CurrentViewport;
     ViewportController.MouseMoveMode _CurrentMouseMoveMode;
     Point _MouseDownPos;
     bool _LeftButtonDown;
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseMove(Point pos, MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    public void MouseMove(ViewportController viewport, Point pos, MouseButtons pressedButtons, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null)
-            return;
-
-        if(_CurrentMouseMoveMode != ViewportController.MouseMoveMode.None)
+        if (_CurrentViewport != null && pressedButtons != MouseButtons.None)
         {
-            ViewportController.MouseMove(pos, Keyboard.Modifiers, _CurrentMouseMoveMode);
+            // Transform position to current viewport, so that any tool and viewport movement is consistent when moving across viewports
+            var windowPos = viewport?.WorkspaceController.ViewportLayoutManager.TransformFromViewport(pos, viewport) ?? pos;
+            var currentVpPos = _CurrentViewport.WorkspaceController.ViewportLayoutManager.TransformToViewport(windowPos, _CurrentViewport);
+
+            if (_CurrentMouseMoveMode == ViewportController.MouseMoveMode.None)
+            {
+                if (_CurrentViewport?.IsInRubberbandSelection ?? false)
+                {
+                    // Transform position to current viewport, such that the selection is clamped on viewport border
+                    currentVpPos = _CurrentViewport.WorkspaceController.ViewportLayoutManager.ClampToViewport(currentVpPos, _CurrentViewport);
+                }
+                else
+                {
+                    if (_LeftButtonDown
+                        && _CurrentViewport != null
+                        && (pos.X - _MouseDownPos.X).Abs() + (pos.Y - _MouseDownPos.Y).Abs() > 10
+                        && _CurrentViewport.WorkspaceController.IsSelecting)
+                    {
+                        currentVpPos = _CurrentViewport.WorkspaceController.ViewportLayoutManager.ClampToViewport(currentVpPos, _CurrentViewport);
+                        _CurrentViewport.StartRubberbandSelection(
+                            InteractiveContext.Current.EditorState.RubberbandSelectionMode,
+                            InteractiveContext.Current.EditorState.RubberbandIncludeTouched,
+                            _MouseDownPos);
+                    }
+                }
+            }
+
+            _UpdateMouseMoveMode(_CurrentViewport, pressedButtons, modifierKeys);
+            _CurrentViewport?.MouseMove(currentVpPos, modifierKeys, _CurrentMouseMoveMode);
         }
         else
         {
-            if (_LeftButtonDown
-                && (pos.X - _MouseDownPos.X).Abs() + (pos.Y - _MouseDownPos.Y).Abs() > 10
-                && !ViewportController.IsInRubberbandSelection
-                && ViewportController.WorkspaceController.IsSelecting)
-            {
-                ViewportController.StartRubberbandSelection(
-                    InteractiveContext.Current.EditorState.RubberbandSelectionMode,
-                    InteractiveContext.Current.EditorState.RubberbandIncludeTouched,
-                    _MouseDownPos);
-            }
-
-            ViewportController.MouseMove(pos, modifierKeys);
+            viewport?.MouseMove(pos, modifierKeys, _CurrentMouseMoveMode);
         }
-        _UpdateMouseMoveMode(mouseDevice, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device, ModifierKeys modifierKeys)
+    public void MouseWheel(ViewportController viewport, Point pos, MouseWheel wheel, int delta, MouseButtons pressedButtons, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null || delta == 0)
+        if (viewport == null || delta == 0)
             return;
 
         double scaledDelta = delta;
@@ -60,25 +70,26 @@ public class ViewportMouseControlDefault : IViewportMouseControl
         switch (wheel)
         {
             case Panels.MouseWheel.Vertical:
-                ViewportController.Zoom(pos, scaledDelta / 200.0);
+                viewport.Zoom(pos, scaledDelta / 200.0);
                 break;
             case Panels.MouseWheel.Horizontal:
-                ViewportController.Rotate(scaledDelta / -50.0, 0, 0);
+                viewport.Rotate(scaledDelta / -50.0, 0, 0);
                 break;
         }
-        ViewportController.MouseMove(pos, modifierKeys);
+        viewport.MouseMove(pos, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    public void MouseDown(ViewportController viewport, Point pos, MouseButtons changedButtons, int clickCount, MouseButtons pressedButtons, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null)
+        if (viewport == null)
             return;
 
-        if (changedButton == MouseButton.Left 
+        if (changedButtons.HasFlag(MouseButtons.Left)
             && _CurrentMouseMoveMode == ViewportController.MouseMoveMode.None)
         {
+            viewport.WorkspaceController.ViewportController = viewport;
             if (clickCount == 2)
             {
                 if(WorkspaceCommands.StartEditing.CanExecute())
@@ -86,71 +97,80 @@ public class ViewportMouseControlDefault : IViewportMouseControl
             }
             else
             {
-                ViewportController.MouseDown(modifierKeys);
+                viewport.MouseDown(modifierKeys);
                 _LeftButtonDown = true;
             }
         }
 
         _MouseDownPos = pos;
-        _UpdateMouseMoveMode(mouseDevice, modifierKeys);
+        _CurrentViewport = viewport;
+        _UpdateMouseMoveMode(viewport, pressedButtons, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    public void MouseUp(ViewportController viewport, Point pos, MouseButtons changedButtons, MouseButtons pressedButtons, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null)
+        viewport = _CurrentViewport ?? viewport;
+        if (viewport == null)
             return;
 
-        if (changedButton == MouseButton.Left)
+        if (changedButtons.HasFlag(MouseButtons.Left))
         {
-            ViewportController.MouseUp(modifierKeys);
+            viewport.MouseUp(modifierKeys);
             _LeftButtonDown = false;
         }
-        _UpdateMouseMoveMode(mouseDevice, modifierKeys);
+        _UpdateMouseMoveMode(viewport, pressedButtons, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public void Cancel()
     {
-        ViewportController?.MouseMove(new Point(-1,-1));
+        _CurrentViewport?.MouseMove(new Point(-1,-1));
         _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
+        _CurrentViewport = null;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _UpdateMouseMoveMode(MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    void _UpdateMouseMoveMode(ViewportController viewport, MouseButtons pressedButtons, ModifierKeys modifierKeys)
     {
-        if (mouseDevice?.MiddleButton == MouseButtonState.Pressed)
+        _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
+
+        if (pressedButtons.HasFlag(MouseButtons.Left) && (viewport?.IsInRubberbandSelection ?? false))
         {
-            if (modifierKeys.HasFlag(ModifierKeys.Control))
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Twisting;
-            }
-            else if (ViewportController.LockedToPlane)
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
-            }
-            else
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Rotating;
-            }
-        }
-        else if (mouseDevice?.RightButton == MouseButtonState.Pressed)
-        {
-            if (modifierKeys.HasFlag(ModifierKeys.Control))
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Zooming;
-            }
-            else
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
-            }
-        }
-        else
-        {
+            // Keep current viewport for rubberband selection, but do not change the move mode
             _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
+        }
+        else if (_CurrentViewport != null)
+        {
+            if (pressedButtons.HasFlag(MouseButtons.Middle))
+            {
+                if (modifierKeys.HasFlag(ModifierKeys.Control))
+                {
+                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Twisting;
+                }
+                else if (viewport.LockedToPlane)
+                {
+                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
+                }
+                else
+                {
+                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Rotating;
+                }
+            }
+            else if (pressedButtons.HasFlag(MouseButtons.Right))
+            {
+                if (modifierKeys.HasFlag(ModifierKeys.Control))
+                {
+                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Zooming;
+                }
+                else
+                {
+                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
+                }
+            }
         }
     }
 

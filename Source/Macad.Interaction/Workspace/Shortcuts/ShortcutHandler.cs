@@ -57,10 +57,10 @@ public sealed class ShortcutHandler
     
     public bool KeyPressed(string scope, Key key, ModifierKeys modifierKeys)
     {
-        if (!_ShortcutScopes.ContainsKey(scope))
+        if (!_ShortcutScopes.TryGetValue(scope, out var shortcuts))
             return false;
 
-        var shortcut = _ShortcutScopes[scope].Find(s => s.Key == key && s.ModifierKeys == modifierKeys);
+        var shortcut = shortcuts.Find(s => s.Key == key && s.ModifierKeys == modifierKeys);
         if (shortcut?.Command == null || !shortcut.Command.CanExecute(shortcut.Parameter))
             return false;
 
@@ -83,7 +83,8 @@ public sealed class ShortcutHandler
     public string GetShortcutForCommand(IActionCommand command, object param)
     {
         var shortcut = _ShortcutScopes.Values
-                                 .Select(list => list.FirstOrDefault(s => s.Command == command && s.Parameter == param))
+                                 .Select(list => list.FirstOrDefault(s => s.Command == command 
+                                                                          && (s.Parameter?.Equals(param) ?? param == null)))
                                  .FirstOrDefault(s => s != null);
         if(shortcut == null)
             return null;

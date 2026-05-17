@@ -1,11 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using Macad.Test.Utils;
+﻿using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction;
 using Macad.Occt;
+using Macad.Test.Utils;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Windows;
 
 namespace Macad.Test.Interaction.Common;
 
@@ -109,7 +110,7 @@ public class TransformToolTests
         var ctx = Context.Current;
 
         var body = TestGeomGenerator.CreateBody(Box.Create(10, 5, 2));
-        ctx.ViewportController.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.WorkingPlane);
         ctx.ViewportController.ZoomFitAll();
 
         var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);

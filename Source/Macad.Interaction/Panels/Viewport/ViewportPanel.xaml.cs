@@ -58,39 +58,35 @@ public partial class ViewportPanel : AirspaceOverlay
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ViewportControllerChanged()
+    void _WorkspaceControllerChanged()
     {
         if (Child != null)
         {
             (Child as IDisposable)?.Dispose();
             Child = null;
+            _RenderWindow?.Dispose();
+            _RenderWindow = null;
         }
 
-        var viewportController = Model?.ViewportController;
-        if (MouseControl != null)
-            MouseControl.ViewportController = viewportController;
-
-        if (TouchControl != null)
-            TouchControl.ViewportController = viewportController;
-
-        if (viewportController is null)
+        if (Model?.WorkspaceController == null)
             return;
 
         // Viewport changed
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        viewportController.DpiScale = (dpiScale.DpiScaleX + dpiScale.DpiScaleY) / 2.0;
 
         // Create host for OpenGL window
-        Child = new ViewportHwndHost(viewportController, this);
+        var backgroundColor = (Background as SolidColorBrush)?.Color ?? Colors.Black;
+        _RenderWindow = new(Model?.WorkspaceController, backgroundColor.ToMacadColor(), (dpiScale.DpiScaleX + dpiScale.DpiScaleY) / 2.0);
+        Child = new ViewportHwndHost(_RenderWindow, this);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewportController))
+        if (e.PropertyName == nameof(ViewportPanelModel.WorkspaceController))
         {
-            _ViewportControllerChanged();
+            _WorkspaceControllerChanged();
         }
     }
 
@@ -100,12 +96,15 @@ public partial class ViewportPanel : AirspaceOverlay
 
     #region Members and c'tor
 
+    ViewportRenderWindow _RenderWindow;
     bool _SuppressContextMenu;
     bool _SupressButtonUp;
     bool _RightMouseBtnDown;
     Point _MouseDownPosition;
     Point _MouseMovePosition;
     bool _ContextMenuIsOpen;
+
+    //--------------------------------------------------------------------------------------------------
 
     public ViewportPanel()
     {
@@ -119,7 +118,7 @@ public partial class ViewportPanel : AirspaceOverlay
 
         MouseHorizontalWheelEnabler.AddMouseHorizontalWheelHandler(this, OnMouseHorizontalWheel);
 
-        _ViewportControllerChanged();
+        _WorkspaceControllerChanged();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -199,10 +198,11 @@ public partial class ViewportPanel : AirspaceOverlay
     {
         base.OnMouseMove(e);
 
-        if (ContextMenu != null && ContextMenu.IsOpen)
+        if (_ContextMenuIsOpen)
             return;
 
         _MouseMovePosition = e.GetPosition(this);
+        _UpdateHud(_MouseMovePosition);
 
         // Suppress context menu if mouse was moved significantly
         if (_RightMouseBtnDown && (_MouseDownPosition - _MouseMovePosition).LengthSquared > 9)
@@ -211,11 +211,9 @@ public partial class ViewportPanel : AirspaceOverlay
         }
 
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        MouseControl?.MouseMove(
-            new Point(_MouseMovePosition.X * dpiScale.DpiScaleX, _MouseMovePosition.Y * dpiScale.DpiScaleY),
-            e.MouseDevice, Keyboard.Modifiers);
-
-        _UpdateHud(_MouseMovePosition);
+        Point mousePosition = new(_MouseMovePosition.X * dpiScale.DpiScaleX, _MouseMovePosition.Y * dpiScale.DpiScaleY);
+        Model.WorkspaceController.ViewportLayoutManager.FindViewport(mousePosition, out var viewport, out var viewportPosition);
+        MouseControl?.MouseMove(viewport, viewportPosition, _GetPressedButtons(e.MouseDevice), Keyboard.Modifiers);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -226,8 +224,13 @@ public partial class ViewportPanel : AirspaceOverlay
 
         var pos = e.GetPosition(this);
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
-                                 Panels.MouseWheel.Vertical, e.Delta, e.MouseDevice, Keyboard.Modifiers);
+        Point mousePosition = new(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY);
+        if (!Model.WorkspaceController.ViewportLayoutManager.FindViewport(mousePosition, out var viewport, out var viewportPosition))
+        {
+            return;
+        }
+
+        MouseControl?.MouseWheel(viewport, viewportPosition, Panels.MouseWheel.Vertical, e.Delta, _GetPressedButtons(e.MouseDevice), Keyboard.Modifiers);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -236,8 +239,12 @@ public partial class ViewportPanel : AirspaceOverlay
     {
         var pos = e.GetPosition(this);
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
-                                 Panels.MouseWheel.Horizontal, e.Delta, e.MouseDevice, Keyboard.Modifiers);
+        Point mousePosition = new(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY);
+        if (!Model.WorkspaceController.ViewportLayoutManager.FindViewport(mousePosition, out var viewport, out var viewportPosition))
+        {
+            return;
+        }
+        MouseControl?.MouseWheel(viewport, viewportPosition, Panels.MouseWheel.Horizontal, e.Delta, _GetPressedButtons(e.MouseDevice), Keyboard.Modifiers);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -248,7 +255,8 @@ public partial class ViewportPanel : AirspaceOverlay
 
         if (_ContextMenuIsOpen)
         {
-            _SupressButtonUp = e.LeftButton == MouseButtonState.Pressed;
+            _SupressButtonUp = true;//e.LeftButton == MouseButtonState.Pressed;
+            _SuppressContextMenu = true;
             return;
         }
 
@@ -262,8 +270,13 @@ public partial class ViewportPanel : AirspaceOverlay
         _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
 
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        MouseControl?.MouseDown(new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY),
-                                e.ChangedButton, e.ClickCount, e.MouseDevice, Keyboard.Modifiers);
+        Point mousePosition = new(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY);
+        if (!Model.WorkspaceController.ViewportLayoutManager.FindViewport(mousePosition, out var viewport, out var viewportPosition))
+        {
+            return;
+        }
+
+        MouseControl?.MouseDown(viewport, viewportPosition, _ToMouseButtons(e.ChangedButton), e.ClickCount, _GetPressedButtons(e.MouseDevice), Keyboard.Modifiers);
 
         if (Model?.HudElements.Any() == true)
             Focus();
@@ -288,8 +301,9 @@ public partial class ViewportPanel : AirspaceOverlay
         {
             var pos = e.GetPosition(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
-                                  e.ChangedButton, e.MouseDevice, Keyboard.Modifiers);
+            Point mousePosition = new(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY);
+            Model.WorkspaceController.ViewportLayoutManager.FindViewport(mousePosition, out var viewport, out var viewportPosition);
+            MouseControl?.MouseUp(viewport, viewportPosition, _ToMouseButtons(e.ChangedButton), _GetPressedButtons(e.MouseDevice), Keyboard.Modifiers);
         }
 
         _SupressButtonUp = false;
@@ -328,11 +342,12 @@ public partial class ViewportPanel : AirspaceOverlay
         if (ContextMenu != null && ContextMenu.IsOpen)
             return;
 
-        var point = e.GetTouchPoint(this);
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        TouchControl?.TouchMove(point.TouchDevice.Id,
-                                new Point(point.Position.X * dpiScale.DpiScaleX,
-                                          point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
+        var point = e.GetTouchPoint(this);
+        Point pos = new(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY);
+        Model.WorkspaceController.ViewportLayoutManager.FindViewport(pos, out var viewport, out var viewportPosition);
+        TouchControl?.TouchMove(point.TouchDevice.Id, viewport, viewportPosition, Keyboard.Modifiers);
+
         e.Handled = true;
     }
 
@@ -342,13 +357,15 @@ public partial class ViewportPanel : AirspaceOverlay
     {
         base.OnTouchDown(e);
 
-        CaptureTouch(e.TouchDevice);
-
-        var point = e.GetTouchPoint(this);
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        TouchControl?.TouchDown(point.TouchDevice.Id,
-                                new Point(point.Position.X * dpiScale.DpiScaleX,
-                                          point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
+        var point = e.GetTouchPoint(this);
+        Point pos = new(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY);
+        if (!Model.WorkspaceController.ViewportLayoutManager.FindViewport(pos, out var viewport, out var viewportPosition))
+        {
+            return;
+        }
+        CaptureTouch(e.TouchDevice);
+        TouchControl?.TouchMove(point.TouchDevice.Id, viewport, viewportPosition, Keyboard.Modifiers);
         e.Handled = true;
     }
 
@@ -357,12 +374,12 @@ public partial class ViewportPanel : AirspaceOverlay
     protected override void OnTouchUp(TouchEventArgs e)
     {
         base.OnTouchUp(e);
-        
-        var point = e.GetTouchPoint(this);
+
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        TouchControl?.TouchUp(point.TouchDevice.Id,
-                              new Point(point.Position.X * dpiScale.DpiScaleX,
-                                        point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
+        var point = e.GetTouchPoint(this);
+        Point pos = new(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY);
+        Model.WorkspaceController.ViewportLayoutManager.FindViewport(pos, out var viewport, out var viewportPosition);
+        TouchControl?.TouchUp(point.TouchDevice.Id, viewport, viewportPosition, Keyboard.Modifiers);
         ReleaseTouchCapture(e.TouchDevice);
         e.Handled = true;
     }
@@ -407,6 +424,43 @@ public partial class ViewportPanel : AirspaceOverlay
         base.ClippingBorderChanged();
         (Child as ViewportHwndHost)?.SetAirspaceClipping(ClippingBorder);
         InteractiveContext.Current.WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Helper
+
+    MouseButtons _ToMouseButtons(MouseButton mouseButton)
+    {
+        return mouseButton switch
+        {
+            MouseButton.Left => MouseButtons.Left,
+            MouseButton.Middle => MouseButtons.Middle,
+            MouseButton.Right => MouseButtons.Right,
+            MouseButton.XButton1 => MouseButtons.XButton1,
+            MouseButton.XButton2 => MouseButtons.XButton2,
+            _ => MouseButtons.None
+        };
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    MouseButtons _GetPressedButtons(MouseDevice mouseDevice)
+    {
+        MouseButtons buttons = MouseButtons.None;
+        if (mouseDevice.LeftButton == MouseButtonState.Pressed)
+            buttons |= MouseButtons.Left;
+        if (mouseDevice.MiddleButton == MouseButtonState.Pressed)
+            buttons |= MouseButtons.Middle;
+        if (mouseDevice.RightButton == MouseButtonState.Pressed)
+            buttons |= MouseButtons.Right;
+        if (mouseDevice.XButton1 == MouseButtonState.Pressed)
+            buttons |= MouseButtons.XButton1;
+        if (mouseDevice.XButton2 == MouseButtonState.Pressed)
+            buttons |= MouseButtons.XButton2;
+        return buttons;
     }
 
     //--------------------------------------------------------------------------------------------------

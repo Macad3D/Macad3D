@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
@@ -963,12 +962,12 @@ public class SketchEditorToolTests
 
         Assert.Multiple(() =>
         {
-            Assert.DoesNotThrow(() => ctx.ViewportController.SetPredefinedView(ViewportController.PredefinedViews.Top));
-            Assert.IsFalse(WorkspaceCommands.SetPredefinedView.CanExecute(ViewportController.PredefinedViews.Top));
+            Assert.DoesNotThrow(() => ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Top));
+            Assert.IsFalse(WorkspaceCommands.SetPredefinedView.CanExecute(ViewUtils.PredefinedView.Top));
 
             sketchEditTool.Stop();
             Assert.IsNull(ctx.WorkspaceController.CurrentTool);
-            Assert.IsTrue(WorkspaceCommands.SetPredefinedView.CanExecute(ViewportController.PredefinedViews.Top));
+            Assert.IsTrue(WorkspaceCommands.SetPredefinedView.CanExecute(ViewUtils.PredefinedView.Top));
         });
     }
 
@@ -1022,7 +1021,7 @@ public class SketchEditorToolTests
         sketchEditTool.Stop();
 
         // Select predefined topview
-        ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Top);
+        ctx.WorkspaceController.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Top);
         ctx.WorkspaceController.Invalidate(forceRedraw:true);
 //            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext22"), 0.1);
             
@@ -1383,4 +1382,101 @@ public class SketchEditorToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultiViewAcquireViewport()
+    {
+        // Check that the sketch editor tool acquires the correct viewport in a multi view layout
+        // and restore the correct viewport when closing
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.Workspace.ViewportLayout = ViewportLayoutBuilder.Build(ViewportLayoutBuilder.Layout.Quad, ctx.Workspace);
+
+        // Select Front view
+        ctx.Workspace.Viewport = ctx.Workspace.Viewports.First(v => v.Name == "Aux1");
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        // Expect Main view to be used
+        Assert.That(ctx.Workspace.Viewport.Name, Is.EqualTo("Main"));
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiViewAcquireViewport01"));
+
+        // Select any other view
+        ctx.ClickAt(120, 180);
+        Assert.That(ctx.Workspace.Viewport.Name, Is.EqualTo("Aux1"));
+        ctx.WorkspaceController.CurrentTool.Stop();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiViewAcquireViewport02"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultiViewConstraints()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.ViewportLayout = ViewportLayoutBuilder.Build(ViewportLayoutBuilder.Layout.Quad, ctx.Workspace);
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        sketch.AddConstraint(new SketchConstraintHorizontalDistance(1, sketch.Points[1].X));
+
+        ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+        ctx.ViewportController.ZoomFitAll();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiViewConstraints01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultiViewClipPlane()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.ViewportLayout = ViewportLayoutBuilder.Build(ViewportLayoutBuilder.Layout.DualHorizontal, ctx.Workspace);
+
+        var imprint = TestGeomGenerator.CreateImprint();
+        var sketch = imprint.Sketch;
+
+        ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+        ctx.ViewportController.ZoomFitAll();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiViewClipPlane01"), 0.1);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MultiViewRotateView()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.ViewportLayout = ViewportLayoutBuilder.Build(ViewportLayoutBuilder.Layout.DualHorizontal, ctx.Workspace);
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.ClickAt(400, 100);
+        sketchEditTool.RotateView(90.0);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiViewRotateView01"), 0.1);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ViewportLabel()
+    {
+        var ctx = Context.Current;
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo(""));
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Sketch Editor"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

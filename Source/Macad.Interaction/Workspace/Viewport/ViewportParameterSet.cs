@@ -1,24 +1,15 @@
 ﻿using Macad.Common;
+using Macad.Core;
 
 namespace Macad.Interaction;
-
-public enum ViewForwardDirection
-{
-    XPos,
-    XNeg,
-    YPos,
-    YNeg,
-}
-
-//--------------------------------------------------------------------------------------------------
 
 [ParameterSet]
 public sealed partial class ViewportParameterSet
 {
-    readonly Parameter<ViewForwardDirection> _ForwardDirection = new()
+    readonly Parameter<ViewUtils.ViewForwardDirection> _ForwardDirection = new()
     {
         Name = "ForwardDirection",
-        DefaultValue = ViewForwardDirection.XPos,
+        DefaultValue = ViewUtils.ViewForwardDirection.XPos,
         Description = "Defines the forward direction of the model. This is only taken into account by the predefined views.",
         EditorHints = new() { { "EnumDisplayNames", "Positive X Axis;Negative X Axis;Positive Y Axis;Negative Y Axis" } }
     };

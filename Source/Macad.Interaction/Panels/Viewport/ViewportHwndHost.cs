@@ -8,20 +8,20 @@ using System.Windows.Threading;
 using Macad.Common.Interop;
 using Macad.Presentation;
 
-namespace Macad.Interaction;
+namespace Macad.Interaction.Panels;
 
-public class ViewportHwndHost : HwndHost
+internal class ViewportHwndHost : HwndHost
 {
-    readonly ViewportController _ViewportController;
     readonly Int32Rect _InitialRect;
     bool _IsProcessingSizeEvent;
     WindowSizeMoveEvents _SizeMoveEvents;
+    ViewportRenderWindow _RenderWindow;
 
     //--------------------------------------------------------------------------------------------------
 
-    public ViewportHwndHost(ViewportController viewportController, UIElement parent)
+    public ViewportHwndHost(ViewportRenderWindow renderWindow, UIElement parent)
     {
-        _ViewportController = viewportController;
+        _RenderWindow = renderWindow;
 
         var dpiScale = VisualTreeHelper.GetDpi(parent);
         var pos = parent.TranslatePoint(new Point(), Application.Current.MainWindow);
@@ -35,7 +35,7 @@ public class ViewportHwndHost : HwndHost
 
     protected override HandleRef BuildWindowCore(HandleRef hwndParent)
     {
-        IntPtr windowHandle = _ViewportController.InitWindow(hwndParent.Handle, _InitialRect);
+        _RenderWindow.Init(hwndParent.Handle, _InitialRect);
         var parent = PresentationHelper.FindVisualParent<Window>(this);
         if (parent != null)
         {
@@ -43,13 +43,14 @@ public class ViewportHwndHost : HwndHost
             _SizeMoveEvents.StateChanged += _SizeMoveEvents_StateChanged;
         }
         
-        return new HandleRef(this, windowHandle);
+        return new HandleRef(this, _RenderWindow.Handle);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     protected override void DestroyWindowCore(HandleRef hwnd)
     {
+        _RenderWindow.Dispose();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -102,8 +103,7 @@ public class ViewportHwndHost : HwndHost
             _IsProcessingSizeEvent = false;
             UpdateWindowPos();
             _IsProcessingSizeEvent = true;
-            _ViewportController.Resize();
-            _ViewportController.WorkspaceController.Invalidate();
+            _RenderWindow.Resize();
         }, DispatcherPriority.Normal);
     }
     
@@ -151,11 +151,7 @@ public class ViewportHwndHost : HwndHost
         switch (msg)
         {
             case Win32Api.WM_SHOWWINDOW:
-                if (_ViewportController?.V3dView != null)
-                {
-                    _ViewportController.Resize();
-                    _ViewportController.WorkspaceController.Invalidate();
-                }
+                _RenderWindow.Resize();
                 break;
 
             case Win32Api.WM_NCHITTEST:
@@ -165,7 +161,7 @@ public class ViewportHwndHost : HwndHost
                 return new IntPtr(Win32Api.HTTRANSPARENT);
 
             case Win32Api.WM_PAINT:
-                _ViewportController?.WorkspaceController.Invalidate();
+                _RenderWindow.Invalidate();
                 break;
         }
         return base.WndProc(hwnd, msg, wParam, lParam, ref handled);

@@ -97,10 +97,9 @@ public sealed class SelectionContext : IDisposable
             return;
         }
 
-        if (_InOrExcludedShapes.Contains(visObject))
+        if (!_InOrExcludedShapes.Add(visObject))
             return;
 
-        _InOrExcludedShapes.Add(visObject);
         _RaiseParametersChanged();
     }
 
@@ -127,10 +126,9 @@ public sealed class SelectionContext : IDisposable
             return;
         }
 
-        if (_InOrExcludedShapes.Contains(visObject))
+        if (!_InOrExcludedShapes.Add(visObject))
             return;
 
-        _InOrExcludedShapes.Add(visObject);
         _RaiseParametersChanged();
     }
 

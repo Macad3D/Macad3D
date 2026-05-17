@@ -124,7 +124,7 @@ public class CrossSectionToolTests
             ctx.MoveTo(150, 200);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslateClamp01"));
             
-            ctx.MoveTo(150, 200, ModifierKeys.Control);
+            ctx.MoveTo(150, 200, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslateClamp02"));
             ctx.ViewportController.MouseUp();
 
@@ -182,7 +182,7 @@ public class CrossSectionToolTests
             ctx.MoveTo(420, 170);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateXClamp01"));
 
-            ctx.MoveTo(420, 170, ModifierKeys.Control);
+            ctx.MoveTo(420, 170, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateXClamp02"));
             ctx.ViewportController.MouseUp();
 
@@ -240,7 +240,7 @@ public class CrossSectionToolTests
             ctx.MoveTo(212, 171);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateYClamp01"));
             
-            ctx.MoveTo(212, 171, ModifierKeys.Control);
+            ctx.MoveTo(212, 171, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateYClamp02"));
             ctx.ViewportController.MouseUp();
 
@@ -298,7 +298,7 @@ public class CrossSectionToolTests
             ctx.MoveTo(393, 258);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZClamp01"));
             
-            ctx.MoveTo(393, 258, ModifierKeys.Control);
+            ctx.MoveTo(393, 258, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZClamp02"));
             ctx.ViewportController.MouseUp();
 

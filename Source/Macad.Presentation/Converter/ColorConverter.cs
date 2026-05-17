@@ -29,7 +29,7 @@ public sealed class ColorConverter : ConverterMarkupExtension<ColorConverter>
         if (value is Color)
         {
             var color = (Color)value;
-            return color.ToMmColor();
+            return color.ToMacadColor();
         }
         return new Common.Color();
     }
@@ -75,7 +75,7 @@ public sealed class ColorToBrushConverter : ConverterMarkupExtension<ColorToBrus
         {
             if (value is SolidColorBrush)
             {
-                return ((SolidColorBrush)value).Color.ToMmColor();
+                return ((SolidColorBrush)value).Color.ToMacadColor();
             }
         }
 
@@ -229,7 +229,7 @@ public sealed class ColorToStringConverter : ConverterMarkupExtension<ColorToStr
 
         if (targetType == typeof(Common.Color) || underlyingType == typeof(Common.Color))
         {
-            return color.ToMmColor();
+            return color.ToMacadColor();
         }
 
         return DependencyProperty.UnsetValue;

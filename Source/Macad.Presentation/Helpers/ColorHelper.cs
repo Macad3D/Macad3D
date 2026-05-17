@@ -14,6 +14,8 @@ public static class ColorHelper
         _CreateHexagonColors();
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     #region Color Lists
 
     public static Color ScaledColor(Color c, float percent)
@@ -23,6 +25,8 @@ public static class ColorHelper
 
         return c;
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     public static Color[] StandardColors;
 
@@ -42,6 +46,8 @@ public static class ColorHelper
             Brushes.DarkKhaki.Color
         };
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     const float _Percent10 = 0.90f;
     const float _Percent25 = 0.75f;
@@ -123,6 +129,8 @@ public static class ColorHelper
         };
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Color Hexagon
@@ -146,7 +154,11 @@ public static class ColorHelper
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     public static HexagonColor[] HexagonColors;
+
+    //--------------------------------------------------------------------------------------------------
 
     static void _CreateHexagonColors()
     {
@@ -335,12 +347,18 @@ public static class ColorHelper
 
     // https://github.com/objorke/PropertyTools
 
+    //--------------------------------------------------------------------------------------------------
+
     public static Color UndefinedColor { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
 
     public static string ColorToHex(Color color)
     {
         return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color.A, color.R, color.G, color.B);
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     public static double ColorDifference(Color c1, Color c2)
     {
@@ -353,6 +371,8 @@ public static class ColorHelper
         double e = dr * dr + dg * dg + db * db + da * da;
         return Math.Sqrt(e);
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     public static Color HexToColor(string value)
     {
@@ -376,6 +396,8 @@ public static class ColorHelper
         return UndefinedColor;
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     public static Color UIntToColor(uint color)
     {
         var a = (byte)(color >> 24);
@@ -385,15 +407,21 @@ public static class ColorHelper
         return Color.FromArgb(a, r, g, b);
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     public static Color ToWpfColor(this Common.Color color)
     {
         return Color.FromRgb((byte)(color.Red * 255.0f), (byte)(color.Green * 255.0f), (byte)(color.Blue * 255.0f));
     }
 
-    public static Common.Color ToMmColor(this Color color)
+    //--------------------------------------------------------------------------------------------------
+
+    public static Common.Color ToMacadColor(this Color color)
     {
-        return new Common.Color(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
+        return new (color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     #endregion
 

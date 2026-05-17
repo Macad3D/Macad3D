@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Common.Serialization;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -54,7 +55,7 @@ public sealed class SketchEditorTool : Tool
 
     public Sketch Sketch { get; private set; }
     public Trsf Transform { get; private set; } = Trsf.Identity;
-
+    public ViewportController EditorViewport { get; private set; }
     public SketchEditorElements Elements { get; }
 
     //--------------------------------------------------------------------------------------------------
@@ -155,20 +156,26 @@ public sealed class SketchEditorTool : Tool
         workspace.WorkingPlane = Sketch.Plane;
 
         // Viewport
-        var vc = WorkspaceController.ActiveViewControlller;
-        _SavedViewParameters = vc.Viewport.GetViewParameters();
-        vc.LockedToPlane = true;
-            
+        EditorViewport = WorkspaceController.ViewportControllers.FirstOrDefault(vc => vc.Viewport.Name == "Main" && vc.IsVisible) 
+                                                                 ?? WorkspaceController.ViewportController;
+        if (EditorViewport != WorkspaceController.ViewportController)
+        {
+            WorkspaceController.ViewportController = EditorViewport;
+        }
+        _SavedViewParameters = EditorViewport.Viewport.GetViewParameters();
+        EditorViewport.LockedToPlane = true;
+        EditorViewport.Label = "Sketch Editor";
+
         if (editorSettings.ViewParameters != null)
         {
-            vc.Viewport.RestoreViewParameters(editorSettings.ViewParameters, Sketch.GetTransformation());
+            EditorViewport.Viewport.RestoreViewParameters(editorSettings.ViewParameters, Sketch.GetTransformation());
             // Update direction
-            vc.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
+            EditorViewport.SetPredefinedView(ViewUtils.PredefinedView.WorkingPlane);
             RotateView(editorSettings.ViewRotation);
         } else {
             _CenterView();
         }
-        vc.PropertyChanged += _ViewportController_PropertyChanged;
+        EditorViewport.PropertyChanged += _ViewportController_PropertyChanged;
 
         EnableClipPlane(editorSettings.ClipPlaneEnabled);
 
@@ -179,7 +186,7 @@ public sealed class SketchEditorTool : Tool
                 visualSketchShape.IsHidden = true;
         }
 
-        _LastGizmoScale = WorkspaceController.ActiveViewControlller.GizmoScale;
+        _LastGizmoScale = EditorViewport.GizmoScale;
 
         // Elements
         _TempPoints = new Dictionary<int, Pnt2d>(Sketch.Points);
@@ -238,20 +245,20 @@ public sealed class SketchEditorTool : Tool
         WorkspaceController.Workspace.WorkingContext = null;
         WorkspaceController.LockWorkingPlane = false;
 
-        var vc = WorkspaceController.ActiveViewControlller;
         if (Sketch != null)
         {
             var editorSettings = SketchEditorSettings.GetOrCreate(Sketch);
-            editorSettings.ViewParameters = vc.Viewport.GetViewParameters(Sketch.GetTransformation().Inverted());
+            editorSettings.ViewParameters = EditorViewport.Viewport.GetViewParameters(Sketch.GetTransformation().Inverted());
             editorSettings.ViewRotation = ViewRotation;
             editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;
         }
 
-        vc.PropertyChanged -= _ViewportController_PropertyChanged;
-        vc.LockedToPlane = false;
+        EditorViewport.PropertyChanged -= _ViewportController_PropertyChanged;
+        EditorViewport.LockedToPlane = false;
+        EditorViewport.Label = "";
         if (_SavedViewParameters != null)
         {
-            vc.Viewport.RestoreViewParameters(_SavedViewParameters);
+            EditorViewport.Viewport.RestoreViewParameters(_SavedViewParameters);
         }
 
         EnableClipPlane(false);
@@ -285,11 +292,11 @@ public sealed class SketchEditorTool : Tool
     public override bool OnMouseMove(MouseEventData data)
     {
         // Check if we need to scale the trihedron
-        if (!_LastGizmoScale.IsEqual(WorkspaceController.ActiveViewControlller.GizmoScale, 0.001)
-            || !_LastPixelSize.IsEqual(WorkspaceController.ActiveViewControlller.PixelSize, 0.001))
+        if (!_LastGizmoScale.IsEqual(EditorViewport.GizmoScale, 0.001)
+            || !_LastPixelSize.IsEqual(EditorViewport.PixelSize, 0.001))
         {
-            _LastGizmoScale = WorkspaceController.ActiveViewControlller.GizmoScale;
-            _LastPixelSize = WorkspaceController.ActiveViewControlller.PixelSize;
+            _LastGizmoScale = EditorViewport.GizmoScale;
+            _LastPixelSize = EditorViewport.PixelSize;
             //Debug.WriteLine("Gizmo scaled, last is " + _LastGizmoScale);
             Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
             data.Return.ForceReDetection = true;
@@ -303,8 +310,8 @@ public sealed class SketchEditorTool : Tool
     public void RotateView(double degree)
     {
         ViewRotation = Maths.NormalizeAngleDegree(ViewRotation + degree);
-        double twist = Maths.NormalizeAngleDegree(WorkspaceController.ActiveViewport.Twist + degree);
-        WorkspaceController.ActiveViewport.Twist = twist;
+        double twist = Maths.NormalizeAngleDegree(EditorViewport.Viewport.Twist + degree);
+        EditorViewport.Viewport.Twist = twist;
         Elements.OnViewRotated(_TempPoints, Sketch.Segments);
         WorkspaceController.Invalidate();
     }
@@ -315,10 +322,10 @@ public sealed class SketchEditorTool : Tool
     {
         // Set look at point
         var centerPnt = Sketch.GetTransformation().TranslationPart();
-        WorkspaceController.ActiveViewport.TargetPoint = centerPnt.ToPnt();
+        EditorViewport.Viewport.TargetPoint = centerPnt.ToPnt();
 
         // Update direction
-        WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
+        EditorViewport.SetPredefinedView(ViewUtils.PredefinedView.WorkingPlane);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -335,7 +342,7 @@ public sealed class SketchEditorTool : Tool
             reversedPlane.Translate(reversedPlane.Axis.Direction.ToVec(-0.000001));
 
             _ClipPlane = new ClipPlane(reversedPlane);
-            _ClipPlane.AddViewport(WorkspaceController.ActiveViewControlller);
+            _ClipPlane.AddViewport(EditorViewport);
             WorkspaceController.Invalidate();
             RaisePropertyChanged(nameof(ClipPlaneEnabled));
         }

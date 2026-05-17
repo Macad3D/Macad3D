@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Panels;
@@ -9,12 +8,15 @@ namespace Macad.Interaction;
 
 public abstract class InteractiveContext : CoreContext
 {
+    /// <summary>
+    /// The controller for the currently active document.
+    /// </summary>
     public ModelController DocumentController
     {
-        get { return _DocumentController; }
+        get { return field; }
         protected set
         {
-            _DocumentController = value;
+            field = value;
             RaisePropertyChanged();
         }
     }
@@ -41,58 +43,30 @@ public abstract class InteractiveContext : CoreContext
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// The controller for the currently active workspace. 
+    /// </summary>
     public WorkspaceController WorkspaceController
     {
-        get { return _WorkspaceController; }
+        get { return field; }
         private set
         {
-            if (_WorkspaceController == value)
+            if (field == value)
                 return;
 
-            _WorkspaceController?.Dispose();
-            _WorkspaceController = value;
+            field?.Dispose();
+            field = value;
+            RaisePropertyChanged(nameof(ViewportController));
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override Viewport Viewport
-    {
-        get
-        {
-            return base.Viewport;
-        }
-        protected set
-        {
-            base.Viewport = value;
-            if (value == null)
-            {
-                ViewportController = null;
-                WorkspaceController.ActiveViewport = null;
-            }
-            else
-            {
-                WorkspaceController.ActiveViewport = base.Viewport;
-                ViewportController = WorkspaceController.GetViewController(base.Viewport);
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public ViewportController ViewportController
-    {
-        get
-        {
-            return _ViewportController;
-        }
-        private set
-        {
-            _ViewportController = value;
-
-            RaisePropertyChanged();
-        }
-    }
+    /// <summary>
+    /// The controller for the currently active viewport. This is a shortcut to the ViewportController of the WorkspaceController.
+    /// The active viewport is the viewport which is currently active in the workspace. It can change at any time.
+    /// </summary>
+    public ViewportController ViewportController => WorkspaceController?.ViewportController;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -134,11 +108,8 @@ public abstract class InteractiveContext : CoreContext
 
     //--------------------------------------------------------------------------------------------------
 
-    ViewportController _ViewportController;
-    ModelController _DocumentController;
     List<Color> _RecentUsedColors;
     EditorState _EditorState;
-    WorkspaceController _WorkspaceController;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -159,7 +130,6 @@ public abstract class InteractiveContext : CoreContext
         DocumentController = null;
         WorkspaceController?.Dispose();
         WorkspaceController = null;
-        ViewportController = null;
         _EditorState?.Dispose();
         base.Dispose(disposing);
     }
@@ -223,6 +193,33 @@ public abstract class InteractiveContext : CoreContext
         recentList.Insert(0, filePath);
 
         SaveLocalSettings("RecentUsedScripts", recentList);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Events
+
+    public delegate void InteractiveContextEventHandler<in TEventArgs>(InteractiveContext sender, TEventArgs e);
+
+    //--------------------------------------------------------------------------------------------------
+
+    public record struct ActiveViewportChangedEventArgs(ViewportController Viewport);
+
+    /// <summary>
+    /// Raised when the active viewport changed.
+    /// </summary>
+    public event InteractiveContextEventHandler<ActiveViewportChangedEventArgs> ActiveViewportChanged;
+
+    protected internal override void OnViewportActivated(Viewport oldViewport, Viewport newViewport)
+    {
+        if (ReferenceEquals(newViewport, oldViewport))
+            return;
+
+        base.OnViewportActivated(oldViewport, newViewport);
+        RaisePropertyChanged(nameof(ViewportController));
+        ActiveViewportChanged?.Invoke(this, new(ViewportController));
     }
 
     //--------------------------------------------------------------------------------------------------

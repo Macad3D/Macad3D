@@ -31,5 +31,5 @@ public class ScriptContext
     /// <summary>
     /// The viewport is the window into a workspace.
     /// </summary>
-    public Viewport Viewport => CoreContext.Current.Viewport;
+    public Viewport Viewport => CoreContext.Current.Workspace.Viewport;
 }

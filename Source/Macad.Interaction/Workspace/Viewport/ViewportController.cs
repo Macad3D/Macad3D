@@ -1,21 +1,23 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Occt;
+using Macad.Occt.Extensions;
+using Macad.Occt.Helper;
+using Macad.Resources;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Input;
-using Macad.Common;
-using Macad.Common.Interop;
-using Macad.Core;
-using Macad.Occt;
-using Macad.Occt.Helper;
-using Macad.Occt.Extensions;
-using Macad.Resources;
 using Color = Macad.Common.Color;
 using Point = System.Windows.Point;
 
 namespace Macad.Interaction;
 
+/// <summary>
+/// Control class for a viewport. It hosts the native rendering class and provides methods for viewport
+/// navigation and usability tools like the view cube and trihedron.
+/// </summary>
 public sealed class ViewportController : BaseObject, IDisposable
 {
     const int RubberbandFreehandSelectionThresholdSquared = 100;
@@ -55,12 +57,12 @@ public sealed class ViewportController : BaseObject, IDisposable
             {
                 if (value)
                 {
-                    SetPredefinedView(PredefinedViews.WorkingPlane, true);
+                    SetPredefinedView(ViewUtils.PredefinedView.WorkingPlane, true);
                         
                 }
                 _LockedToPlane = value;
-                _SetViewCube(!value);
-                _SetTrihedron(!value && _ShowTrihedron);
+                _UpdateViewCube();
+                _UpdateTrihedron();
                 RaisePropertyChanged();
             }
         }
@@ -79,11 +81,20 @@ public sealed class ViewportController : BaseObject, IDisposable
     {
         get
         {
-            double pixelSize = PixelSize;
-            double width = 100, height = 100;
-            V3dView?.Size(ref width, ref height);
-            return ((int)(width / pixelSize), (int)(height / pixelSize));
+            var frame = WorkspaceController.ViewportLayoutManager.GetContentFrame(this);
+            if (frame != null)
+            {
+                return (frame.Location.Width, frame.Location.Height);
+            }
+            return WorkspaceController.ViewportLayoutManager.GetSize();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public double DpiScale
+    {
+        get { return WorkspaceController.ViewportLayoutManager.DpiScale; }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -116,16 +127,42 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public double DpiScale
+    public bool IsVisible
     {
-        get => _DpiScale;
+        get { return V3dView != null; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsActive
+    {
+        get { return ReferenceEquals(WorkspaceController.ViewportController, this); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsViewCubeVisible
+    {
+        get;
+        private set
+        {
+            field = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public string Label
+    {
+        get
+        {
+            return field ?? _InternalLabel;
+        }
         set
         {
-            if (!_DpiScale.IsEqual(value, Precision.Confusion()))
-            {
-                _DpiScale = value;
-                RaisePropertyChanged();
-            }
+            field = value.IsNullOrEmpty() ? null : value;
+            RaisePropertyChanged();
         }
     }
 
@@ -135,9 +172,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     #region Member variables
 
-    static WNT_WClass _OcWindowClass;
     const double _OrbitProjectionConstraint = Maths.HalfPI - 0.000000000001;
-    WNT_Window _OcWindow;
     bool _ZoomFitAllOnInit;
         
     MouseMoveMode _CurrentMouseMoveMode;
@@ -146,8 +181,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     Pnt? _GravityPoint;
     bool _LockedToPlane;
     bool _ShowTrihedron;
+    bool _ShowViewCube;
     bool _IsSyncingViewport;
-    double _DpiScale = 1.0;
+    string _InternalLabel;
 
     AIS_RubberBand _AisRubberBand;
     RubberbandSelectionMode _RubberbandMode;
@@ -171,8 +207,6 @@ public sealed class ViewportController : BaseObject, IDisposable
         Viewport = viewport;
         Viewport.PropertyChanged += _Viewport_PropertyChanged;
         WorkspaceController = workspaceController;
-        
-        Init();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -185,50 +219,26 @@ public sealed class ViewportController : BaseObject, IDisposable
     public void Dispose()
     {
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged -= _ParameterChanged;
+        InteractiveContext.Current.ActiveViewportChanged -= _Context_ActiveViewportChanged;
         Viewport.PropertyChanged -= _Viewport_PropertyChanged;
 
-        _AisxOutlinePP?.Dispose();
-        _AisxOutlinePP = null;
-
-        _AisViewCube?.ResetViewAnimation();
-        _AisViewCube?.Dispose();
-        _AisViewCube = null;
-
-        _AisRubberBand?.Dispose();
-        _AisRubberBand = null;
-
-        _AisAnimationCamera?.Dispose();
-        _AisAnimationCamera = null;
-
-        if (V3dView != null)
-        {
-            V3dView.Remove();
-            V3dView.Dispose();
-            V3dView = null;
-        }
-
-        if (_OcWindow != null && !_OcWindow.IsDisposed())
-        {
-            if (_OcWindow.IsMapped())
-                _OcWindow.Unmap();
-            _OcWindow.Dispose();
-            _OcWindow = null;
-        }
+        _DeInit();
 
         GC.SuppressFinalize(this);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void Init()
+    void _Init()
     {
-        if (V3dView != null)
+        if (IsVisible)
             return;
 
         V3dView = WorkspaceController.V3dViewer.CreateView();
 
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterChanged;
+        InteractiveContext.Current.ActiveViewportChanged += _Context_ActiveViewportChanged;
 
         V3dView.SetBgGradientColors(new Color(0.624f, 0.714f, 0.804f).ToQuantityColor(), new Color(0.424f, 0.482f, 0.545f).ToQuantityColor(), Aspect_GradientFillMethod.VER, false);
 
@@ -250,42 +260,106 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    internal IntPtr InitWindow(IntPtr parentHWnd, Int32Rect initialRect)
+    void _Context_ActiveViewportChanged(InteractiveContext sender, InteractiveContext.ActiveViewportChangedEventArgs e)
     {
-        Debug.Assert(V3dView != null);
+        _UpdateViewCube();
+        RaisePropertyChanged(nameof(IsActive));
+    }
 
-        uint style;
+    //--------------------------------------------------------------------------------------------------
 
-        if (_OcWindowClass == null)
+    void _DeInit()
+    {
+        if (!IsVisible)
+            return;
+
+        _AisxOutlinePP?.Dispose();
+        _AisxOutlinePP = null;
+
+        _AisViewCube?.ResetViewAnimation();
+        _AisViewCube?.Dispose();
+        _AisViewCube = null;
+
+        _AisRubberBand?.Dispose();
+        _AisRubberBand = null;
+
+        _AisAnimationCamera?.Dispose();
+        _AisAnimationCamera = null;
+
+        if (V3dView != null)
         {
-            style = Win32Api.CS_OWNDC;
-            _OcWindowClass = new WNT_WClass(new TCollection_AsciiString("WorkspaceView"), IntPtr.Zero, style, 0);
+            if (V3dView.IfWindow())
+            {
+                //V3dView.DoMapping();
+            }
+            V3dView.Remove();
+            V3dView.Dispose();
+            V3dView = null;
         }
+    }
 
-        if (initialRect.IsEmpty)
-        {
-            initialRect = new Int32Rect(0, 0, 64, 64);
-        }
+    //--------------------------------------------------------------------------------------------------
 
-        style = Win32Api.WS_VISIBLE | (parentHWnd == IntPtr.Zero ? Win32Api.WS_POPUP : Win32Api.WS_CHILD);
-        _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.GRAY50, parentHWnd);
-        _OcWindow.Map();
+    internal void SetWindow(WNT_Window window)
+    {
+        _Init();
 
-        V3dView.SetWindow(_OcWindow);
+        if (Equals(window, V3dView.Window()))
+            return;
+
+        V3dView.SetWindow(window);
 
         if (_ZoomFitAllOnInit)
         {
             _ZoomFitAllOnInit = false;
             ZoomFitAll();
         }
+
         V3dView.Update();
-        V3dView.MustBeResized();
+        _UpdateFromViewParameterSet();
         V3dView.SetImmediateUpdate(false);
+        V3dView.MustBeResized();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal void SetWindow(V3d_View parentView, ViewportRect rect)
+    {
+        _Init();
+
+        if (V3dView.IfWindow())
+        {
+            if (!Equals(V3dView.ParentView(), parentView))
+            {
+                ReleaseWindow();
+                _Init();
+            }
+        }
+
+        if (!Equals(V3dView.ParentView(), parentView))
+        {
+            V3dView.SetWindow(parentView, new(rect.Width, rect.Height), Aspect_TypeOfTriedronPosition.LEFT_UPPER, new(rect.Left, rect.Top));
+
+            if (_ZoomFitAllOnInit)
+            {
+                _ZoomFitAllOnInit = false;
+                ZoomFitAll();
+            }
+        }
+        else
+        {
+            V3dHelper.SetSubviewMetrics(V3dView, new(rect.Width, rect.Height), new(rect.Left, rect.Top));
+        }
 
         _UpdateFromViewParameterSet();
+        V3dView.MustBeResized();
+    }
 
-        var handle = _OcWindow.HWindow();
-        return handle;
+    //--------------------------------------------------------------------------------------------------
+
+    internal void ReleaseWindow()
+    {
+        _DeInit();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -293,35 +367,25 @@ public sealed class ViewportController : BaseObject, IDisposable
     #endregion
 
     #region Viewport navigation
-
-    public enum PredefinedViews
-    {
-        Top,
-        Bottom,
-        Left,
-        Right,
-        Front,
-        Back,
-        WorkingPlane
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    
     /// <summary>
     /// Sets the viewport to a predefined view orientation.
     /// </summary>
-    /// <remarks>If the <paramref name="predefinedView"/> is <see cref="PredefinedViews.WorkingPlane"/>, the
+    /// <remarks>If the <paramref name="predefinedView"/> is <see cref="ViewUtils.PredefinedView.WorkingPlane"/>, the
     /// viewport is aligned to the working plane of the workspace. For other predefined views, the orientation is
     /// determined based on the current forward direction specified in the viewport parameters. If there are
     /// selected entities in the workspace, the view will zoom to fit the selected entities; otherwise, it will zoom to
     /// fit all visible entities.</remarks>
-    /// <param name="predefinedView">The predefined view to set. This can be one of the values from the <see cref="PredefinedViews"/> enumeration,
-    /// such as <see cref="PredefinedViews.Top"/> or <see cref="PredefinedViews.Front"/>.</param>
+    /// <param name="predefinedView">The predefined view to set. This can be one of the values from the <see cref="ViewUtils.PredefinedView"/> enumeration,
+    /// such as <see cref="ViewUtils.PredefinedView.Top"/> or <see cref="ViewUtils.PredefinedView.Front"/>.</param>
     /// <param name="animate">A value indicating whether the transition to the new orientation should be animated. If <see langword="true"/>,
     /// the transition will be animated; otherwise, the view will change instantly.</param>
-    public void SetPredefinedView(PredefinedViews predefinedView, bool animate=false)
+    public void SetPredefinedView(ViewUtils.PredefinedView predefinedView, bool animate=false)
     {
-        if (predefinedView == PredefinedViews.WorkingPlane)
+        if (!IsVisible)
+            return;
+
+        if (predefinedView == ViewUtils.PredefinedView.WorkingPlane)
         {
             var plane = WorkspaceController.Workspace.WorkingPlane;
             var dir = plane.Axis.Direction;
@@ -337,43 +401,8 @@ public sealed class ViewportController : BaseObject, IDisposable
             return;
 
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-
-        V3d_TypeOfOrientation? orientation = predefinedView switch
-            {
-                PredefinedViews.Top => V3d_TypeOfOrientation.Zup_Top,
-                PredefinedViews.Bottom => V3d_TypeOfOrientation.Zup_Bottom,
-                PredefinedViews.Left => parameterSet.ForwardDirection switch
-                {
-                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Ypos,
-                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xpos,
-                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xneg,
-                    _ => V3d_TypeOfOrientation.Yneg
-                },
-                PredefinedViews.Right => parameterSet.ForwardDirection switch
-                {
-                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Yneg,
-                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xneg,
-                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xpos,
-                    _ => V3d_TypeOfOrientation.Ypos
-                },
-                PredefinedViews.Front => parameterSet.ForwardDirection switch
-                {
-                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Xneg,
-                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Ypos,
-                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Yneg,
-                    _ => V3d_TypeOfOrientation.Xpos
-                },
-                PredefinedViews.Back => parameterSet.ForwardDirection switch
-                {
-                    ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Xpos,
-                    ViewForwardDirection.YPos => V3d_TypeOfOrientation.Yneg,
-                    ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Ypos,
-                    _ => V3d_TypeOfOrientation.Xneg
-                },
-                _ => null
-            };
-
-        if(!orientation.HasValue)
+        V3d_TypeOfOrientation? orientation = ViewUtils.GetPredefinedViewOrientation(predefinedView, parameterSet.ForwardDirection);
+        if (!orientation.HasValue)
             return;
 
         SetPredefinedView(orientation.Value, animate);
@@ -394,29 +423,14 @@ public sealed class ViewportController : BaseObject, IDisposable
     /// the transition will be animated; otherwise, the view will change instantly.</param>
     public void SetPredefinedView(V3d_TypeOfOrientation orientation, bool animate = false)
     {
+        if (!IsVisible)
+            return;
+
         if (_LockedToPlane)
             return;
 
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-
-        V3d_TypeOfOrientation? up = orientation switch
-        {
-            V3d_TypeOfOrientation.Zup_Top => parameterSet.ForwardDirection switch
-            {
-                ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Ypos,
-                ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xpos,
-                ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xneg,
-                _ => V3d_TypeOfOrientation.Yneg
-            },
-            V3d_TypeOfOrientation.Zup_Bottom => parameterSet.ForwardDirection switch
-            {
-                ViewForwardDirection.XNeg => V3d_TypeOfOrientation.Yneg,
-                ViewForwardDirection.YPos => V3d_TypeOfOrientation.Xneg,
-                ViewForwardDirection.YNeg => V3d_TypeOfOrientation.Xpos,
-                _ => V3d_TypeOfOrientation.Ypos
-            },
-            _ => null
-        };
+        V3d_TypeOfOrientation up = ViewUtils.GetUpOrientation(orientation, parameterSet.ForwardDirection);
 
         if (animate && _AisAnimationCamera.Duration() > 0.001)
         {
@@ -453,9 +467,9 @@ public sealed class ViewportController : BaseObject, IDisposable
         void __ApplyPredefinedView()
         {
             V3dView.SetProj(orientation);
-            if (up.HasValue)
+            if (up != V3d_TypeOfOrientation.Zpos)
             {
-                V3dView.SetUp(up.Value);
+                V3dView.SetUp(up);
             }
 
             if (WorkspaceController.Selection.SelectedEntities.Count > 0)
@@ -484,6 +498,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void MouseMove(Point pos, ModifierKeys modifierKeys = ModifierKeys.None, MouseMoveMode mode = MouseMoveMode.None)
     {
+        if (!IsVisible)
+            return;
+
         if (IsInRubberbandSelection)
         {
             _LastMousePosition = pos;
@@ -537,6 +554,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void MouseMove(ModifierKeys modifierKeys = ModifierKeys.None)
     {
+        if (!IsVisible)
+            return;
+
         if (_AisRubberBand != null)
             return;
 
@@ -547,6 +567,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void MouseDown(ModifierKeys modifierKeys = ModifierKeys.None)
     {
+        if (!IsVisible)
+            return;
+
         WorkspaceController.MouseDown(this, modifierKeys);
     }
 
@@ -554,6 +577,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void MouseUp(ModifierKeys modifierKeys = ModifierKeys.None)
     {
+        if (!IsVisible)
+            return;
+
         if (IsInRubberbandSelection)
         {
             _StopRubberbandSelection();
@@ -565,6 +591,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _SetMouseMoveMode(MouseMoveMode mode)
     {
+        if (!IsVisible)
+            return;
+
         switch (mode)
         {
             case MouseMoveMode.Panning:
@@ -599,6 +628,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Rotate(double yawDeg, double pitchDeg, double rollDeg)
     {
+        if (!IsVisible)
+            return;
+
         if (_LockedToPlane) 
             return;
 
@@ -640,6 +672,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Pan(double dX, double dY)
     {
+        if (!IsVisible)
+            return;
+
         V3dView.Panning(dX, dY, 1.0, true);
         WorkspaceController.Invalidate();
         _SyncViewportFromV3d();
@@ -653,6 +688,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     /// <param name="position">The target position to center the viewport on.</param>
     public void PanToCenter(Pnt position)
     {
+        if (!IsVisible)
+            return;
+
         Vec panVec = new(Viewport.TargetPoint, position);
         Viewport.TargetPoint = Viewport.TargetPoint.Translated(panVec);
         Viewport.EyePoint = Viewport.EyePoint.Translated(panVec);
@@ -665,6 +703,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Zoom(Point pos, double value)
     {
+        if (!IsVisible)
+            return;
+
         double delta = value * 20.0;
         if (_CurrentMouseMoveMode != MouseMoveMode.Zooming)
         {
@@ -680,6 +721,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Zoom(double value)
     {
+        if (!IsVisible)
+            return;
+
         if (value > 0)
         {
             V3dView.SetZoom(1.0 + value, true);
@@ -696,7 +740,10 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void ZoomFitAll()
     {
-        if (_OcWindow == null)
+        if (!IsVisible)
+            return;
+
+        if (!V3dView.IfWindow())
         {
             // We need a window, defer call
             _ZoomFitAllOnInit = true;
@@ -719,6 +766,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     /// <param name="boxToFit">The bounding box to fit within the viewport. Must have a positive square extent.</param>
     public void ZoomFit(Bnd_Box boxToFit)
     {
+        if (!IsVisible)
+            return;
+
         if (boxToFit.SquareExtent() < 0.00001)
         {
             return;
@@ -733,6 +783,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void ZoomFitSelected()
     {
+        if (!IsVisible)
+            return;
+
         WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
         WorkspaceController.AisContext.FitSelected(V3dView, 0.1, false);
         WorkspaceController.Invalidate();
@@ -745,35 +798,48 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     #region Usability Tools
 
-    void _SetViewCube(bool isVisible)
+    void _UpdateViewCube(bool show=true)
     {
-        var aisContext = WorkspaceController.AisContext;
+        if (!IsVisible)
+            return;
 
         if (_AisViewCube == null)
             return;
 
-        if (isVisible && !aisContext.IsDisplayed(_AisViewCube))
+        bool toDisplay = show && _ShowViewCube && !_LockedToPlane && IsActive;
+        var aisContext = WorkspaceController.AisContext;
+        bool isDisplayed = aisContext.IsDisplayed(_AisViewCube);
+
+        if (toDisplay && !isDisplayed)
         {
             aisContext.Display(_AisViewCube, false);
+            _AisViewCube.ViewAffinity().SetVisible(false);
+            aisContext.SetViewAffinity(_AisViewCube, V3dView, true);
             WorkspaceController.Invalidate(true);
         }
-        else if (!isVisible && aisContext.IsDisplayed(_AisViewCube))
+        else if (!toDisplay && isDisplayed)
         {
             aisContext.Remove(_AisViewCube, false);
             WorkspaceController.Invalidate(true);
         }
-        else if (isVisible)
+        else if (toDisplay)
         {
             aisContext.Redisplay(_AisViewCube, false);
+            _AisViewCube.ViewAffinity().SetVisible(false);
+            aisContext.SetViewAffinity(_AisViewCube, V3dView, true);
             WorkspaceController.Invalidate(true);
         }
+
+        IsViewCubeVisible = toDisplay;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _SetViewCube(bool isVisible, uint size, double duration, ViewForwardDirection forwardDir)
+    void _UpdateViewCube(uint size, double duration, ViewUtils.ViewForwardDirection forwardDir)
     {
-        var aisContext = WorkspaceController.AisContext;
+        if(!IsVisible)
+            return;
+
         duration += 0.001; // Avoid zero duration to force at least one frame of updating
 
         if (_AisViewCube != null)
@@ -781,13 +847,12 @@ public sealed class ViewportController : BaseObject, IDisposable
             __SetSize(size);
             __SetTexture(forwardDir);
             _AisViewCube.SetDuration(duration);
-            _SetViewCube(isVisible);
+            _UpdateViewCube();
             return;
         }
 
-        if (!isVisible)
+        if (!_ShowViewCube)
             return;
-
 
         _AisViewCube = new();
         __SetSize(size);
@@ -819,13 +884,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetColor(Colors.Highlight.ToQuantityColor());
         _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetMaterial(material);
 
-        aisContext.Display(_AisViewCube, false);
-        foreach (var viewport in WorkspaceController.Workspace.Viewports)
-        {
-            aisContext.SetViewAffinity(_AisViewCube, V3dView, ReferenceEquals(viewport, Viewport));
-        }
-
-        WorkspaceController.Invalidate(true);
+        _UpdateViewCube();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -839,13 +898,13 @@ public sealed class ViewportController : BaseObject, IDisposable
 
         //--------------------------------------------------------------------------------------------------
 
-        void __SetTexture(ViewForwardDirection forwardDir)
+        void __SetTexture(ViewUtils.ViewForwardDirection forwardDir)
         {
             string textureResourceName = forwardDir switch
             {
-                ViewForwardDirection.XNeg => @"Visual\ViewCubeSides_XNeg.png",
-                ViewForwardDirection.YPos => @"Visual\ViewCubeSides_YPos.png",
-                ViewForwardDirection.YNeg => @"Visual\ViewCubeSides_YNeg.png",
+                ViewUtils.ViewForwardDirection.XNeg => @"Visual\ViewCubeSides_XNeg.png",
+                ViewUtils.ViewForwardDirection.YPos => @"Visual\ViewCubeSides_YPos.png",
+                ViewUtils.ViewForwardDirection.YNeg => @"Visual\ViewCubeSides_YNeg.png",
                 _ => @"Visual\ViewCubeSides_XPos.png"
             };
 
@@ -869,9 +928,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
         
-    void _SetTrihedron(bool visible)
+    void _UpdateTrihedron(bool show=true)
     {
-        if (visible)
+        if (show && _ShowTrihedron && !LockedToPlane)
         {
             V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.LEFT_LOWER, new Color(0.941f, 0.973f, 1.0f).ToQuantityColor(), 0.1, V3d_TypeOfVisualization.ZBUFFER);
         }
@@ -890,17 +949,16 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     int[] _CalcRectangleSelectionPoints(bool bottomUp)
     {
-        int height = 0, width = 0;
-        _OcWindow.Size(ref width, ref height);
+        var screenSize = ScreenSize;
         int left = Math.Max(0, Math.Min((int) _StartedMousePosition.X, (int) _LastMousePosition.X));
-        int right = Math.Min(width, Math.Max((int) _StartedMousePosition.X, (int) _LastMousePosition.X));
+        int right = Math.Min(screenSize.Width, Math.Max((int) _StartedMousePosition.X, (int) _LastMousePosition.X));
         int top = Math.Max(0, Math.Min((int) _StartedMousePosition.Y, (int) _LastMousePosition.Y));
-        int bottom = Math.Min(height, Math.Max((int) _StartedMousePosition.Y, (int) _LastMousePosition.Y));
+        int bottom = Math.Min(screenSize.Height, Math.Max((int) _StartedMousePosition.Y, (int) _LastMousePosition.Y));
 
         if (bottomUp)
         {
-            top = height - top;
-            bottom = height - bottom;
+            top = screenSize.Height - top;
+            bottom = screenSize.Height - bottom;
         }
 
         return new[] {left, bottom, right, top};
@@ -910,6 +968,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _UpdateRubberbandSelection()
     {
+        if(!IsVisible)
+            return;
+
         switch (_RubberbandMode)
         {
             case RubberbandSelectionMode.Rectangle:
@@ -918,10 +979,9 @@ public sealed class ViewportController : BaseObject, IDisposable
                 break;
 
             case RubberbandSelectionMode.Freehand:
-                int height = 0, width = 0;
-                _OcWindow.Size(ref width, ref height);
-                int currentPointX = (int) _LastMousePosition.X.Clamp(0, width);
-                int currentPointY = (int) _LastMousePosition.Y.Clamp(0, height);
+                var screenSize = ScreenSize;
+                int currentPointX = (int) _LastMousePosition.X.Clamp(0, screenSize.Width);
+                int currentPointY = (int) _LastMousePosition.Y.Clamp(0, screenSize.Height);
                 var (lastPointX, lastPointY) = _RubberbandPoints[_RubberbandPoints.Count - 2];
                 var distX = currentPointX - lastPointX;
                 var distY = currentPointY - lastPointY;
@@ -931,9 +991,9 @@ public sealed class ViewportController : BaseObject, IDisposable
                 }
                 else
                 {
-                    _RubberbandPoints[_RubberbandPoints.Count - 1] = (currentPointX, currentPointY);
+                    _RubberbandPoints[^1] = (currentPointX, currentPointY);
                 }
-                AisHelper.SetRubberbandPoints(_OcWindow, _AisRubberBand, _RubberbandPoints);
+                AisHelper.SetRubberbandPoints(_AisRubberBand, _RubberbandPoints, screenSize.Height);
                 break;
         }
 
@@ -956,6 +1016,7 @@ public sealed class ViewportController : BaseObject, IDisposable
             Aspect_TypeOfLine.DASH, 
             new Color(0.0f, 0.0f, 1.0f).ToQuantityColor(), 
             0.9, 2, true);
+        _AisRubberBand.SetLocalTransformation(Trsf.Identity);
 
         _RubberbandMode = mode;
         _RubberbandPoints.Clear();
@@ -968,11 +1029,9 @@ public sealed class ViewportController : BaseObject, IDisposable
         _UpdateRubberbandSelection();
 
         aisContext.Display(_AisRubberBand, false);
+        _AisRubberBand.ViewAffinity().SetVisible(false);
+        aisContext.SetViewAffinity(_AisRubberBand, V3dView, true);
 
-        foreach (var viewport in WorkspaceController.Workspace.Viewports)
-        {
-            aisContext.SetViewAffinity(_AisRubberBand, V3dView, ReferenceEquals(viewport, Viewport));
-        }
         WorkspaceController.Invalidate(true);
     }
         
@@ -1017,6 +1076,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     /// </returns>
     internal bool NeedsRedraw()
     {
+        if (!IsVisible)
+            return false;
+
         return !_AisAnimationCamera.IsStopped();
     }
 
@@ -1027,6 +1089,9 @@ public sealed class ViewportController : BaseObject, IDisposable
     /// </summary>
     internal void PrepareDraw()
     {
+        if(!IsVisible)
+            return;
+
         if (!_AisAnimationCamera.IsStopped())
         {
             _AisAnimationCamera.UpdateTimer();
@@ -1045,27 +1110,27 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public Bitmap RenderToBitmap(uint width, uint height)
     {
-        if (V3dView == null 
-            || !(_OcWindow?.IsMapped() ?? false)
+        if (!IsVisible
+            || !V3dView.IfWindow()
             || width == 0 || height == 0)
             return null;
 
         try
         {
-            _SetTrihedron(false);
-            _SetViewCube(false);
+            _UpdateTrihedron(false);
+            _UpdateViewCube(false);
             var pixmap = new Image_AlienPixMap();
             pixmap.InitZero(Image_Format.RGB, width, height);
             V3dView?.ToPixMap(pixmap, (int)width, (int)height);
-            _SetTrihedron(_ShowTrihedron);
-            _SetViewCube(true);
+            _UpdateTrihedron();
+            _UpdateViewCube();
 
             return PixMapHelper.ConvertToBitmap(pixmap);
         }
-        catch (Exception )
+        catch (Exception)
         {
-            _SetTrihedron(_ShowTrihedron);
-            _SetTrihedron(true);
+            _UpdateTrihedron();
+            _UpdateViewCube();
             return null;
         }
     }
@@ -1087,9 +1152,12 @@ public sealed class ViewportController : BaseObject, IDisposable
     {
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
         _ShowTrihedron = parameterSet.ShowTrihedron;
+        _ShowViewCube = parameterSet.ShowViewCube;
         _AisAnimationCamera.SetOwnDuration(parameterSet.CameraAnimationDuration);
-        _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.CameraAnimationDuration, parameterSet.ForwardDirection);
-        _SetTrihedron(_ShowTrihedron);
+
+        _UpdateViewCube(parameterSet.ViewCubeSize, parameterSet.CameraAnimationDuration, parameterSet.ForwardDirection);
+        _UpdateTrihedron();
+        _UpdateInternalLabel();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -1102,15 +1170,17 @@ public sealed class ViewportController : BaseObject, IDisposable
             return;
         }
 
-        if (!_IsSyncingViewport)
+        if (!_IsSyncingViewport && IsVisible)
         {
             switch (e.PropertyName)
             {
                 case nameof(Viewport.EyePoint):
                     V3dView.SetEye(Viewport.EyePoint.X, Viewport.EyePoint.Y, Viewport.EyePoint.Z);
+                    _UpdateInternalLabel();
                     break;
                 case nameof(Viewport.TargetPoint):
                     V3dView.SetAt(Viewport.TargetPoint.X, Viewport.TargetPoint.Y, Viewport.TargetPoint.Z);
+                    _UpdateInternalLabel();
                     break;
                 case nameof(Viewport.Scale):
                     V3dView.SetScale(Viewport.Scale);
@@ -1125,9 +1195,20 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
+    void _UpdateInternalLabel()
+    {
+        var forward = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ForwardDirection;
+        Dir viewDir = Viewport.GetViewDirection();
+        var predefinedView = ViewUtils.GuessPredefinedView(viewDir, forward, 0.1);
+        _InternalLabel = predefinedView.HasValue ? predefinedView.Value.ToString() : "";
+        RaisePropertyChanged(nameof(Label));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateRenderMode()
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return;
 
         V3dView.SetComputedMode(Viewport.RenderMode == Viewport.RenderModes.HLR);
@@ -1147,7 +1228,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _SyncViewportFromV3d()
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return;
 
         _IsSyncingViewport = true;
@@ -1168,13 +1249,14 @@ public sealed class ViewportController : BaseObject, IDisposable
         RaisePropertyChanged(nameof(PixelSize));
 
         _IsSyncingViewport = false;
+        _UpdateInternalLabel();
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _SyncV3dFromViewport()
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return;
 
         V3dView.SetEye(Viewport.EyePoint.X, Viewport.EyePoint.Y, Viewport.EyePoint.Z);
@@ -1199,7 +1281,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _ValidateViewGeometry()
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return;
 
         // If distance is 0, the parameters cannot be restored
@@ -1211,7 +1293,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public void Resize()
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return;
 
         V3dView.MustBeResized();
@@ -1226,7 +1308,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public bool ScreenToPoint(int screenX, int screenY, out Pnt resultPnt)
     {
-        if (V3dView != null)
+        if (IsVisible)
         {
             try
             {
@@ -1253,7 +1335,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public bool ScreenToPoint(Pln plane, int screenX, int screenY, out Pnt resultPnt)
     {
-        if (V3dView != null)
+        if (IsVisible)
         {
             try
             {
@@ -1293,7 +1375,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public bool PointToScreen(Pnt pnt, out int screenX, out int screenY)
     {
-        if (V3dView != null)
+        if (IsVisible)
         {
             try
             {
@@ -1318,7 +1400,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     public Ax1 ScreenToViewAxis(int screenX, int screenY)
     {
-        if (V3dView == null)
+        if (!IsVisible)
             return Ax1.OX;
 
         double px = 0, py = 0, pz = 0;

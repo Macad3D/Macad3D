@@ -1,8 +1,9 @@
-﻿using System.Threading;
-using FlaUI.Core.Input;
+﻿using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Macad.Test.UI.Application.Edit;
 
@@ -201,4 +202,53 @@ public class ViewportTests : UITestBase
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void ViewportLayouts()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.View);
+        MainWindow.Ribbon.ClickButton("ViewportLayout");
+        
+        var menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem("ViewportLayoutDualHorizontal");
+        Assert.That(Regex.Matches(Pipe.GetValue("$Context.WorkspaceController.Workspace.ViewportLayout"), "ViewportContentFrame").Count, Is.EqualTo(2));
+        MainWindow.Ribbon.ClickButton("ViewportLayout");
+        
+        menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem("ViewportLayoutTripleRight");
+        Assert.That(Regex.Matches(Pipe.GetValue("$Context.WorkspaceController.Workspace.ViewportLayout"), "ViewportContentFrame").Count, Is.EqualTo(3));
+        MainWindow.Ribbon.ClickButton("ViewportLayout");
+        
+        menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem("ViewportLayoutQuad");
+        Assert.That(Regex.Matches(Pipe.GetValue("$Context.WorkspaceController.Workspace.ViewportLayout"), "ViewportContentFrame").Count, Is.EqualTo(4));
+
+        MainWindow.Ribbon.ClickButton("ViewportLayout");
+        menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem("ViewportLayoutSingle");
+        Assert.That(Regex.Matches(Pipe.GetValue("$Context.WorkspaceController.Workspace.ViewportLayout"), "ViewportContentFrame").Count, Is.EqualTo(1));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ViewportMaximize()
+    {
+        Assert.That(Pipe.GetValue<bool>("$Context.WorkspaceController.ViewportLayoutManager.HasMaximizedViewport"), Is.False);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.View);
+
+        // Disable for single viewport
+        Assert.That(MainWindow.Ribbon.IsEnabled("ToggleMaximizeViewport"), Is.False);
+
+        // Enable multi viewport
+        MainWindow.Ribbon.ClickButton("ViewportLayout");
+        var menu = new ContextMenuAdaptor(MainWindow);
+        menu.ClickMenuItem("ViewportLayoutDualHorizontal");
+        Assert.That(MainWindow.Ribbon.IsEnabled("ToggleMaximizeViewport"), Is.True);
+
+        // Toggle
+        MainWindow.Ribbon.ClickButton("ToggleMaximizeViewport");
+        Assert.That(Pipe.GetValue<bool>("$Context.WorkspaceController.ViewportLayoutManager.HasMaximizedViewport"), Is.True);
+        MainWindow.Ribbon.ClickButton("ToggleMaximizeViewport");
+        Assert.That(Pipe.GetValue<bool>("$Context.WorkspaceController.ViewportLayoutManager.HasMaximizedViewport"), Is.False);
+    }
 }

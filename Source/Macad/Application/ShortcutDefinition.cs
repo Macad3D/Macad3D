@@ -21,8 +21,10 @@ internal static class ShortcutDefinition
         handler.AddShortcuts("Workspace", [
             new(Key.G, WorkspaceCommands.ToggleGrid),
             new(Key.S, WorkspaceCommands.ToggleSnappingEnabled),
-            new(Key.F, WorkspaceCommands.ZoomFitSelected),
-            new(Key.F, ModifierKeys.Control, WorkspaceCommands.ZoomFitAll),
+            new(Key.F, WorkspaceCommands.ZoomFitSelected, false),
+            new(Key.F, ModifierKeys.Shift, WorkspaceCommands.ZoomFitSelected, true),
+            new(Key.F, ModifierKeys.Control, WorkspaceCommands.ZoomFitAll, false),
+            new(Key.F, ModifierKeys.Shift | ModifierKeys.Control, WorkspaceCommands.ZoomFitAll, true),
             new(Key.T, WorkspaceCommands.Transform),
             new(Key.W, WorkspaceCommands.AlignWorkingPlane),
             new(Key.Delete, WorkspaceCommands.DeleteEntity),
@@ -30,6 +32,7 @@ internal static class ShortcutDefinition
             new(Key.R, ModifierKeys.Control, ModelCommands.CreateReference),
             new(Key.I, WorkspaceCommands.ToggleIsolateSelection),
             new(Key.E, WorkspaceCommands.StartEditing),
+            new(Key.F11, WorkspaceCommands.ToggleMaximizeViewport),
             new(Key.Escape, WorkspaceCommands.Escape)
         ]);
 

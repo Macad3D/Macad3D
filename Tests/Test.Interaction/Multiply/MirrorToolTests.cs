@@ -268,7 +268,7 @@ public class MirrorToolTests
         {
             ctx.MoveTo(232, 155);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(177, 186, ModifierKeys.Control);
+            ctx.MoveTo(177, 186, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetClamp01"));
             Assert.AreEqual(11.0, mirror.Offset);
@@ -392,7 +392,7 @@ public class MirrorToolTests
         {
             ctx.MoveTo(124, 172);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(170, 140, ModifierKeys.Control);
+            ctx.MoveTo(170, 140, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketchClamp01"));
             Assert.AreEqual(5.0, mirror.Offset);

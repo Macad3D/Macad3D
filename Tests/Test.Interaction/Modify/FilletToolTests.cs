@@ -228,7 +228,7 @@ public class FilletToolTests
         {
             ctx.MoveTo(224, 103);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(228, 106, ModifierKeys.Control);
+            ctx.MoveTo(228, 106, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolRadiusClamp01"));
             ctx.ViewportController.MouseUp();
 

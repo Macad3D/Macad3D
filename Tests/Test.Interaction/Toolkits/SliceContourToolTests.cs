@@ -372,7 +372,7 @@ public class SliceContourToolTests
             ctx.ViewportController.MouseDown();
             Assert.IsTrue(ctx.TestHudManager.HintMessage.Contains("interval"));
 
-            ctx.MoveTo(298, 280, ModifierKeys.Shift);
+            ctx.MoveTo(298, 280, modifierKeys: ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveSubsequentLayer03"));
 
             ctx.ViewportController.MouseUp();
@@ -404,7 +404,7 @@ public class SliceContourToolTests
         {
             ctx.MoveTo(298, 308);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(298, 280, ModifierKeys.Control);
+            ctx.MoveTo(298, 280, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveLayerClamp03"));
             Assert.AreEqual(7.0, tool.Component.CustomLayerInterval[1]);
 

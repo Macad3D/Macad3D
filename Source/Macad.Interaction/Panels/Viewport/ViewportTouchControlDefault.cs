@@ -5,28 +5,30 @@ namespace Macad.Interaction.Panels;
 
 public class ViewportTouchControlDefault : IViewportTouchControl
 {
-    public ViewportController ViewportController { get; set; }
-
-    bool _MultiTouch
-    {
-        get { return _FirstId != -1 && _SecondId != -1; }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     int _FirstId = -1;
     int _SecondId = -1;
+    bool _IsTouched => _FirstId != -1 || _SecondId != -1;
+    bool _IsMultiTouch => _FirstId != -1 && _SecondId != -1;
     Point _FirstPos;
     Point _SecondPos;
     Vector _FirstToSecond;
     int _MoveCallCount;
+    ViewportController _CurrentViewport;
 
     //--------------------------------------------------------------------------------------------------
 
-    public void TouchDown(int id, Point pos, ModifierKeys modifierKeys)
+    public void TouchDown(int id, ViewportController viewport, Point pos, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null)
+        if (viewport == null)
             return;
+
+        if (_IsTouched && _CurrentViewport != viewport)
+        {
+            _CurrentViewport = null;
+            return;
+        }
+
+        _CurrentViewport = viewport;
 
         if (_FirstId == -1)
         {
@@ -44,7 +46,7 @@ public class ViewportTouchControlDefault : IViewportTouchControl
 
     //--------------------------------------------------------------------------------------------------
 
-    public void TouchUp(int id, Point pos, ModifierKeys modifierKeys)
+    public void TouchUp(int id, ViewportController viewport, Point pos, ModifierKeys modifierKeys)
     {
         if (_FirstId == id)
         {
@@ -58,12 +60,19 @@ public class ViewportTouchControlDefault : IViewportTouchControl
 
     //--------------------------------------------------------------------------------------------------
 
-    public void TouchMove(int id, Point pos, ModifierKeys modifierKeys)
+    public void TouchMove(int id, ViewportController viewport, Point pos, ModifierKeys modifierKeys)
     {
-        if (ViewportController == null)
+        if(_CurrentViewport == null)
             return;
 
-        if (_MultiTouch)
+        if (viewport != _CurrentViewport)
+        {
+            // Transform position to current viewport if we are in a move mode, so that the movement is consistent when moving across viewports
+            pos = viewport?.WorkspaceController.ViewportLayoutManager.TransformFromViewport(pos, viewport) ?? pos;
+            pos = _CurrentViewport.WorkspaceController.ViewportLayoutManager.TransformToViewport(pos, _CurrentViewport);
+        }
+
+        if (_IsMultiTouch)
         {
             // Double touch, pan
             double dx=0, dy=0;
@@ -79,18 +88,18 @@ public class ViewportTouchControlDefault : IViewportTouchControl
                 dy = pos.Y - _SecondPos.Y;
                 _SecondPos = pos;
             }
-            double scale = ViewportController.Viewport.Scale * 1.1;
-            ViewportController.Pan(dx / scale, -dy / scale);
+            double scale = _CurrentViewport.Viewport.Scale * 1.1;
+            _CurrentViewport.Pan(dx / scale, -dy / scale);
             _MoveCallCount++;
 
             // zoom and roll
             var newFirstToSecond = Point.Subtract(_FirstPos, _SecondPos);
 
             var diffDistance = newFirstToSecond.Length - _FirstToSecond.Length;
-            ViewportController.Zoom(diffDistance / 100.0);
+            _CurrentViewport.Zoom(diffDistance / 100.0);
 
             var angle = Vector.AngleBetween(_FirstToSecond, newFirstToSecond);
-            ViewportController.Rotate(0, 0, angle);
+            _CurrentViewport.Rotate(0, 0, angle);
 
             _FirstToSecond = newFirstToSecond;
         }
@@ -101,7 +110,7 @@ public class ViewportTouchControlDefault : IViewportTouchControl
             {
                 var dx = (_FirstPos.X - pos.X) * 0.25;
                 var dy = (_FirstPos.Y - pos.Y) * 0.25;
-                ViewportController.Rotate(dx, dy, 0.0);
+                _CurrentViewport.Rotate(dx, dy, 0.0);
                 _FirstPos = pos;
                 _MoveCallCount++;
             }
@@ -111,7 +120,7 @@ public class ViewportTouchControlDefault : IViewportTouchControl
         {
             // Touch events are propagated to mouse events. If we do not cancel selection,
             // the MouseUp event will select the body moved under the pointer.
-            ViewportController.WorkspaceController.CancelSelection();
+            _CurrentViewport.WorkspaceController.CancelSelection();
         }
     }
 

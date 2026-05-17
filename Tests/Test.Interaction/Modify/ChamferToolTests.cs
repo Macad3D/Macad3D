@@ -247,7 +247,7 @@ public class ChamferToolTests
         {
             ctx.MoveTo(224, 103);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(228, 106, ModifierKeys.Control);
+            ctx.MoveTo(228, 106, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceSymClamp01"));
             ctx.ViewportController.MouseUp();
 
@@ -403,7 +403,7 @@ public class ChamferToolTests
             // First
             ctx.MoveTo(220, 144);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(220, 129, ModifierKeys.Control);
+            ctx.MoveTo(220, 129, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceTwoDistClamp01"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(2.5, shape.Distance);
@@ -411,7 +411,7 @@ public class ChamferToolTests
             // Second
             ctx.MoveTo(143, 277);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(109, 287, ModifierKeys.Control);
+            ctx.MoveTo(109, 287, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceTwoDistClamp11"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(3.0, shape.SecondDistance);
@@ -443,7 +443,7 @@ public class ChamferToolTests
             // First
             ctx.MoveTo(220, 144);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(220, 129, ModifierKeys.Control);
+            ctx.MoveTo(220, 129, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
                 
             Assert.AreEqual(2.5, shape.Distance);
@@ -460,7 +460,7 @@ public class ChamferToolTests
             // Second
             ctx.MoveTo(143, 277);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(109, 287, ModifierKeys.Control);
+            ctx.MoveTo(109, 287, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
                 
             Assert.AreEqual(3.0, shape.SecondDistance);
@@ -588,7 +588,7 @@ public class ChamferToolTests
             // Distance
             ctx.MoveTo(220, 124);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(220, 109, ModifierKeys.Control);
+            ctx.MoveTo(220, 109, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngleClamp01"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(2.5, shape.Distance);
@@ -596,7 +596,7 @@ public class ChamferToolTests
             // Angle
             ctx.MoveTo(189, 163);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(190, 158, ModifierKeys.Control);
+            ctx.MoveTo(190, 158, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngleClamp11"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(55.0, shape.Angle);
@@ -628,7 +628,7 @@ public class ChamferToolTests
             // Distance
             ctx.MoveTo(220, 124);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(220, 109, ModifierKeys.Control);
+            ctx.MoveTo(220, 109, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
                 
             Assert.AreEqual(2.5, shape.Distance);
@@ -645,7 +645,7 @@ public class ChamferToolTests
             // Angle
             ctx.MoveTo(200, 163);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(198, 158, ModifierKeys.Control);
+            ctx.MoveTo(198, 158, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
                 
             Assert.AreEqual(50.0, shape.Angle);

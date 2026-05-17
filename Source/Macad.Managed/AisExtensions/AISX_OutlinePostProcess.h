@@ -60,7 +60,10 @@ private:
             }
         }
 
-        void Release(OpenGl_Context* theContext) override {}
+        void Release(OpenGl_Context* theContext) override
+        {
+            _PostProcess.Nullify();
+        }
 
     private:
         Handle(AISX_OutlinePostProcess) _PostProcess;

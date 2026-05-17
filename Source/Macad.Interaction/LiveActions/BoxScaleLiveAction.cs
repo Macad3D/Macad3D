@@ -289,10 +289,10 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     double? _ProcessMouseInput(MouseEventData data)
     {
-        var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+        var planeDir = data.ViewportController.Viewport.GetRightDirection();
         if (planeDir.IsParallel(_Axis.Direction, 0.1))
         {
-            planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            planeDir = data.ViewportController.Viewport.GetUpDirection();
         }
         planeDir.Cross(_Axis.Direction);
         var plane = new Pln(new Ax3(_Axis.Location, planeDir, _Axis.Direction));
@@ -339,7 +339,7 @@ public sealed class BoxScaleLiveAction : LiveAction
             }
         }
 
-        if(WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var selectedPoint))
+        if(data.ViewportController.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var selectedPoint))
         {
             
             {

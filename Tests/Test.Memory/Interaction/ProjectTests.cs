@@ -87,7 +87,7 @@ public class ProjectTests
             var workspaceCtrl = context.WorkspaceController;
             var workspace = context.Workspace;
             var viewportCtrl = context.ViewportController;
-            var viewport = context.Viewport;
+            var viewport = context.ViewportController.Viewport;
             
             context.DocumentController.NewModel();
 

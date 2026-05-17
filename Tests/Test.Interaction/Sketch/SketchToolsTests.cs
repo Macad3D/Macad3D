@@ -616,7 +616,7 @@ public class SketchToolsTests
         {
             ctx.MoveTo(249, 463);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(316, 404, ModifierKeys.Shift);
+            ctx.MoveTo(316, 404, modifierKeys: ModifierKeys.Shift);
             ctx.ViewportController.MouseUp(ModifierKeys.Shift);
             ctx.MoveTo(287, 216);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsCenter01"), 0.1);
@@ -648,7 +648,7 @@ public class SketchToolsTests
         {
             ctx.MoveTo(249, 463);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(316, 404, ModifierKeys.Control);
+            ctx.MoveTo(316, 404, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp(ModifierKeys.Control);
             ctx.MoveTo(287, 216);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsRound01"), 0.1);
@@ -1252,7 +1252,7 @@ public class SketchToolsTests
         tool.Select(null, [1,2]);
         tool.StartTool(new MirrorElementSketchTool());
         ctx.ClickAt(230, 380);
-        ctx.MoveTo(345, 104, ModifierKeys.Control);
+        ctx.MoveTo(345, 104, modifierKeys: ModifierKeys.Control);
         ctx.ClickAt(345, 104, ModifierKeys.Control);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsRound01"), 0.1);
         tool.StopTool();

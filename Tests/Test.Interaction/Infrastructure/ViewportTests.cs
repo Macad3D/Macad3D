@@ -65,11 +65,11 @@ public class ViewportTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    [TestCase(ViewForwardDirection.XPos)]
-    [TestCase(ViewForwardDirection.XNeg)]
-    [TestCase(ViewForwardDirection.YPos)]
-    [TestCase(ViewForwardDirection.YNeg)]
-    public void ViewCubeTextures(ViewForwardDirection forwardDirection)
+    [TestCase(ViewUtils.ViewForwardDirection.XPos)]
+    [TestCase(ViewUtils.ViewForwardDirection.XNeg)]
+    [TestCase(ViewUtils.ViewForwardDirection.YPos)]
+    [TestCase(ViewUtils.ViewForwardDirection.YNeg)]
+    public void ViewCubeTextures(ViewUtils.ViewForwardDirection forwardDirection)
     {
         var ctx = Context.Current;
         var vc = ctx.ViewportController;
@@ -108,9 +108,11 @@ public class ViewportTests
         plane.UReverse();
         var clipPlane = new ClipPlane(plane);
         clipPlane.AddViewport(ctx.ViewportController);
+        ctx.WorkspaceController.Invalidate();
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane01"));
 
         clipPlane.Remove();
+        ctx.WorkspaceController.Invalidate();
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane02"));
     }
 
@@ -290,20 +292,20 @@ public class ViewportTests
 
         Assert.Multiple(() =>
         {
-            double[] paramsPre = ctx.Viewport.GetViewParameters();
+            double[] paramsPre = ctx.Workspace.Viewport.GetViewParameters();
 
             // Select view cube
             ctx.ClickAt(401, 70);
             Thread.Sleep(500);
             ctx.WorkspaceController.Invalidate(forceRedraw: true);
-            double[] paramsPost = ctx.Viewport.GetViewParameters();
+            double[] paramsPost = ctx.Workspace.Viewport.GetViewParameters();
             Assert.That(paramsPost, Is.Not.EqualTo(paramsPre));
 
             // Select predefined view
-            ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Front, true);
+            ctx.WorkspaceController.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Front, true);
             Thread.Sleep(500);
             ctx.WorkspaceController.Invalidate(forceRedraw: true);
-            paramsPost = ctx.Viewport.GetViewParameters();
+            paramsPost = ctx.Workspace.Viewport.GetViewParameters();
             Assert.That(paramsPost, Is.Not.EqualTo(paramsPre));
         });
     }
@@ -357,11 +359,11 @@ public class ViewportTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    [TestCase(ViewForwardDirection.XPos, 0.0, false)]
-    [TestCase(ViewForwardDirection.XNeg, 2, false)]
-    [TestCase(ViewForwardDirection.YPos, -1, true)]
-    [TestCase(ViewForwardDirection.YNeg, 1, true)]
-    public void PredefinedViews(ViewForwardDirection forwardDirection, double rotSteps, bool reverseTopBottom)
+    [TestCase(ViewUtils.ViewForwardDirection.XPos, 0.0, false)]
+    [TestCase(ViewUtils.ViewForwardDirection.XNeg, 2, false)]
+    [TestCase(ViewUtils.ViewForwardDirection.YPos, -1, true)]
+    [TestCase(ViewUtils.ViewForwardDirection.YNeg, 1, true)]
+    public void PredefinedViews(ViewUtils.ViewForwardDirection forwardDirection, double rotSteps, bool reverseTopBottom)
     {
         double rotation = rotSteps * Maths.HalfPI;
 
@@ -383,22 +385,22 @@ public class ViewportTests
 
         Assert.Multiple(() =>
         {
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Front);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Front);
             __Check(Dir.DX.Reversed(), Dir.DY, Dir.DZ);
            
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Back);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Back);
             __Check(Dir.DX, Dir.DY.Reversed(), Dir.DZ);
             
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Right);
-            __Check(Dir.DY.Reversed(), Dir.DX.Reversed(), Dir.DZ);
-            
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Left);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Right);
             __Check(Dir.DY, Dir.DX, Dir.DZ);
+            
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Left);
+            __Check(Dir.DY.Reversed(), Dir.DX.Reversed(), Dir.DZ);
 
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Top);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Top);
             __Check(Dir.DZ.Reversed(), reverseTopBottom ? Dir.DX : Dir.DX.Reversed(), reverseTopBottom ? Dir.DY : Dir.DY.Reversed());
             
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Bottom);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Bottom);
             __Check(Dir.DZ, reverseTopBottom ? Dir.DX : Dir.DX.Reversed(), reverseTopBottom ? Dir.DY.Reversed() : Dir.DY);
         });
     }
@@ -414,11 +416,11 @@ public class ViewportTests
         Assert.Multiple(() =>
         {
             var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Left);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Right);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PredefinedViewsZoomFit01"));
 
             ctx.WorkspaceController.Selection.SelectEntity(bodies[0]);
-            vc.SetPredefinedView(ViewportController.PredefinedViews.Left);
+            vc.SetPredefinedView(ViewUtils.PredefinedView.Right);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PredefinedViewsZoomFit02"));
         });
     }
@@ -433,10 +435,31 @@ public class ViewportTests
         TestGeomGenerator.CreateBoxCylinderSphere();
         ctx.ViewportController.ZoomFitAll();
 
-        ctx.Viewport.RenderMode = renderMode;
+        ctx.Workspace.Viewport.RenderMode = renderMode;
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"Rendermodes_{renderMode}"));
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void LabelPredefinedViews([Values] ViewUtils.ViewForwardDirection forwardDirection)
+    {
+        var ctx = Context.Current;
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.ForwardDirection = forwardDirection;
+
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo(""));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Top);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Top"));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Bottom);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Bottom"));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Front);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Front"));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Back);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Back"));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Left);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Left"));
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Right);
+        Assert.That(ctx.ViewportController.Label, Is.EqualTo("Right"));
+    }
 }

@@ -9,7 +9,7 @@ namespace Macad.Interaction;
 /// </summary>
 public class InteractiveScriptContext : ScriptContext
 {
-    internal static ScriptContext Default { get; } = new InteractiveScriptContext();
+    internal new static ScriptContext Default { get; } = new InteractiveScriptContext();
 
     //--------------------------------------------------------------------------------------------------
 

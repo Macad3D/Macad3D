@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Core.Topology;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Macad.Common;
-using Macad.Core.Topology;
 
 namespace Macad.Interaction.Panels;
 
@@ -33,18 +34,6 @@ public class ViewportPanelModel : BaseObject, IHudManager
                 _WorkspaceController = value;
                 RaisePropertyChanged();
             }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public ViewportController ViewportController
-    {
-        get { return _ViewportController; }
-        private set
-        {
-            _ViewportController = value;
-            RaisePropertyChanged();
         }
     }
 
@@ -77,14 +66,15 @@ public class ViewportPanelModel : BaseObject, IHudManager
     }
 
     //--------------------------------------------------------------------------------------------------
+
     public string ErrorMessage
     {
-        get { return _ErrorMessage; }
+        get;
         private set
         {
-            if (_ErrorMessage != value)
+            if (field != value)
             {
-                _ErrorMessage = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
@@ -92,13 +82,49 @@ public class ViewportPanelModel : BaseObject, IHudManager
 
     //--------------------------------------------------------------------------------------------------
 
+    public bool HasMultipleViewports
+    {
+        get;
+        private set
+        {
+            field = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Thickness ActiveViewportMargin
+    {
+        get;
+        private set
+        {
+            field = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public record ViewportDefinition(ViewportController ViewportController, double Left, double Top, double Width, double Height);
+
+    public ViewportDefinition[] ViewportDefinitions
+    {
+        get;
+        private set
+        {
+            field = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     WorkspaceController _WorkspaceController;
-    ViewportController _ViewportController;
     object _CursorOwner;
     Cursor _Cursor;
     string _HintMessage;
     object _HintMessageOwner;
-    string _ErrorMessage;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -111,7 +137,6 @@ public class ViewportPanelModel : BaseObject, IHudManager
         Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
         InteractiveContext.Current.PropertyChanged += Context_PropertyChanged;
         WorkspaceController = InteractiveContext.Current.WorkspaceController;
-        ViewportController = InteractiveContext.Current.ViewportController;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -131,16 +156,17 @@ public class ViewportPanelModel : BaseObject, IHudManager
             if (_WorkspaceController != null)
             {
                 _WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+                _WorkspaceController.ViewportLayoutManager.LayoutArranged -= _ViewportLayoutManager_LayoutArranged;
             }
             WorkspaceController = (sender as InteractiveContext)?.WorkspaceController;
             if (_WorkspaceController != null)
             {
                 _WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+                _WorkspaceController.PropertyChanged += _WorkspaceController_PropertyChanged; ;
+                _WorkspaceController.ViewportLayoutManager.LayoutArranged += _ViewportLayoutManager_LayoutArranged;
+
+                _UpdateActiveViewport();
             }
-        }
-        else if (e.PropertyName == nameof(InteractiveContext.ViewportController))
-        {
-            ViewportController = (sender as InteractiveContext)?.ViewportController;
         }
     }
 
@@ -149,7 +175,7 @@ public class ViewportPanelModel : BaseObject, IHudManager
     #endregion
 
     #region Control Callbacks
-        
+
     public bool KeyDown(KeyEventArgs keyEventArgs)
     {
         var elements = HudElements.ToArray();
@@ -294,6 +320,67 @@ public class ViewportPanelModel : BaseObject, IHudManager
             ErrorMessage = "";
 
         });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Viewport Control
+
+    void _WorkspaceController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(WorkspaceController.ViewportController))
+        {
+            _UpdateActiveViewport();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ViewportLayoutManager_LayoutArranged(ViewportLayoutManager senders)
+    {
+        var dpiScale = _WorkspaceController.ViewportLayoutManager.DpiScale;
+        ViewportDefinitions = WorkspaceController.ViewportControllers
+                                                .Where(vc => vc.IsVisible)
+                                                .Select(vc =>
+                                                {
+                                                    var frame = _WorkspaceController.ViewportLayoutManager.GetContentFrame(vc);
+                                                    if (frame == null)
+                                                        return null;
+                                                    return new ViewportDefinition(vc, 
+                                                                                  frame.Location.Left / dpiScale, 
+                                                                                  frame.Location.Top / dpiScale, 
+                                                                                  frame.Location.Width / dpiScale, 
+                                                                                  frame.Location.Height / dpiScale);
+                                                })
+                                                .WhereNotNull()
+                                                .ToArray();
+        _UpdateActiveViewport();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdateActiveViewport()
+    {
+        HasMultipleViewports = _WorkspaceController.Workspace.ViewportLayout is not ViewportContentFrame;
+
+        var windowSize = _WorkspaceController.ViewportLayoutManager.GetSize();
+        var frame = _WorkspaceController.ViewportLayoutManager.GetContentFrame(_WorkspaceController.ViewportController);
+        var dpiScale = _WorkspaceController.ViewportLayoutManager.DpiScale;
+
+        if (frame != null)
+        {
+            ActiveViewportMargin = new(
+                frame.Location.Left / dpiScale,
+                frame.Location.Top / dpiScale,
+                (windowSize.Width - frame.Location.Right) / dpiScale,
+                (windowSize.Height - frame.Location.Bottom) / dpiScale);
+        }
+        else
+        {
+            ActiveViewportMargin = new(0, 0, 0, 0);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

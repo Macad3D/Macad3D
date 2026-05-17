@@ -174,10 +174,10 @@ public sealed class TranslateAxisLiveAction : LiveAction
 
     double? _ProcessMouseInput(MouseEventData data)
     {
-        var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+        var planeDir = data.ViewportController.Viewport.GetRightDirection();
         if (planeDir.IsParallel(_Axis.Direction, 0.1))
         {
-            planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            planeDir = data.ViewportController.Viewport.GetUpDirection();
         }
         planeDir.Cross(_Axis.Direction);
         var plane = new Pln(new Ax3(_Axis.Location, planeDir, _Axis.Direction));
@@ -204,7 +204,7 @@ public sealed class TranslateAxisLiveAction : LiveAction
             }
         }
 
-        if (WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var convertedPoint))
+        if (data.ViewportController.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var convertedPoint))
         {
             var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
             if (extrema.IsDone() && extrema.NbExt() >= 1)

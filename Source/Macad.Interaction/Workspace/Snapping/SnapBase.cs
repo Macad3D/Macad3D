@@ -86,7 +86,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     #region Common Snap Functions
 
-    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(Point screenPoint, TopoDS_Shape shapeToSnap)
+    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(ViewportController viewportController, Point screenPoint, TopoDS_Shape shapeToSnap)
     {
         if (shapeToSnap == null) 
             return (SnapModes.None, Pnt.Origin, null);
@@ -115,7 +115,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
             if (curve != null)
             {
-                var ray = new Geom_Line(WorkspaceController.ActiveViewControlller.ScreenToViewAxis(Convert.ToInt32(screenPoint.X), Convert.ToInt32(screenPoint.Y)));
+                var ray = new Geom_Line(viewportController.ScreenToViewAxis(Convert.ToInt32(screenPoint.X), Convert.ToInt32(screenPoint.Y)));
                 var extrema = new GeomAPI_ExtremaCurveCurve(curve, ray);
                 if (extrema.NbExtrema() >= 1)
                 {
@@ -152,7 +152,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     //--------------------------------------------------------------------------------------------------
     
-    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(Point screenPoint, TopoDS_Shape shapeToSnap, AIS_InteractiveObject aisObjectToSnap)
+    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(ViewportController viewportController, Point screenPoint, TopoDS_Shape shapeToSnap, AIS_InteractiveObject aisObjectToSnap)
     {
         SnapModes mode = SnapModes.None;
         Pnt point = Pnt.Origin;
@@ -161,7 +161,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
         // Try BRepShape first
         if (shapeToSnap != null)
         {
-            (mode, point, curve) = Snap(screenPoint, shapeToSnap);
+            (mode, point, curve) = Snap(viewportController,screenPoint, shapeToSnap);
         }
 
         // If none found, try AIS object next
@@ -179,10 +179,9 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     #region Support Functions
 
-    public double GetSnapOnPlaneDistanceThreshold()
+    public double GetSnapOnPlaneDistanceThreshold(ViewportController viewportController)
     {
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-        var viewportController = WorkspaceController.ActiveViewControlller;
         return parameterSet.SelectionPixelTolerance * viewportController.PixelSize * viewportController.DpiScale * 1.5;
     }
 
@@ -213,10 +212,10 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    protected bool ProjectToGrid(Viewport viewport, int screenX, int screenY, out Pnt pnt)
+    protected bool ProjectToGrid(ViewportController viewportController, int screenX, int screenY, out Pnt pnt)
     {
         Pln plane = WorkspaceController.Workspace.WorkingPlane;
-        if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, screenX, screenY, out pnt))
+        if (!viewportController.ScreenToPoint(plane, screenX, screenY, out pnt))
             return false;
 
         Pnt2d uv = plane.Parameters(pnt);

@@ -4,6 +4,7 @@ using Macad.Occt;
 using Macad.Occt.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Macad.Common;
 
 namespace Macad.Interaction;
@@ -43,12 +44,13 @@ public sealed class Highlighter : IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    readonly Dictionary<Viewport, AISX_OutlinePostProcess> _AisxOutlinePPs = new();
+    readonly Dictionary<ViewportController, AISX_OutlinePostProcess> _AisxOutlinePPs = new();
     readonly WorkspaceController _WorkspaceController;
     int _PPLayerId;
     int _HLLayerId;
     Prs3d_Drawer _ClassicDynamicHighlightDrawer; 
     Prs3d_Drawer _LocalDynamicHighlightDrawer;
+    bool _FallbackToClassic;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -60,17 +62,10 @@ public sealed class Highlighter : IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    ~Highlighter()
-    {
-        Dispose();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public void Dispose()
     {
         InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged -= _ParameterSet_ParameterChanged;
-        _DisposeOutlineDrawer();
+        _RemovePostProcessors();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -98,13 +93,17 @@ public sealed class Highlighter : IDisposable
             if (visualParameters.HighlightStyle == VisualParameterSet.HighlightStyles.Classic && IsModernHighlighting)
             {
                 _WorkspaceController.AisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, _ClassicDynamicHighlightDrawer);
-                _DisposeOutlineDrawer();
+                _RemovePostProcessors();
                 _WorkspaceController.Invalidate();
             }
             else if (visualParameters.HighlightStyle == VisualParameterSet.HighlightStyles.Modern && !IsModernHighlighting)
             {
-                var outlineDrawer = _CreateOutlineDrawer(visualParameters);
+                var outlineDrawer = _CreateDrawerForOutline();
                 _WorkspaceController.AisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, outlineDrawer ?? _ClassicDynamicHighlightDrawer);
+                if (outlineDrawer != null)
+                {
+                    _UpdatePostProcessors();
+                }
                 _WorkspaceController.Invalidate();
             }
         }
@@ -143,7 +142,7 @@ public sealed class Highlighter : IDisposable
         _ClassicDynamicHighlightDrawer = dynamicHighlightDrawer;
         if (visualParameters.HighlightStyle == VisualParameterSet.HighlightStyles.Modern)
         {
-            dynamicHighlightDrawer = _CreateOutlineDrawer(visualParameters) ?? dynamicHighlightDrawer;
+            dynamicHighlightDrawer = _CreateDrawerForOutline() ?? dynamicHighlightDrawer;
         }
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, dynamicHighlightDrawer);
 
@@ -174,11 +173,16 @@ public sealed class Highlighter : IDisposable
 
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalDynamic, hilightLocalDrawer);
         _LocalDynamicHighlightDrawer = hilightLocalDrawer;
+
+        if (visualParameters.HighlightStyle == VisualParameterSet.HighlightStyles.Modern)
+        {
+            _UpdatePostProcessors();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    Prs3d_Drawer _CreateOutlineDrawer(VisualParameterSet visualParameters)
+    Prs3d_Drawer _CreateDrawerForOutline()
     {
         if (_PPLayerId == 0)
         {
@@ -188,20 +192,6 @@ public sealed class Highlighter : IDisposable
             ppLayerSettings.SetClearDepth(false);
             ppLayerSettings.SetEnableDepthWrite(false);
             _WorkspaceController.V3dViewer.InsertLayerAfter(ref _PPLayerId, ppLayerSettings, -2 /* Graphic3d_ZLayerId_Top */);
-        }
-
-        // Create post process for each viewport
-        foreach (var viewport in _WorkspaceController.Workspace.Viewports)
-        {
-            var v3dView = _WorkspaceController.GetViewController(viewport).V3dView;
-            AISX_OutlinePostProcess pp = new(v3dView);
-            pp.SetZLayer(_PPLayerId);
-            pp.ViewAffinity().SetVisible(false);
-            pp.SetColor(Colors.Highlight.ToQuantityColor());
-            pp.SetWidth(visualParameters.OutlineWidth);
-            _WorkspaceController.AisContext.Display(pp, false);
-            _WorkspaceController.AisContext.SetViewAffinity(pp, v3dView, true);
-            _AisxOutlinePPs[viewport] = pp;
         }
 
         if (_HLLayerId == 0)
@@ -232,7 +222,57 @@ public sealed class Highlighter : IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    void _DisposeOutlineDrawer()
+    void _UpdatePostProcessors()
+    {
+        VisualParameterSet visualParameters = InteractiveContext.Current.Parameters.Get<VisualParameterSet>();
+        if (visualParameters.HighlightStyle != VisualParameterSet.HighlightStyles.Modern || _FallbackToClassic)
+        {
+            _RemovePostProcessors();
+            return;
+        }
+
+        // Remove inactive viewports
+        foreach (var viewportController in _AisxOutlinePPs.Keys.Where(vp => !vp.IsVisible).ToArray())
+        {
+            _RemovePostProcessor(viewportController);
+        }
+
+        // Create/update post process for each active viewport
+        foreach (var viewportController in _WorkspaceController.ViewportControllers.Where(vp => vp.IsVisible))
+        {
+            if (!_AisxOutlinePPs.TryGetValue(viewportController, out AISX_OutlinePostProcess pp))
+            {
+                pp = new(viewportController.V3dView);
+                _AisxOutlinePPs[viewportController] = pp;
+            }
+
+            pp.SetZLayer(_PPLayerId);
+            pp.SetColor(Colors.Highlight.ToQuantityColor());
+            pp.SetWidth(visualParameters.OutlineWidth);
+            if (!_WorkspaceController.AisContext.IsDisplayed(pp))
+            {
+                _WorkspaceController.AisContext.Display(pp, false);
+            }
+
+            pp.ViewAffinity().SetVisible(false);
+            _WorkspaceController.AisContext.SetViewAffinity(pp, viewportController.V3dView, true);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _RemovePostProcessor(ViewportController viewportController)
+    {
+        if (_AisxOutlinePPs.Remove(viewportController, out var postProcess))
+        {
+            _WorkspaceController.AisContext.Erase(postProcess, false);
+            postProcess.Dispose();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _RemovePostProcessors()
     {
         foreach (var pp in _AisxOutlinePPs.Values)
         {
@@ -250,28 +290,45 @@ public sealed class Highlighter : IDisposable
     /// </summary>
     internal void PrepareDraw()
     {
-        if(_AisxOutlinePPs.Count == 0)
+        // Check if we need to update
+        foreach (var viewportController in _WorkspaceController.ViewportControllers)
+        {
+            bool hasPP = _AisxOutlinePPs.ContainsKey(viewportController);
+            if (viewportController.IsVisible != hasPP)
+            {
+                _UpdatePostProcessors();
+                break;
+            }
+        }
+
+        if (_AisxOutlinePPs.Count == 0)
             return;
 
         var layerSettings = _WorkspaceController.V3dViewer.ZLayerSettings(_HLLayerId);
         layerSettings.SetVisible(true);
         _WorkspaceController.V3dViewer.SetZLayerSettings(_HLLayerId, layerSettings);
 
-        bool hasErrors = false;
-        foreach (var outline in _AisxOutlinePPs.Values)
+        foreach (var kvp in _AisxOutlinePPs)
         {
-            outline.UpdateHighlights(_HLLayerId);
-            hasErrors |= outline.HasError();
+            if(!kvp.Key.IsVisible)
+                continue;
+
+            kvp.Value.UpdateHighlights(_HLLayerId);
+            if (kvp.Value.HasError())
+            {
+                _FallbackToClassic = true;
+                break;
+            }
         }
 
         layerSettings.SetVisible(false);
         _WorkspaceController.V3dViewer.SetZLayerSettings(_HLLayerId, layerSettings);
 
-        if (hasErrors)
+        if (_FallbackToClassic)
         {
             // Switch to fallback of classic highlighting, as outline rendering failed
             _WorkspaceController.AisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, _ClassicDynamicHighlightDrawer);
-            _DisposeOutlineDrawer();
+            _RemovePostProcessors();
             Messages.Info("An error occured when trying to render modern highlighting. Switched back to classic highlighting.");
         }
     }

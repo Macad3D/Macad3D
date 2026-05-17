@@ -68,7 +68,7 @@ public sealed class SnapOnCurve2D : SnapBase
 
         if (result.Mode == SnapModes.None)
         {
-            result = _SnapGrid(curve, Convert.ToInt32(mouseEvent.ScreenPoint.X), Convert.ToInt32(mouseEvent.ScreenPoint.Y));
+            result = _SnapGrid(mouseEvent.ViewportController, curve, Convert.ToInt32(mouseEvent.ScreenPoint.X), Convert.ToInt32(mouseEvent.ScreenPoint.Y));
         }
 
         CurrentInfo = result;
@@ -118,23 +118,21 @@ public sealed class SnapOnCurve2D : SnapBase
 
     //--------------------------------------------------------------------------------------------------
 
-    SnapInfoCurve2D _SnapGrid(Geom2d_Curve curve, int screenPointX, int screenPointY)
+    SnapInfoCurve2D _SnapGrid(ViewportController viewportController, Geom2d_Curve curve, int screenPointX, int screenPointY)
     {
         SnapInfoCurve2D snapInfo = SnapInfoCurve2D.Empty;
-        double currentDistance = GetSnapOnPlaneDistanceThreshold();
+        double currentDistance = GetSnapOnPlaneDistanceThreshold(viewportController);
 
         if (SupportedModes.HasFlag(SnapModes.Grid)
             && InteractiveContext.Current.EditorState.SnapToGridSelected
             && WorkspaceController.Workspace.GridEnabled)
         {
-            if (ProjectToGrid(WorkspaceController.ActiveViewport,
-                                                             screenPointX, screenPointY,
-                                                             out Pnt gridPnt3d))
+            if (ProjectToGrid(viewportController, screenPointX, screenPointY, out Pnt gridPnt3d))
             {
                 // On grid, calculate best intersection based on grid type
                 var gridPnt = ProjLib.Project(Plane, gridPnt3d);
                 Pnt2d screenPnt2d = Pnt2d.Origin;
-                if (WorkspaceController.ActiveViewControlller.ScreenToPoint(screenPointX, screenPointY, out Pnt screenPnt))
+                if (WorkspaceController.ViewportController.ScreenToPoint(screenPointX, screenPointY, out Pnt screenPnt))
                 {
                     screenPnt2d = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, screenPnt);
                 }

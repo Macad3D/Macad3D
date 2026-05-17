@@ -371,7 +371,7 @@ public class ImprintToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(300, 166);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthClamp01"));
-            ctx.MoveTo(300, 166, ModifierKeys.Control);
+            ctx.MoveTo(300, 166, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(2.0, imprint.Depth);

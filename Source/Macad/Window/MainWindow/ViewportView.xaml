@@ -58,11 +58,6 @@
             <panels:ViewportMessageBar DockPanel.Dock="Top" />
             <!--endregion -->
 
-            <!--region Grid Info -->
-            <panels:ViewportGridInfo DockPanel.Dock="Bottom"
-                                     HorizontalAlignment="Right"
-                                     Margin="0,0,50,30" />
-            <!--endregion-->
         </DockPanel>
     </panels:ViewportPanel>
 </UserControl>

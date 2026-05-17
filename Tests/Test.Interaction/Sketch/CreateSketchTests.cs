@@ -331,7 +331,7 @@ public class CreateSketchTests
         }
 
         var ctx = Context.Current;
-        ctx.Viewport.EyePoint = ctx.Viewport.EyePoint.Scaled(Pnt.Origin, -1);
+        ctx.Workspace.Viewport.EyePoint = ctx.Workspace.Viewport.EyePoint.Scaled(Pnt.Origin, -1);
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool());
         ctx.MoveTo(coords.x, coords.y);

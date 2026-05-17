@@ -192,7 +192,7 @@ public class RevolveToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(x2, y2);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"LiveOffsetClamp{axis}Clamp01"));
-            ctx.MoveTo(x2, y2, ModifierKeys.Control);
+            ctx.MoveTo(x2, y2, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"LiveOffsetClamp{axis}Clamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(0.0, Math.IEEERemainder(revolve.Offset.Subtracted(oldOffset).Magnitude().Abs(), 10.0), 0.00001);

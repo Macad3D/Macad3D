@@ -116,7 +116,8 @@ public sealed class ActionCommand<T> : RelayCommand<T>, IActionCommand
     public Func<T,string> Shortcut { get; set; }
     public string GetShortcut(object parameter)
     {
-        return Shortcut?.Invoke(ConvertParameter(parameter)) ?? IActionCommand.TryFindShortcut(this, parameter);
+        var convertedParam = ConvertParameter(parameter);
+        return Shortcut?.Invoke(convertedParam) ?? IActionCommand.TryFindShortcut(this, convertedParam);
     }
 
     //--------------------------------------------------------------------------------------------------

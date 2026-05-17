@@ -106,14 +106,14 @@ public class ParameterSetGenerator : IIncrementalGenerator
             // Implement properties
             foreach (var parameter in parameters)
             {
-                source.Append(
+                    source.Append(
                    $$"""
-                       public {{parameter.Type.Name}} {{parameter.Name}} 
+                       public {{parameter.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{parameter.Name}} 
                        { 
                            get { return {{parameter.FieldSymbol.Name}}.Value; }
                            set { {{parameter.FieldSymbol.Name}}.Value = value; }
                        }
-                   
+
                    """);
             }
 

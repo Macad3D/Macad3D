@@ -19,8 +19,6 @@ AISX_OutlinePostProcess::AISX_OutlinePostProcess(const opencascade::handle<V3d_V
 AISX_OutlinePostProcess::~AISX_OutlinePostProcess()
 {
     Release();
-    _ShaderProgram.Nullify();
-    _View.Nullify();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -43,6 +41,8 @@ void AISX_OutlinePostProcess::Release()
             }
         }
     }
+    _ShaderProgram.Nullify();
+    _View.Nullify();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -94,6 +94,11 @@ void AISX_OutlinePostProcess::_InitDrawerAttributes(bool hlrMode)
 
 void AISX_OutlinePostProcess::_Render(const opencascade::handle<OpenGl_Workspace>& theWorkspace)
 {
+    if (theWorkspace->View() != _View->View())
+    {
+        return;
+    }
+
     _HasError = false;
     if (_HighlightFramebuffer.IsNull())
     {
@@ -298,7 +303,7 @@ bool AISX_OutlinePostProcess::UpdateHighlights(int theLayer)
 
     // Invalidate framebuffer if size has changed
     int width, height;
-    _View->Window()->Size(width, height);
+    g3dView->Window()->Size(width, height);
     if (!_HighlightFramebuffer.IsNull() && (_HighlightFramebufferWidth != width || _HighlightFramebufferHeight != height))
     {
         _ReleaseFbo(aCtx);
@@ -313,9 +318,18 @@ bool AISX_OutlinePostProcess::UpdateHighlights(int theLayer)
 
     // Setup
     Handle(Standard_Transient) prevFboPtr = g3dView->FBO();
+    NCollection_Vec2<int> prevFBOVPSize;
+    if (!prevFboPtr.IsNull())
+    {
+        NCollection_Vec2<int> aPrevFBOSizeMax;
+        g3dView->FBOGetDimensions(prevFboPtr, prevFBOVPSize.x(), prevFBOVPSize.y(), aPrevFBOSizeMax.x(), aPrevFBOSizeMax.y());
+    }
     g3dView->SetFBO(_HighlightFramebuffer);
-    g3dView->SetImmediateModeDrawToFront(true);
+    g3dView->FBOChangeViewport(_HighlightFramebuffer, width, height);
+    bool prevImmediateModeDrawToFront = g3dView->SetImmediateModeDrawToFront(false);
+    Graphic3d_ZLayerId prevZLayerTarget = g3dView->ZLayerTarget();
     g3dView->SetZLayerTarget(theLayer);
+    bool prevZLayerRedrawMode = g3dView->ZLayerRedrawMode();
     g3dView->SetZLayerRedrawMode(true);
     Graphic3d_RenderingMode prevRenderMethod = g3dView->ChangeRenderingParams().Method;
     g3dView->ChangeRenderingParams().Method = Graphic3d_RM_RASTERIZATION;
@@ -333,11 +347,15 @@ bool AISX_OutlinePostProcess::UpdateHighlights(int theLayer)
     aCtx->caps->buffersOpaqueAlpha = prevBuffersOpaqueAlpha;
     g3dView->SetBackgroundType(prevBgType);
     g3dView->SetBackground(prevAspectBg);
-    g3dView->SetZLayerRedrawMode(false);
-    g3dView->SetImmediateModeDrawToFront(false);
-    g3dView->SetZLayerTarget(Graphic3d_ZLayerId_BotOSD);
-    g3dView->SetFBO(prevFboPtr);
     g3dView->ChangeRenderingParams().Method = prevRenderMethod;
+    g3dView->SetZLayerRedrawMode(prevZLayerRedrawMode);
+    g3dView->SetZLayerTarget(prevZLayerTarget);
+    g3dView->SetImmediateModeDrawToFront(prevImmediateModeDrawToFront);
+    g3dView->SetFBO(prevFboPtr);
+    if (!prevFboPtr.IsNull())
+    {
+        g3dView->FBOChangeViewport(prevFboPtr, prevFBOVPSize.x(), prevFBOVPSize.y());
+    }
 
     // Check if we need to change shader
     if (g3dView->ComputedMode() != _InHlrMode)

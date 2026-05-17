@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace Macad.Common;
 
@@ -109,4 +110,24 @@ public static class Maths
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Returns the maximum value from a set of numeric values.
+    /// </summary>
+    /// <remarks>This method uses the greater-than operator to compare values. The generic constraint ensures
+    /// that only numeric types supporting standard comparison operations can be used.</remarks>
+    /// <param name="values">An array of values to evaluate. At least one value must be provided; the array cannot be null or empty.</param>
+    /// <returns>The maximum value found in the provided array.</returns>
+    public static T Max<T>(params T[] values) where T : INumber<T>
+    {
+        if (values == null || values.Length == 0)
+            throw new ArgumentException("At least one value must be provided.", nameof(values));
+
+        T max = values[0];
+        for (int i = 1; i < values.Length; i++)
+        {
+            if (values[i] > max)
+                max = values[i];
+        }
+        return max;
+    }
 }

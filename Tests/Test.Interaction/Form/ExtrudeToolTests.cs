@@ -266,7 +266,7 @@ public class ExtrudeToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(280, 180);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthClamp01"));
-            ctx.MoveTo(280, 180, ModifierKeys.Control);
+            ctx.MoveTo(280, 180, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthClamp02"));
             ctx.ViewportController.MouseUp();
             Assert.AreEqual(3.0, extrude.Depth);

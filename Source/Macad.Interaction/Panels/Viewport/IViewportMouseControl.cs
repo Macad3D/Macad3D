@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Macad.Interaction.Panels;
@@ -11,14 +12,25 @@ public enum MouseWheel
 
 //--------------------------------------------------------------------------------------------------
 
+[Flags]
+public enum MouseButtons
+{
+    None     = 0,
+    Left     = 1 << 0,
+    Middle   = 1 << 1,
+    Right    = 1 << 2,
+    XButton1 = 1 << 3,
+    XButton2 = 1 << 4,
+}
+
+//--------------------------------------------------------------------------------------------------
+
 public interface IViewportMouseControl
 {
-    ViewportController ViewportController { set; }
-
-    void MouseMove(Point pos, MouseDevice mouseDevice, ModifierKeys modifierKeys);
-    void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device, ModifierKeys modifierKeys);
-    void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys);
-    void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys);
+    void MouseMove(ViewportController viewport, Point pos, MouseButtons pressedButtons, ModifierKeys modifierKeys);
+    void MouseWheel(ViewportController viewport, Point pos, MouseWheel wheel, int delta, MouseButtons pressedButtons, ModifierKeys modifierKeys);
+    void MouseDown(ViewportController viewport, Point pos, MouseButtons changedButtons, int clickCount, MouseButtons pressedButtons, ModifierKeys modifierKeys);
+    void MouseUp(ViewportController viewport, Point pos, MouseButtons changedButtons, MouseButtons pressedButtons, ModifierKeys modifierKeys);
     void Cancel();
 }
 

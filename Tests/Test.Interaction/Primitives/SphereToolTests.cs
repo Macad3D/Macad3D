@@ -72,7 +72,7 @@ public class SphereToolTests
             // Center point
             ctx.ClickAt(250, 250);
             // Radius
-            ctx.MoveTo(450, 250, ModifierKeys.Control);
+            ctx.MoveTo(450, 250, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereClamp1"));
             ctx.ClickAt(450, 250, ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereClamp2"));
@@ -225,14 +225,14 @@ public class SphereToolTests
         ctx.WorkspaceController.Workspace.GridStep = 3.0;
         Assert.Multiple(() =>
         {
-            ctx.MoveTo(352, 309, ModifierKeys.Control);
+            ctx.MoveTo(352, 309, modifierKeys: ModifierKeys.Control);
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamp01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(327, 297, ModifierKeys.Control);
+            ctx.MoveTo(327, 297, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamp02"));
             
-            ctx.MoveTo(274, 265, ModifierKeys.Control);
+            ctx.MoveTo(274, 265, modifierKeys: ModifierKeys.Control);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleClamp03"));
             ctx.ViewportController.MouseUp();
 
@@ -253,11 +253,11 @@ public class SphereToolTests
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
         {
-            ctx.MoveTo(352, 309, ModifierKeys.Shift);
+            ctx.MoveTo(352, 309, modifierKeys: ModifierKeys.Shift);
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter01"));
                             
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(274, 265, ModifierKeys.Shift);
+            ctx.MoveTo(274, 265, modifierKeys: ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter02"));
             ctx.MoveTo(274, 265);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter03"));

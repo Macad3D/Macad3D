@@ -1,4 +1,5 @@
-﻿using FlaUI.Core.Input;
+﻿using System.Threading;
+using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using NUnit.Framework;
 

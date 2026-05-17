@@ -1,6 +1,5 @@
 ﻿using Macad.Interaction.Visual;
 using Macad.Occt;
-using System.Numerics;
 
 namespace Macad.Interaction;
 

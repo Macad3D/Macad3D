@@ -80,10 +80,10 @@ public class AxisValueAction : ToolAction
 
     double? _ProcessMouseInputForAxis(MouseEventData data, out double distance)
     {
-        var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+        var planeDir = data.ViewportController.Viewport.GetRightDirection();
         if (planeDir.IsParallel(_Axis.Direction, 0.1))
         {
-            planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            planeDir = data.ViewportController.Viewport.GetUpDirection();
         }
         planeDir.Cross(_Axis.Direction);
         //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
@@ -105,7 +105,7 @@ public class AxisValueAction : ToolAction
         else
         {
             Pnt convertedPoint;
-            if (WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
+            if (data.ViewportController.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
             {
                 var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
                 if (extrema.IsDone() && extrema.NbExt() >= 1)

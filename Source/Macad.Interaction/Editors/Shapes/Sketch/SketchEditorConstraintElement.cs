@@ -47,14 +47,14 @@ public class SketchEditorConstraintElement : SketchEditorElement
                 visualobj.IsSelectable = _IsSelectable;
             }
             Marker?.UpdateVisual(points, segments, Plane, 
-                                  SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale, 
+                                  SketchEditorTool.WorkspaceController.ViewportController.PixelSize * SketchEditorTool.WorkspaceController.ViewportController.DpiScale, 
                                   markerCounts);
             UpdateVisual();
         }
         else
         {
             Marker?.UpdateVisual(points, segments, Plane, 
-                                  SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
+                                  SketchEditorTool.WorkspaceController.ViewportController.PixelSize * SketchEditorTool.WorkspaceController.ViewportController.DpiScale,
                                   markerCounts);
         }
     }
@@ -64,7 +64,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
     public void OnGizmoScaleChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts)
     {
         Marker?.UpdateVisual(points, segments, Plane, 
-                              SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
+                              SketchEditorTool.WorkspaceController.ViewportController.PixelSize * SketchEditorTool.WorkspaceController.ViewportController.DpiScale,
                               markerCounts);
     }
 
@@ -159,9 +159,9 @@ public class SketchEditorConstraintElement : SketchEditorElement
                     {
                         IsSelectable = true,
                         Tag = index,
-                        BackgroundColor = Colors.AttributeMarkerBackground
+                        BackgroundColor = Colors.AttributeMarkerBackground,
+                        ViewAffinity = [sketchEditorTool.EditorViewport]
                     };
-
                     _Marker.Add(marker);
                 }
             }
@@ -175,9 +175,9 @@ public class SketchEditorConstraintElement : SketchEditorElement
                     {
                         IsSelectable = true,
                         Tag = index | TagIsSegment,
-                        BackgroundColor = Colors.AttributeMarkerBackground
+                        BackgroundColor = Colors.AttributeMarkerBackground,
+                        ViewAffinity = [sketchEditorTool.EditorViewport]
                     };
-
                     _Marker.Add(marker);
                 }
             }

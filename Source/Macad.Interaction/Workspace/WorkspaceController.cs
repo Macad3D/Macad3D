@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -21,12 +22,24 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     public Workspace Workspace { get; }
 
-    public Viewport ActiveViewport { get; set; }
-
-    public ViewportController ActiveViewControlller
+    public IList<ViewportController> ViewportControllers
     {
-        get { return GetViewController(ActiveViewport); }
+        get { return _ViewportControllers; }
     }
+
+    public ViewportController ViewportController
+    {
+        get { return GetViewportController(Workspace.Viewport); }
+        set 
+        {
+            if (value != null)
+            {
+                Workspace.Viewport = value.Viewport;
+            }
+        }
+    }
+
+    public ViewportLayoutManager ViewportLayoutManager { get; }
 
     public IHudManager HudManager { get; set; }
 
@@ -101,7 +114,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     #region Member variables
 
-    readonly List<ViewportController> _ViewControllers = [];
+    readonly List<ViewportController> _ViewportControllers = [];
     readonly DispatcherTimer _RedrawTimer;
     AISX_Grid _Grid;
     XY _LastGridSize = new(200.0, 200.0);
@@ -125,16 +138,17 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         Workspace = workspace;
         workspace.GridChanged += _Workspace_GridChanged;
+        workspace.PropertyChanged +=_Workspace_PropertyChanged;
 
-        Viewport.ViewportChanged += _Viewport_ViewportChanged;
-
+        Viewport.ParameterChanged += _Viewport_ViewportChanged;
+        
+        ViewportLayoutManager = new(this);
         VisualObjects = new(this);
+        Highlighter = new(this);
 
         Selection = new(this);
         Selection.SelectionChanging += _Selection_SelectionChanging;
         Selection.SelectionChanged += _Selection_SelectionChanged;
-
-        Highlighter = new(this);
 
         InteractiveContext.Current.Parameters.Get<VisualParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
         InteractiveContext.Current.Parameters.Get<ViewportParameterSet>().ParameterChanged += _ParameterSet_ParameterChanged;
@@ -148,6 +162,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         _InitWorkspace();
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Raised when the workspace controller is about to be disposed.
+    /// Subscribers can use this to clean up references / stop using this controller.
+    /// </summary>
+    public event EventHandler Disposed;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -166,8 +188,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (disposing)
         {
             if (_CurrentTool != null)
+            {
                 CancelTool(_CurrentTool, true);
+            }
             StopEditor();
+
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
 
         _CurrentTool = null;
@@ -187,16 +213,19 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Highlighter.Dispose();
         VisualObjects.Dispose();
 
-        Viewport.ViewportChanged -= _Viewport_ViewportChanged;
+        Viewport.ParameterChanged -= _Viewport_ViewportChanged;
 
-        foreach (var viewCtrl in _ViewControllers)
+        foreach (var viewCtrl in _ViewportControllers)
         {
             viewCtrl.PropertyChanged -= _ViewController_PropertyChanged;
             viewCtrl.Dispose();
         }
-        _ViewControllers.Clear();
+        _ViewportControllers.Clear();
         _LastDetectedAisObject?.Dispose();
 
+        ViewportLayoutManager.Dispose();
+
+        Workspace.PropertyChanged -= _Workspace_PropertyChanged;
         Workspace.GridChanged -= _Workspace_GridChanged;
         Workspace.Dispose();
 
@@ -218,13 +247,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     {
         _InitV3dViewer();
         _InitAisContext();
-
-        foreach (var view in Workspace.Viewports)
-        {
-            var viewCtrl = new ViewportController(view, this);
-            viewCtrl.PropertyChanged += _ViewController_PropertyChanged;
-            _ViewControllers.Add(viewCtrl);
-        }
+        _InitViewportControllers();
 
         _UpdateParameter();
         Highlighter.Initialize();
@@ -239,11 +262,50 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
+    void _InitViewportControllers()
+    {
+        var oldList = _ViewportControllers.ToList();
+        var oldActiveVc = ViewportController;
+        _ViewportControllers.Clear();
+
+        foreach (var view in Workspace.Viewports)
+        {
+            int idx = oldList.FindIndex(vc => vc.Viewport == view);
+            if (idx > -1)
+            {
+                _ViewportControllers.Add(oldList[idx]);
+                oldList.RemoveAt(idx);
+            }
+            else
+            {
+                ViewportController viewCtrl = new(view, this);
+                viewCtrl.PropertyChanged += _ViewController_PropertyChanged;
+                _ViewportControllers.Add(viewCtrl);
+            }
+        }
+
+        // Change active viewport if it was removed
+        if (oldActiveVc == null || oldList.Contains(oldActiveVc))
+        {
+            Workspace.Viewport = _ViewportControllers[0].Viewport;
+        }
+
+        // Remove obsolete
+        foreach (var viewCtrl in oldList)
+        {
+            viewCtrl.PropertyChanged += _ViewController_PropertyChanged;
+            viewCtrl.Dispose();
+        }
+        oldList.Clear();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _InitV3dViewer()
     {
         if (V3dViewer == null)
         {
-            var ocGraphicDriver = Graphic3d.CreateOpenGlDriver();
+            var ocGraphicDriver = Graphic3dHelper.CreateOpenGlDriver();
             V3dViewer = new V3d_Viewer(ocGraphicDriver);
         }
 
@@ -279,7 +341,25 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
         drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
     }
-       
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Callbacks
+
+    void _Workspace_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Workspace.Viewports))
+        {
+            _InitViewportControllers();
+        }
+        else if (e.PropertyName == nameof(Workspace.Viewport))
+        {
+            RaisePropertyChanged(nameof(ViewportController));
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     void _Workspace_GridChanged(Workspace sender)
@@ -294,7 +374,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         
     void _Viewport_ViewportChanged(Viewport sender)
     {
-        if (_ViewControllers.Any(vc => vc.Viewport == sender))
+        if (_ViewportControllers.Any(vc => vc.Viewport == sender))
         {
             _RecalculateGridSize();
             Invalidate();
@@ -303,9 +383,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ViewController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    void _ViewController_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewportController.DpiScale))
+        if (e.PropertyName == nameof(Interaction.ViewportController.DpiScale))
         {
             _UpdateParameter();
         }
@@ -331,7 +411,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         aisContext.SetDeviationAngle(visualParameterSet.DeviationAngle.ToRad());
 
         var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-        var viewportController = ActiveViewControlller ?? _ViewControllers.First();
+        var viewportController = ViewportController ?? _ViewportControllers.First();
         aisContext.SetPixelTolerance((int)(viewportParameterSet.SelectionPixelTolerance * viewportController.DpiScale));
         _VisualGridStepMinPixel = viewportParameterSet.VisualGridStepMinPixel;
         _VisualGridMinStepsOnScreen = viewportParameterSet.VisualGridMinStepsOnScreen;
@@ -339,23 +419,23 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
-    public ViewportController GetViewController(int viewIndex)
+    public ViewportController GetViewportController(int viewIndex)
     {
         Debug.Assert(viewIndex >= 0);
-        Debug.Assert(viewIndex < _ViewControllers.Count);
+        Debug.Assert(viewIndex < _ViewportControllers.Count);
 
-        return _ViewControllers[viewIndex];
+        return _ViewportControllers[viewIndex];
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public ViewportController GetViewController(Viewport viewport)
+    public ViewportController GetViewportController(Viewport viewport)
     {
         if(viewport == null)
         {
             return null;
         }
-        return _ViewControllers.Find(vc => vc.Viewport == viewport);
+        return _ViewportControllers.Find(vc => vc.Viewport == viewport);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -394,6 +474,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.Clear();
 
+        if (!viewportController.V3dView.IfWindow())
+            return;
+
         foreach (var aisObject in _CustomHighlights)
         {
             if (AisContext.IsDisplayed(aisObject))
@@ -405,13 +488,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         Selection.Update();
 
-        if (pos.X < 0 || pos.Y < 0)
-        {
-            // Position is out of bounds, reset highlighting
-            AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.V3dView, false); ;
-            Invalidate(true);
-            return;
-        }
+        //if (pos.X < 0 || pos.Y < 0)
+        //{
+        //    // Position is out of bounds, reset highlighting
+        //    AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.V3dView, false); ;
+        //    Invalidate(true);
+        //    return;
+        //}
 
         var status = AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.V3dView, false);
         Invalidate(true);
@@ -868,7 +951,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (V3dViewer == null)
             return;
 
-        if (_ViewControllers.Select(vc => vc.NeedsRedraw())
+        if (_ViewportControllers.Select(vc => vc.NeedsRedraw())
                             .Aggregate((acc, x) => acc || x))
         {
             NeedsRedraw = true;
@@ -877,7 +960,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (NeedsRedraw)
         {
             VisualObjects.UpdateInvalidatedEntities();
-            _ViewControllers.ForEach(vc =>vc.PrepareDraw());
+            _ViewportControllers.ForEach(vc =>vc.PrepareDraw());
             V3dViewer.Redraw();
             NeedsImmediateRedraw = true;
         }
@@ -925,7 +1008,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         double maxPixelSize = double.MinValue;
         double minScreenWidth = double.MaxValue;
         Pln plane = Workspace.WorkingContext.WorkingPlane;
-        foreach (var viewportController in _ViewControllers)
+        foreach (var viewportController in _ViewportControllers)
         {
             maxPixelSize = Math.Max(viewportController.PixelSize, maxPixelSize);
             var screenSize = viewportController.ScreenSize;
@@ -1177,4 +1260,5 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     //--------------------------------------------------------------------------------------------------
 
     #endregion
+
 }

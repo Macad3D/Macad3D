@@ -72,8 +72,6 @@ public class MouseEventData
 
     //--------------------------------------------------------------------------------------------------
 
-    public Viewport Viewport => ViewportController.Viewport;
-
     public ViewportController ViewportController { get; private set; }
 
     public Point ScreenPoint { get; private set; }

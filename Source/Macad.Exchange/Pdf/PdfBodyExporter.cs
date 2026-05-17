@@ -60,9 +60,9 @@ internal sealed class PdfBodyExporter
             var background = view.Background;
             background.Color = new Color(0.75f, 0.75f, 0.75f);
 
-            if (CoreContext.Current?.Viewport != null)
+            if (CoreContext.Current?.Workspace.Viewport != null)
             {
-                var vp = CoreContext.Current.Viewport;
+                var vp = CoreContext.Current.Workspace.Viewport;
                 var size = vp.Size;
                 var scale = Math.Min(PaperSizeX / size.Width, PaperSizeY / size.Height);
                 projection.OrthographicScale = scale * PdfDomDocument.UserSpaceScale;

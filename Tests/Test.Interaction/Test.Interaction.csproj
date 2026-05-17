@@ -3,7 +3,7 @@
     <ProjectGuid>{9a204fd3-b56a-43dc-9f5a-ad8487772f9a}</ProjectGuid>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <RootNamespace>Macad.Test.Unit</RootNamespace>
+    <RootNamespace>Macad.Test.Interaction</RootNamespace>
     <Platforms>x64</Platforms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>

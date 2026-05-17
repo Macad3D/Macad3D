@@ -189,7 +189,7 @@ public class SketchPointAction : ToolAction
 
     Pnt2d _Snap(Pnt2d point, MouseEventData data)
     {
-        double mergeDistance = _SnapHandler.GetSnapOnPlaneDistanceThreshold();
+        double mergeDistance = _SnapHandler.GetSnapOnPlaneDistanceThreshold(data.ViewportController);
 
         // Snap
         var snapInfo = _SnapHandler.Snap(data, AdditionalSnapPoints);

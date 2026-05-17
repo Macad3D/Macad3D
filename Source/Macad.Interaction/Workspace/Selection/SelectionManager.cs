@@ -212,6 +212,8 @@ public sealed class SelectionManager : IDisposable
         }
         aisContext.UpdateSelected(false);
         aisContext.ClearDetected(false);
+
+        _WorkspaceController.Invalidate();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -335,6 +337,7 @@ public sealed class SelectionManager : IDisposable
     public void Invalidate()
     {
         _ContextUpdatePending = true;
+        _WorkspaceController.Invalidate();
     }
 
     //--------------------------------------------------------------------------------------------------

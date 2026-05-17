@@ -89,7 +89,7 @@ public class ColorPicker : ComboBox
         _ColorPickerGrid.Children.RemoveAt(0);
 
         // Save recent color
-        var color = SelectedColor.ToMmColor();
+        var color = SelectedColor.ToMacadColor();
         var list = RecentUsedColors;
 
         list.Remove(color);

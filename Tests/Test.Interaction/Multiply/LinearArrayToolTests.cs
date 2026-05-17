@@ -224,7 +224,7 @@ public class LinearArrayToolTests
         {
             ctx.MoveTo(388, 330);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(427, 357, ModifierKeys.Control);
+            ctx.MoveTo(427, 357, modifierKeys: ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceClamp01"));
             Assert.AreEqual(9.0, array.Distance2);
@@ -249,7 +249,7 @@ public class LinearArrayToolTests
         {
             ctx.MoveTo(388, 330);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(427, 357, ModifierKeys.Shift);
+            ctx.MoveTo(427, 357, modifierKeys: ModifierKeys.Shift);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceUniform01"));
             Assert.AreEqual(array.Distance1, array.Distance2);

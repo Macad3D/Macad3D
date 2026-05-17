@@ -255,6 +255,8 @@ public class Marker : VisualObject
             AisContext.SetSelectionSensitivity(_AisPoint, 0, Math.Min(_Image.Height, _Image.Width));
         }
 
+        ApplyViewAffinity();
+
         return true;
     }
         
@@ -339,7 +341,7 @@ public class Marker : VisualObject
     {
         try
         {
-            double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewControlller?.DpiScale ?? 1.0;
+            double dpiScale = InteractiveContext.Current.WorkspaceController?.ViewportController?.DpiScale ?? 1.0;
             int finalSize = (int)(size * dpiScale);
 
             var drawing = ResourceUtils.GetDictionaryElement<System.Windows.Media.Drawing>(ResourceUtils.Category.Marker, name);
@@ -408,4 +410,5 @@ public class Marker : VisualObject
     //--------------------------------------------------------------------------------------------------
 
     #endregion
+
 }

@@ -36,14 +36,14 @@ public class GridTests
         ctx.Workspace.GridStep = 2.0;
         ctx.EditorState.SnapToGridSelected = true;
 
-        ctx.Viewport.RenderMode = Viewport.RenderModes.SolidShaded;
+        ctx.Workspace.Viewport.RenderMode = Viewport.RenderModes.SolidShaded;
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SwitchRendermodes01"));
-        ctx.Viewport.RenderMode = Viewport.RenderModes.HLR;
+        ctx.Workspace.Viewport.RenderMode = Viewport.RenderModes.HLR;
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SwitchRendermodes01"));
-        ctx.Viewport.RenderMode = Viewport.RenderModes.Raytraced;
+        ctx.Workspace.Viewport.RenderMode = Viewport.RenderModes.Raytraced;
         // OCCT 29395: Grid disappears forever after enabling raytracing
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SwitchRendermodes01"));
-        ctx.Viewport.RenderMode = Viewport.RenderModes.SolidShaded;
+        ctx.Workspace.Viewport.RenderMode = Viewport.RenderModes.SolidShaded;
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SwitchRendermodes01"));
     }
 

@@ -19,6 +19,14 @@
   <ItemGroup>
     <PackageReference Include="NUnit" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Test.Core" />
+    <InternalsVisibleTo Include="Test.Exchange" />
+    <InternalsVisibleTo Include="Test.Interaction" />
+    <InternalsVisibleTo Include="Test.Memory" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Test.Utils.csproj.DotSettings" />
   </ItemGroup>

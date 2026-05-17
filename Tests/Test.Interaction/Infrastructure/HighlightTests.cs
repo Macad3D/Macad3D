@@ -105,7 +105,7 @@ public class HighlightTests
         ctx.ViewportController.ZoomFitAll();
         var paramSet = ctx.Parameters.Get<VisualParameterSet>();
         paramSet.HighlightStyle = VisualParameterSet.HighlightStyles.Modern;
-        ctx.Viewport.RenderMode = renderMode;
+        ctx.Workspace.Viewport.RenderMode = renderMode;
         ctx.WorkspaceController.Invalidate(forceRedraw:true);
         ctx.MoveTo(320, 160);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"RenderModes_{renderMode}"));

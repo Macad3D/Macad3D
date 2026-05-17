@@ -489,7 +489,7 @@ public static class WorkspaceCommands
             }
         },
         Icon = (param) => $"View-Render{param.ToString()}",
-        IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(ViewportController)}.{nameof(Viewport)}.{nameof(Viewport.RenderMode)}", 
+        IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Viewport)}.{nameof(Viewport.RenderMode)}", 
                                                            BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
     };
 
@@ -521,37 +521,53 @@ public static class WorkspaceCommands
 
     //--------------------------------------------------------------------------------------------------
 
-    public static ActionCommand ZoomFitAll { get; } = new(
-        () =>
+    public static ActionCommand<bool> ZoomFitAll { get; } = new(
+        allViewports =>
         {
-            InteractiveContext.Current?.ViewportController?.ZoomFitAll();
+            if (allViewports)
+            {
+                InteractiveContext.Current?.WorkspaceController?.ViewportControllers.ForEach(vc => vc.ZoomFitAll());
+            }
+            else
+            {
+                InteractiveContext.Current?.ViewportController?.ZoomFitAll();
+            }
         },
-        () => CanExecuteOnViewport())
+        _ => CanExecuteOnViewport())
     {
-        Header = () => "Zoom All",
-        Title = () => "Zoom to Fit All",
-        Description = () => "Adjusts the position and scale of the viewport so all visible entities are in view.",
-        Icon = () => "Zoom-All"
+        Header = allViewports => allViewports ? "Fit All Views" : "Fit View",
+        Title = allViewports => allViewports ? "Fit All Views" : "Fit Current View",
+        Description = allViewports => allViewports ? "Adjusts the position and scale of the viewport so all visible entities are in view."
+                                                     : "Adjusts the position and scale of all viewports so all visible entities are in view.",
+        Icon = allViewports => allViewports ? "Zoom-All-AllViews" : "Zoom-All"
     };
 
     //--------------------------------------------------------------------------------------------------
 
-    public static ActionCommand ZoomFitSelected { get; } = new(
-        () =>
+    public static ActionCommand<bool> ZoomFitSelected { get; } = new(
+        allViewports =>
         {
-            InteractiveContext.Current?.ViewportController?.ZoomFitSelected();
+            if (allViewports)
+            {
+                InteractiveContext.Current?.WorkspaceController?.ViewportControllers.ForEach(vc => vc.ZoomFitSelected());
+            }
+            else
+            {
+                InteractiveContext.Current?.ViewportController?.ZoomFitSelected();
+            }
         },
-        () => CanExecuteOnViewport() && Selection.SelectedEntities.Any())
+        _ => CanExecuteOnViewport() && Selection.SelectedEntities.Any())
     {
-        Header = () => "Zoom Selection",
-        Title = () => "Zoom to Fit Selected",
-        Description = () => "Adjusts the position and scale of the viewport so all visible and selected entities are in view.",
-        Icon = () => "Zoom-Selection"
+        Header = allViewports => allViewports ? "Fit Selection All Views" : "Fit Selection",
+        Title = allViewports => allViewports ? "Fit Selection All Views" : "Fit Selection Current View",
+        Description = allViewports => allViewports ? "Adjusts the position and scale of the viewport so all visible entities and selected entities are in view."
+                                                     : "Adjusts the position and scale of all viewports so all visible entities and selected entities are in view.",
+        Icon = allViewports => allViewports ? "Zoom-Selection-AllViews" : "Zoom-Selection"
     };
 
     //--------------------------------------------------------------------------------------------------
 
-    public static ActionCommand<ViewportController.PredefinedViews> SetPredefinedView { get; } = new(
+    public static ActionCommand<ViewUtils.PredefinedView> SetPredefinedView { get; } = new(
         (param) =>
         {
             InteractiveContext.Current?.ViewportController?.SetPredefinedView(param, true);
@@ -574,7 +590,7 @@ public static class WorkspaceCommands
         Header = param => param + " Selection",
         Icon = param => "Selection-" + param,
         Description = param => "Change the rubberband selection mode.",
-        IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.RubberbandSelectionMode)}", 
+        IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(InteractiveContext.EditorState)}.{nameof(EditorState.RubberbandSelectionMode)}", 
                                                          BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
     };
         
@@ -594,13 +610,94 @@ public static class WorkspaceCommands
         Header = () => "Include Touched",
         Icon = () => "Selection-Touched",
         Description = () => "Includes entities which were only touched, not enclosed.",
-        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.RubberbandIncludeTouched)}", BindingMode.OneWay),
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(InteractiveContext.EditorState)}.{nameof(EditorState.RubberbandIncludeTouched)}", BindingMode.OneWay),
     };
 
     //--------------------------------------------------------------------------------------------------
 
+    public static ActionCommand<ViewportLayoutBuilder.Layout> ChangeViewportLayout { get; } = new(
+        (param) =>
+        {
+            IViewportFrame newLayout = ViewportLayoutBuilder.Build(param, InteractiveContext.Current.Workspace);
+            if (newLayout != null)
+            {
+                InteractiveContext.Current?.WorkspaceController?.Workspace?.ViewportLayout = newLayout;
+            }
+        },
+        (_) => CanExecuteOnWorkspace() && CurrentTool == null)
+    {
+        Header = param => param switch
+        {
+            ViewportLayoutBuilder.Layout.Single => "Single",
+            ViewportLayoutBuilder.Layout.DualVertical => "Dual Vertical",
+            ViewportLayoutBuilder.Layout.DualHorizontal => "Dual Horizontal",
+            ViewportLayoutBuilder.Layout.TripleRight => "Triple Right",
+            ViewportLayoutBuilder.Layout.TripleLeft => "Triple Left",
+            ViewportLayoutBuilder.Layout.TripleTop => "Triple Top",
+            ViewportLayoutBuilder.Layout.TripleBottom => "Triple Bottom",
+            ViewportLayoutBuilder.Layout.Quad => "Quad",
+            ViewportLayoutBuilder.Layout.QuadRight => "Quad Right",
+            ViewportLayoutBuilder.Layout.QuadLeft => "Quad Left",
+            ViewportLayoutBuilder.Layout.QuadTop => "Quad Top",
+            ViewportLayoutBuilder.Layout.QuadBottom => "Quad Bottom",
+            _ => "Layout"
+        },
+        Icon = param => param switch
+        {   
+            ViewportLayoutBuilder.Layout.Single => "View-LayoutSingle",
+            ViewportLayoutBuilder.Layout.DualVertical => "View-LayoutDualVer",
+            ViewportLayoutBuilder.Layout.DualHorizontal => "View-LayoutDualHor",
+            ViewportLayoutBuilder.Layout.TripleRight => "View-LayoutTripleRight",
+            ViewportLayoutBuilder.Layout.TripleLeft => "View-LayoutTripleLeft",
+            ViewportLayoutBuilder.Layout.TripleTop => "View-LayoutTripleTop",
+            ViewportLayoutBuilder.Layout.TripleBottom => "View-LayoutTripleBottom",
+            ViewportLayoutBuilder.Layout.Quad => "View-LayoutQuad",
+            ViewportLayoutBuilder.Layout.QuadRight => "View-LayoutQuadRight",
+            ViewportLayoutBuilder.Layout.QuadLeft => "View-LayoutQuadLeft",
+            ViewportLayoutBuilder.Layout.QuadTop => "View-LayoutQuadTop",
+            ViewportLayoutBuilder.Layout.QuadBottom => "View-LayoutQuadBottom",
+            _ => "View-LayoutQuad"
+        },
+        Description = param => param switch
+        {
+            ViewportLayoutBuilder.Layout.Single => "Single viewport",
+            ViewportLayoutBuilder.Layout.DualVertical => "Dual viewport split vertically",
+            ViewportLayoutBuilder.Layout.DualHorizontal => "Dual viewport split horizontally",
+            ViewportLayoutBuilder.Layout.TripleRight => "One large viewport, two smaller on the right",
+            ViewportLayoutBuilder.Layout.TripleLeft => "One large viewport, two smaller on the left",
+            ViewportLayoutBuilder.Layout.TripleTop => "One large viewport, two smaller on the top",
+            ViewportLayoutBuilder.Layout.TripleBottom => "One large viewport, two smaller on the bottom",
+            ViewportLayoutBuilder.Layout.Quad => "Four viewports equally sized",
+            ViewportLayoutBuilder.Layout.QuadRight => "One large viewport, three small on the right",
+            ViewportLayoutBuilder.Layout.QuadLeft => "One large viewport, three small on the left",
+            ViewportLayoutBuilder.Layout.QuadTop => "One large viewport, three small on the top",
+            ViewportLayoutBuilder.Layout.QuadBottom => "One large viewport, three small on the bottom",
+            _ => "Change the viewport layout to show multiple views at the same time."
+        } 
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static ActionCommand ToggleMaximizeViewport { get; } = new(
+        () =>
+        {
+            var layoutMgr = InteractiveContext.Current.WorkspaceController.ViewportLayoutManager;
+            layoutMgr.MaximizeViewport(layoutMgr.HasMaximizedViewport ? null : InteractiveContext.Current.WorkspaceController.ViewportController);
+        },
+        () => CanExecuteOnWorkspace() 
+              && InteractiveContext.Current.Workspace.ViewportLayout is not ViewportContentFrame)
+    {
+        Header = () => "Maximize Viewport",
+        Title = () => "Toggle Maximize Viewport",
+        Icon = () => "View-Maximize",
+        Description = () => "Toggles the maximized state of the currently selected viewport.",
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(InteractiveContext.WorkspaceController)}.{nameof(WorkspaceController.ViewportLayoutManager)}.{nameof(ViewportLayoutManager.HasMaximizedViewport)}", BindingMode.OneWay),
+    };
+
+    //--------------------------------------------------------------------------------------------------
+    
     #endregion
-        
+
     #region Topology Edit
 
     public static ActionCommand DeleteEntity { get; } = new(

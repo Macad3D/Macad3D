@@ -245,16 +245,15 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         Debug.Assert(SketchEditorTool != null);
 
         SketchEditorTool.PropertyChanged += SketchEditTool_PropertyChanged;
-        WorkspaceController.ActiveViewport.PropertyChanged += _ActiveViewport_OnPropertyChanged;
+        Viewport.ParameterChanged += _Viewport_ParameterChanged;
         InitializeComponent();
     }
 
-    void _ActiveViewport_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    //--------------------------------------------------------------------------------------------------
+
+    void _Viewport_ParameterChanged(Viewport viewport)
     {
-        if (e.PropertyName == nameof(Viewport.Twist))
-        {
-            UpdatePointList();
-        }
+        UpdatePointList();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -265,7 +264,7 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         {
             SketchEditorTool.PropertyChanged -= SketchEditTool_PropertyChanged;
         }
-        WorkspaceController.ActiveViewport.PropertyChanged -= _ActiveViewport_OnPropertyChanged;
+        Viewport.ParameterChanged -= _Viewport_ParameterChanged;
     }
 
     //--------------------------------------------------------------------------------------------------

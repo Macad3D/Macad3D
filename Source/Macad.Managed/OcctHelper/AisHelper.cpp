@@ -202,15 +202,13 @@ namespace Helper {
 	    //--------------------------------------------------------------------------------------------------
 
     public:
-	    static void SetRubberbandPoints(Macad::Occt::WNT_Window^ wntWindow, Macad::Occt::AIS_RubberBand^ aisRubberband, List<ValueTuple<int,int>>^ pointList)
+	    static void SetRubberbandPoints(Macad::Occt::AIS_RubberBand^ aisRubberband, List<ValueTuple<int,int>>^ pointList, Standard_Integer viewportHeight)
 	    {
-		    Standard_Integer width, height;
-		    wntWindow->Size(width, height);
 		    auto rubberband = aisRubberband->NativeInstance;
 		    rubberband->ClearPoints();
 		    for each (auto point in pointList)
 		    {
-			    ::Graphic3d_Vec2i vec2i(point.Item1, height - point.Item2);
+			    ::Graphic3d_Vec2i vec2i(point.Item1, viewportHeight - point.Item2);
 			    rubberband->AddPoint(vec2i);
 		    }
 	    }
