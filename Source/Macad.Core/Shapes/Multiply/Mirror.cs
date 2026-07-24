@@ -137,6 +137,28 @@ public sealed class Mirror : ModifierBase
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Version of the modifier. This is used to keep the modifier working with older files.
+    /// 1 = 4.3
+    /// </summary>
+    [SerializeMember]
+    public int Version
+    {
+        get;
+        set
+        {
+            if (field != value)
+            {
+                SaveUndo();
+                field = value;
+                Invalidate();
+                RaisePropertyChanged();
+            }
+        }
+    } = 1;
+
+    //--------------------------------------------------------------------------------------------------
+
     public override ShapeType ShapeType
     {
         get
@@ -292,17 +314,32 @@ public sealed class Mirror : ModifierBase
 
         var transformedShape = makeTransform.Shape();
         BRepTools_History transformHistory = new(sourceBRep, makeTransform);
+        if (Version >= 1)
+        {
+            UpdateModifiedSubshapes(sourceBRep, transformHistory);
+        }
 
         if (!_KeepOriginal)
         {
-            UpdateModifiedSubshapes(sourceBRep, transformHistory);
+            // No subshape names are created, because the original shape is only transformed. The subshape names are still valid.
             BRep = transformedShape;
             return true;
         }
 
-        // Merge Original and Copy
+        // Transform original to create an inplace copy
+        makeTransform = new BRepBuilderAPI_Transform(sourceBRep, Trsf.Identity);
+        if (!makeTransform.IsDone())
+        {
+            Messages.Error("Failed transforming original shape.");
+            return false;
+        }
+        var inplaceShape = makeTransform.Shape();
+        BRepTools_History inplaceHistory = new(sourceBRep, makeTransform);
+        UpdateModifiedSubshapes(sourceBRep, inplaceHistory);
+
+        // Merge inplace and mirrored copy
         var shapeListArgs = new TopTools_ListOfShape();
-        shapeListArgs.Append(sourceBRep);
+        shapeListArgs.Append(inplaceShape);
         var shapeListTools = new TopTools_ListOfShape();
         shapeListTools.Append(transformedShape);
 
@@ -319,9 +356,10 @@ public sealed class Mirror : ModifierBase
         {
             fuse.SimplifyResult(true, true);
         }
-        UpdateModifiedSubshapes(sourceBRep, fuse.History());
+        UpdateModifiedSubshapes(inplaceShape, fuse.History());
+        UpdateModifiedSubshapes(transformedShape, fuse.History());
 
-        SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, transformHistory), new(2, fuse)], AddNamedSubshape);
+        SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, transformHistory), new(2, inplaceHistory), new(8, fuse)], AddNamedSubshape);
 
         BRep = fuse.Shape();
         return true;
@@ -404,19 +442,17 @@ public sealed class Mirror : ModifierBase
 
         // Do it!
         List<BRepTools_History> histories = new(_KeepOriginal ? 2 : 1);
-        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, _KeepOriginal ? [new(), transform] : [transform], mergeWires: true, histories: histories);
+        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, _KeepOriginal ? [Trsf2d.Identity, transform] : [transform], mergeWires: true, histories: histories);
         if (resultShape == null)
             return false;
 
         // Bookkeeping
+        UpdateModifiedSubshapes(sourceBRep, histories[0]);
         if (_KeepOriginal)
         {
-            // Only if we keep the original, we need to create names for the copy. Otherwise, it is just the original
-            // with transformed shapes.
-            SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, histories.Last())], AddNamedSubshape);
+            UpdateModifiedSubshapes(sourceBRep, histories[1]);
+            SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, histories[0]), new(2, histories[1])], AddNamedSubshape);
         }
-
-        UpdateModifiedSubshapes(sourceBRep, histories.Last());
 
         // Finalize
         BRep = resultShape;
@@ -509,6 +545,16 @@ public sealed class Mirror : ModifierBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public override void OnDeserialized(SerializationContext context)
+    {
+        if(context.Version.Major <= 4 && context.Version.Minor <= 3)
+        {
+            Version = 0;
+        }
+        base.OnDeserialized(context);
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     #endregion
 }

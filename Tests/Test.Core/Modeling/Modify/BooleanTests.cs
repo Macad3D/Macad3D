@@ -1,9 +1,11 @@
-﻿using Macad.Core.Shapes;
+﻿using Macad.Core;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 
 namespace Macad.Test.Core.Modeling.Modify;
 
@@ -200,6 +202,55 @@ public class BooleanTests
         Assert.IsTrue(op.Make(Shape.MakeFlags.None));
 
         AssertHelper.HasValidSubshapeReferences(op);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Referencing a subshape of the original solid must return the same subshape for all instances")]
+    public void SolidAllInstancesInModifiedList()
+    {
+        var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
+        var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+
+        var subshapes = boolOp.FindSubshape(new SubshapeReference(SubshapeType.Face, ((Shape)boolOp.Predecessor).Guid, "ZMin", 0), null);
+        Assert.IsNotNull(subshapes);
+        Assert.That(subshapes, Has.Count.EqualTo(2));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Faces born at a boolean intersection must stay bound to the same geometry")]
+    public void BooleanFuseSurvivesOperandChange()
+    {
+        var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
+        var boolOp = BooleanFuse.Create(shapes.target, shapes.operands);
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+
+        var cylinder = (shapes.operands[0] as BodyShapeOperand)?.Shape as Cylinder;
+        Assert.That(cylinder, Is.Not.Null, "Expected a cylinder as first operand");
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(boolOp, () => cylinder.Height = 18);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("A reference into a boolean result must survive save/reload")]
+    public void ReferencesSurviveSaveAndReload()
+    {
+        Context.InitWithDefault();
+        var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
+        var boolOp = BooleanFuse.Create(shapes.target, shapes.operands);
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        CoreContext.Current.Document.Add(boolOp.Body);
+        boolOp.Body.GetReferencedBodies().ForEach(body => CoreContext.Current.Document.Add(body));
+
+        // Pick a couple of edges of the fuse result to chamfer.
+        var refs = boolOp.GetBRep().Edges().Take(3).Select(boolOp.GetSubshapeReference).ToArray();
+        AssertHelper.CheckReferenceSurvivesReload(boolOp.Body, refs);
     }
 
     //--------------------------------------------------------------------------------------------------

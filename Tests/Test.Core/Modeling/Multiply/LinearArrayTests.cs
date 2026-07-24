@@ -1,4 +1,5 @@
-﻿using Macad.Core.Shapes;
+﻿using Macad.Core;
+using Macad.Core.Shapes;
 using Macad.Test.Utils;
 using NUnit.Framework;
 using System.IO;
@@ -233,6 +234,49 @@ public class LinearArrayTests
 
         AssertHelper.HasValidSubshapeReferences(array);
         AssertHelper.IsSameSubshapeReferences(array, Path.Combine(_BasePath, "SketchSubshapeReferences"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Referencing a subshape of the original sketch must return the same subshape for all instances")]
+    public void SketchAllInstancesInModifiedList()
+    {
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
+        sketch.Guid = TestData.CreateGuid(1);
+
+        var array = LinearArray.Create(sketch.Body);
+        array.Quantity1 = 3;
+        array.Distance1 = 25;
+        array.DistanceMode1 = LinearArray.DistanceMode.Interval;
+        array.Quantity2 = 2;
+        array.Distance2 = 30;
+        array.DistanceMode2 = LinearArray.DistanceMode.Interval;
+        array.Guid = TestData.CreateGuid(2);
+        Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+
+        var subshapes = array.FindSubshape(new SubshapeReference(SubshapeType.Edge, sketch.Guid, "seg", 0), null);
+        Assert.IsNotNull(subshapes);
+        Assert.That(subshapes, Has.Count.EqualTo(6));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("An array's instance edges must not swap identity when the spacing changes")]
+    public void SketchSubshapeReferencesSurvivesDistanceChange()
+    {
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
+        sketch.Guid = TestData.CreateGuid(1);
+
+        var array = LinearArray.Create(sketch.Body);
+        array.Quantity1 = 3;
+        array.Distance1 = 25;
+        array.DistanceMode1 = LinearArray.DistanceMode.Interval;
+        array.Guid = TestData.CreateGuid(2);
+        Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 25);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -505,6 +549,63 @@ public class LinearArrayTests
 
         AssertHelper.HasValidSubshapeReferences(array);
         AssertHelper.IsSameSubshapeReferences(array, Path.Combine(_BasePath, "SolidSubshapeReferences"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    [Description("Referencing a subshape of the original solid must return the same subshape for all instances")]
+    public void SolidAllInstancesInModifiedList()
+    {
+        var solid = TestGeomGenerator.CreateBox();
+        var array = LinearArray.Create(solid.Body);
+        array.Quantity1 = 3;
+        array.Distance1 = 25;
+        array.DistanceMode1 = LinearArray.DistanceMode.Interval;
+        array.Quantity2 = 2;
+        array.Distance2 = 30;
+        array.DistanceMode2 = LinearArray.DistanceMode.Interval;
+        array.Guid = TestData.CreateGuid(2);
+        Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+
+        var subshapes = array.FindSubshape(new SubshapeReference(SubshapeType.Face, solid.Guid, "ZMax", 0), null);
+        Assert.IsNotNull(subshapes);
+        Assert.That(subshapes, Has.Count.EqualTo(6));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("An array's instance faces must not swap identity when the spacing changes")]
+    public void SolidSubshapeReferencesSurvivesDistanceChange()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        var array = LinearArray.Create(box.Body);
+        array.Quantity1 = 3;
+        array.Distance1 = 25;
+        array.DistanceMode1 = LinearArray.DistanceMode.Interval;
+        array.Guid = TestData.CreateGuid(2);
+        Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 25);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SolidSubshapeReferenceSurvivesSaveReload()
+    {
+        Context.InitWithDefault();
+        var box = TestGeomGenerator.CreateBox();
+        CoreContext.Current.Document.Add(box.Body);
+
+        var array = LinearArray.Create(box.Body);
+        array.Quantity1 = 3;
+        array.Distance1 = 25;
+        array.DistanceMode1 = LinearArray.DistanceMode.Interval;
+        Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+
+        AssertHelper.CheckReferenceSurvivesReload(array.Body, [new SubshapeReference(SubshapeType.Edge, box.Guid, "ZMaxXMin", 0)]);
     }
 
     //--------------------------------------------------------------------------------------------------

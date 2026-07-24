@@ -265,41 +265,35 @@ public sealed class CircularArray : ModifierBase
         var (interval, offset) = _CalculateParameters();
 
         // Build Transforms
-        var includeOriginal = false;
         List<Trsf2d> transforms = new List<Trsf2d>((int)_Quantity);
         for (var index = 0; index < _Quantity; index++)
         {
-            var transform = Trsf2d.Identity;
+            var transform = new Trsf2d();
             var angle = (interval * index + offset).ToRad();
-            if (!angle.IsEqual(0, 1e-9))
+            if (_KeepOrientation)
             {
-                if (_KeepOrientation)
-                {
-                    // Translation transform
-                    transform.SetTranslation(Pnt2d.Origin.Rotated(center, angle).ToVec());
-                }
-                else
-                {
-                    // Rotation transform
-                    transform.SetRotation(center, angle);
-                }
+                // Translation transform
+                transform.SetTranslation(Pnt2d.Origin.Rotated(center, angle).ToVec());
             }
-
+            else
+            {
+                // Rotation transform
+                transform.SetRotation(center, angle);
+            }
             transforms.Add(transform);
         }
 
         // Do it!
         List<BRepTools_History> histories = new(transforms.Count);
-        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, transforms, includeOriginal, histories: histories);
+        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, transforms, histories: histories);
         if (resultShape == null)
             return false;
 
         // Bookkeeping
-        var nameIndex = includeOriginal ? 1 : 0;
-        for (var index = 0; index < histories.Count; index++, nameIndex++)
+        for (var index = 0; index < histories.Count; index++)
         {
             var history = histories[index];
-            SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(nameIndex, history)], AddNamedSubshape);
+            SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index, history)], AddNamedSubshape);
             UpdateModifiedSubshapes(sourceBRep, history);
         }
 
@@ -325,18 +319,9 @@ public sealed class CircularArray : ModifierBase
         var builder = new TopoDS_Builder();
         builder.MakeCompound(resultShape);
 
-        bool hasUntransformed = false;
         for (var index = 0; index < Quantity; index++)
         {
             var angle = (interval * index + offset).ToRad();
-            if (angle.IsEqual(0, 1e-9))
-            {
-                // No rotation, take original shape
-                builder.Add(resultShape, sourceBRep);
-                hasUntransformed = true;
-                continue;
-            }
-
             var transform = Trsf.Identity;
             if (_KeepOrientation)
             {
@@ -359,16 +344,10 @@ public sealed class CircularArray : ModifierBase
             var transformedShape = makeTransform.Shape();
             builder.Add(resultShape, transformedShape);
 
-            BRepTools_History history = new(resultShape, makeTransform);
+            BRepTools_History history = new(sourceBRep, makeTransform);
             SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index, history)], AddNamedSubshape);
             UpdateModifiedSubshapes(sourceBRep, history);
         }
-
-        // The untransformed instance is the source added as-is; map its subshapes to themselves so
-        // forward resolution includes it, not only the transformed copies. After the loop, so the
-        // transformed mappings exist first (see AddUnmodifiedSubshapes).
-        if (hasUntransformed)
-            AddUnmodifiedSubshapes(sourceBRep);
 
         // Finalize
         BRep = resultShape;

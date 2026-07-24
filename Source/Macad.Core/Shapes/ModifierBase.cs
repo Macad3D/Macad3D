@@ -373,7 +373,7 @@ public abstract class ModifierBase : Shape
         if (kvpModif.Key != null)
         {
             kvpModif.Value.RemoveAt(kvpModif.Value.IndexOfSame(original));
-            kvpModif.Value.AddRange(shapes);
+            kvpModif.Value.AddRange(shapes.Where(s => !kvpModif.Value.ContainsSame(s)));
             return;
         }
 
@@ -381,7 +381,7 @@ public abstract class ModifierBase : Shape
         var realKey = _ModifiedShapes.Keys.FirstOrDefault(s => s.IsSame(original));
         if (realKey != null)
         {
-            _ModifiedShapes[realKey].AddRange(shapes);
+            _ModifiedShapes[realKey].AddRange(shapes.Where(s => !_ModifiedShapes[realKey].ContainsSame(s)));
         }
         else
         {
@@ -503,27 +503,6 @@ public abstract class ModifierBase : Shape
                 }
             }
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// Registers the subshapes of an instance that was added to the result unchanged (e.g. the
-    /// untransformed instance of an array, added as the source shape itself) as mapping to
-    /// themselves. Without this, forward resolution in <see cref="FindSubshape"/> only sees the
-    /// transformed instances recorded via <see cref="UpdateModifiedSubshapes(TopoDS_Shape, BRepTools_History)"/>,
-    /// so a reference to a source subshape skips the unchanged instance.
-    /// Call after the transformed instances have been recorded: AddModifiedSubshape treats an
-    /// already-mapped value as a chain, so an identity added first would be dropped by the copies.
-    /// </summary>
-    protected void AddUnmodifiedSubshapes(TopoDS_Shape sourceShape)
-    {
-        foreach (var face in sourceShape.Faces())
-            AddModifiedSubshape(face, [face]);
-        foreach (var edge in sourceShape.Edges())
-            AddModifiedSubshape(edge, [edge]);
-        foreach (var vertex in sourceShape.Vertices())
-            AddModifiedSubshape(vertex, [vertex]);
     }
 
     //--------------------------------------------------------------------------------------------------

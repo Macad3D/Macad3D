@@ -221,7 +221,7 @@ public class Scale : ModifierBase
             return false;
         }
 
-        UpdateModifiedSubshapes(brep, histories.Last());
+        UpdateModifiedSubshapes(brep, histories[0]);
 
         BRep = result;
 

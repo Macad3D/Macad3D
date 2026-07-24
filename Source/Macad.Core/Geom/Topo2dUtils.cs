@@ -36,26 +36,6 @@ public static class Topo2dUtils
             // Do transform per wire.
             foreach (var wire in original.Wires())
             {
-                if (transform.Form == TrsfForm.Identity)
-                {
-                    // We can just copy the wire from the original shape. That means that no 
-                    // modification is done and we do not need to add this to the history.
-                    builder.Add(newShape, wire);
-                    if (mergeWires)
-                    {
-                        TopoDS_Vertex v1 = new(), v2 = new();
-                        TopExp.Vertices(wire, v1, v2);
-                        if (!v1.IsSame(v2))
-                        {
-                            Pnt2d pnt2d = ProjLib.Project(plane, v1.Pnt());
-                            wireEndVertices.Add(pnt2d, v1);
-                            pnt2d = ProjLib.Project(plane, v2.Pnt());
-                            wireEndVertices.Add(pnt2d, v2);
-                        }
-                    }
-                    continue;
-                }
-
                 // Each wire start with new shared vertices
                 sharedVertices.Clear();
 

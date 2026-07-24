@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Macad.Common;
+using Macad.Common.Serialization;
+using Macad.Core;
+using Macad.Core.Shapes;
+using Macad.Occt;
+using Macad.Occt.Helper;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Macad.Common;
-using Macad.Common.Serialization;
-using Macad.Core;
-using Macad.Core.Shapes;
-using Macad.Occt;
-using NUnit.Framework;
-using Macad.Occt.Helper;
+using Macad.Core.Topology;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Macad.Test.Utils;
 
@@ -473,6 +475,22 @@ public static class AssertHelper
     public static void IsSameSubshapeReferences(Shape shape, string referenceFile)
     {
         Assert.That(SubshapeReferenceCompare.CompareReferences(shape, referenceFile), "Subshape references do not match.");
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void AreSubshapeReferencesStableAfterChange(Shape shape, Action applyChange)
+    {
+        bool stable = SubshapeReferenceStabilityCheck.CheckReferencesAfterChange(shape, applyChange, out string summary);
+        TestContext.WriteLine(summary);
+        Assert.That(stable, Is.True, "Linear array references did not survive the distance change.");
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void CheckReferenceSurvivesReload(Body target, SubshapeReference[] refs)
+    {
+        Assert.That(SubshapeReferenceStabilityCheck.CheckReferenceSurvivesReload(target, refs));
     }
 
     //--------------------------------------------------------------------------------------------------

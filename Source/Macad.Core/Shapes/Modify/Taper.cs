@@ -255,7 +255,7 @@ public class Taper : ModifierBase
         context.BaseEdge = GetOperandEdge(0, _BaseEdgeOrVertex, context.Face);
         if (context.BaseEdge == null)
         {
-            Messages.Error("The face is not valid, check source shape or re-select face.");
+            Messages.Error("The base edge is not valid, check source shape or re-select edge.");
             return false;
         }
 

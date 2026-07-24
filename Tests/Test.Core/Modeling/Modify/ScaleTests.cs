@@ -1,4 +1,5 @@
-﻿using Macad.Core.Shapes;
+﻿using Macad.Core;
+using Macad.Core.Shapes;
 using Macad.Test.Utils;
 using NUnit.Framework;
 using System.IO;
@@ -11,6 +12,8 @@ public class ScaleTests
     const string _BasePath = @"Modeling\Modify\Scale";
 
     //--------------------------------------------------------------------------------------------------
+
+    #region Solid
 
     [Test]
     public void SolidUniform()
@@ -59,6 +62,25 @@ public class ScaleTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Referencing a subshape of the original solid must return the same subshape for all instances")]
+    public void SolidResultInInModifiedList()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        var scale = Scale.Create(box.Body, 5.0);
+        Assert.IsTrue(scale.Make(Shape.MakeFlags.None));
+
+        var subshapes = scale.FindSubshape(new SubshapeReference(SubshapeType.Face, box.Guid, "ZMax", 0), null);
+        Assert.IsNotNull(subshapes);
+        Assert.That(subshapes, Has.Count.EqualTo(1));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    #endregion
+
+    #region Sketch
 
     [Test]
     [TestCase(TestSketchGenerator.SketchType.Circle)]
@@ -116,6 +138,24 @@ public class ScaleTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void SketchResultInModifiedList()
+    {
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        var scale = Scale.Create(sketch.Body, 2.0, 4.0, 6.0);
+        Assert.IsTrue(scale.Make(Shape.MakeFlags.None));
+
+        var subshapes = scale.FindSubshape(new SubshapeReference(SubshapeType.Edge, sketch.Guid, "seg", 1), null);
+        Assert.IsNotNull(subshapes);
+        Assert.That(subshapes, Has.Count.EqualTo(1));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Mesh
+
+    [Test]
     public void MeshUniform()
     {
         var body = TestData.GetBodyFromBRep("SourceData\\Mesh\\CompoundMesh.brep", ShapeType.Mesh);
@@ -140,5 +180,7 @@ public class ScaleTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    #endregion
 
 }

@@ -99,4 +99,16 @@ public class CylinderTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [Description("A primitive's face references must survive a change of its own dimensions")]
+    public void SubshapeReferencesSurvivesHeightChange()
+    {
+        var shape = Cylinder.Create(10, 10);
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(shape, () => shape.Height = 11);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

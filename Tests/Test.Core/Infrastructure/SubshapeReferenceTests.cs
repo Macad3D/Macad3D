@@ -494,6 +494,22 @@ public class SubshapeReferenceTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [Description("A simple edge reference on a box must target the same edge after save/reload")]
+    public void ReferencesSurviveSaveAndReload()
+    {
+        Context.InitWithDefault();
+        var box = TestGeomGenerator.CreateBox();
+        box.Guid = TestData.CreateGuid(1);
+        CoreContext.Current.Document.Add(box.Body);
+        Assert.IsTrue(box.Make(Shape.MakeFlags.None));
+
+        var edgeRef = box.GetSubshapeReference(box.GetBRep().Edges()[0]);
+        AssertHelper.CheckReferenceSurvivesReload(box.Body, [edgeRef]);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #region Utils
 
     struct ShapeDesc

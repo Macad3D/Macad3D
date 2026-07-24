@@ -395,7 +395,6 @@ public sealed class LinearArray : ModifierBase
         }
 
         // Build Transforms
-        var includeOriginal = false;
         List<Trsf2d> transforms = new List<Trsf2d>((int)(Quantity1 * Quantity2));
         List<(int, int)> indices = new();
         for (var index1 = 0; index1 < Quantity1; index1++)
@@ -410,10 +409,7 @@ public sealed class LinearArray : ModifierBase
 
                 var transform = new Trsf2d();
                 Vec2d translation = interval1 * index1 + interval2 * index2 + offset;
-                if (!translation.Magnitude().IsEqual(0, 1e-6))
-                {
-                    transform.SetTranslation(translation);
-                }
+                transform.SetTranslation(translation);
                 transforms.Add(transform);
                 indices.Add((index1, index2));
             }
@@ -421,7 +417,7 @@ public sealed class LinearArray : ModifierBase
 
         // Do it!
         List<BRepTools_History> histories = new(transforms.Count);
-        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, transforms, includeOriginal, histories: histories);
+        var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, transforms, histories: histories);
         if (resultShape == null)
             return false;
 
@@ -495,7 +491,6 @@ public sealed class LinearArray : ModifierBase
         var builder = new TopoDS_Builder();
         builder.MakeCompound(resultShape);
 
-        bool hasUntransformed = false;
         for (var index1 = 0; index1 < Quantity1; index1++)
         {
             for (var index2 = 0; index2 < Quantity2; index2++)
@@ -507,15 +502,6 @@ public sealed class LinearArray : ModifierBase
                 }
 
                 Vec translation = interval1 * index1 + interval2 * index2 + offset;
-                if (translation.Magnitude() < 1e-6)
-                {
-                    // No translation, take original shape
-                    builder.Add(resultShape, sourceBRep);
-                    hasUntransformed = true;
-                    continue;
-
-                }
-
                 var transform = new Trsf();
                 transform.SetTranslation(translation);
                 var makeTransform = new BRepBuilderAPI_Transform(sourceBRep, transform);
@@ -527,17 +513,11 @@ public sealed class LinearArray : ModifierBase
 
                 builder.Add(resultShape, makeTransform.Shape());
 
-                BRepTools_History history = new(resultShape, makeTransform);
+                BRepTools_History history = new(sourceBRep, makeTransform);
                 SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index2 << 12 | index1, history)], AddNamedSubshape);
                 UpdateModifiedSubshapes(sourceBRep, history);
             }
         }
-
-        // The untransformed instance is the source added as-is; map its subshapes to themselves so
-        // forward resolution includes it, not only the transformed copies. After the loop, so the
-        // transformed mappings exist first (see AddUnmodifiedSubshapes).
-        if (hasUntransformed)
-            AddUnmodifiedSubshapes(sourceBRep);
 
         // Finalize
         BRep = resultShape;

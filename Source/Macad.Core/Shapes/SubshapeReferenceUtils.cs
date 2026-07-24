@@ -164,7 +164,6 @@ public static class SubshapeReferenceUtils
         public TopoDS_Shape ResultShape { get; set; }
         public List<TopoDS_Edge> AuxEdges { get; set; }
         public SubshapeModificationFilter[] Filters { get; set; }
-        public bool RemoveBijective { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -185,7 +184,6 @@ public static class SubshapeReferenceUtils
                                                    .Where(e => e != null && EdgeAlgo.IsEdgeInShape(e, ResultShape))
                                                    .ToList();
             Filters = [_UniquifyByAdjacentFaces, _UniquifyByAdjacentSplitEdgeFaces, _RemoveBijective];
-            RemoveBijective = true;
         }
 
         //--------------------------------------------------------------------------------------------------

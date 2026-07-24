@@ -140,4 +140,18 @@ public class SphereTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [Description("A primitive's face references must survive a change of its own dimensions")]
+    public void SubshapeReferencesSurvivesRadiusChange()
+    {
+        var shape = new Sphere()
+        {
+            Radius = 10
+        };
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(shape, () => shape.Radius = 11);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

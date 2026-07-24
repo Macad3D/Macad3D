@@ -39,4 +39,16 @@ public class BoxTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [Description("A primitive's face references must survive a change of its own dimensions")]
+    public void SubshapeReferencesSurvivesDimensionChange()
+    {
+        var shape = Box.Create(10, 10, 10);
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+
+        AssertHelper.AreSubshapeReferencesStableAfterChange(shape, () => shape.DimensionZ = 14);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

@@ -106,6 +106,11 @@ public static class SubshapeReferenceCompare
                     TestContext.WriteLine($"Reference could not be resolved: {reference}");
                     result = false;
                 }
+                else if (found.Count > 1)
+                {
+                    TestContext.WriteLine($"Reference resolved to more than one subshape: {reference}");
+                    result = false;
+                }
             }
         }
 
