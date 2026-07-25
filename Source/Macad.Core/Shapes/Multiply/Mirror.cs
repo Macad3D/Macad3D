@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
@@ -139,7 +140,7 @@ public sealed class Mirror : ModifierBase
 
     /// <summary>
     /// Version of the modifier. This is used to keep the modifier working with older files.
-    /// 1 = 4.3
+    /// 1 => v4.5
     /// </summary>
     [SerializeMember]
     public int Version
@@ -547,7 +548,7 @@ public sealed class Mirror : ModifierBase
 
     public override void OnDeserialized(SerializationContext context)
     {
-        if (context.Version.Major < 4 || (context.Version.Major == 4 && context.Version.Minor <= 3))
+        if (context.Version < new Version(4, 5))
         {
             Version = 0;
         }

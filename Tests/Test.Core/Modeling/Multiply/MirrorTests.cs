@@ -509,7 +509,7 @@ public class MirrorTests
     #region Compatibility
 
     [Test]
-    public void Compatibility_pre_4_2()
+    public void Compatibility_pre_4_5()
     {
         var box = TestGeomGenerator.CreateBox();
         var mirrorPlaneRef = new SubshapeReference(SubshapeType.Face, box.Guid, "ZMax", 0);
@@ -526,7 +526,7 @@ public class MirrorTests
         Assert.That(serialized, Is.Not.Null.Or.Empty);
         SerializationContext serializationContext = new()
         {
-            Version = new(4, 2)
+            Version = new(4, 4)
         };
         mirror = Serializer.Deserialize<Body>(serialized, serializationContext)?.Shape as Mirror;
         Assert.That(mirror, Is.Not.Null);
