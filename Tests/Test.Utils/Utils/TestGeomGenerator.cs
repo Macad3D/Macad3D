@@ -83,7 +83,7 @@ public class TestGeomGenerator
         };
         if (startGuid > 0)
         {
-            baseShape.Guid = TestData.CreateGuid(startGuid);
+            baseShape.Guid = TestData.CreateGuid(startGuid++);
         }
 
         var body = CreateBody(baseShape, new Pnt(-10, -10, 0));

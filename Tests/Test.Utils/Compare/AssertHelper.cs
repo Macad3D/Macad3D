@@ -13,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Macad.Core.Topology;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Macad.Test.Utils;
 
@@ -483,7 +482,7 @@ public static class AssertHelper
     {
         bool stable = SubshapeReferenceStabilityCheck.CheckReferencesAfterChange(shape, applyChange, out string summary);
         TestContext.WriteLine(summary);
-        Assert.That(stable, Is.True, "Linear array references did not survive the distance change.");
+        Assert.That(stable, Is.True, "Subshape references did not survive the distance change.");
     }
 
     //--------------------------------------------------------------------------------------------------

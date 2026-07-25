@@ -12,7 +12,7 @@ public static class Topo2dUtils
     {
         if (!GetPlaneOfEdges(original, out Geom_Plane geomPlane))
         {
-            return original;
+            return null;
         }
         
         Pln plane = geomPlane.Pln();

@@ -276,7 +276,7 @@ public class LinearArrayTests
         array.Guid = TestData.CreateGuid(2);
         Assert.IsTrue(array.Make(Shape.MakeFlags.None));
 
-        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 25);
+        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 26);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -587,7 +587,7 @@ public class LinearArrayTests
         array.Guid = TestData.CreateGuid(2);
         Assert.IsTrue(array.Make(Shape.MakeFlags.None));
 
-        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 25);
+        AssertHelper.AreSubshapeReferencesStableAfterChange(array, () => array.Distance1 = 26);
     }
 
     //--------------------------------------------------------------------------------------------------
