@@ -7,7 +7,7 @@ namespace Macad.Exchange.Stl;
 
 internal static class StlBodyExporter
 {
-    public static bool Export(IEnumerable<Body> bodies, string fileName, bool binaryFormat)
+    public static bool Export(IEnumerable<Body> bodies, string fileName, bool binaryFormat, double linDeflection, double angDeflection)
     {
         var sumTriangleCount = 0;
         var triangulations = new List<TriangulationData>();
@@ -17,7 +17,7 @@ internal static class StlBodyExporter
             if (shape == null)
                 continue;
 
-            var triangulation = TriangulationHelper.GetTriangulation(shape, false);
+            var triangulation = TriangulationHelper.GetTriangulation(shape, false, linDeflection, angDeflection);
             if (triangulation.TriangleCount == 0)
                 continue;
 

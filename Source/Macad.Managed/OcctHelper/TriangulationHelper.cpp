@@ -78,12 +78,19 @@ namespace Macad
 			public:
 				static TriangulationData^ GetTriangulation(Macad::Occt::TopoDS_Shape^ brepShape, bool getNormals)
 				{
+				    return GetTriangulation(brepShape, getNormals, 0.1, 0.5);
+				}
+
+                //--------------------------------------------------------------------------------------------------
+
+			    static TriangulationData^ GetTriangulation(Macad::Occt::TopoDS_Shape^ brepShape, bool getNormals, double linDeflection, double angDeflection)
+				{
 					auto shape = *brepShape->NativeInstance;
 
 					// Ensure that all shapes have a mesh
-					if (::BRepTools::Triangulation(shape, Precision::Infinite()) == Standard_False)
+					if (::BRepTools::Triangulation(shape, linDeflection, false) == Standard_False)
 					{
-						::BRepMesh_IncrementalMesh aMesher(shape, 0.1);
+						::BRepMesh_IncrementalMesh aMesher(shape, linDeflection, false, angDeflection, false);
 						if(!aMesher.IsDone())
 							return nullptr;
 					}

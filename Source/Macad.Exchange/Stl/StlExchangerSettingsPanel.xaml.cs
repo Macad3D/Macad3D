@@ -53,6 +53,30 @@ public sealed partial class StlSettingsPanel : SettingsPanelBase
 
     //--------------------------------------------------------------------------------------------------
 
+    public double LinearDeflection
+    {
+        get { return _Settings.ExportLinearDeflection; }
+        set
+        {
+            _Settings.ExportLinearDeflection = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public double AngularDeflection
+    {
+        get { return _Settings.ExportAngularDeflection; }
+        set
+        {
+            _Settings.ExportAngularDeflection = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     StlExchanger.StlSettings _Settings;
 
     //--------------------------------------------------------------------------------------------------

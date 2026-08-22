@@ -10,22 +10,49 @@
              d:DesignHeight="100" d:DesignWidth="250">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="10" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
             
-        <TextBlock Grid.Column="0" Text="File Format"
+        <TextBlock Grid.Column="0" 
+                   Text="File Format"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
 
-        <mmp:ToggleButton Content="Binary" mmp:GroupControls.Position="Left" Grid.Column="1"
+        <mmp:ToggleButton Content="Binary" 
+                          mmp:GroupControls.Position="Left" 
+                          Grid.Column="1"
                           IsChecked="{Binding ExportBinaryFormat}"
                           Command="{Binding SetExportBinaryFormatCommand}"
                           CommandParameter="true"/>
-        <mmp:ToggleButton Content="ASCII" mmp:GroupControls.Position="Right" Grid.Column="2"
+        <mmp:ToggleButton Content="ASCII" 
+                          mmp:GroupControls.Position="Right" 
+                          Grid.Column="2"
                           IsChecked="{Binding ExportBinaryFormat, Converter={mmp:BoolToNotBoolConverter}}"
                           Command="{Binding SetExportBinaryFormatCommand}"
                           CommandParameter="false"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2"
+                   Text="Max Linear Deflection"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                          Value="{Binding LinearDeflection}"
+                          Precision="2"
+                          IncDecButtons="True" IncDecStep="0.01"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="3"
+                   Text="Max Angular Deflection"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                          Value="{Binding AngularDeflection}"
+                          Precision="2"
+                          IncDecButtons="True" IncDecStep="0.1"/>
     </Grid>
 </mme:SettingsPanelBase>

@@ -91,4 +91,49 @@ public class StlExchangeTests
         Assert.AreEqual(1, readbodies.Count());
         File.Delete(path);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DeflectionSettingsLinear()
+    {
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+
+        var exchanger = new StlExchanger();
+        exchanger.Settings.ExportBinaryFormat = true;
+        exchanger.Settings.ExportLinearDeflection = 0.05;
+
+        var path = Path.Combine(TestData.TempDirectory, Path.Combine(_BasePath, "StlDeflectionSettingsLinear_TestResult.stl"));
+        Directory.CreateDirectory(Path.Combine(TestData.TempDirectory, _BasePath));
+        File.Delete(path);
+        Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, bodies));
+
+        FileInfo fileInfoRef = new FileInfo(Path.Combine(TestData.TestDataDirectory, _BasePath, "BinaryWrite.stl"));
+        FileInfo fileInfoTest = new FileInfo(path);
+        Assert.That(fileInfoTest.Length, Is.GreaterThan(fileInfoRef.Length * 1.9)); // Nearly double the size
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DeflectionSettingsAngular()
+    {
+        var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+
+        var exchanger = new StlExchanger();
+        exchanger.Settings.ExportBinaryFormat = true;
+        exchanger.Settings.ExportAngularDeflection = 0.15;
+
+        var path = Path.Combine(TestData.TempDirectory, Path.Combine(_BasePath, "StlDeflectionSettingsAngular_TestResult.stl"));
+        Directory.CreateDirectory(Path.Combine(TestData.TempDirectory, _BasePath));
+        File.Delete(path);
+        Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, bodies));
+
+        FileInfo fileInfoRef = new FileInfo(Path.Combine(TestData.TestDataDirectory, _BasePath, "BinaryWrite.stl"));
+        FileInfo fileInfoTest = new FileInfo(path);
+        Assert.That(fileInfoTest.Length, Is.GreaterThan(fileInfoRef.Length * 2.0));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

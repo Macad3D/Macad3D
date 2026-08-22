@@ -59,11 +59,17 @@ public sealed class StlExchanger : IBodyExporter, IBodyImporter
     {
         [SerializeMember]
         public bool ExportBinaryFormat { get; set; }
+
+        [SerializeMember]
+        public double ExportLinearDeflection { get; set; } = 0.1;
+
+        [SerializeMember]
+        public double ExportAngularDeflection { get; set; } = 0.5;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public StlSettings Settings { get; private set; } = new StlSettings();
+    public StlSettings Settings { get; private set; } = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -75,7 +81,7 @@ public sealed class StlExchanger : IBodyExporter, IBodyImporter
     {
         try
         {
-            return StlBodyExporter.Export(bodies, fileName, Settings.ExportBinaryFormat);
+            return StlBodyExporter.Export(bodies, fileName, Settings.ExportBinaryFormat, Settings.ExportLinearDeflection, Settings.ExportAngularDeflection);
         }
         catch (Exception e)
         {

@@ -134,7 +134,7 @@ public class GltfExportTests
         // Create array of references to produce very high triangle load
         var original = TestData.GetBodyFromBRep(@"SourceData\Brep\Motor-c.brep");
 
-        const int side = 17;
+        const int side = 18;
         List<Body> bodies = [original];
         for (int x = 0; x < side; x++)
         {
