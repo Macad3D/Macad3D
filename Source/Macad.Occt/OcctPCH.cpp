@@ -37,3 +37,5 @@ using namespace System::Diagnostics;
 [assembly:DebuggerDisplay("{ShapeType()} {GetHashCode().ToString(\"X\")}", Target = Macad::Occt::TopoDS_CompSolid::typeid)];
 [assembly:DebuggerDisplay("{ShapeType()} {GetHashCode().ToString(\"X\")}", Target = Macad::Occt::TopoDS_Compound::typeid)];
 
+[assembly:DebuggerDisplay("{CornerMin()} {CornerMax()}", Target = Macad::Occt::Bnd_Box::typeid)] ;
+[assembly:DebuggerDisplay("{CornerMin()} {CornerMax()}", Target = Macad::Occt::Bnd_Box2d::typeid)] ;

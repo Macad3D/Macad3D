@@ -47,6 +47,17 @@ public static class BndBoxExtensions
 
     //--------------------------------------------------------------------------------------------------
 
+    public static bool IsSameBounds(this Bnd_Box box1, Bnd_Box box2, double tolerance = 1e-6)
+    {
+        if (box1 == null || box2 == null)
+            return false;
+
+        return box1.CornerMin().Distance(box2.CornerMin()) < tolerance
+               && box1.CornerMax().Distance(box2.CornerMax()) < tolerance;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static Pnt2d Center(this Bnd_Box2d box)
     {
         double xMin = 0, yMin = 0, xMax = 0, yMax = 0;

@@ -181,7 +181,9 @@ public abstract class ModifierBase : Shape
     {
         var operand = GetOperand(operandIndex);
         if (operand == null)
+        {
             return null;
+        }
 
         if (boundToPlane.HasValue)
         {
@@ -190,7 +192,9 @@ public abstract class ModifierBase : Shape
 
         var sourceBrep = GetOperandBRep(operandIndex);
         if (sourceBrep == null)
+        {
             return null;
+        }
 
         // Check if we already have faces
         var exp = new TopExp_Explorer(sourceBrep, TopAbs_ShapeEnum.FACE, TopAbs_ShapeEnum.SHAPE);
@@ -207,10 +211,15 @@ public abstract class ModifierBase : Shape
             return shape;
         }
 
-        Geom_Plane geomPlane;
-        if (!Topo2dUtils.GetPlaneOfEdges(sourceBrep, out geomPlane))
+        if (!Topo2dUtils.GetPlaneOfEdges(sourceBrep, out var geomPlane))
+        {
             return null;
-        var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, geomPlane.Pln());
+        }
+        var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, geomPlane.Pln(), out var history);
+        if(baseFacesShape != null && history != null)
+        {
+            UpdateModifiedSubshapes(sourceBrep, history);
+        }
 
         if (boundToPlane != null && baseFacesShape != null)
         {

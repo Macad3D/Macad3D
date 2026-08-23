@@ -407,7 +407,7 @@ public class Pipe : ModifierBase
             }
         }
 
-        var face = TopoUtils.CreateFacesFromWires(result, plane);
+        var face = TopoUtils.CreateFacesFromWires(result, plane, out var history);
         return face;
     }
 

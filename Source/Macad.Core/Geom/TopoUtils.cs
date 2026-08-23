@@ -57,12 +57,26 @@ public static class TopoUtils
 
     //--------------------------------------------------------------------------------------------------
 
-    public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane)
+    /// <summary>
+    /// Creates faces from closed wires. The whole topology and geometry of the source shape is copied.
+    /// Open wires are ignored. If no closed wires are present, an empty face is returned.
+    /// The orientation of the resulting faces is fixed to ensure consistency.
+    /// </summary>
+    /// <param name="sourceShape">The source shape containing wires from which faces will be created.</param>
+    /// <param name="plane">An optional plane to define the spatial context for the faces.</param>
+    /// <returns>The resulting shape containing the created faces.</returns>
+    public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane, out BRepTools_History history)
     {
         // Create faces from closed wires
-        var wires = sourceShape.Wires();
         var openWireCount = 0;
         var closedWireCount = 0;
+        var copiedShape = CopyWithPCurves(sourceShape, out history);
+        if (copiedShape == null)
+        {
+            return null;
+        }
+        var wires = copiedShape.Wires();
+
         BRepBuilderAPI_MakeFace makeFace = new(plane);
         foreach (var wire in wires)
         {
@@ -97,7 +111,6 @@ public static class TopoUtils
         // Fix orientation of that faces
         var shapeFix = new ShapeFix_Shape(makeFace.Face());
         shapeFix.Perform();
-
         return shapeFix.Shape();
     }
 
@@ -192,6 +205,59 @@ public static class TopoUtils
     public static TopoDS_CompSolid CreateCompound(params TopoDS_Solid[] solids)
     {
         return CreateCompound(solids as IEnumerable<TopoDS_Solid>);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Creates a copy of the given shape, including its parametric curves (PCurves) on surfaces.
+    /// </summary>
+    public static TopoDS_Shape CopyWithPCurves(TopoDS_Shape original, out BRepTools_History history)
+    {
+        BRepBuilderAPI_Copy copier = new();
+        copier.Perform(original, true);
+        var copied = copier.Shape();
+        history = new(original, copier);
+
+        // BRepBuilderAPI_Copy does not copy PCurves (parametric curves on surfaces),
+        // so we transfer them manually from each original edge to its copied counterpart.
+        var builder = new BRep_Builder();
+        var explorer = new TopExp_Explorer(original, TopAbs_ShapeEnum.EDGE);
+        while (explorer.More())
+        {
+            var origEdge = explorer.Current().ToEdge();
+            var copyEdge = copier.ModifiedShape(origEdge).ToEdge();
+
+            if (origEdge.TShape() is BRep_TEdge tedge)
+            {
+                double tol = BRep_Tool.Tolerance(origEdge);
+                foreach (var curveRep in tedge.CurvesList())
+                {
+                    if (curveRep is BRep_CurveOnClosedSurface closedCos)
+                    {
+                        var surface = closedCos.Surface();
+                        var location = closedCos.Location();
+                        builder.UpdateEdge(copyEdge, closedCos.PCurve(), closedCos.PCurve2(), surface, location, tol);
+                        double first = 0, last = 0;
+                        closedCos.Range(ref first, ref last);
+                        builder.Range(copyEdge, surface, location, first, last);
+                    }
+                    else if (curveRep is BRep_CurveOnSurface cos)
+                    {
+                        var surface = cos.Surface();
+                        var location = cos.Location();
+                        builder.UpdateEdge(copyEdge, cos.PCurve(), surface, location, tol);
+                        double first = 0, last = 0;
+                        cos.Range(ref first, ref last);
+                        builder.Range(copyEdge, surface, location, first, last);
+                    }
+                }
+            }
+
+            explorer.Next();
+        }
+
+        return copied;
     }
 
     //--------------------------------------------------------------------------------------------------

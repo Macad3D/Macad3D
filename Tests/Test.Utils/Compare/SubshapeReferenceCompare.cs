@@ -159,7 +159,7 @@ public static class SubshapeReferenceCompare
                 continue;
             }
 
-            if (!_IsSameBounds(expectedBox, bndBox))
+            if (!expectedBox.IsSameBounds(bndBox))
             {
                 result = false;
                 TestContext.WriteLine($"Bounds do not match for reference: {reference}. Bounds: {bndBox.ToRoundedString()}. Expected: {expectedBox?.ToRoundedString()}");
@@ -188,13 +188,4 @@ public static class SubshapeReferenceCompare
 
     //--------------------------------------------------------------------------------------------------
 
-    static bool _IsSameBounds(Bnd_Box box1, Bnd_Box box2)
-    {
-        if (box1 == null || box2 == null)
-            return false;
-
-        const double tolerance = 1e-6;
-        return box1.CornerMin().Distance(box2.CornerMin()) < tolerance
-               && box1.CornerMax().Distance(box2.CornerMax()) < tolerance;
-    }
 }

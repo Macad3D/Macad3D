@@ -43,7 +43,6 @@ public abstract class EdgeModifierBase : ModifierBase
 
     protected IEnumerable<TopoDS_Edge> GetOcEdges()
     {
-        bool inLocalSpace = Operands[0] is Shape;
         foreach (var edgeRef in _Edges)
         {
             foreach (var edge in _GetOcEdges(edgeRef))
