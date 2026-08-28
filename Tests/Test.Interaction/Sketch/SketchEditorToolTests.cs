@@ -119,6 +119,45 @@ public class SketchEditorToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void MovePointMerge_BlockFurtherMove()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        // Select Point
+        bool finishedCalled = false;
+        ctx.ClickAt(377, 122);
+        var action = ctx.WorkspaceController.CurrentTool.CurrentAction as MoveSketchPointAction;
+        action?.Preview += (s, e) =>
+        {
+            Assert.That(finishedCalled, Is.False);
+        };
+        action?.Finished += (s, e) =>
+        {
+            // This can occur when the user is asked to merge points, which opens a dialog
+            // and trigger mouse move before returning from the callback.
+            finishedCalled = true;
+            ctx.MoveTo(1, 1);
+        };
+        // Move to MergePoint
+        ctx.MoveTo(416, 78);
+        ctx.WorkspaceController.MouseDown(ctx.ViewportController, ModifierKeys.None);
+        ctx.MoveTo(290, 206);
+        ctx.WorkspaceController.MouseUp(ctx.ViewportController, ModifierKeys.None);
+
+        // End
+        ctx.WorkspaceController.CancelTool(tool, false);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void MovePointMergeMaxPoints()
     {
         var ctx = Context.Current;

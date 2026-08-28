@@ -74,6 +74,7 @@ public class MoveSketchPointAction : ToolAction
     bool _Moving;
     bool _Rotating;
     bool _FirstDelta;
+    bool _IsCommiting;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -260,6 +261,11 @@ public class MoveSketchPointAction : ToolAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
+        if (_IsCommiting)
+        {
+            return false;
+        }
+
         if (data.DetectedAisObject != null)
         {
             double u = 0, v = 0;
@@ -326,11 +332,17 @@ public class MoveSketchPointAction : ToolAction
 
     public override bool OnMouseUp(MouseEventData data)
     {
+        if (_IsCommiting)
+        {
+            return false;
+        }
+
         if (_Moving || _Rotating)
         {
             if (IsMoving || IsRotating) // Check if delta is significant
             {
                 // Commit
+                _IsCommiting = true;
                 EventArgs args = new()
                 {
                     Points = _Points,
@@ -340,6 +352,7 @@ public class MoveSketchPointAction : ToolAction
                     MouseEventData = data
                 };
                 Finished?.Invoke(this, args);
+                _IsCommiting = false;
 
                 _MoveDelta = Vec2d.Zero;
                 _RotateDelta = 0;
@@ -380,6 +393,11 @@ public class MoveSketchPointAction : ToolAction
 
     public override bool OnMouseMove(MouseEventData data)
     {
+        if (_IsCommiting)
+        {
+            return base.OnMouseMove(data);
+        }
+
         if (_Moving)
         {
             // Get new point from parameters
