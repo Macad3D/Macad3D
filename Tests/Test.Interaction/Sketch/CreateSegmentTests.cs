@@ -127,6 +127,40 @@ public class CreateSegmentTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void CreateLine_SnapToTangentPoint_IgnoreLinear()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            var sketchEditor = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(sketchEditor);
+
+            ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+            ctx.EditorState.SnappingEnabled = true;
+            ctx.EditorState.SnapToEdgeSelected = true;
+            ctx.EditorState.SnapToAuxSelected = true;
+            ctx.EditorState.SnapToGridSelected = true;
+            ctx.EditorState.SnapToAuxCategories = SnapAuxiliaryCategories.TangentPoint;
+            ctx.Workspace.GridEnabled = true;
+            ctx.Workspace.GridStep = 1.0;
+            sketchEditor.StartSegmentCreation<SketchSegmentLineCreator>();
+
+            ctx.ClickAt(88, 463);
+            ctx.MoveTo(88, 322);
+            ctx.MoveTo(106, 321);
+            Assert.That(((SnapBase)ctx.WorkspaceController.CurrentTool.GetSnapHandler()).AuxiliaryContext, Is.Not.Null);
+            Assert.That(((SnapBase)ctx.WorkspaceController.CurrentTool.GetSnapHandler()).AuxiliaryContext.AuxVisuals.Count, Is.EqualTo(0));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]

@@ -134,9 +134,16 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
     void _SnapAuxFunction_Tangent(SnapAuxiliaryContext context)
     {
         if (context.Curve == null)
+        {
             return;
+        }
 
         Geom2d_Curve curve2d = GeomProjLib.Curve2d(context.Curve, context.UMin, context.UMax, new Geom_Plane(Sketch.Plane));
+        if (curve2d is Geom2d_Line)
+        {
+            return;
+        }
+
         var tangentParams = Geom2dUtils.FindAllTangentsThroughPoint(curve2d, _Points[0], context.UMin, context.UMax);
         if (tangentParams.Count == 0)
         {
