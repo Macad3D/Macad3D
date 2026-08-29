@@ -155,69 +155,61 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
 
+    #region Properties
+
     public SketchEditorTool SketchEditorTool
     {
-        get { return _SketchEditorTool; }
+        get;
         set
         {
-            if (_SketchEditorTool != value)
+            if (field != value)
             {
-                _SketchEditorTool = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
     }
-
-    SketchEditorTool _SketchEditorTool;
 
     //--------------------------------------------------------------------------------------------------
 
     public List<ConstraintData> Constraints
     {
-        get { return _Constraints; }
+        get;
         set
         {
-            if (_Constraints != value)
+            if (field != value)
             {
-                _Constraints = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
     }
 
-    List<ConstraintData> _Constraints;
-
     //--------------------------------------------------------------------------------------------------
+    
+    #endregion
 
-    void SketchEditTool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    #region Property Panel
+
+    public override void Initialize(BaseObject instance)
     {
-        var tool = sender as SketchEditorTool;
-        Debug.Assert(tool != null);
+        SketchEditorTool = instance as SketchEditorTool;
+        Debug.Assert(SketchEditorTool != null);
 
-        if (e.PropertyName == "SelectedConstraints")
-        {
-            UpdatePointList();
-        }
+        SketchEditorTool.PropertyChanged += _SketchEditTool_PropertyChanged;
+        Viewport.ParameterChanged += _Viewport_ParameterChanged;
+        InitializeComponent();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void UpdatePointList()
+    public override void Cleanup()
     {
-        bool swapOrientation = false;
-        if(InteractiveContext.Current?.WorkspaceController?.LockWorkingPlane ?? false)
+        if (SketchEditorTool != null)
         {
-            swapOrientation = ((int) ((SketchEditorTool.ViewRotation + 45.0) / 90.0) & 0x01) == 1;
+            SketchEditorTool.PropertyChanged -= _SketchEditTool_PropertyChanged;
         }
-
-        var newConstraints = new List<ConstraintData>();
-        if (SketchEditorTool.SelectedConstraints != null)
-        {
-            newConstraints.AddRange(
-                (from selectedConstraint in SketchEditorTool.SelectedConstraints
-                 select new ConstraintData(_SketchEditorTool.Sketch, selectedConstraint, swapOrientation)).Take(10));
-        }
-        Constraints = newConstraints;
+        Viewport.ParameterChanged -= _Viewport_ParameterChanged;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -239,34 +231,47 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Initialize(BaseObject instance)
-    {
-        SketchEditorTool = instance as SketchEditorTool;
-        Debug.Assert(SketchEditorTool != null);
+    #endregion
 
-        SketchEditorTool.PropertyChanged += SketchEditTool_PropertyChanged;
-        Viewport.ParameterChanged += _Viewport_ParameterChanged;
-        InitializeComponent();
+    #region Callbacks
+
+    void _SketchEditTool_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SketchEditorTool.SelectedConstraints))
+        {
+            _UpdatePointList();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdatePointList()
+    {
+        bool swapOrientation = false;
+        if(InteractiveContext.Current?.WorkspaceController?.LockWorkingPlane ?? false)
+        {
+            swapOrientation = ((int) ((SketchEditorTool.ViewRotation + 45.0) / 90.0) & 0x01) == 1;
+        }
+
+        var newConstraints = new List<ConstraintData>();
+        if (SketchEditorTool.SelectedConstraints != null)
+        {
+            newConstraints.AddRange(
+                (from selectedConstraint in SketchEditorTool.SelectedConstraints
+                    select new ConstraintData(SketchEditorTool.Sketch, selectedConstraint, swapOrientation)).Take(10));
+        }
+        Constraints = newConstraints;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _Viewport_ParameterChanged(Viewport viewport)
     {
-        UpdatePointList();
+        _UpdatePointList();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Cleanup()
-    {
-        if (SketchEditorTool != null)
-        {
-            SketchEditorTool.PropertyChanged -= SketchEditTool_PropertyChanged;
-        }
-        Viewport.ParameterChanged -= _Viewport_ParameterChanged;
-    }
-
-    //--------------------------------------------------------------------------------------------------
+    #endregion
 
 }

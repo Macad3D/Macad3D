@@ -18,11 +18,18 @@ public class ViewportAdaptor
     }
 
     //--------------------------------------------------------------------------------------------------
-        
-    public void  MoveRelative(double x, double y, bool jump = true)
+
+    Point _RelativeToAbsolute(double x, double y)
     {
         var rect = _ViewportControl.BoundingRectangle;
-        var pnt = new Point((int) (rect.Left + rect.Width * x), (int) (rect.Top + rect.Height * y));
+        return new Point((int)(rect.Left + rect.Width * x), (int)(rect.Top + rect.Height * y));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    public void MoveRelative(double x, double y, bool jump = true)
+    {
+        var pnt = _RelativeToAbsolute(x, y);
         if (jump)
             Mouse.Position = pnt;
         else
@@ -59,4 +66,12 @@ public class ViewportAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public void DragRelative(double x, double y, MouseButton button = MouseButton.Left)
+    {
+        var start = Mouse.Position;
+        var end = _RelativeToAbsolute(x, y);
+        Mouse.Drag(start, end, button);
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(_ViewportControl);
+    }
 }

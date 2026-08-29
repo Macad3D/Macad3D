@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Macad.Common;
+using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 
@@ -11,6 +13,8 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public partial class SketchPointsPropertyPanel : PropertyPanel
 {
+    #region Properties
+
     public class PointData
     {
         public int Index { get; set; }
@@ -22,67 +26,58 @@ public partial class SketchPointsPropertyPanel : PropertyPanel
 
     public SketchEditorTool SketchEditorTool
     {
-        get { return _SketchEditorTool; }
+        get;
         set
         {
-            if (_SketchEditorTool != value)
+            if (field != value)
             {
-                _SketchEditorTool = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
     }
-
-    SketchEditorTool _SketchEditorTool;
 
     //--------------------------------------------------------------------------------------------------
 
     public List<PointData> Points
     {
-        get { return _Points; }
+        get;
         set
         {
-            if (_Points != value)
+            if (field != value)
             {
-                _Points = value;
+                field = value;
                 RaisePropertyChanged();
             }
         }
     }
 
-    List<PointData> _Points;
-
     //--------------------------------------------------------------------------------------------------
 
-    void SketchEditTool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        var tool = sender as SketchEditorTool;
-        Debug.Assert(tool != null);
+    #endregion
 
-        if (e.PropertyName == "SelectedPoints")
-        {
-            UpdatePointList();
-        }
+    #region Property Panel
+
+    public override void Initialize(BaseObject instance)
+    {
+        SketchEditorTool = instance as SketchEditorTool;
+        Debug.Assert(SketchEditorTool != null);
+
+        SketchEditorTool.PropertyChanged += _SketchEditTool_PropertyChanged;
+        SketchEditorTool.Sketch.PropertyChanged += _Sketch_PropertyChanged;
+        InitializeComponent();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void UpdatePointList()
+    public override void Cleanup()
     {
-        var newPoints = new List<PointData>();
-        if (SketchEditorTool.SelectedPoints != null)
+        if (SketchEditorTool != null)
         {
-            newPoints.AddRange(
-                (from selectedPoint in SketchEditorTool.SelectedPoints
-                 let pnt = SketchEditorTool.Sketch.Points[selectedPoint]
-                 select new PointData()
-                 {
-                     Index = selectedPoint,
-                     X = pnt.X,
-                     Y = pnt.Y
-                 }).Take(10));
+            SketchEditorTool.PropertyChanged -= _SketchEditTool_PropertyChanged;
+            SketchEditorTool.Sketch.PropertyChanged -= _Sketch_PropertyChanged;
+            SketchEditorTool = null;
         }
-        Points = newPoints;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -103,25 +98,49 @@ public partial class SketchPointsPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Initialize(BaseObject instance)
+    #endregion
+
+    #region Callbacks
+
+    void _SketchEditTool_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        SketchEditorTool = instance as SketchEditorTool;
-        Debug.Assert(SketchEditorTool != null);
-
-        SketchEditorTool.PropertyChanged += SketchEditTool_PropertyChanged;
-        InitializeComponent();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Cleanup()
-    {
-        if (SketchEditorTool != null)
+        if (e.PropertyName == nameof(SketchEditorTool.SelectedPoints))
         {
-            SketchEditorTool.PropertyChanged -= SketchEditTool_PropertyChanged;
+            _UpdatePointList();
         }
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    void _Sketch_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Sketch.Points))
+        {
+            _UpdatePointList();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdatePointList()
+    {
+        var newPoints = new List<PointData>();
+        if (SketchEditorTool.SelectedPoints != null)
+        {
+            newPoints.AddRange(
+                SketchEditorTool.SelectedPoints
+                    .Select(pi =>
+                    {
+                        var pnt = SketchEditorTool.Sketch.Points[pi];
+                        return new PointData { Index = pi, X = pnt.X, Y = pnt.Y };
+                    })
+                    .Take(10));
+        }
+        Points = newPoints;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 
 }

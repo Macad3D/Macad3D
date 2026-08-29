@@ -592,6 +592,63 @@ public class SketchUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void UpdateOnInteractivePointEdit()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+
+        MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        MainWindow.Viewport.ClickRelative(0.7, 0.7);
+
+        // Select rectangle
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        Assert.That(sketchPanel, Is.Not.Null);
+
+        var oldX = sketchPanel.GetValue<double>("PointX");
+        var oldY = sketchPanel.GetValue<double>("PointY");
+
+        MainWindow.Viewport.MoveRelative(0.34, 0.26);
+        MainWindow.Viewport.DragRelative(0.4, 0.4);
+
+        Assert.AreNotEqual(oldX, sketchPanel.GetValue<double>("PointX"));
+        Assert.AreNotEqual(oldY, sketchPanel.GetValue<double>("PointY"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void UpdateOnPointSelection()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+
+        MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        MainWindow.Viewport.ClickRelative(0.7, 0.7);
+
+        // Select rectangle
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        Assert.That(sketchPanel, Is.Not.Null);
+
+        var oldX = sketchPanel.GetValue<double>("PointX");
+        var oldY = sketchPanel.GetValue<double>("PointY");
+
+        MainWindow.Viewport.ClickRelative(0.7, 0.7);
+
+        Assert.AreNotEqual(oldX, sketchPanel.GetValue<double>("PointX"));
+        Assert.AreNotEqual(oldY, sketchPanel.GetValue<double>("PointY"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void UpdateOnManualConstraintParameterEdit()
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
@@ -616,7 +673,7 @@ public class SketchUITests : UITestBase
         Assert.AreNotEqual(oldX0, Pipe.GetValue<double>("$Sketch.Points.[0].X"));
         Assert.AreNotEqual(oldX1, Pipe.GetValue<double>("$Sketch.Points.[1].X"));
     }
-            
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
