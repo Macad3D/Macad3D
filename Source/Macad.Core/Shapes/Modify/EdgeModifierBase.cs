@@ -103,8 +103,8 @@ public abstract class EdgeModifierBase : ModifierBase
     {
         EnsureHistory();
 
-        return GetSubshapeModifications(face).Where(shape => shape.ShapeType() == TopAbs_ShapeEnum.FACE)
-                                             .Select(shape => shape.ToFace());
+        return History.GetModified(face).Where(shape => shape.ShapeType() == TopAbs_ShapeEnum.FACE)
+                                                 .Select(shape => shape.ToFace());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -220,8 +220,9 @@ public abstract class EdgeModifierBase : ModifierBase
 
             if (valid)
             {
-                yield return GetSubshapeModifications(edge)?.FirstOrDefault(shp => shp.ShapeType() == TopAbs_ShapeEnum.EDGE)
-                                                           ?.ToEdge() 
+                yield return History.GetModified(edge)
+                                    ?.FirstOrDefault(shp => shp.ShapeType() == TopAbs_ShapeEnum.EDGE)
+                                    ?.ToEdge() 
                              ?? edge;
             }
         }
@@ -332,11 +333,11 @@ public abstract class EdgeModifierBase : ModifierBase
 
     //--------------------------------------------------------------------------------------------------
 
-    protected void UpdateModifiedSubshapes(TopoDS_Shape sourceShape, BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
+    protected void UpdateHistory(TopoDS_Shape sourceShape, BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
     {
         _UpdateContourEdges(filletOp, edges);
         _UpdateCreatedFaces(filletOp, edges);
-        UpdateModifiedSubshapes(sourceShape, filletOp);
+        History.Merge(sourceShape, filletOp);
     }
 
     //--------------------------------------------------------------------------------------------------

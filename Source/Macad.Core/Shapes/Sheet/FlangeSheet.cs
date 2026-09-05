@@ -483,7 +483,7 @@ public sealed class FlangeSheet : ModifierBase
             return false;
         }
 
-        UpdateModifiedSubshapes(context.TargetShape, splitOp);
+        History.Merge(context.TargetShape, splitOp);
 
         context.ModifiedTargetShape = splitOp.Shape();
 
@@ -677,7 +677,7 @@ public sealed class FlangeSheet : ModifierBase
                 AddNamedSubshapes("StartGap", context.EndGapFace, fuseOp);
         }
 
-        UpdateModifiedSubshapes(context.ModifiedTargetShape ?? context.TargetShape, fuseOp);
+        History.Merge(context.ModifiedTargetShape ?? context.TargetShape, fuseOp);
 
         return true;
     }

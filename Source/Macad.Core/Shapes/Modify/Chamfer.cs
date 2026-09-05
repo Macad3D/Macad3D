@@ -230,7 +230,7 @@ public sealed class Chamfer : EdgeModifierBase
 
         // Get final shape
         BRep = makeChamfer.Shape();
-        UpdateModifiedSubshapes(sourceShape, makeChamfer, edges);
+        UpdateHistory(sourceShape, makeChamfer, edges);
 
         return base.MakeInternal(flags);
     }

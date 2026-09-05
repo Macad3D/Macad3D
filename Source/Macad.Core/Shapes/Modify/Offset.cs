@@ -214,7 +214,7 @@ public class Offset : ModifierBase
         else
         {
             BRep = offsetAlgo.Shape();
-            UpdateModifiedSubshapes(brep, offsetAlgo);
+            History.Merge(brep, offsetAlgo);
         }
 
         return true;
@@ -260,7 +260,7 @@ public class Offset : ModifierBase
                 continue;
             }
             resultShapes.Add(resultShape);
-            UpdateModifiedSubshapes(solid, offsetAlgo);
+            History.Merge(solid, offsetAlgo);
         }
 
         if (resultShapes.Count == 0)

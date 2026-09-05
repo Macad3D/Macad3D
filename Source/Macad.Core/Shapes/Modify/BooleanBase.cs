@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Macad.Occt;
+﻿using Macad.Occt;
+using System.Collections.Generic;
+using System.Windows.Shapes;
 
 namespace Macad.Core.Shapes;
 
@@ -67,12 +68,14 @@ public abstract class BooleanBase : ModifierBase
             return false;
         }
 
-        BRepTools_History history = algo.History();
-        List<TopoDS_Shape> shapeListCombined = [shapeA];
-        shapeListCombined.AddRange(shapeListTools.ToList());
-        shapeListCombined.ForEach(shape => UpdateModifiedSubshapes(shape, history));
+        List<TopoDS_Shape> shapeListCombined =
+        [
+            shapeA,
+            .. shapeListTools
+        ];
+        History.Merge(shapeListCombined, algo.History());
 
-        SubshapeReferenceUtils.CreateSubshapeNames("Boolean", shapeListCombined, [new(1, algo)], AddNamedSubshape);
+        SubshapeReferenceUtils.CreateSubshapeNames("Boolean", shapeListCombined, [new(1, History, algo)], AddNamedSubshape);
         BRep = resultShape;
         
         return base.MakeInternal(flags);

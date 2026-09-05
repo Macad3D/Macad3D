@@ -314,10 +314,10 @@ public sealed class Mirror : ModifierBase
         }
 
         var transformedShape = makeTransform.Shape();
-        BRepTools_History transformHistory = new(sourceBRep, makeTransform);
+        BRepHistory transformHistory = new(sourceBRep, makeTransform);
         if (Version >= 1)
         {
-            UpdateModifiedSubshapes(sourceBRep, transformHistory);
+            History.Merge(transformHistory);
         }
 
         if (!_KeepOriginal)
@@ -335,8 +335,8 @@ public sealed class Mirror : ModifierBase
             return false;
         }
         var inplaceShape = makeTransform.Shape();
-        BRepTools_History inplaceHistory = new(sourceBRep, makeTransform);
-        UpdateModifiedSubshapes(sourceBRep, inplaceHistory);
+        BRepHistory inplaceHistory = new(sourceBRep, makeTransform);
+        History.Merge(inplaceHistory);
 
         // Merge inplace and mirrored copy
         var shapeListArgs = new TopTools_ListOfShape();
@@ -357,10 +357,11 @@ public sealed class Mirror : ModifierBase
         {
             fuse.SimplifyResult(true, true);
         }
-        UpdateModifiedSubshapes(inplaceShape, fuse.History());
-        UpdateModifiedSubshapes(transformedShape, fuse.History());
+        BRepHistory fuseHistory = new(inplaceShape, fuse);
+        fuseHistory.Merge(transformedShape, fuse.History());
+        History.Merge(fuseHistory);
 
-        SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, transformHistory), new(2, inplaceHistory), new(8, fuse)], AddNamedSubshape);
+        SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, transformHistory), new(2, inplaceHistory), new(8, fuseHistory, fuse)], AddNamedSubshape);
 
         BRep = fuse.Shape();
         return true;
@@ -442,16 +443,16 @@ public sealed class Mirror : ModifierBase
         }
 
         // Do it!
-        List<BRepTools_History> histories = new(_KeepOriginal ? 2 : 1);
+        List<BRepHistory> histories = new(_KeepOriginal ? 2 : 1);
         var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, _KeepOriginal ? [Trsf2d.Identity, transform] : [transform], mergeWires: true, histories: histories);
         if (resultShape == null)
             return false;
 
         // Bookkeeping
-        UpdateModifiedSubshapes(sourceBRep, histories[0]);
+        History.Merge(histories[0]);
         if (_KeepOriginal)
         {
-            UpdateModifiedSubshapes(sourceBRep, histories[1]);
+            History.Merge(histories[1]);
             SubshapeReferenceUtils.CreateSubshapeNames("Mirror", [sourceBRep], [new(1, histories[0]), new(2, histories[1])], AddNamedSubshape);
         }
 

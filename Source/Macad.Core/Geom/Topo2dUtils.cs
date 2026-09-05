@@ -8,7 +8,8 @@ public static class Topo2dUtils
 {
     //--------------------------------------------------------------------------------------------------
 
-    public static TopoDS_Shape TransformSketchShape(TopoDS_Shape original, IEnumerable<Trsf2d> transforms, bool mergeWires = false, double affinityUFactor = 1.0, IList<BRepTools_History> histories = null)
+    public static TopoDS_Shape TransformSketchShape(TopoDS_Shape original, IEnumerable<Trsf2d> transforms, bool mergeWires = false, 
+                                                    double affinityUFactor = 1.0, IList<BRepHistory> histories = null)
     {
         if (!GetPlaneOfEdges(original, out Geom_Plane geomPlane))
         {
@@ -26,7 +27,7 @@ public static class Topo2dUtils
         foreach (var transform in transforms)
         {
             // Bookkeeping requested?
-            BRepTools_History history = null;
+            BRepHistory history = null;
             if (histories != null)
             {
                 history = new();
@@ -138,7 +139,7 @@ public static class Topo2dUtils
                     newEdge.Orientation(edge.Orientation());
 
                     builder.Add(newWire, newEdge);
-                    history?.AddGenerated(edge, newEdge);
+                    history?.AddOrUpdate(edge, newEdge);
                     edgeCreated = true;
                 }
 

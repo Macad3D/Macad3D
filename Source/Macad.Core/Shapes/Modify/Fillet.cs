@@ -100,7 +100,7 @@ public sealed class Fillet : EdgeModifierBase
 
         // Get final shape
         BRep = makeFillet.Shape();
-        UpdateModifiedSubshapes(sourceShape, makeFillet, edges);
+        UpdateHistory(sourceShape, makeFillet, edges);
 
         return base.MakeInternal(flags);
     }

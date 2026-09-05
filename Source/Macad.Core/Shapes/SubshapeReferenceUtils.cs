@@ -160,14 +160,14 @@ public static class SubshapeReferenceUtils
     public class ModificationInfo
     {
         public int Index { get; set; }
-        public BRepTools_History History { get; set; }
+        public BRepHistory History { get; set; }
         public TopoDS_Shape ResultShape { get; set; }
         public List<TopoDS_Edge> AuxEdges { get; set; }
         public SubshapeModificationFilter[] Filters { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 
-        public ModificationInfo(int index, BRepTools_History history)
+        public ModificationInfo(int index, BRepHistory history)
         {
             Index = index;
             History = history;
@@ -175,11 +175,11 @@ public static class SubshapeReferenceUtils
 
         //--------------------------------------------------------------------------------------------------
 
-        public ModificationInfo(int index, BRepAlgoAPI_BuilderAlgo builderAlgo)
+        public ModificationInfo(int index, BRepHistory history, BRepAlgoAPI_BuilderAlgo builderAlgo)
         {
             Index = index;
-            History = builderAlgo.History();
             ResultShape = builderAlgo.Shape();
+            History = history;
             AuxEdges = builderAlgo.SectionEdges().Select(e => e.ToEdge())
                                                    .Where(e => e != null && EdgeAlgo.IsEdgeInShape(e, ResultShape))
                                                    .ToList();
@@ -317,19 +317,13 @@ public static class SubshapeReferenceUtils
 
     //--------------------------------------------------------------------------------------------------
 
-    static List<TopoDS_Shape> _GetModifiedShapes(TopoDS_Shape sourceShape, BRepTools_History history)
+    static List<TopoDS_Shape> _GetModifiedShapes(TopoDS_Shape sourceShape, BRepHistory history)
     {
         List<TopoDS_Shape> processedShapes = new();
-        var modifiedShapes = history.Modified(sourceShape);
-        if (modifiedShapes?.Size() > 0)
+        var modifiedShapes = history.GetModified(sourceShape);
+        if (modifiedShapes?.Count > 0)
         {
             processedShapes.AddRange(modifiedShapes);
-        }
-
-        var generatedShapes = history.Generated(sourceShape);
-        if (generatedShapes?.Size() > 0)
-        {
-            processedShapes.AddRange(generatedShapes);
         }
 
         return processedShapes;

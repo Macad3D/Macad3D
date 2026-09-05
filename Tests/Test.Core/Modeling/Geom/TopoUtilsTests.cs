@@ -307,8 +307,8 @@ public class TopoUtilsTests
         {
             foreach (var origEdge in origEdges)
             {
-                var modified = history.Modified(origEdge);
-                Assert.That(modified.Size(), Is.EqualTo(1),
+                var modified = history.GetModified(origEdge);
+                Assert.That(modified.Count, Is.EqualTo(1),
                     "Each original edge must map to exactly one copied edge in the history.");
 
                 // The mapped edge must be a different topological object.

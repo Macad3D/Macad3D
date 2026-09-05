@@ -65,7 +65,7 @@ public static class TopoUtils
     /// <param name="sourceShape">The source shape containing wires from which faces will be created.</param>
     /// <param name="plane">An optional plane to define the spatial context for the faces.</param>
     /// <returns>The resulting shape containing the created faces.</returns>
-    public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane, out BRepTools_History history)
+    public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane, out BRepHistory history)
     {
         // Create faces from closed wires
         var openWireCount = 0;
@@ -212,7 +212,7 @@ public static class TopoUtils
     /// <summary>
     /// Creates a copy of the given shape, including its parametric curves (PCurves) on surfaces.
     /// </summary>
-    public static TopoDS_Shape CopyWithPCurves(TopoDS_Shape original, out BRepTools_History history)
+    public static TopoDS_Shape CopyWithPCurves(TopoDS_Shape original, out BRepHistory history)
     {
         BRepBuilderAPI_Copy copier = new();
         copier.Perform(original, true);

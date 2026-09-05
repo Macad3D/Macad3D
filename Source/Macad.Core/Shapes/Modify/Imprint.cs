@@ -245,8 +245,8 @@ public sealed class Imprint : ModifierBase
                 else
                     makePrism.Perform(Depth*sign);
 
-                UpdateModifiedSubshapes(targetShape, makePrism);
-                UpdateModifiedSubshapes(singleBaseFace, makePrism);
+                History.Merge(targetShape, makePrism);
+                History.Merge(singleBaseFace, makePrism);
                 targetShape = makePrism.Shape();
             }
             BRep = targetShape;
@@ -263,8 +263,8 @@ public sealed class Imprint : ModifierBase
             else
                 makePrism.Perform(Depth);
 
-            UpdateModifiedSubshapes(targetShape, makePrism);
-            UpdateModifiedSubshapes(baseFacesShape, makePrism);
+            History.Merge(targetShape, makePrism);
+            History.Merge(baseFacesShape, makePrism);
             BRep = makePrism.Shape();
         }
 

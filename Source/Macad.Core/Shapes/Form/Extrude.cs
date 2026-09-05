@@ -280,13 +280,13 @@ public sealed class Extrude : ModifierBase
             return false;
         }
 
-        UpdateModifiedSubshapes(solid, makePrism);
+        History.Merge(solid, makePrism);
 
         if (_MergeFaces)
         {
             ShapeUpgrade_UnifySameDomain unify = new(shape, true, true);
             unify.Build();
-            UpdateModifiedSubshapes(shape, unify.History());
+            History.Merge(shape, unify.History());
             shape = unify.Shape() ?? shape;
         }
 

@@ -459,7 +459,7 @@ public sealed class HalvedJoint : AssociatedModifier<HalvedJoint>
                 return false;
             }
 
-            UpdateModifiedSubshapes(currentShape, cutter);
+            History.Merge(currentShape, cutter);
             currentShape = cutter.Shape();
         }
 

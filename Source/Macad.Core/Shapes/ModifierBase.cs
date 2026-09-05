@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Macad.Common;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
@@ -218,7 +218,7 @@ public abstract class ModifierBase : Shape
         var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, geomPlane.Pln(), out var history);
         if(baseFacesShape != null && history != null)
         {
-            UpdateModifiedSubshapes(sourceBrep, history);
+            History.Merge(history);
         }
 
         if (boundToPlane != null && baseFacesShape != null)
@@ -368,151 +368,7 @@ public abstract class ModifierBase : Shape
 
     #region Subshapes
 
-    readonly Dictionary<TopoDS_Shape, List<TopoDS_Shape>> _ModifiedShapes = new();
-    
-    //--------------------------------------------------------------------------------------------------
-
-    protected void AddModifiedSubshape(TopoDS_Shape original, List<TopoDS_Shape> shapes)
-    {
-        if (shapes == null || shapes.Count == 0)
-            return;
-
-        // Was the original already modified?
-        var kvpModif = _ModifiedShapes.FirstOrDefault(kvp => kvp.Value.Any(s => s.IsSame(original)));
-        if (kvpModif.Key != null)
-        {
-            kvpModif.Value.RemoveAt(kvpModif.Value.IndexOfSame(original));
-            kvpModif.Value.AddRange(shapes.Where(s => !kvpModif.Value.ContainsSame(s)));
-            return;
-        }
-
-        // Now add
-        var realKey = _ModifiedShapes.Keys.FirstOrDefault(s => s.IsSame(original));
-        if (realKey != null)
-        {
-            _ModifiedShapes[realKey].AddRange(shapes.Where(s => !_ModifiedShapes[realKey].ContainsSame(s)));
-        }
-        else
-        {
-            _ModifiedShapes.Add(original, shapes);
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected List<TopoDS_Shape> GetSubshapeModifications(TopoDS_Shape original)
-    {
-        var kvpModif = _ModifiedShapes.FirstOrDefault(kvp => kvp.Key.IsSame(original));
-        if (kvpModif.Key != null)
-        {
-            return kvpModif.Value;
-        }
-        return null;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected void RemoveModifiedSubshape(TopoDS_Shape original)
-    {
-        if (original == null)
-            return;
-
-        var kvpModif = _ModifiedShapes.FirstOrDefault(kvp => kvp.Value.Any(s => s.IsSame(original)));
-        if (kvpModif.Key != null)
-        {
-            if (kvpModif.Value.Count == 1)
-            {
-                _ModifiedShapes.Remove(kvpModif.Key);
-            }
-            else
-            {
-                kvpModif.Value.RemoveAt(kvpModif.Value.IndexOfSame(original));
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected void UpdateModifiedSubshapes(TopoDS_Shape sourceShape, BRepBuilderAPI_MakeShape makeShape)
-    {
-        __Process(sourceShape.Faces());
-        __Process(sourceShape.Edges());
-        __Process(sourceShape.Vertices());
-
-        //-----
-
-        void __Process(IEnumerable<TopoDS_Shape> shapes)
-        {
-            foreach (var shape in shapes)
-            {
-                var modList = makeShape.Modified(shape);
-                if (modList.Size() == 0)
-                {
-                    // Delete check can result in exception
-                    try
-                    {
-                        if (makeShape.IsDeleted(shape))
-                        {
-                            RemoveModifiedSubshape(shape);
-                        }
-                    }
-                    catch(SEHException)
-                    {
-                        // That means that the makeShape has this shape not in list,
-                        // so it is NOT deleted and NOT modified
-                    }
-                }
-                else
-                {
-                    AddModifiedSubshape(shape, modList.ToList());
-                    AddModifiedSubshape(shape, makeShape.Generated(shape).ToList());
-                }
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected void UpdateModifiedSubshapes(TopoDS_Shape sourceShape, BRepTools_History history)
-    {
-        bool hasModified = history.HasModified();
-        bool hasGenerated = history.HasGenerated();
-        bool hasRemoved = history.HasRemoved();
-
-        __Process(sourceShape.Faces());
-        __Process(sourceShape.Edges());
-        __Process(sourceShape.Vertices());
-
-        //-----
-
-        void __Process(IEnumerable<TopoDS_Shape> shapes)
-        {
-            foreach (var shape in shapes)
-            {
-                if (hasModified)
-                {
-                    var modList = history.Modified(shape);
-                    if (modList.Size() != 0)
-                    {
-                        AddModifiedSubshape(shape, modList.ToList());
-                    }
-                }
-
-                if (hasGenerated)
-                {
-                    AddModifiedSubshape(shape, history.Generated(shape).ToList());
-                }
-
-                if (hasRemoved)
-                {
-                    if (history.IsRemoved(shape))
-                    {
-                        RemoveModifiedSubshape(shape);
-                    }
-                }
-            }
-        }
-    }
+    protected readonly BRepHistory History = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -551,7 +407,7 @@ public abstract class ModifierBase : Shape
 
     protected override void ClearSubshapeLists()
     {
-        _ModifiedShapes.Clear();
+        History.Clear();
         base.ClearSubshapeLists();
     }
 
@@ -585,12 +441,17 @@ public abstract class ModifierBase : Shape
             return baseRef;
 
         // Do we have modified this shape?
-        // Only redirect if the shape wasn't splitted and there is no ambiguity.
-        var ocShapeType = ocSubshape.ShapeType();
-        var modList = _ModifiedShapes.Where(kvp => kvp.Value.Any(s => s.IsSame(ocSubshape))).ToArray();
-        if (modList.Length == 1 && modList[0].Value.Count(shape => shape.ShapeType() == ocShapeType) == 1)
+        var originals = History.GetOriginals(ocSubshape).ToList();
+        
+        // Only redirect if there is exactly one original and the original was not split.
+        if (originals.Count == 1)
         {
-            ocSubshape = modList[0].Key;
+            var shapeType = ocSubshape.ShapeType();
+            var sameTypeModCount = History.GetModified(originals[0])?.Count(shape => shape.ShapeType() == shapeType) ?? 0;
+            if (sameTypeModCount == 1)
+            {
+                ocSubshape = originals[0];
+            }
         }
 
         // Crawl operands
@@ -650,9 +511,7 @@ public abstract class ModifierBase : Shape
                 return null;
                 
             // Do we have modified this shape?
-            var mods = _ModifiedShapes
-                       .Where(kvp => subshapes.ContainsSame(kvp.Key))
-                       .SelectMany(kvp => kvp.Value).ToList();
+            var mods = History.GetModified(subshapes).ToList();
             if (mods.Count > 0)
             {
                 subshapes = mods;

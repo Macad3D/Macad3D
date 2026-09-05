@@ -131,8 +131,8 @@ public class ScaleTests
         scale.Guid = TestData.CreateGuid(10);
         Assert.IsTrue(scale.Make(Shape.MakeFlags.None));
         
-        AssertHelper.HasValidSubshapeReferences(scale);
         AssertHelper.IsSameSubshapeReferences(scale, Path.Combine(_BasePath, "SketchSubshapeReferences"));
+        AssertHelper.HasValidSubshapeReferences(scale);
     }
 
     //--------------------------------------------------------------------------------------------------

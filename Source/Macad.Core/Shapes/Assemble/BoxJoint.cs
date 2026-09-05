@@ -360,7 +360,7 @@ public sealed class BoxJoint : AssociatedModifier<BoxJoint>
         }
 
         context.Result = cutter.Shape();
-        UpdateModifiedSubshapes(context.OwnBrep, cutter);
+        History.Merge(context.OwnBrep, cutter);
 
         return true;
     }
@@ -414,7 +414,7 @@ public sealed class BoxJoint : AssociatedModifier<BoxJoint>
             return false;
         }
 
-        UpdateModifiedSubshapes(context.OwnBrep, cutter);
+        History.Merge(context.OwnBrep, cutter);
         context.OwnBrep = cutter.Shape();
         return true;
     }

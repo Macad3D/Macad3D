@@ -284,7 +284,7 @@ public sealed class CircularArray : ModifierBase
         }
 
         // Do it!
-        List<BRepTools_History> histories = new(transforms.Count);
+        List<BRepHistory> histories = new(transforms.Count);
         var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, transforms, histories: histories);
         if (resultShape == null)
             return false;
@@ -294,7 +294,7 @@ public sealed class CircularArray : ModifierBase
         {
             var history = histories[index];
             SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index, history)], AddNamedSubshape);
-            UpdateModifiedSubshapes(sourceBRep, history);
+            History.Merge(history);
         }
 
         // Finalize
@@ -344,9 +344,8 @@ public sealed class CircularArray : ModifierBase
             var transformedShape = makeTransform.Shape();
             builder.Add(resultShape, transformedShape);
 
-            BRepTools_History history = new(sourceBRep, makeTransform);
-            SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index, history)], AddNamedSubshape);
-            UpdateModifiedSubshapes(sourceBRep, history);
+            History.Merge(sourceBRep, makeTransform);
+            SubshapeReferenceUtils.CreateSubshapeNames("Copy", [sourceBRep], [new(index, History)], AddNamedSubshape);
         }
 
         // Finalize

@@ -370,7 +370,7 @@ public class Taper : ModifierBase
                 return false;
             }
 
-            UpdateModifiedSubshapes(currentShape, splitShape);
+            History.Merge(currentShape, splitShape);
             currentShape = splitShape.Shape();
 
             // Remap coming faces
@@ -447,7 +447,7 @@ public class Taper : ModifierBase
         }
 
         context.Result = draftAngle.Shape();
-        UpdateModifiedSubshapes(context.Source, draftAngle);
+        History.Merge(context.Source, draftAngle);
 
         return true;
     }

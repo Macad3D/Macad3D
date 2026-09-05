@@ -192,7 +192,7 @@ public class Scale : ModifierBase
         }
 
         BRep = algo.Shape();
-        UpdateModifiedSubshapes(brep, algo);
+        History.Merge(brep, algo);
 
         return true;
     }
@@ -213,7 +213,7 @@ public class Scale : ModifierBase
             transform.SetScaleFactor(scaleFactor.Y);
         }
 
-        List<BRepTools_History> histories = new();
+        List<BRepHistory> histories = new();
         var result = Topo2dUtils.TransformSketchShape(brep, [transform], affinityUFactor: affinityUFactor, histories: histories);
         if (result == null)
         {
@@ -221,7 +221,7 @@ public class Scale : ModifierBase
             return false;
         }
 
-        UpdateModifiedSubshapes(brep, histories[0]);
+        History.Merge(histories[0]);
 
         BRep = result;
 

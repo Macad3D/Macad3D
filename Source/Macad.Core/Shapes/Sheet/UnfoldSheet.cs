@@ -137,7 +137,7 @@ public sealed class UnfoldSheet : ModifierBase
         BRep = context.ResultShape;
         if (context.Analyzer.History != null)
         {
-            UpdateModifiedSubshapes(context.SourceShape, context.Analyzer.History);
+            History.Merge(context.SourceShape, context.Analyzer.History);
         }
 
         return base.MakeInternal(flags);
