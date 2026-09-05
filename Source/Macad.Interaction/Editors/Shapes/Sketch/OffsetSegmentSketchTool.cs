@@ -390,9 +390,9 @@ public class OffsetSegmentSketchTool : SketchTool
             }
 
             // Remove old segments
+            SketchEditorTool.Select(null, null);
             _Segments.ForEach(Sketch.DeleteSegment);
             _Segments = null;
-
             return true;
         });
         Sketch.Body?.Model?.UndoHandler?.Commit();

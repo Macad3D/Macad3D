@@ -598,7 +598,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void ScaleElementsCenter()
+    public void ScaleElements_Center()
     {
         var ctx = Context.Current;
 
@@ -630,7 +630,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
         
     [Test]
-    public void ScaleElementsRound()
+    public void ScaleElements_Round()
     {
         var ctx = Context.Current;
 
@@ -662,7 +662,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void ScaleElementsUndo()
+    public void ScaleElements_Undo()
     {
         var ctx = Context.Current;
 
@@ -696,7 +696,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void ScaleElementsSnap()
+    public void ScaleElements_Snap()
     {
         var ctx = Context.Current;
         var box = TestGeomGenerator.CreateBox();
@@ -740,7 +740,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void ScaleElementsRemovedPoints()
+    public void ScaleElements_RemovedPoints()
     {
         var ctx = Context.Current;
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
@@ -770,7 +770,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsClosed()
+    public void OffsetSegments_Closed()
     {
         var ctx = Context.Current;
 
@@ -804,7 +804,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsOpen()
+    public void OffsetSegments_Open()
     {
         var ctx = Context.Current;
 
@@ -836,7 +836,7 @@ public class SketchToolsTests
     
     //--------------------------------------------------------------------------------------------------
 
-    [Test] public void OffsetSegmentsMultiple()
+    [Test] public void OffsetSegments_Multiple()
     {
         var ctx = Context.Current;
 
@@ -868,7 +868,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsCancel()
+    public void OffsetSegments_Cancel()
     {
         var ctx = Context.Current;
 
@@ -905,7 +905,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsUndo()
+    public void OffsetSegments_Undo()
     {
         var ctx = Context.Current;
 
@@ -937,7 +937,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
         
     [Test]
-    public void OffsetSegmentsRound()
+    public void OffsetSegments_Round()
     {
         var ctx = Context.Current;
 
@@ -962,9 +962,69 @@ public class SketchToolsTests
     }
 
     //--------------------------------------------------------------------------------------------------
-      
+
     [Test]
-    public void OffsetSegmentsJoinType()
+    public void OffsetSegments_Circle()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.Workspace.GridStep = 2.0;
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0, 1, 2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(180, 162);
+            ctx.ClickAt(130, 108);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegments_Circle01"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(1, TestName = "Enlarge")]
+    [TestCase(-1, TestName = "Shrink")]
+    public void OffsetSegments_WithHoles(int direction)
+    {
+        var ctx = Context.Current;
+
+        var sketch = Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.StartPath(5, 5);
+        sb.Rectangle(-5, -5, 5, 5);
+        sb.Circle(0, 0, 4.5);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.Workspace.GridStep = 1.0;
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0, 1, 2, 3, 4]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(410, 175);
+            ctx.ClickAt(410 + 10 * direction, 175);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"OffsetSegments_WithHoles_{TestContext.CurrentContext.Test.Name}"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void OffsetSegments_JoinType()
     {
         var ctx = Context.Current;
 
@@ -993,7 +1053,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsSnapReferencePoint()
+    public void OffsetSegments_SnapReferencePoint()
     {
         var ctx = Context.Current;
 
@@ -1031,7 +1091,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void OffsetSegmentsSnapDistance()
+    public void OffsetSegments_SnapDistance()
     {
         var ctx = Context.Current;
 
@@ -1068,7 +1128,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void OffsetSegmentsDeleteSegments()
+    public void OffsetSegments_DeleteSegments()
     {
         var ctx = Context.Current;
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
@@ -1131,7 +1191,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void MirrorElementsCancel()
+    public void MirrorElements_Cancel()
     {
         var ctx = Context.Current;
 
@@ -1169,7 +1229,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
     
     [Test]
-    public void MirrorElementsUndo()
+    public void MirrorElements_Undo()
     {
         var ctx = Context.Current;
 
@@ -1203,7 +1263,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void MirrorElementsDeleteElements()
+    public void MirrorElements_DeleteElements()
     {
         var ctx = Context.Current;
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
@@ -1238,7 +1298,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
         
     [Test]
-    public void MirrorElementsRound()
+    public void MirrorElements_Round()
     {
         var ctx = Context.Current;
 
@@ -1261,7 +1321,7 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void MirrorElementsEllipticalArc()
+    public void MirrorElements_EllipticalArc()
     {
         var ctx = Context.Current;
 

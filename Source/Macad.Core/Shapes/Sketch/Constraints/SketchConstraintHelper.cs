@@ -8,14 +8,14 @@ public static class SketchConstraintHelper
 {
     public static bool AnySegmentsOfType<T>(Sketch sketch, IList<int> segments) where T: SketchSegment
     {
-        return segments.Any(segIndex => sketch.Segments[segIndex] is T);
+        return segments.Any(segIndex => sketch.Segments.TryGetValue(segIndex, out var segment) && segment is T);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public static bool AllSegmentsOfType<T>(Sketch sketch, IList<int> segments) where T: SketchSegment
     {
-        return segments.All(segIndex => sketch.Segments[segIndex] is T);
+        return segments.All(segIndex => sketch.Segments.TryGetValue(segIndex, out var segment) && segment is T);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -155,19 +155,23 @@ public static class EdgeAlgo
         }
         return null;
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Checks if both vertices of the two edges are coincident with the other edge's vertices within a given precision.
+    /// If the edge is closed and has only one vertex, the second vertex is considered to be the same as the first one.
+    /// </summary>
+    /// <param name="edge1">The first edge to compare.</param>
+    /// <param name="edge2">The second edge to compare.</param>
     public static bool HasCoincidentVertices(TopoDS_Edge edge1, TopoDS_Edge edge2, double precision=0.0001)
     {
         var vertices1 = edge1.Vertices();
         var vertices2 = edge2.Vertices();
-        Debug.Assert(vertices1.Count == 2 && vertices2.Count == 2);
-
         var p10 = vertices1[0].Pnt();
-        var p11 = vertices1[1].Pnt();
+        var p11 = vertices1[vertices1.Count < 2 ? 0 : 1].Pnt();
         var p20 = vertices2[0].Pnt();
-        var p21 = vertices2[1].Pnt();
+        var p21 = vertices2[vertices2.Count < 2 ? 0 : 1].Pnt();
 
         if (p10.Distance(p20) < precision)
         {

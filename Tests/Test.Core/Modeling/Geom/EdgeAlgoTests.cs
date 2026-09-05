@@ -64,4 +64,77 @@ public class EdgeAlgoTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void HasCoincidentVertices_SameOrder()
+    {
+        var sketch = Macad.Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.Line(0, 0, 1, 0);
+        sb.Line(0, 0, 1, 0);
+        var edges = sketch.GetBRep().Edges();
+        Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1]), Is.True);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void HasCoincidentVertices_ReverseOrder()
+    {
+        var sketch = Macad.Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.Line(0, 0, 1, 0);
+        sb.Line(1, 0, 0, 0);
+        var edges = sketch.GetBRep().Edges();
+        Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1]), Is.True);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void HasCoincidentVertices_DifferentVertices()
+    {
+        var sketch = Macad.Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.Line(0, 0, 1, 0);
+        sb.Line(0, 1, 1, 1);
+        var edges = sketch.GetBRep().Edges();
+        Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1]), Is.False);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void HasCoincidentVertices_Precision()
+    {
+        // default precision is 1e-4; points within that distance should be considered coincident
+        var sketch = Macad.Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.Line(0, 0, 0.002, 0);
+        sb.Line(0, 0, 0.0022, 0);
+        var edges = sketch.GetBRep().Edges();
+        Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1]), Is.False); // default precision  < 1e-4
+        Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1], 1e-3), Is.True);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void HasCoincidentVertices_ClosedCircle()
+    {
+        var sketch = Macad.Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.Line(0, 0, 1, 0);
+        sb.Circle(0, 0, 1);  // rim point at (1,0)
+        sb.Circle(-1, 0, 2); // rim point at (1,0)
+        var edges = sketch.GetBRep().Edges();
+        Assert.Multiple(() =>
+        {
+            Assert.That(EdgeAlgo.HasCoincidentVertices(edges[0], edges[1]), Is.False, "Line - Circle");
+            Assert.That(EdgeAlgo.HasCoincidentVertices(edges[1], edges[0]), Is.False, "Cicle - line");
+            Assert.That(EdgeAlgo.HasCoincidentVertices(edges[1], edges[2]), Is.True, "Circle - Circle");
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
