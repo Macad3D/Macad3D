@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Mcp;
+using Macad.Test.Utils;
 using ModelContextProtocol.Protocol;
 using NUnit.Framework;
 
@@ -102,6 +104,20 @@ public static class McpTestUtils
         var image = result.Content.OfType<ImageContentBlock>().Single();
         Assert.That(image.MimeType, Is.EqualTo("image/png"));
         return image;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    // Compares the image of a capture_view result with the reference image <referenceName>.png in the unit test data.
+    // Like AssertHelper.IsSameViewport, the result is kept as <referenceName>_TestResult.png if it differs or the
+    // reference is missing.
+    public static void AssertSameImage(CallToolResult result, string referenceName)
+    {
+        var referencePath = Path.Combine(TestData.TestDataDirectory, referenceName + ".png");
+        var resultPath = Path.Combine(TestData.TestDataDirectory, referenceName + "_TestResult.png");
+        Directory.CreateDirectory(Path.GetDirectoryName(referencePath)!);
+        File.WriteAllBytes(resultPath, GetImage(result).DecodedData.ToArray());
+        AssertHelper.IsSameImage(referencePath, resultPath);
     }
 
     #endregion

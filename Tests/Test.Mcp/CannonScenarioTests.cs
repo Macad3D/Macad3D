@@ -89,11 +89,8 @@ public class CannonScenarioTests
         Assert.That(maxZ, Is.EqualTo(15.7).Within(1e-3));
 
         // Visual check and export for printing
-        var image = GetImage(await new ViewTools().CaptureView(width: 800, height: 600));
-        Assert.That(image.DecodedData.Length, Is.GreaterThan(1000));
-        var imagePath = Path.Combine(TestContext.CurrentContext.WorkDirectory, "Cannon.png");
-        File.WriteAllBytes(imagePath, image.DecodedData.ToArray());
-        TestContext.AddTestAttachment(imagePath, "The cannon, rendered by capture_view");
+        var image = await new ViewTools().CaptureView(width: 800, height: 600);
+        AssertSameImage(image, @"Mcp\Scenario\Cannon");
 
         var path = Path.Combine(Path.GetTempPath(), "Macad.Test.Mcp.Cannon.step");
         var export = await new ExportTools().ExportBodies(["Barrel", "Carriage", "Wheels"], path, overwrite: true);

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\Source\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Macad.ThirdParty.Mesa" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ModelContextProtocol" />
     <PackageReference Include="NUnit" />

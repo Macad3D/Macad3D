@@ -17,6 +17,8 @@ namespace Macad.Test.Mcp;
 [Apartment(ApartmentState.STA)]
 public class ViewToolsTests
 {
+    const string _BasePath = @"Mcp\View";
+
     ViewTools _Tools;
 
     //--------------------------------------------------------------------------------------------------
@@ -49,7 +51,7 @@ public class ViewToolsTests
         using var bitmap = Decode(result);
         Assert.That(bitmap.Width, Is.EqualTo(320));
         Assert.That(bitmap.Height, Is.EqualTo(240));
-        Assert.That(CountNonBackgroundPixels(bitmap), Is.GreaterThan(100));
+        AssertSameImage(result, Path.Combine(_BasePath, "CaptureIso"));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -66,21 +68,25 @@ public class ViewToolsTests
 
         AssertSameCamera(before);
         Assert.That(Context.Current.ViewportController.Viewport.EyePoint, Is.EqualTo(viewportEye));
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "UserCamera"));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public async Task Capture_FitToBody_DiffersFromFitAll()
+    public async Task Capture_FitToBodies()
     {
-        using var all = Decode(await _Tools.CaptureView("top", width: 128, height: 128));
-        using var ball = Decode(await _Tools.CaptureView("top", bodies: ["Ball"], width: 128, height: 128));
-        using var custom = Decode(await _Tools.CaptureView(direction: [0, 0, -1], bodies: ["Ball"], width: 128, height: 128));
+        var all = await _Tools.CaptureView("top", width: 128, height: 128);
+        var ball = await _Tools.CaptureView("top", bodies: ["Ball"], width: 128, height: 128);
+        var custom = await _Tools.CaptureView(direction: [0, 0, -1], bodies: ["Ball"], width: 128, height: 128);
 
-        // Fitted to the ball alone, the ball fills more of the image
-        Assert.That(CountNonBackgroundPixels(ball), Is.GreaterThan(CountNonBackgroundPixels(all)));
-        // Looking down along -Z is the top view
-        Assert.That(CountNonBackgroundPixels(custom), Is.EqualTo(CountNonBackgroundPixels(ball)).Within(CountNonBackgroundPixels(ball) / 10));
+        Assert.Multiple(() =>
+        {
+            AssertSameImage(all, Path.Combine(_BasePath, "TopAll"));
+            AssertSameImage(ball, Path.Combine(_BasePath, "TopBall"));
+            // Looking down along -Z is the top view
+            AssertSameImage(custom, Path.Combine(_BasePath, "TopBall"));
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -101,6 +107,7 @@ public class ViewToolsTests
             var text = result.Content.OfType<ModelContextProtocol.Protocol.TextContentBlock>().Single().Text;
             Assert.That(text, Does.Contain($"faces {axis}"));
             Assert.That(text, Does.Contain($"looks along {viewing}"));
+            AssertSameImage(result, Path.Combine(_BasePath, $"Front{forward}"));
         }
         finally
         {
@@ -141,23 +148,6 @@ public class ViewToolsTests
     static Bitmap Decode(ModelContextProtocol.Protocol.CallToolResult result)
     {
         return new Bitmap(new MemoryStream(GetImage(result).DecodedData.ToArray()));
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    static int CountNonBackgroundPixels(Bitmap bitmap)
-    {
-        var background = bitmap.GetPixel(0, 0);
-        int count = 0;
-        for (int y = 0; y < bitmap.Height; y += 2)
-        {
-            for (int x = 0; x < bitmap.Width; x += 2)
-            {
-                if (bitmap.GetPixel(x, y) != background)
-                    count++;
-            }
-        }
-        return count;
     }
 
     //--------------------------------------------------------------------------------------------------
