@@ -25,6 +25,8 @@
     <ProjectReference Include="..\Macad.Exchange\Macad.Exchange.csproj" />
     <ProjectReference Include="..\Macad.Interaction\Macad.Interaction.csproj" />
     <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\Macad.Mcp\Macad.Mcp.csproj" />
+    <ProjectReference Include="..\Macad.McpProxy\Macad.McpProxy.csproj" ReferenceOutputAssembly="false" PublishTogether="true" />
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />

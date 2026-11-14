@@ -11,6 +11,7 @@ public class CommandLine
     public bool NoWelcomeDialog { get; }
     public string ScriptToRun { get; }
     public bool HasScriptToRun => !ScriptToRun.IsNullOrEmpty();
+    public bool StartMcpServer { get; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -45,6 +46,10 @@ public class CommandLine
 
                     case "runscript":
                         ScriptToRun = parameter;
+                        break;
+
+                    case "mcp":
+                        StartMcpServer = true;
                         break;
                 }
             }

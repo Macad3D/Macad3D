@@ -191,5 +191,75 @@ public class UndoTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void RevertPendingPropertyChange()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionX = 5.0;
+        Context.Current.UndoHandler.Commit();
 
+        box.DimensionX = 7.0;
+        Context.Current.UndoHandler.Revert();
+
+        Assert.AreEqual(5.0, box.DimensionX, 1e-6);
+        Assert.IsTrue(Context.Current.UndoHandler.CanUndo);
+        Assert.IsFalse(Context.Current.UndoHandler.CanRedo);
+
+        // The committed change must still be undoable
+        Context.Current.UndoHandler.DoUndo(1);
+        Assert.AreEqual(10.0, box.DimensionX, 1e-6);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void RevertPendingTopologyChange()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        Context.Current.Document.Add(box.Body);
+        Context.Current.UndoHandler.Revert();
+
+        Assert.AreEqual(0, Context.Current.Document.EntityCount);
+        Assert.IsFalse(Context.Current.UndoHandler.CanUndo);
+        Assert.IsFalse(Context.Current.UndoHandler.CanRedo);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void RevertKeepsFullUndoStack()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        Context.Current.UndoHandler.Commit();
+        for (int i = 1; i <= 500; i++)
+        {
+            box.DimensionX = 10.0 + i;
+            Context.Current.UndoHandler.Commit();
+        }
+
+        box.DimensionX = 1.0;
+        Context.Current.UndoHandler.Revert();
+        Assert.AreEqual(510.0, box.DimensionX, 1e-6);
+
+        // All 500 committed changes must still be undoable, the oldest one included
+        Context.Current.UndoHandler.DoUndo(500);
+        Assert.AreEqual(10.0, box.DimensionX, 1e-6);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void RevertWithoutPendingChanges()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionX = 5.0;
+        Context.Current.UndoHandler.Commit();
+
+        Context.Current.UndoHandler.Revert();
+
+        Assert.AreEqual(5.0, box.DimensionX, 1e-6);
+        Assert.IsTrue(Context.Current.UndoHandler.CanUndo);
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }

@@ -1,0 +1,44 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Generates files by calling a static method of a built assembly, e.g. to embed data the assembly produces.
+       Item GenerateFileFromMethodCall:
+         Include            Name of the generated file, created in the intermediate output directory.
+         Assembly           Name of the assembly, loaded from the target directory. The project needs a project reference
+                            to it for the build order (ReferenceOutputAssembly false if the code does not use it).
+         Method             Full name of a public static method without parameters returning a string (Namespace.Type.Method).
+         EmbeddedResource   Embeds the file with its file name as logical name. Optional, default true. -->
+
+  <Import Project="Macad.Common.props" Condition="!Exists('$(MMRootDir)')" />
+
+  <ItemGroup>
+    <GenerateFileFromMethodCall Update="@(GenerateFileFromMethodCall)">
+      <OutputFile>$(BaseIntermediateOutputPath)%(Filename)%(Extension)</OutputFile>
+    </GenerateFileFromMethodCall>
+  </ItemGroup>
+
+  <!-- The BuildTools call the method -->
+  <ItemGroup Condition="@(GenerateFileFromMethodCall) != ''">
+    <ProjectReference Include="$(MMRootDir)Tools\BuildTools\BuildTools.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <Target Name="_GenerateFilesFromMethodCalls"
+          Condition="@(GenerateFileFromMethodCall) != ''"
+          AfterTargets="ResolveProjectReferences"
+          BeforeTargets="AssignTargetPaths">
+
+    <Exec Command="dotnet &quot;$(TargetDir)BuildTools.dll&quot; GenerateFileFromMethodCall Assembly=&quot;$(TargetDir)%(GenerateFileFromMethodCall.Assembly).dll&quot; Method=&quot;%(GenerateFileFromMethodCall.Method)&quot; Out=&quot;%(GenerateFileFromMethodCall.OutputFile)&quot;" />
+
+    <ItemGroup>
+      <EmbeddedResource Include="%(GenerateFileFromMethodCall.OutputFile)"
+                        Condition="'%(GenerateFileFromMethodCall.EmbeddedResource)' != 'false'"
+                        LogicalName="%(GenerateFileFromMethodCall.Filename)%(GenerateFileFromMethodCall.Extension)">
+        <Visible>False</Visible>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+
+</Project>

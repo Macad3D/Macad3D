@@ -665,7 +665,8 @@
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Workflow">
-                <Fluent:Button mmp:Command.Action="{x:Static mmw:AppCommands.ShowShapeInspector}"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmw:AppCommands.ToggleMcpServer}"
+                                     AutomationProperties.AutomationId="ToggleMcpServer"/>
 
                 <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.RunScriptFrom}"
                                     AutomationProperties.AutomationId="RunScript">
@@ -689,6 +690,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Fluent:SplitButton>
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmw:AppCommands.ShowShapeInspector}"/>
             </Fluent:RibbonGroupBox>
 
         </Fluent:RibbonTabItem>

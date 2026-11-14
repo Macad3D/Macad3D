@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Macad.Common;
@@ -11,6 +12,7 @@ using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Dialogs;
+using Macad.Mcp;
 using Macad.Presentation;
 
 namespace Macad.Window;
@@ -155,6 +157,40 @@ public static class AppCommands
         Header = () => "Layer Editor",
         Description = () => "Opens the layer editor.",
         Icon = () => "Layer-Editor"
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static ActionCommand ToggleMcpServer { get; } = new(
+        () =>
+        {
+            if (McpHost.Current.IsRunning)
+            {
+                McpHost.Stop();
+            }
+            else if (!McpHost.Start())
+            {
+                bool started = false;
+                while(!started)
+                {
+                    if (!Dialogs.AskMcpAlreadyStarted())
+                    {
+                        break;
+                    }
+
+                    using (new WaitCursor())
+                    {
+                        started = McpHost.TakeOver(TimeSpan.FromSeconds(5));
+                    }
+                }
+            }
+        })
+    {
+        Header = () => "MCP Server",
+        Description = () => "Starts or stops the MCP server, which lets AI assistant (MCP clients) use the modelling tools. "
+                            + "Stopping it closes the connections of all assistants.",
+        Icon = () => "Tool-McpServer",
+        IsCheckedBinding = BindingHelper.Create(McpHost.Current, nameof(McpHost.IsRunning), BindingMode.OneWay)
     };
 
     //--------------------------------------------------------------------------------------------------

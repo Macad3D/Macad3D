@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{a6bc8361-4456-48d7-92be-ac7595e00ad0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ApplicationIcon>..\Macad.Resources\Icons\App\App-MainLogo.ico</ApplicationIcon>  
+    <Platforms>AnyCpu</Platforms>
+    <StartupObject>Macad.Mcp.Proxy.Program</StartupObject>
+  </PropertyGroup>
+  
+  <Import Project="$(MMBuildPropsDir)Macad.Publish.props" />
+
+  <!-- The tool list of Macad.Mcp and its answers to clients without initialize handshake, cached as embedded resources -->
+  <ItemGroup>
+    <GenerateFileFromMethodCall Include="McpToolList.json">
+      <Assembly>Macad.Mcp</Assembly>
+      <Method>Macad.Mcp.McpHost.GetToolList</Method>
+    </GenerateFileFromMethodCall>
+    <GenerateFileFromMethodCall Include="McpModernResponses.json">
+      <Assembly>Macad.Mcp</Assembly>
+      <Method>Macad.Mcp.McpHost.GetModernResponses</Method>
+    </GenerateFileFromMethodCall>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Build order only: Macad.Mcp is loaded by the BuildTools, not referenced -->
+    <ProjectReference Include="..\Macad.Mcp\Macad.Mcp.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

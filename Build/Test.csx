@@ -50,14 +50,16 @@ for (int i = 0; i < Args.Count; i++)
 			targets.Add("Test.Core");
 			targets.Add("Test.Interaction");
 			targets.Add("Test.Exchange");
-			targets.Add("Test.UI");
+			targets.Add("Test.Mcp");
 			targets.Add("Test.Memory");
+			targets.Add("Test.UI");
 			break;
 
 		case "unit":
 			targets.Add("Test.Core");
 			targets.Add("Test.Interaction");
 			targets.Add("Test.Exchange");
+			targets.Add("Test.Mcp");
 			targets.Add("Test.Memory");
 			break;
 
@@ -72,13 +74,13 @@ for (int i = 0; i < Args.Count; i++)
 	}
 }
 
-if(!_RunTests(targets.Distinct()))
+if (!_RunTests(targets.Distinct()))
 	res = -1;
 
-if(res == 0)
+if (res == 0)
 {
 	Printer.Success("\nAll tests run.");
-} 
+}
 else
 {
 	Printer.Warning("\nAll tests run, but some (or all) tests failed.");
@@ -99,15 +101,15 @@ static string _OptionWhere = "";
 static string _GetAdditionalRunSettings()
 {
 	string options = "";
-	if(!string.IsNullOrEmpty(_OptionWhere))
+	if (!string.IsNullOrEmpty(_OptionWhere))
 	{
 		options += $" NUnit.Where=\"{_OptionWhere}\"";
 	}
 
-	if(_OptionStopOnError)
+	if (_OptionStopOnError)
 		options += " StopOnError=\"true\"";
 
-	if(_OptionSaveLog)
+	if (_OptionSaveLog)
 		options += " NUnit.InternalTraceLevel=\"verbose\"";
 
 	return options;
@@ -137,7 +139,7 @@ static bool _RunTests(IEnumerable<string> targets)
 			targets = targets.Except(parallelTargets).ToList(); // Remove parallel targets from the list
 		}
 	}
-	
+
 	// Run other tests sequentially
 	foreach (var target in targets)
 	{

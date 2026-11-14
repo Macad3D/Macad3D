@@ -7,3 +7,4 @@ launchSettings.json
 *.args.json
 *_TestResult.*
 *_wpftmp.csproj
+.scratch

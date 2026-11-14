@@ -16,10 +16,24 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <!-- Target to copy DotNetRuntime to publish directory -->
+  <!-- Publish referenced projects marked with PublishTogether="true" into the publish directory of this project,
+       e.g. additional executables. The .NET runtime is copied by this project only, which must need all of it. -->
+  <Target Name="PublishProjectsTogether"
+          AfterTargets="Publish"
+          Condition="'@(ProjectReference->WithMetadataValue('PublishTogether', 'true'))' != ''">
+
+    <MSBuild Projects="@(ProjectReference->WithMetadataValue('PublishTogether', 'true'))"
+             Targets="Publish"
+             Properties="Configuration=$(Configuration);_IsPublishing=true;PublishDir=$(PublishDir);MMSkipCopyDotNetRuntime=true" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- Target to copy DotNetRuntime to publish directory. Skipped for projects published into the directory of
+       another project, which copies the runtime (MMSkipCopyDotNetRuntime). -->
   <Target Name="CopyDotNetRuntime" 
           AfterTargets="Publish"
-          Condition="'$(AppHostRelativeDotNet)' != ''">
+          Condition="'$(AppHostRelativeDotNet)' != '' And '$(MMSkipCopyDotNetRuntime)' != 'true'">
     <ItemGroup>
       <_RuntimePackAsset Include="@(RuntimePackAsset)"
                          RuntimePack="$([System.String]::Copy('%(NuGetPackageId)').Replace('.Runtime.win-x64', ''))"

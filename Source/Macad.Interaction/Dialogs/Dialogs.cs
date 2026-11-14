@@ -181,4 +181,19 @@ public static class Dialogs
                                       TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
            
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool AskMcpAlreadyStarted()
+    {
+        return TaskDialog.ShowMessage(Application.Current.MainWindow,
+            "Shut down the other server instance?",
+            "The MCP server of another Macad|3D instance is already running. Stop it there and start it in this instance? "
+            + "The agents connected to the other instance will connect to this one.",
+            "MCP server already started.",
+            TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

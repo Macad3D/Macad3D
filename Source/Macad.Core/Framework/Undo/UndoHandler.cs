@@ -34,6 +34,11 @@ public sealed class UndoHandler : BaseObject
         get { return _RedoStack.Count > 0; }
     }
 
+    public bool HasPendingChanges
+    {
+        get { return _PendingActions.Count > 0; }
+    }
+
     internal LimitedStack<UndoAction[]> UndoStack
     {
         get { return _UndoStack; }
@@ -145,6 +150,27 @@ public sealed class UndoHandler : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Reverts all pending (not yet committed) changes. The undo and redo stacks are left untouched.
+    /// </summary>
+    public void Revert()
+    {
+        if (_IsRestoring || _PendingActions.Count == 0)
+            return;
+
+        // Restore directly, pushing to the undo stack could drop its oldest entry if the stack is full.
+        _PendingActions.Reverse();
+        var actions = _PendingActions.ToArray();
+        _PendingActions.Clear();
+        Restore(actions);
+
+        // Changes recorded while restoring would be the redo information, which is not wanted here.
+        _PendingActions.Clear();
+        RaisePropertyChanged();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public void DoUndo(int steps)
     {
         while ((steps > 0) && (_UndoStack.Count > 0))
@@ -177,8 +203,14 @@ public sealed class UndoHandler : BaseObject
     {
         var stack = fromRedoStack ? _RedoStack : _UndoStack;
 
+        Restore(stack.Pop());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void Restore(UndoAction[] actions)
+    {
         _IsRestoring = true;
-        var actions = stack.Pop();
         foreach (var action in actions)
         {
             var instance = FindEntityInstance(action.InstanceGuid);

@@ -19,6 +19,10 @@
     <Project Path="Source/Macad.Managed/Macad.Managed.vcxproj" Id="b80bd2f2-5fc2-49bf-87a3-52469c72812a">
       <BuildDependency Project="Source/Macad.Occt/Macad.Occt.vcxproj" />
     </Project>
+    <Project Path="Source/Macad.Mcp/Macad.Mcp.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Source/Macad.McpProxy/Macad.McpProxy.csproj" />
     <Project Path="Source/Macad.Occt/Macad.Occt.vcxproj" Id="d86316b3-7f16-439c-9be3-db64ed7ad058" />
     <Project Path="Source/Macad.Presentation/Macad.Presentation.csproj">
       <BuildDependency Project="Source/Macad.Resources/Macad.Resources.csproj" />
@@ -43,6 +47,9 @@
       <Platform Project="x64" />
     </Project>
     <Project Path="Tests/Test.Interaction/Test.Interaction.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="Tests/Test.Mcp/Test.Mcp.csproj">
       <Platform Project="x64" />
     </Project>
     <Project Path="Tests/Test.Memory/Test.Memory.csproj">

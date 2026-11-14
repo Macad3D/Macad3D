@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
+using Macad.Mcp;
 using Macad.Presentation;
 using Macad.Resources;
 using Microsoft.Win32;
@@ -72,6 +73,12 @@ public partial class App : Application
         WelcomeDialog.Current?.SetMainWindow(MainWindow);
         MainWindow.Show();
 
+        // Start MCP if requested, e.g. by the proxy launching the app
+        if (cmdLine.StartMcpServer)
+        {
+            McpHost.Start();
+        }
+
         ShutdownMode = ShutdownMode.OnMainWindowClose;
 
         if (!bSkipWelcome && bIsWine)
@@ -116,6 +123,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        McpHost.Stop();
         base.OnExit(e);
         AppContext.Current?.Dispose();
     }
