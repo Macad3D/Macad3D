@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Mcp;
 using Macad.Test.Utils;
 using ModelContextProtocol;
@@ -222,17 +223,81 @@ public class OffsetScaleTaperImprintTests
 
     //--------------------------------------------------------------------------------------------------
 
+    // A parallel sketch which is not on the face (here on XY below the top face, off-center) is projected onto it
     [Test]
-    public async Task Imprint_SketchNotOnFace_Fails()
+    public async Task Imprint_ParallelSketch_ProjectedOntoFace()
     {
         var (face, _) = await CreateBlockWithSketchOnTop();
-        var elsewhere = await _Sketch.CreateSketch(name: "Elsewhere");
-        await _Sketch.AddCircle(elsewhere.Guid, 10, 10, 3);
+        var below = await _Sketch.CreateSketch(name: "Below");
+        await _Sketch.AddCircle(below.Guid, 5, 15, 3);
 
-        var ex = Assert.ThrowsAsync<McpException>(async () => await _Tools.Imprint("Block", face, "Elsewhere"));
+        var result = await _Tools.Imprint("Block", face, "Below", depth: 2);
 
-        Assert.That(ex.Message, Does.Contain("not placed on the face"));
-        Assert.That(FindBody(elsewhere.Guid).IsVisible, Is.True);
+        Assert.That(result.Volume, Is.EqualTo(4000 + 18 * Math.PI).Within(1e-2));
+        Assert.That(result.BoundingBox.MaxZ, Is.EqualTo(12).Within(1e-3));
+        var bossTop = FindBody("Block").Shape.GetTransformedBRep().Faces()
+                                       .Select(f => f.BoundingBox().MinMax())
+                                       .Single(b => Math.Abs(b.minZ - 12) < 1e-3 && Math.Abs(b.maxZ - 12) < 1e-3);
+        Assert.That(bossTop.minX, Is.EqualTo(2).Within(1e-3));
+        Assert.That(bossTop.maxX, Is.EqualTo(8).Within(1e-3));
+        Assert.That(bossTop.minY, Is.EqualTo(12).Within(1e-3));
+        Assert.That(bossTop.maxY, Is.EqualTo(18).Within(1e-3));
+        Assert.That(FindBody(below.Guid).Shape.GetTransformedBRep().BoundingBox().MinMax().maxZ, Is.EqualTo(0).Within(1e-6),
+                    "The sketch body must not be moved.");
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public async Task Imprint_SketchNotParallel_Fails()
+    {
+        var (face, _) = await CreateBlockWithSketchOnTop();
+        var side = await _Sketch.CreateSketch("XZ", name: "Side");
+        await _Sketch.AddCircle(side.Guid, 10, 5, 3);
+
+        var ex = Assert.ThrowsAsync<McpException>(async () => await _Tools.Imprint("Block", face, "Side"));
+
+        Assert.That(ex.Message, Does.Contain("not parallel"));
+        Assert.That(FindBody(side.Guid).IsVisible, Is.True);
+        Assert.That((await new DocumentTools().GetBody("Block")).ShapeStack, Is.EqualTo(new[] { nameof(Box) }));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    // The sketch body is linked, not copied: a changed sketch changes the imprint
+    [Test]
+    public async Task Imprint_SketchStaysLinked()
+    {
+        var (face, sketch) = await CreateBlockWithSketchOnTop();
+        await _Tools.Imprint("Block", face, sketch, depth: 2);
+
+        var imprint = (Imprint)FindBody("Block").Shape;
+        Assert.That((imprint.Operands[1] as BodyShapeOperand)?.Body, Is.SameAs(FindBody(sketch)));
+
+        await _Sketch.AddCircle(sketch, 5, 5, 1);
+
+        Assert.That(FindBody("Block").Shape.GetBRep().Volume(), Is.EqualTo(4000 + 20 * Math.PI).Within(1e-2));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public async Task Imprint_UpdateSketch()
+    {
+        var (face, sketch) = await CreateBlockWithSketchOnTop();
+        // Created before the imprint, which renumbers the faces
+        var other = await _Sketch.CreateSketch("face", body: "Block", face: face, name: "Small");
+        await _Sketch.AddCircle(other.Guid, 0, 0, 1);
+        await _Tools.Imprint("Block", face, sketch, depth: 2);
+
+        var shapeStack = new ShapeStackTools();
+        var result = await shapeStack.UpdateShape("Block", 1, ToParameters(new { sketch = "Small" }));
+
+        Assert.That(result.Body.Volume, Is.EqualTo(4000 + 2 * Math.PI).Within(1e-2));
+        Assert.That(result.Shape.Parameters["sketch"], Is.EqualTo("Small"));
+        Assert.That(FindBody(other.Guid).IsVisible, Is.False);
+        Assert.That(FindBody(sketch).IsVisible, Is.True, "The no longer used sketch is shown again.");
+        Assert.ThrowsAsync<McpException>(async () => await shapeStack.UpdateShape("Block", 1, ToParameters(new { sketch = "Block" })));
     }
 
     //--------------------------------------------------------------------------------------------------

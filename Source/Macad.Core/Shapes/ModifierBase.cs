@@ -177,7 +177,20 @@ public abstract class ModifierBase : Shape
 
     //--------------------------------------------------------------------------------------------------
 
-    protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane)
+    protected enum ForeignOperand2DPlacement
+    {
+        // The 2D shape of another body is placed onto the plane by its local coordinates, like an embedded one.
+        // Its body placement is ignored. E.g. a pipe profile, whose origin is placed at the path start.
+        PlaceByLocalCoordinates,
+        // The 2D shape of another body keeps its world placement and is projected along the plane normal onto
+        // the plane. It must be parallel to the plane. E.g. a sketch to imprint on a face.
+        ProjectOntoPlane
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane,
+                                             ForeignOperand2DPlacement foreignPlacement = ForeignOperand2DPlacement.PlaceByLocalCoordinates)
     {
         var operand = GetOperand(operandIndex);
         if (operand == null)
@@ -185,12 +198,27 @@ public abstract class ModifierBase : Shape
             return null;
         }
 
-        if (boundToPlane.HasValue)
+        // A 2D shape of another body is never bound to the plane, this would move that body. Its faces are
+        // built from its local BRep, then placed onto the plane.
+        Trsf? foreignToLocal = null;
+        TopoDS_Shape sourceBrep;
+        if (boundToPlane.HasValue && operand is BodyShapeOperand bodyOperand)
         {
-            operand.BindToPlane(GetCoordinateSystem(), this, boundToPlane);
+            if (foreignPlacement == ForeignOperand2DPlacement.ProjectOntoPlane && bodyOperand.Body != null)
+            {
+                // Transformed once from its body system into ours, then projected
+                foreignToLocal = new Trsf(bodyOperand.Body.GetCoordinateSystem(), GetCoordinateSystem());
+            }
+            sourceBrep = bodyOperand.Shape?.GetBRep();
         }
-
-        var sourceBrep = GetOperandBRep(operandIndex);
+        else
+        {
+            if (boundToPlane.HasValue)
+            {
+                operand.BindToPlane(GetCoordinateSystem(), this, boundToPlane);
+            }
+            sourceBrep = GetOperandBRep(operandIndex);
+        }
         if (sourceBrep == null)
         {
             return null;
@@ -223,7 +251,24 @@ public abstract class ModifierBase : Shape
 
         if (boundToPlane != null && baseFacesShape != null)
         {
-            var trsf = new Trsf(boundToPlane.Value.Rotation(), boundToPlane.Value.Location.ToVec());
+            Trsf trsf;
+            if (foreignToLocal.HasValue)
+            {
+                var targetPlane = boundToPlane.Value;
+                var sketchPlane = geomPlane.Pln().Transformed(foreignToLocal.Value);
+                if (!sketchPlane.Axis.Direction.IsParallel(targetPlane.Axis.Direction, 1e-6))
+                {
+                    Messages.Error("The sketch must be parallel to the target plane.");
+                    return null;
+                }
+                var normal = targetPlane.Axis.Direction.ToVec();
+                var distance = new Vec(sketchPlane.Location, targetPlane.Location).Dot(normal);
+                trsf = new Trsf(normal.Multiplied(distance)).Multiplied(foreignToLocal.Value);
+            }
+            else
+            {
+                trsf = new Trsf(boundToPlane.Value.Rotation(), boundToPlane.Value.Location.ToVec());
+            }
             baseFacesShape = baseFacesShape.Moved(new TopLoc_Location(trsf));
         }
 

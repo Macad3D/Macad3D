@@ -598,6 +598,9 @@ public class ShapeStackTools : ToolsBase
         P<Imprint>("mode", s => ImprintModeNames.Format(s.Mode), (s, v, _) => s.Mode = ImprintModeNames.Parse(_String(v, "mode"), "mode")),
         P<Imprint>("depth", s => s.Depth, (s, v, _) => s.Depth = _Positive(v, "depth")),
         P<Imprint>("draftAngle", s => s.DraftAngle, (s, v, _) => s.DraftAngle = _Double(v, "draftAngle", (a, n) => RequireAngle(a, n, 89, allowZero: true))),
+        // Null for an imprint with an embedded sketch (made in the UI); setting it links the sketch body instead
+        P<Imprint>("sketch", s => GetOperandBodies(s).FirstOrDefault()?.Name, (s, v, ctx)
+            => _ReplaceOperandBodies(s, ctx, [ResolveSketchOperand(_String(v, "sketch"), ctx.Body, "sketch", true)])),
     ];
 
     //--------------------------------------------------------------------------------------------------

@@ -199,7 +199,7 @@ public sealed class Imprint : ModifierBase
             return false;
         }
 
-        var baseFacesShape = GetOperand2DFaces(1, facePlane);
+        var baseFacesShape = GetOperand2DFaces(1, facePlane, ForeignOperand2DPlacement.ProjectOntoPlane);
         if (baseFacesShape == null)
         {
             Messages.Error("Cannot create faces from 2D operand.");

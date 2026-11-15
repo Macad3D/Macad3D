@@ -372,9 +372,9 @@ public class ModifyTools : ToolsBase
     [McpServerTool(Name = "imprint")]
     [Description("Imprints the contours of a sketch onto a planar face of a solid: 'raise' adds material (a boss), "
                  + "'lower' removes it (a pocket) by 'depth', 'cutout' cuts through the whole solid. "
-                 + "The sketch is placed on the face plane: create it with create_sketch(plane='face', body, face) without "
-                 + "'origin', 'xDirection' or 'offset', so its coordinates match. The sketch is copied into the imprint, "
-                 + "the sketch body is hidden afterwards and not linked, it can be deleted. "
+                 + "The sketch keeps its position and is projected along the face normal onto the face, so its plane "
+                 + "must be parallel to the face, e.g. create it with create_sketch(plane='face', body, face). "
+                 + "The sketch body is hidden and stays linked: changing the sketch changes the imprint. "
                  + "Returns the new shape with its bounding box and volume.")]
     public Task<ShapeResult> Imprint(
         [Description("The solid body, referenced by its guid or its unique name.")] string body,
@@ -399,26 +399,11 @@ public class ModifyTools : ToolsBase
             }
             var (topoFace, faceReference) = GetFace(target, face, true, "for imprinting");
 
-            var sketchBody = ResolveBody(sketch);
-            if (sketchBody == target || sketchBody.Shape?.ShapeType != ShapeType.Sketch || CountWires(sketchBody.Shape).Closed == 0)
-            {
-                throw new McpException($"The body '{sketchBody.Name}' must be another body with a sketch containing a closed contour.");
-            }
-            if (DependsOn(sketchBody, target))
-            {
-                throw new McpException($"The sketch body '{sketchBody.Name}' already uses '{target.Name}', using it would create a cycle.");
-            }
-            _CheckSketchOnFace(target, topoFace, sketchBody, face);
+            var sketchBody = ResolveSketchOperand(sketch, target, "sketch", true);
+            _CheckSketchParallelToFace(target, topoFace, sketchBody, face);
 
-            // Like the UI, the imprint owns an embedded sketch. Linking the sketch body as operand is not supported
-            // by Imprint (it would rebind the sketch body to the face plane). So the sketch elements are copied.
-            var sourceSketch = sketchBody.Shape as Sketch
-                               ?? throw new McpException($"The current shape of body '{sketchBody.Name}' must be a plain sketch, not a {sketchBody.Shape.GetType().Name}.");
-            var embeddedSketch = new Sketch { Body = target };
-            var imprint = Core.Shapes.Imprint.Create(target, faceReference, embeddedSketch);
-            embeddedSketch.AddElements(new Dictionary<int, Pnt2d>(sourceSketch.Points), null,
-                                       sourceSketch.Segments.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Clone()),
-                                       sourceSketch.Constraints.Select(c => c.Clone()).ToList());
+            // The sketch body is linked, Imprint projects it from its world placement onto the face
+            var imprint = Core.Shapes.Imprint.Create(target, faceReference, sketchBody.Shape);
             imprint.Mode = imprintMode;
             imprint.Depth = depth;
             imprint.DraftAngle = draftAngle;
@@ -429,23 +414,20 @@ public class ModifyTools : ToolsBase
 
     //--------------------------------------------------------------------------------------------------
 
-    // The imprint places the sketch on the face plane, centered on the face. Make sure the sketch body is
-    // placed there too, so the result is where the agent drew it.
-    static void _CheckSketchOnFace(Body target, TopoDS_Face localFace, Body sketchBody, int faceIndex)
+    // The imprint projects the sketch along the face normal onto the face, which needs a parallel sketch.
+    // Checked here to report it before the document is changed.
+    static void _CheckSketchParallelToFace(Body target, TopoDS_Face localFace, Body sketchBody, int faceIndex)
     {
         if (!FaceAlgo.GetCenteredPlaneFromFace(localFace, out var localPlane))
         {
             throw new McpException($"The face {faceIndex} is not planar.");
         }
-        var expected = localPlane.Position.Transformed(target.GetTransformation());
-        var actual = sketchBody.GetCoordinateSystem();
-        if (!expected.Location.IsEqual(actual.Location, 1e-4)
-            || !expected.Direction.IsEqual(actual.Direction, 1e-6)
-            || !expected.XDirection.IsEqual(actual.XDirection, 1e-6))
+        var faceNormal = localPlane.Axis.Direction.Transformed(target.GetTransformation());
+        var sketchNormal = (sketchBody.Shape as Shape2D)?.Plane.Axis.Direction ?? sketchBody.GetCoordinateSystem().Direction;
+        if (!faceNormal.IsParallel(sketchNormal, 1e-6))
         {
-            throw new McpException($"The sketch '{sketchBody.Name}' is not placed on the face {faceIndex}. "
-                                   + $"Create it with create_sketch(plane='face', body='{target.Name}', face={faceIndex}) "
-                                   + "without 'origin', 'xDirection' or 'offset'.");
+            throw new McpException($"The sketch '{sketchBody.Name}' is not parallel to the face {faceIndex}. "
+                                   + $"Create it with create_sketch(plane='face', body='{target.Name}', face={faceIndex}).");
         }
     }
 

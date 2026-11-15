@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -307,6 +308,44 @@ public class PipeTests
         var pipe = Pipe.Create(body, profile);
         Assert.IsTrue(pipe.Make(Shape.MakeFlags.None));
         Assert.IsTrue(ModelCompare.CompareShape(pipe, Path.Combine(_BasePath, "ProfileCustom01")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    // The profile is the sketch of another body, which is placed away from the path. The profile's sketch origin
+    // is placed at the path start, the placement of the profile body must neither be applied on top of that
+    // nor be changed by making the pipe.
+    [Test]
+    public void ProfileCustomFromPlacedSketchBody()
+    {
+        var path = Macad.Core.Shapes.Sketch.Create();
+        var body = Body.Create(path);
+        new SketchBuilder(path).Line(0, 0, 50, 0);
+
+        var profile = Macad.Core.Shapes.Sketch.Create();
+        var center = profile.AddPoint(new Pnt2d(0, 0));
+        var rim = profile.AddPoint(new Pnt2d(0, 2));
+        profile.AddSegment(new SketchSegmentCircle(center, rim));
+        var profileBody = Body.Create(profile);
+        profileBody.Position = new Pnt(100, 30, 7);
+        profileBody.Rotation = new Quaternion(0.3, 0.2, 0.1);
+        var profileBoundsBefore = profile.GetTransformedBRep().BoundingBox();
+
+        var pipe = Pipe.Create(body, new BodyShapeOperand(profileBody));
+        Assert.IsTrue(pipe.Make(Shape.MakeFlags.None));
+
+        var pipeBRep = pipe.GetTransformedBRep();
+        Assert.That(pipeBRep.Volume(), Is.EqualTo(System.Math.PI * 2 * 2 * 50).Within(1e-2));
+        var bounds = pipeBRep.BoundingBox().MinMax();
+        Assert.That(bounds.minX, Is.EqualTo(0).Within(1e-3), pipeBRep.BoundingBox().ToRoundedString());
+        Assert.That(bounds.maxX, Is.EqualTo(50).Within(1e-3), pipeBRep.BoundingBox().ToRoundedString());
+        Assert.That(System.Math.Abs(bounds.minY) + System.Math.Abs(bounds.maxY), Is.EqualTo(4).Within(1e-2), pipeBRep.BoundingBox().ToRoundedString());
+        Assert.That(System.Math.Abs(bounds.minZ) + System.Math.Abs(bounds.maxZ), Is.EqualTo(4).Within(1e-2), pipeBRep.BoundingBox().ToRoundedString());
+
+        Assert.IsNull(profile.BoundToPlane, "The sketch of another body must not be bound to the path plane.");
+        var profileBoundsAfter = profile.GetTransformedBRep().BoundingBox();
+        Assert.IsTrue(profileBoundsAfter.IsSameBounds(profileBoundsBefore, 1e-6),
+                      $"Profile body moved from {profileBoundsBefore.ToRoundedString()} to {profileBoundsAfter.ToRoundedString()}");
     }
 
     //--------------------------------------------------------------------------------------------------
