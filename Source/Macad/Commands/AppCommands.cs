@@ -190,6 +190,7 @@ public static class AppCommands
         Description = () => "Starts or stops the MCP server, which lets AI assistant (MCP clients) use the modelling tools. "
                             + "Stopping it closes the connections of all assistants.",
         Icon = () => "Tool-McpServer",
+        HelpTopic = "fb49ebbd-b124-4dd0-9b3c-bf79e21ccfa5",
         IsCheckedBinding = BindingHelper.Create(McpHost.Current, nameof(McpHost.IsRunning), BindingMode.OneWay)
     };
 
@@ -218,8 +219,7 @@ public static class AppCommands
     public static ActionCommand<string> ShowHelpTopic { get; } = new(
         (topicId) =>
         {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            var url = $"https://macad3d.net/userguide/go/?version={version.Major}.{version.Minor}&guid={topicId}";
+            var url = AppVersion.GetUserGuideUrl(topicId);
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         })
     {

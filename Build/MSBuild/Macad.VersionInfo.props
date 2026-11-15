@@ -10,6 +10,7 @@
     <ProductVersion>$(Version).$(DaysSinceEpoch)</ProductVersion>
     <AssemblyVersion>$(ProductVersion)</AssemblyVersion>
     <FileVersion>$(ProductVersion).0</FileVersion>
-    <InformationalVersion>$(ProductVersion)-$(VersionSuffix)</InformationalVersion>
+    <InformationalVersion>$(ProductVersion)</InformationalVersion>
+    <InformationalVersion Condition="'$(VersionSuffix)' != ''">$(ProductVersion)-$(VersionSuffix)</InformationalVersion>
   </PropertyGroup>
 </Project>

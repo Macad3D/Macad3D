@@ -13,12 +13,9 @@ public partial class AboutDialog : Dialog
     {
         get
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var version = assembly.GetName()
-                                  .Version;
-            var informationalVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                                               ?.InformationalVersion
-                                               ?? "Unknown Build";
+            var version = AppVersion.Version;
+            var informationalVersion = AppVersion.ShortenCommitHash(AppVersion.InformationalVersion)
+                                       ?? "Unknown Build";
             return $"{version.Major}.{version.Minor}  ({informationalVersion})";
         }
     }

@@ -71,10 +71,11 @@ public static class ToolboxCommands
         (param) => true
     )
     {
-        Header = (param) => "Run Script",
-        Title = (param) =>"Run Script From File",
-        Description = (param) =>"Select and execute a script file (.csx).",
-        Icon = (param) => "Tool-RunScript"
+        Header = (_) => "Run Script",
+        Title = (_) =>"Run Script From File",
+        Description = (_) =>"Select and execute a script file (.csx).",
+        Icon = (_) => "Tool-RunScript",
+        HelpTopic = (_) => "0857be7d-eabe-40e1-bda3-a3415b29a4cd"
     };
 
     //--------------------------------------------------------------------------------------------------
