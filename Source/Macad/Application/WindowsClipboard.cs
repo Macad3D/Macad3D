@@ -5,21 +5,21 @@ namespace Macad.Window;
 
 public sealed class WindowsClipboard : Clipboard
 {
-    public override bool ContainsData(in string format)
+    protected override bool ContainsDataCore(string format)
     {
         return System.Windows.Clipboard.ContainsData(format);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override MemoryStream GetDataStream(in string format)
+    protected override MemoryStream GetDataStreamCore(string format)
     {
         return System.Windows.Clipboard.GetData(format) as MemoryStream;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void SetData(in string format, in MemoryStream data)
+    protected override void SetDataCore(string format, MemoryStream data)
     {
         System.Windows.Clipboard.SetData(format, data);
     }

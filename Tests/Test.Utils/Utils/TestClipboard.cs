@@ -10,14 +10,14 @@ public class TestClipboard : Clipboard
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool ContainsData(in string format)
+    protected override bool ContainsDataCore(string format)
     {
         return format == _Format;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override MemoryStream GetDataStream(in string format)
+    protected override MemoryStream GetDataStreamCore(string format)
     {
         if(format == _Format)
             return new MemoryStream(_Data);
@@ -26,7 +26,7 @@ public class TestClipboard : Clipboard
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void SetData(in string format, in MemoryStream data)
+    protected override void SetDataCore(string format, MemoryStream data)
     {
         _Format = format;
         _Data = data.ToArray();
