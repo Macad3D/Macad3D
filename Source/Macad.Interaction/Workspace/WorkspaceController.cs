@@ -1016,7 +1016,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         {
             maxPixelSize = Math.Max(viewportController.PixelSize, maxPixelSize);
             var screenSize = viewportController.ScreenSize;
-            minScreenWidth = Math.Min(screenSize.Width * maxPixelSize, minScreenWidth);
+            minScreenWidth = Math.Min(screenSize.Width * viewportController.PixelSize, minScreenWidth);
             viewportController.ScreenToPoint(plane, 0,                0,                 out corners[0]);
             viewportController.ScreenToPoint(plane, 0,                screenSize.Height, out corners[1]);
             viewportController.ScreenToPoint(plane, screenSize.Width, screenSize.Height, out corners[2]);

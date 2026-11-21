@@ -103,4 +103,39 @@ public class GridTests
 
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(true)]
+    [TestCase(false)]
+    public void AutomaticStepScaleDualView(bool zoomInMainViewport)
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.GridEnabled = true;
+        ctx.Workspace.GridStep = 1.0;
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.VisualGridStepMinPixel = 10;
+        viewportParameterSet.VisualGridMinStepsOnScreen = 10;
+
+        ctx.Workspace.ViewportLayout = ViewportLayoutBuilder.Build(ViewportLayoutBuilder.Layout.DualHorizontal, ctx.Workspace);
+        Assume.That(ctx.WorkspaceController.ViewportControllers.Count, Is.EqualTo(2));
+
+        // One viewport zoomed far in, the other one zoomed far out
+        var zoomedInVc = ctx.WorkspaceController.GetViewportController(zoomInMainViewport ? 0 : 1);
+        var zoomedOutVc = ctx.WorkspaceController.GetViewportController(zoomInMainViewport ? 1 : 0);
+        zoomedInVc.Zoom(40.0);
+        zoomedOutVc.Zoom(-40.0);
+
+        // Scenario: In the zoomed-in viewport less than VisualGridMinStepsOnScreen are visible,
+        // so the grid must be refined, regardless of the order of the viewports.
+        double zoomedInWidth = zoomedInVc.ScreenSize.Width * zoomedInVc.PixelSize;
+        Assume.That(zoomedInVc.PixelSize, Is.LessThan(zoomedOutVc.PixelSize));
+        Assume.That(ctx.Workspace.GridStep, Is.GreaterThan(zoomedInWidth / viewportParameterSet.VisualGridMinStepsOnScreen));
+
+        Assert.That(ctx.WorkspaceController.VisualGridMultiplier, Is.EqualTo(0.1));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
