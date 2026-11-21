@@ -396,6 +396,10 @@ public sealed class ModelController : BaseObject, IDisposable
 
         [SerializeMember]
         public Guid[] Entities { get; set; }
+
+        // Interaction settings of the copied entities (e.g. sketch editor viewport), keyed by settings source
+        [SerializeMember]
+        public Dictionary<string, string> EntitySettings { get; set; }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -440,6 +444,8 @@ public sealed class ModelController : BaseObject, IDisposable
         context = new SerializationContext(SerializationScope.CopyPaste);
         context.SetInstance(InteractiveContext.Current.Document);
         context.SetInstance<IDocument>(InteractiveContext.Current.Document);
+        // Recreated GUIDs also let the clones inherit the interaction settings of their originals,
+        // see EntityInstanceSettingsCache.
         context.SetInstance(ReadOptions.RecreateGuids);
 
         cloneOptions ??= new InteractiveCloneOptions();
@@ -477,17 +483,22 @@ public sealed class ModelController : BaseObject, IDisposable
         var context = new SerializationContext(SerializationScope.CopyPaste);
         context.SetInstance(InteractiveContext.Current.Document);
         context.SetInstance<IDocument>(InteractiveContext.Current.Document);
+        // Serialize entities first to know all written instances, including nested shapes and referenced bodies
+        var entitiesWriter = new Writer();
+        if (!Serializer.Serialize(entitiesWriter, entities, context))
+            return;
+
         var document = new ClipboardHeader()
         {
             ModelGuid = CoreContext.Current.Document.Guid,
-            Entities = entities.Select(entity => entity.Guid).ToArray()
+            Entities = entities.Select(entity => entity.Guid).ToArray(),
+            EntitySettings = EntityInstanceSettingsSnapshot.Take(entitiesWriter.WrittenInstances.OfType<Entity>())
         };
-        var writer = new Writer();
-        if (!Serializer.Serialize(writer, document, context)
-            || !Serializer.Serialize(writer, entities, context))
+        var headerWriter = new Writer();
+        if (!Serializer.Serialize(headerWriter, document, context))
             return;
 
-        InteractiveContext.Current?.Clipboard.SetData(ClipboardContentFormat, writer.ToString());
+        InteractiveContext.Current?.Clipboard.SetData(ClipboardContentFormat, headerWriter.ToString() + entitiesWriter.ToString());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -521,6 +532,10 @@ public sealed class ModelController : BaseObject, IDisposable
                              : new CloneOptions(true);
         cloneOptions.AddEntitiesToClone(header.Entities);
         context.SetInstance<CloneOptions>(cloneOptions);
+
+        // Clones get the interaction settings their originals had at copy time,
+        // the originals may have changed or may not exist in this document at all.
+        context.SetInstance(new EntityInstanceSettingsSnapshot(header.EntitySettings));
 
         var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
         foreach (var entity in context.GetInstanceList<InteractiveEntity>())

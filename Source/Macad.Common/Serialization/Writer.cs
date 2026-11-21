@@ -36,6 +36,13 @@ public class Writer
 
     //--------------------------------------------------------------------------------------------------
 
+    public IEnumerable<object> WrittenInstances
+    {
+        get { return _WrittenInstances.Values; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #region Write Functions
 
     public void WriteChar(in char value)

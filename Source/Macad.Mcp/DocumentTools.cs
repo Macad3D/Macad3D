@@ -98,6 +98,8 @@ public class DocumentTools : ToolsBase
             context.SetInstance<IDocument>(CoreContext.Current.Document);
             var serialized = Serializer.Serialize(new List<InteractiveEntity> { source }, context);
 
+            // Recreated GUIDs also let the clones inherit the interaction settings of their originals,
+            // see EntityInstanceSettingsCache.
             context.SetInstance(ReadOptions.RecreateGuids);
             var cloneOptions = new CloneOptions(true);
             cloneOptions.AddEntitiesToClone([source]);

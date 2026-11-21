@@ -2,10 +2,12 @@
 using Macad.Common;
 using Macad.Core.Topology;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Macad.Interaction;
 
-public class EntityInstanceSettingsCache<T> where T : class, new()
+public class EntityInstanceSettingsCache<T> : IEntityInstanceSettingsSnapshotSource where T : class, new()
 {
     readonly WeakTable<Entity, T> _Settings = new();
     readonly ISerializer _SettingsSerializer = Serializer.GetSerializer(typeof(T));
@@ -22,6 +24,8 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
 
         Model.AdditionalDataSaving += _Model_OnAdditionalDataSaving;
         Model.AdditionalDataLoading += _Model_OnAdditionalDataLoading;
+        Serializer.Deserialized += _Serializer_Deserialized;
+        EntityInstanceSettingsSnapshot.Register(this);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -38,9 +42,10 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
 
     //--------------------------------------------------------------------------------------------------
 
-    void _Model_OnAdditionalDataSaving(Document<InteractiveEntity> document, FileSystem filesystem)
+    #region Entries
+
+    string _WriteEntries(IEnumerable<Entity> entities, bool skipIfEmpty)
     {
-        var instances = document.FindInstances<Entity>();
         var writer = new Writer();
         writer.BeginMap();
 
@@ -50,7 +55,8 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
         writer.BeginMapValue();
         writer.WriteRawString(_Version);
 
-        foreach (var entity in instances)
+        bool isEmpty = true;
+        foreach (var entity in entities)
         {
             if (_Settings.TryGetValue(entity, out var settings))
             {
@@ -58,27 +64,23 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
                 _GuidSerializer.Write(writer, entity.Guid, null);
                 writer.BeginMapValue();
                 _SettingsSerializer.Write(writer, settings, null);
+                isEmpty = false;
             }
         }
 
         writer.EndMap();
 
-        var s = Serializer.Format(writer.ToString());
-        if (s.IsNullOrEmpty())
-            return;
-
-        filesystem.Write(_FilePath, s.ToUtf8Bytes());
+        return isEmpty && skipIfEmpty ? null : writer.ToString();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _Model_OnAdditionalDataLoading(Document<InteractiveEntity> document, FileSystem filesystem)
+    void _ReadEntries(string source, Func<Guid, Entity> resolveEntity)
     {
-        var s = filesystem.Read(_FilePath)?.FromUtf8Bytes();
-        if (s.IsNullOrEmpty())
+        if (source.IsNullOrEmpty())
             return;
 
-        var reader = new Reader(s);
+        var reader = new Reader(source);
         if (!(reader.BeginMap()
               && reader.BeginMapKey()
               && reader.ReadValueString() == "Version"
@@ -96,7 +98,7 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
             if (guid == null || settings == null)
                 continue;
 
-            var instance = document.FindInstance((Guid)guid);
+            var instance = resolveEntity((Guid)guid);
             if (instance == null)
                 continue;
 
@@ -104,6 +106,62 @@ public class EntityInstanceSettingsCache<T> where T : class, new()
         }
     }
 
+    #endregion
+
     //--------------------------------------------------------------------------------------------------
 
+    #region Document File
+
+    void _Model_OnAdditionalDataSaving(Document<InteractiveEntity> document, FileSystem filesystem)
+    {
+        var s = Serializer.Format(_WriteEntries(document.FindInstances<Entity>(), false));
+        if (s.IsNullOrEmpty())
+            return;
+
+        filesystem.Write(_FilePath, s.ToUtf8Bytes());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _Model_OnAdditionalDataLoading(Document<InteractiveEntity> document, FileSystem filesystem)
+    {
+        _ReadEntries(filesystem.Read(_FilePath)?.FromUtf8Bytes(), document.FindInstance);
+    }
+
+    #endregion
+
+    //--------------------------------------------------------------------------------------------------
+
+    #region Cloning
+
+    string IEntityInstanceSettingsSnapshotSource.Key => _FilePath;
+
+    //--------------------------------------------------------------------------------------------------
+
+    string IEntityInstanceSettingsSnapshotSource.WriteSnapshot(IEnumerable<Entity> entities)
+    {
+        return _WriteEntries(entities, true);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _Serializer_Deserialized(object result, SerializationContext context)
+    {
+        // Entities were cloned with recreated GUIDs, so let the clones inherit the settings of their originals
+        var guidMap = context?.GetInstance<Dictionary<Guid, Guid>>();
+        var document = context?.GetInstance<IDocument>();
+        if (guidMap == null || document == null)
+            return;
+
+        // Settings taken at copy time (clipboard), or else the current settings of the originals (duplicate).
+        // Writing and reading them back also makes the clones' settings independent copies.
+        var entries = context.TryGetInstance(out EntityInstanceSettingsSnapshot snapshot)
+                          ? snapshot.Get(_FilePath)
+                          : _WriteEntries(guidMap.Keys.Select(document.FindInstance).Where(entity => entity != null), true);
+
+        // Recreated GUIDs are always new, so they resolve to clones only
+        _ReadEntries(entries, originalGuid => guidMap.TryGetValue(originalGuid, out var cloneGuid) ? document.FindInstance(cloneGuid) : null);
+    }
+
+    #endregion
 }
