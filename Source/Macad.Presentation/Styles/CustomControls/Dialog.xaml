@@ -38,10 +38,17 @@
                               controlzex:NonClientControlProperties.HitTestResult="CAPTION"
                               Background="{TemplateBinding Background}"
                               MinHeight="20">
-                            <StackPanel Background="{mmp:AppResource Macad.Brushes.Popup.Header.Background}"
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.ColumnSpan="2"
+                                        Background="{mmp:AppResource Macad.Brushes.Popup.Header.Background}"
                                         Visibility="{TemplateBinding Title, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}}"
                                         Margin="0,0,0,5">
-                                <TextBlock Text="{TemplateBinding Title}" 
+                                <TextBlock x:Name="TitleText"
+                                           Text="{TemplateBinding Title}"
                                            HorizontalAlignment="Left"
                                            Foreground="{mmp:AppResource Macad.Brushes.Popup.Header.Text}"
                                            Margin="20,5"
@@ -58,6 +65,22 @@
                                               Margin="0,0" 
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+
+                            <!-- close button -->
+                            <Button x:Name="PART_CloseButton"
+                                    Grid.Column="1"
+                                    AutomationProperties.AutomationId="PART_CloseButton"
+                                    Width="20" Height="20"
+                                    Padding="5"
+                                    Margin="0,3,5,0"
+                                    VerticalAlignment="Top"
+                                    Focusable="False"
+                                    ToolTip="Close"
+                                    controlzex:WindowChrome.IsHitTestVisibleInChrome="True"
+                                    controlzex:NonClientControlProperties.HitTestResult="CLIENT"
+                                    Style="{mmp:AppResource Macad.Styles.Button.Glyph}"
+                                    Content="{mmp:AppResource Macad.Geometries.Close}"
+                                    Visibility="{TemplateBinding ShowCloseButton, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
                         </Grid>
                         
                         <!-- content -->
@@ -76,6 +99,12 @@
                                             Content="{Binding Footer, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Border>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ShowCloseButton" Value="True">
+                            <!-- keep long titles clear of the close button -->
+                            <Setter TargetName="TitleText" Property="Margin" Value="20,5,35,5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -13,6 +13,7 @@
              Width="600" Height="500"
              Padding="0"
              SizeToContent="Manual"
+             ShowCloseButton="True"
              AutomationProperties.AutomationId="PreferencesDialog"
              Style="{StaticResource {x:Type mmp:Dialog}}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">

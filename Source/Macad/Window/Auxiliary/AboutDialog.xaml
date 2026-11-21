@@ -10,6 +10,7 @@
              Title="About Macad|3D"
              Height="Auto" Width="Auto"
              WindowStartupLocation="CenterOwner"
+             ShowCloseButton="True"
              AutomationProperties.AutomationId="AboutDialog">
         
     <mmp:Dialog.Footer>

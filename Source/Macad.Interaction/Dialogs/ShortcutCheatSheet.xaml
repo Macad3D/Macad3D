@@ -12,6 +12,7 @@
              SizeToContent="WidthAndHeight"
              MaxWidth="1000" MaxHeight="750"
              Padding="0"
+             ShowCloseButton="True"
              AutomationProperties.AutomationId="ShortcutCheatSheet"
              Style="{StaticResource {x:Type mmp:Dialog}}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
