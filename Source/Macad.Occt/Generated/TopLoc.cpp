@@ -295,7 +295,8 @@ Macad::Occt::TopLoc_SListOfItemLocation^ Macad::Occt::TopLoc_SListNodeOfItemLoca
 
 Macad::Occt::TopLoc_ItemLocation^ Macad::Occt::TopLoc_SListNodeOfItemLocation::Value()
 {
-    throw gcnew System::NotImplementedException();
+    ::TopLoc_ItemLocation& _result = ((::TopLoc_SListNodeOfItemLocation*)_NativeInstance)->Value();
+    return gcnew Macad::Occt::TopLoc_ItemLocation(_result);
 }
 
 Macad::Occt::TopLoc_SListNodeOfItemLocation^ Macad::Occt::TopLoc_SListNodeOfItemLocation::CreateDowncasted(::TopLoc_SListNodeOfItemLocation* instance)
@@ -367,7 +368,8 @@ void Macad::Occt::TopLoc_SListOfItemLocation::Clear()
 
 Macad::Occt::TopLoc_ItemLocation^ Macad::Occt::TopLoc_SListOfItemLocation::Value()
 {
-    throw gcnew System::NotImplementedException();
+    const ::TopLoc_ItemLocation& _result = ((::TopLoc_SListOfItemLocation*)_NativeInstance)->Value();
+    return gcnew Macad::Occt::TopLoc_ItemLocation(const_cast<::TopLoc_ItemLocation&>(_result));
 }
 
 Macad::Occt::TopLoc_SListOfItemLocation^ Macad::Occt::TopLoc_SListOfItemLocation::Tail()

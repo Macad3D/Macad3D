@@ -549,7 +549,7 @@ public sealed class Mirror : ModifierBase
 
     public override void OnDeserialized(SerializationContext context)
     {
-        if (context.Version < new Version(4, 5))
+        if (context.Version != null && context.Version < new Version(4, 5))
         {
             Version = 0;
         }

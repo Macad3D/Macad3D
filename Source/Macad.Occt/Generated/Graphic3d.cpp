@@ -8331,7 +8331,8 @@ void Macad::Occt::Graphic3d_TextureParams::SetRotation(float theAngleDegrees)
 
 Macad::Occt::Graphic3d_Vec2^ Macad::Occt::Graphic3d_TextureParams::Scale()
 {
-    throw gcnew System::NotImplementedException();
+    const ::Graphic3d_Vec2& _result = ((::Graphic3d_TextureParams*)_NativeInstance)->Scale();
+    return gcnew Macad::Occt::Graphic3d_Vec2(const_cast<::Graphic3d_Vec2&>(_result));
 }
 
 void Macad::Occt::Graphic3d_TextureParams::SetScale(Macad::Occt::Graphic3d_Vec2^ theScale)
@@ -8341,7 +8342,8 @@ void Macad::Occt::Graphic3d_TextureParams::SetScale(Macad::Occt::Graphic3d_Vec2^
 
 Macad::Occt::Graphic3d_Vec2^ Macad::Occt::Graphic3d_TextureParams::Translation()
 {
-    throw gcnew System::NotImplementedException();
+    const ::Graphic3d_Vec2& _result = ((::Graphic3d_TextureParams*)_NativeInstance)->Translation();
+    return gcnew Macad::Occt::Graphic3d_Vec2(const_cast<::Graphic3d_Vec2&>(_result));
 }
 
 void Macad::Occt::Graphic3d_TextureParams::SetTranslation(Macad::Occt::Graphic3d_Vec2^ theVec)
@@ -13215,7 +13217,8 @@ bool Macad::Occt::Graphic3d_CubeMapOrder::IsValid()
 
 Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ Macad::Occt::Graphic3d_CubeMapOrder::Default()
 {
-    throw gcnew System::NotImplementedException();
+    const ::Graphic3d_ValidatedCubeMapOrder& _result = ::Graphic3d_CubeMapOrder::Default();
+    return gcnew Macad::Occt::Graphic3d_ValidatedCubeMapOrder(const_cast<::Graphic3d_ValidatedCubeMapOrder&>(_result));
 }
 
 

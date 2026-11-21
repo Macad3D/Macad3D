@@ -17,6 +17,7 @@ public partial class Configuration
                 "BOPAlgo_BOP",
                 "BOPAlgo_Builder",
                 "BOPAlgo_BuilderShape",
+                "BOPAlgo_CellsBuilder",
                 "BOPAlgo_GlueEnum",
                 "BOPAlgo_Operation",
                 "BOPAlgo_Options",

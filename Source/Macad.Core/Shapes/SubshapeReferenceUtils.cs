@@ -188,6 +188,36 @@ public static class SubshapeReferenceUtils
 
         //--------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Creates the modification info from a general fuse based builder (e.g. BOPAlgo_CellsBuilder).
+        /// The section edges are taken from the edges generated from the faces of the arguments.
+        /// </summary>
+        public ModificationInfo(int index, BRepHistory history, BOPAlgo_Builder builder)
+        {
+            Index = index;
+            ResultShape = builder.Shape();
+            History = history;
+
+            var builderHistory = builder.History();
+            AuxEdges = new();
+            if (builderHistory != null && builderHistory.HasGenerated())
+            {
+                foreach (var face in builder.Arguments().ToList().SelectMany(shape => shape.Faces()))
+                {
+                    foreach (var edge in builderHistory.Generated(face).ToList().Select(s => s.ToEdge()))
+                    {
+                        if (edge != null && !AuxEdges.ContainsSame(edge) && EdgeAlgo.IsEdgeInShape(edge, ResultShape))
+                        {
+                            AuxEdges.Add(edge);
+                        }
+                    }
+                }
+            }
+            Filters = [_UniquifyByAdjacentFaces, _UniquifyByAdjacentSplitEdgeFaces, _RemoveBijective];
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -539,5 +539,49 @@ public class MirrorTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [TestCase(0)]
+    [TestCase(1)]
+    [Description("Undo, duplicate and copy/paste have no file version, the serialized version must be kept.")]
+    public void CompatibilityVersionWithoutFileVersion(int version)
+    {
+        var box = TestGeomGenerator.CreateBox();
+        var mirror = Mirror.Create(box.Body, new SubshapeReference(SubshapeType.Face, box.Guid, "ZMax", 0));
+        mirror.Version = version;
+
+        foreach (var scope in new[] { SerializationScope.Storage, SerializationScope.UndoRedo, SerializationScope.CopyPaste })
+        {
+            var serialized = Serializer.Serialize(mirror.Body, new SerializationContext(scope));
+            var deserialized = Serializer.Deserialize<Body>(serialized, new SerializationContext(scope))?.Shape as Mirror;
+            Assert.That(deserialized, Is.Not.Null);
+            Assert.That(deserialized.Version, Is.EqualTo(version), $"Scope {scope}");
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Undoing a change of a new mirror must not switch it to the old behaviour.")]
+    public void CompatibilityVersionAfterUndo()
+    {
+        Context.InitWithDefault();
+        var model = CoreContext.Current.Document;
+        var box = TestGeomGenerator.CreateBox();
+        model.Add(box.Body);
+        var mirror = Mirror.Create(box.Body, new SubshapeReference(SubshapeType.Face, box.Guid, "ZMax", 0));
+        model.UndoHandler.Commit();
+        Assert.That(mirror.Version, Is.EqualTo(1));
+
+        mirror.MergeFaces = !mirror.MergeFaces;
+        model.UndoHandler.Commit();
+        CoreContext.Current.UndoHandler.DoUndo(1);
+
+        var restored = box.Body.Shape as Mirror;
+        Assert.That(restored, Is.Not.Null);
+        Assert.That(restored.Version, Is.EqualTo(1));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 }

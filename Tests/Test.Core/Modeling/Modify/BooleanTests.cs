@@ -1,9 +1,11 @@
-﻿using Macad.Core;
+﻿using Macad.Common.Serialization;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -44,14 +46,124 @@ public class BooleanTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void Common()
+    [Description("Old behaviour (version 0): common of the first operand with the union of all other operands.")]
+    public void CommonLegacy()
     {
         var shapes = TestGeomGenerator.CreateBooleanBodies(true);
 
         var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        boolOp.Version = 0;
 
         Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
         Assert.IsTrue(ModelCompare.CompareShape(boolOp, Path.Combine(_BasePath, "Common")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("A new common must keep only the volume shared by all operands, equal to a nested common of each operand.")]
+    public void CommonOfThree()
+    {
+        var shapes = TestGeomGenerator.CreateBooleanBodies(true);
+        var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        Assert.That(boolOp.Version, Is.EqualTo(1));
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        var result = boolOp.GetBRep();
+        AssertHelper.IsWatertight(result);
+
+        // Reference: (0 ∩ 1) ∩ 2
+        var targetCS = boolOp.GetCoordinateSystem();
+        var common01 = new BRepAlgoAPI_Common(boolOp.Operands[0].GetBRep(targetCS), boolOp.Operands[1].GetBRep(targetCS));
+        Assert.IsTrue(common01.IsDone());
+        var common012 = new BRepAlgoAPI_Common(common01.Shape(), boolOp.Operands[2].GetBRep(targetCS));
+        Assert.IsTrue(common012.IsDone());
+        double expectedVolume = common012.Shape().Volume();
+        Assert.That(result.Volume(), Is.EqualTo(expectedVolume).Within(1e-6 * expectedVolume));
+
+        // Must differ from old behaviour
+        boolOp.Version = 0;
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        Assert.That(expectedVolume, Is.GreaterThan(1.0));
+        Assert.That(expectedVolume, Is.LessThan(boolOp.GetBRep().Volume() - 1.0));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("The version makes no difference with only two operands.")]
+    public void CommonOfTwoVersionIndependent()
+    {
+        var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
+        var boolOp = BooleanCommon.Create(shapes.target, shapes.operands[0]);
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        double volume = boolOp.GetBRep().Volume();
+
+        boolOp.Version = 0;
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        Assert.That(boolOp.GetBRep().Volume(), Is.EqualTo(volume).Within(1e-9));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Operands without a volume shared by all must result in an empty shape, not an error.")]
+    public void CommonOfThreeDisjoint()
+    {
+        var target = TestGeomGenerator.CreateBody(new Box { DimensionX = 10, DimensionY = 10, DimensionZ = 10 }, new Pnt(0, 0, 0));
+        var op1 = TestGeomGenerator.CreateBody(new Box { DimensionX = 10, DimensionY = 10, DimensionZ = 10 }, new Pnt(5, 0, 0));
+        var op2 = TestGeomGenerator.CreateBody(new Box { DimensionX = 10, DimensionY = 10, DimensionZ = 10 }, new Pnt(-5, 0, 0));
+        var boolOp = BooleanCommon.Create(target, new BodyShapeOperand(op1), new BodyShapeOperand(op2));
+
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+        Assert.That(boolOp.GetBRep().Solids().Count, Is.EqualTo(0));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("The section curve of cylinder and sphere is split into two edges with identical source faces " +
+                 "at the sphere seam, one of them cannot be distinguished by its adjacent faces.")]
+    public void SubshapeReferencesCommonOfThree()
+    {
+        var shapes = TestGeomGenerator.CreateBooleanBodies(true, 1);
+        var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        boolOp.Guid = TestData.CreateGuid(10);
+        Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+
+        AssertHelper.HasValidSubshapeReferences(boolOp, allowedIndexBased: 1);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(4, 4, 0)]
+    [TestCase(4, 5, 1)]
+    [TestCase(5, 0, 1)]
+    [Description("Commons from files older than 4.5 must keep the old behaviour.")]
+    public void CompatibilityCommonVersion(int major, int minor, int expectedVersion)
+    {
+        var serialized = Serializer.Serialize(new BooleanCommon(), new SerializationContext());
+        Assert.That(serialized, Does.Contain("Version:1"));
+
+        var deserialized = Serializer.Deserialize<BooleanCommon>(serialized, new SerializationContext { Version = new(major, minor) });
+        Assert.That(deserialized.Version, Is.EqualTo(expectedVersion));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(0)]
+    [TestCase(1)]
+    [Description("Undo, duplicate and copy/paste have no file version, the serialized version must be kept.")]
+    public void CompatibilityCommonVersionWithoutFileVersion(int version)
+    {
+        var boolOp = new BooleanCommon { Version = version };
+        foreach (var scope in new[] { SerializationScope.Storage, SerializationScope.UndoRedo, SerializationScope.CopyPaste })
+        {
+            var serialized = Serializer.Serialize(boolOp, new SerializationContext(scope));
+            var deserialized = Serializer.Deserialize<BooleanCommon>(serialized, new SerializationContext(scope));
+            Assert.That(deserialized.Version, Is.EqualTo(version), $"Scope {scope}");
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -120,6 +232,8 @@ public class BooleanTests
     {
         var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
         var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        // The operands do not overlap, the result is only non-empty with the old behaviour.
+        boolOp.Version = 0;
         boolOp.Guid = TestData.CreateGuid(10);
         Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
 
@@ -130,12 +244,13 @@ public class BooleanTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    [Description("The common of three boolean bodies is currently leading to an invalid shape, so we accept " +
-                 "sub-optimal references until we fixed the underlying issue")]
-    public void SubshapeReferencesCommonOfThree()
+    [Description("The old common of three boolean bodies (version 0) is leading to an invalid shape, so we accept " +
+                 "sub-optimal references")]
+    public void SubshapeReferencesCommonOfThreeLegacy()
     {
         var shapes = TestGeomGenerator.CreateBooleanBodies(true);
         var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        boolOp.Version = 0;
         boolOp.Guid = TestData.CreateGuid(10);
         Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
 
@@ -212,6 +327,8 @@ public class BooleanTests
     {
         var shapes = TestGeomGenerator.CreateBooleanBodies(false, 1);
         var boolOp = BooleanCommon.Create(shapes.target, shapes.operands);
+        // The operands do not overlap, so only the old behaviour results in two instances.
+        boolOp.Version = 0;
         Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
 
         var subshapes = boolOp.FindSubshape(new SubshapeReference(SubshapeType.Face, ((Shape)boolOp.Predecessor).Guid, "ZMin", 0), null);

@@ -84,6 +84,22 @@ public class ModifyToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    [Description("The common of more than two bodies keeps only the volume shared by all of them.")]
+    public async Task Common_MultipleOperands()
+    {
+        var a = await _Primitives.CreateBox(10, 10, 10);
+        var b = await _Primitives.CreateBox(10, 10, 10, 5, 0, 0);
+        var c = await _Primitives.CreateBox(10, 10, 10, 0, 5, 0);
+
+        var result = await _Tools.BooleanCommon(a.Guid, [b.Guid, c.Guid]);
+
+        Assert.That(result.Shape, Is.EqualTo(nameof(BooleanCommon)));
+        Assert.That(result.Volume, Is.EqualTo(250).Within(1e-3));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public async Task ListBodies_ShowsUsingBody()
     {
         var box = await _Primitives.CreateBox(20, 20, 10, name: "Block");

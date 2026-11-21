@@ -420,6 +420,86 @@ void Macad::Occt::BOPAlgo_BOP::Perform()
 
 
 //---------------------------------------------------------------------
+//  Class  BOPAlgo_CellsBuilder
+//---------------------------------------------------------------------
+
+Macad::Occt::BOPAlgo_CellsBuilder::BOPAlgo_CellsBuilder()
+    : Macad::Occt::BOPAlgo_Builder(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::BOPAlgo_CellsBuilder();
+}
+
+Macad::Occt::BOPAlgo_CellsBuilder::BOPAlgo_CellsBuilder(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+    : Macad::Occt::BOPAlgo_Builder(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::BOPAlgo_CellsBuilder(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::Clear()
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->Clear();
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddToResult(Macad::Occt::TopTools_ListOfShape^ theLSToTake, Macad::Occt::TopTools_ListOfShape^ theLSToAvoid, int theMaterial, bool theUpdate)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddToResult(*(::TopTools_ListOfShape*)theLSToTake->NativeInstance, *(::TopTools_ListOfShape*)theLSToAvoid->NativeInstance, theMaterial, theUpdate);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddToResult(Macad::Occt::TopTools_ListOfShape^ theLSToTake, Macad::Occt::TopTools_ListOfShape^ theLSToAvoid, int theMaterial)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddToResult(*(::TopTools_ListOfShape*)theLSToTake->NativeInstance, *(::TopTools_ListOfShape*)theLSToAvoid->NativeInstance, theMaterial, false);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddToResult(Macad::Occt::TopTools_ListOfShape^ theLSToTake, Macad::Occt::TopTools_ListOfShape^ theLSToAvoid)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddToResult(*(::TopTools_ListOfShape*)theLSToTake->NativeInstance, *(::TopTools_ListOfShape*)theLSToAvoid->NativeInstance, 0, false);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddAllToResult(int theMaterial, bool theUpdate)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddAllToResult(theMaterial, theUpdate);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddAllToResult(int theMaterial)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddAllToResult(theMaterial, false);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::AddAllToResult()
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->AddAllToResult(0, false);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::RemoveFromResult(Macad::Occt::TopTools_ListOfShape^ theLSToTake, Macad::Occt::TopTools_ListOfShape^ theLSToAvoid)
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->RemoveFromResult(*(::TopTools_ListOfShape*)theLSToTake->NativeInstance, *(::TopTools_ListOfShape*)theLSToAvoid->NativeInstance);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::RemoveAllFromResult()
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->RemoveAllFromResult();
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::RemoveInternalBoundaries()
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->RemoveInternalBoundaries();
+}
+
+Macad::Occt::TopoDS_Shape^ Macad::Occt::BOPAlgo_CellsBuilder::GetAllParts()
+{
+    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
+    *_result = (::TopoDS_Shape)((::BOPAlgo_CellsBuilder*)_NativeInstance)->GetAllParts();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
+void Macad::Occt::BOPAlgo_CellsBuilder::MakeContainers()
+{
+    ((::BOPAlgo_CellsBuilder*)_NativeInstance)->MakeContainers();
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  BOPAlgo_Splitter
 //---------------------------------------------------------------------
 
