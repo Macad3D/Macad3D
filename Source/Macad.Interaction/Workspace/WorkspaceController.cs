@@ -481,14 +481,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (!viewportController.V3dView.IfWindow())
             return;
 
-        foreach (var aisObject in _CustomHighlights)
-        {
-            if (AisContext.IsDisplayed(aisObject))
-            {
-                AisContext.Unhilight(aisObject, false);
-            }
-        }
-        _CustomHighlights.Clear();
+        _ClearCustomHighlights();
 
         Selection.Update();
 
@@ -551,16 +544,98 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             AisContext.ClearDetected(false);
         }
 
+        _DrawCustomHighlights();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Draws the additional highlights requested by the mouse handlers the same way AIS draws
+    /// the dynamic highlighting: in immediate mode, on top of the persistent presentations.
+    /// Unlike AisContext.Hilight, this does not interfere with selection highlighting and is
+    /// visible even if other objects in the same z-layer are drawn on top of the object.
+    /// </summary>
+    void _DrawCustomHighlights()
+    {
+        List<AIS_InteractiveObject> aisObjects = [];
         foreach (var element in _MouseEventData.Return.AdditionalHighlights)
         {
             Debug.Assert(element.Entity == null, "Custom highlighting if entities not implemented yet.");
+            Debug.Assert(element.BrepShape == null, "Custom highlighting subshapes not implemented yet.");
             var aisObject = element.AisObject;
             if (aisObject != null && AisContext.IsDisplayed(aisObject))
             {
-                Debug.Assert(element.BrepShape == null, "Custom highlighting subshapes not implemented yet.");
-                AisContext.Hilight(aisObject, false);
-                _CustomHighlights.Add(aisObject);
+                aisObjects.Add(aisObject);
             }
+        }
+
+        if (aisObjects.Count == 0)
+            return;
+
+        var prsMgr = AisContext.MainPrsMgr();
+        prsMgr.BeginImmediateDraw(); // This removes the dynamic highlighting of AIS, re-add it if requested
+        if (!_MouseEventData.Return.RemoveHighlighting && AisContext.AutomaticHilight() && AisContext.HasDetected())
+        {
+            // Query the owner again, it may have changed by a forced re-detection
+            var detectedOwner = AisContext.DetectedOwner();
+            if (!detectedOwner.IsSelected() || AisContext.ToHilightSelected())
+            {
+                PrsMgr_PresentableObject detectedObject = detectedOwner.Selectable();
+                detectedOwner.HilightWithColor(prsMgr, __GetDynamicHighlightStyle(detectedObject, detectedOwner.ComesFromDecomposition()), __GetHighlightMode(detectedObject));
+            }
+        }
+        foreach (var aisObject in aisObjects)
+        {
+            prsMgr.Color(aisObject, __GetDynamicHighlightStyle(aisObject, false), __GetHighlightMode(aisObject));
+        }
+        prsMgr.EndImmediateDraw(V3dViewer);
+
+        _CustomHighlights.AddRange(aisObjects);
+
+        //--------------------------------------------------------------------------------------------------
+
+        Prs3d_Drawer __GetDynamicHighlightStyle(PrsMgr_PresentableObject obj, bool isSubshape)
+        {
+            return obj.DynamicHilightAttributes()
+                   ?? AisContext.HighlightStyle(isSubshape ? Prs3d_TypeOfHighlight.LocalDynamic : Prs3d_TypeOfHighlight.Dynamic);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        int __GetHighlightMode(PrsMgr_PresentableObject obj)
+        {
+            return obj.HasHilightMode() ? obj.HilightMode()
+                : obj.HasDisplayMode() ? obj.DisplayMode()
+                : AisContext.DefaultDrawer().DisplayMode();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ClearCustomHighlights()
+    {
+        if (_CustomHighlights.Count == 0)
+            return;
+
+        // Custom highlights share the immediate list with the dynamic highlighting of AIS.
+        // Clear both and force AIS to re-detect, so it re-applies its own highlighting.
+        AisContext.ClearDetected(false);
+        AisContext.MainPrsMgr().ClearImmediateDraw();
+        _CustomHighlights.Clear();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Highlights in the immediate list are not removed together with their object,
+    /// so remove them if any of the highlighted objects is no longer displayed.
+    /// </summary>
+    void _RemoveStaleCustomHighlights()
+    {
+        if (_CustomHighlights.Any(aisObject => !AisContext.IsDisplayed(aisObject)))
+        {
+            _ClearCustomHighlights();
+            NeedsImmediateRedraw = true;
         }
     }
 
@@ -954,6 +1029,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         if (V3dViewer == null)
             return;
+
+        _RemoveStaleCustomHighlights();
 
         if (_ViewportControllers.Select(vc => vc.NeedsRedraw())
                             .Aggregate((acc, x) => acc || x))

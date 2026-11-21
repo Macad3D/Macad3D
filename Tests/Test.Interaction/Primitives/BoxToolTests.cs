@@ -1,14 +1,15 @@
-﻿using System.IO;
-using System.Windows;
-using System.Windows.Input;
-using Macad.Common;
-using Macad.Test.Utils;
+﻿using Macad.Common;
+using Macad.Core;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
+using Macad.Test.Utils;
 using NUnit.Framework;
-using Macad.Core.Shapes;
+using System.IO;
 using System.Linq;
-using Macad.Core.Topology;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Macad.Test.Interaction.Primitives;
 
@@ -281,6 +282,68 @@ public class BoxToolTests
 
         // Cleanup
         ctx.WorkspaceController.StopEditor();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(ViewUtils.PredefinedView.Top,   5, 0, 5,   5, 2, 5,    0, -2,  0, TestName = "LiveScaleOverlapTopSide")]
+    [TestCase(ViewUtils.PredefinedView.Top,   0, 0, 5,   2, 2, 5,   -2, -2,  0, TestName = "LiveScaleOverlapTopCorner")]
+    [TestCase(ViewUtils.PredefinedView.Front, 5, 0, 5,   5, 2, 5,    0, -2,  0, TestName = "LiveScaleOverlapFrontSide")]
+    public void LiveScaleOverlappingHandles(ViewUtils.PredefinedView view,
+                                            double handleX, double handleY, double handleZ,
+                                            double targetX, double targetY, double targetZ,
+                                            double growX, double growY, double growZ)
+    {
+        // Several handles are on the same screen position, the one which scales
+        // in a direction parallel to the screen plane must be used.
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        ctx.WorkspaceController.StartEditor(box);
+        ctx.ViewportController.SetPredefinedView(view);
+        ctx.ViewportController.ZoomFitAll();
+
+        string imageName = Path.Combine(_BasePath, TestContext.CurrentContext.Test.Name);
+        Context.Current.ViewportController.PointToScreen(new(handleX, handleY, handleZ), out int handlePointX, out int handlePointY);
+        Context.Current.ViewportController.PointToScreen(new(targetX, targetY, targetZ), out int targetPointX, out int targetPointY);
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(handlePointX, handlePointY);
+            AssertHelper.IsSameViewport(imageName + "01");
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(targetPointX, targetPointY);
+            AssertHelper.IsSameViewport(imageName + "02");
+
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(imageName + "03");
+
+            Assert.AreEqual(10.0 + growX, box.DimensionX, 0.5, "DimensionX");
+            Assert.AreEqual(10.0 + growY, box.DimensionY, 0.5, "DimensionY");
+            Assert.AreEqual(10.0 + growZ, box.DimensionZ, 0.5, "DimensionZ");
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveScaleOverlappingHandlesStopEditor()
+    {
+        // The highlight of the resolved handle must not survive stopping the editor
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        ctx.WorkspaceController.StartEditor(box);
+        ctx.ViewportController.SetPredefinedView(ViewUtils.PredefinedView.Top);
+        ctx.ViewportController.ZoomFitAll();
+
+        Context.Current.ViewportController.PointToScreen(new(0, 0, 5), out int handlePointX, out int handlePointY);
+        ctx.MoveTo(handlePointX, handlePointY);
+        ctx.WorkspaceController.StopEditor();
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleOverlapStopEditor01"));
     }
 
     //--------------------------------------------------------------------------------------------------

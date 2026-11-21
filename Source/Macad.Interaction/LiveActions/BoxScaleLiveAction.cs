@@ -1,4 +1,7 @@
-﻿using Macad.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
@@ -61,6 +64,7 @@ public sealed class BoxScaleLiveAction : LiveAction
         (new (1, 0, 1), new (1, 1, 1)),
     };
 
+    const int _HandleSize = 12;
     Marker[] _Handles;
     readonly XYZ[] _HandlePositions =
     {
@@ -78,6 +82,15 @@ public sealed class BoxScaleLiveAction : LiveAction
         new (0.5, 0.5, 0), new (0, 0.5, 0.5), new (0.5, 0, 0.5),
         new (0.5, 0.5, 1), new (1, 0.5, 0.5), new (0.5, 1, 0.5),
     };
+
+    // If handles overlap on screen and their directions are equally visible,
+    // the kind with the higher value is preferred.
+    enum HandleKind
+    {
+        Corner = 0,
+        Edge = 1,
+        Face = 2
+    }
 
     Ax1 _Axis;
     HintLine _AxisHintLine;
@@ -222,7 +235,24 @@ public sealed class BoxScaleLiveAction : LiveAction
             return true;
         }
 
+        _HighlightResolvedHandle(data);
         return base.OnMouseMove(data);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// If the handle detected by AIS is not the one which will be used on mouse down,
+    /// move the highlighting to the resolved handle.
+    /// </summary>
+    void _HighlightResolvedHandle(MouseEventData data)
+    {
+        int resolved = _ResolveHandle(data);
+        if (resolved < 0 || Equals(data.DetectedAisObject, _Handles[resolved].AisObject))
+            return;
+
+        data.Return.RemoveHighlighting = true;
+        data.Return.AdditionalHighlights.Add(new MouseEventData.Element(_Handles[resolved].AisObject));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -264,25 +294,119 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     int _DetectHandle(MouseEventData data)
     {
-        if (data.DetectedAisObject == null)
+        int index = _ResolveHandle(data);
+        if (index >= 0)
         {
-            return -1;
+            _Direction = _GetHandleDirection(index);
+            _Axis = new Ax1(_GetHandlePosition(index), _Direction).Transformed(_Transformation);
         }
 
+        return index;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Returns the index of the handle under the mouse cursor. If several handles share the same
+    /// screen position, AIS reports the one closest to the camera, which may scale in a direction
+    /// pointing into the screen. Instead, the handle whose direction lies most in the screen plane
+    /// is chosen. Ties are broken by preferring faces over edges over corners, then by keeping
+    /// the detected handle.
+    /// </summary>
+    int _ResolveHandle(MouseEventData data)
+    {
+        const double overlapRadius = _HandleSize / 2.0;
+        const double scoreTolerance = 0.05;
+
+        if (data.DetectedAisObject == null || _Handles == null)
+            return -1;
+
+        int detected = Array.FindIndex(_Handles, handle => Equals(data.DetectedAisObject, handle?.AisObject));
+        if (detected < 0)
+            return -1;
+
+        var viewportController = data.ViewportController;
+        if (!viewportController.PointToScreen(_GetHandlePosition(detected).Transformed(_Transformation), out int detectedX, out int detectedY))
+            return detected;
+
+        double radius = overlapRadius * viewportController.DpiScale;
+        Dir viewDirection = data.PickAxis.Direction;
+
+        // Collect candidates
+        List<(int Index, double Score)> candidates = new();
         for (int i = 0; i < _Handles.Length; i++)
         {
-            if (Equals(data.DetectedAisObject, _Handles[i]?.AisObject))
+            if (_Handles[i] == null)
+                continue;
+
+            if (i != detected)
             {
-                Pnt min = _Box.CornerMin();
-                XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();
-                Pnt startPoint = min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec());
-                _Direction = new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), startPoint).ToDir();
-                _Axis = new Ax1(startPoint, _Direction).Transformed(_Transformation);
-                return i;
+                if (!viewportController.PointToScreen(_GetHandlePosition(i).Transformed(_Transformation), out int x, out int y))
+                    continue;
+                if (Math.Sqrt((x - detectedX) * (x - detectedX) + (y - detectedY) * (y - detectedY)) > radius)
+                    continue;
+            }
+
+            double score = Math.Abs(_GetHandleDirection(i).Transformed(_Transformation).Dot(viewDirection));
+            candidates.Add((i, score));
+        }
+
+        // Choose best
+        double bestScore = candidates.Min(c => c.Score);
+        int best = -1;
+        foreach (var (index, score) in candidates)
+        {
+            if (score > bestScore + scoreTolerance)
+                continue;
+
+            if (best < 0
+                || _GetHandleKind(index) > _GetHandleKind(best)
+                || _GetHandleKind(index) == _GetHandleKind(best) && index == detected)
+            {
+                best = index;
             }
         }
 
-        return -1;
+        return best;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Position of the handle in the untransformed box space.
+    /// </summary>
+    Pnt _GetHandlePosition(int index)
+    {
+        Pnt min = _Box.CornerMin();
+        XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();
+        return min.Translated(extent.Multiplied(_HandlePositions[index]).ToVec());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Drag direction of the handle in the untransformed box space, pointing from the box center to the handle.
+    /// </summary>
+    Dir _GetHandleDirection(int index)
+    {
+        Pnt min = _Box.CornerMin();
+        XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();
+        return new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), _GetHandlePosition(index)).ToDir();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Kind of the handle, derived from the number of coordinates in the box center:
+    /// none is a corner, one is the middle of an edge, two is the center of a face.
+    /// </summary>
+    HandleKind _GetHandleKind(int index)
+    {
+        XYZ position = _HandlePositions[index];
+        int centered = (position.X == 0.5 ? 1 : 0)
+                       + (position.Y == 0.5 ? 1 : 0)
+                       + (position.Z == 0.5 ? 1 : 0);
+        return (HandleKind)centered;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -391,14 +515,14 @@ public sealed class BoxScaleLiveAction : LiveAction
         {
             if (_Handles[i] == null)
             {
-                _Handles[i] = new Marker(WorkspaceController, Marker.Styles.Bitmap, "Ball", 12)
+                _Handles[i] = new Marker(WorkspaceController, Marker.Styles.Bitmap, "Ball", _HandleSize)
                 {
                     IsSelectable = true,
                     Color = Colors.ActionWhite
                 };
                 Add(_Handles[i]);
             }
-            _Handles[i].Set(min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec()));
+            _Handles[i].Set(_GetHandlePosition(i));
             _Handles[i].SetLocalTransformation(_Transformation);
 
             if (_MoveMode >= 0)
