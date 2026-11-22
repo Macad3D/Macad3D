@@ -73,14 +73,44 @@ public class WelcomeDialogTests
     public void OpenSampleModel()
     {
         WelcomeDialog.Click("OpenSampleButton");
-        string path = "WoodpeckerCase.model";
-        FileDialogAdaptor.DoLoadModel(WelcomeDialog, path);
+        Assert.IsTrue(WelcomeDialog.IsVisible("SampleList"));
+
+        string samplesPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\Samples"));
+        int sampleCount = Directory.GetFiles(samplesPath, "*.model").Length;
+        var items = WelcomeDialog.GetListBoxItems("SampleList").ToArray();
+        Assert.AreEqual(sampleCount, items.Length);
+        Assert.That(items, Contains.Item("Woodpecker Case (Milling)"));
+
+        // Single click only selects
+        WelcomeDialog.ClickListBoxItem("SampleList", "Woodpecker Case (Milling)", doubleClick: false);
+        Assert.IsTrue(WelcomeDialog.IsWindowEnabled());
+        Assert.IsTrue(WelcomeDialog.IsVisible("SampleList"));
+
+        // Double click opens
+        WelcomeDialog.ClickListBoxItem("SampleList", "Woodpecker Case (Milling)", doubleClick: true);
 
         Wait.UntilResponsive(WelcomeDialog.Window);
         Wait.UntilResponsive(MainWindow.Window);
 
         Assert.IsFalse(WelcomeDialog.IsWindowEnabled());
         Assert.Greater(MainWindow.Document.GetItems().Count(), 0);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SampleGalleryBack()
+    {
+        Assert.IsTrue(WelcomeDialog.IsVisible("RecentList"));
+
+        WelcomeDialog.Click("OpenSampleButton");
+        Assert.IsTrue(WelcomeDialog.IsVisible("SampleList"));
+        Assert.IsFalse(WelcomeDialog.IsVisible("RecentList"));
+
+        WelcomeDialog.Click("SamplesBackButton");
+        Assert.IsTrue(WelcomeDialog.IsVisible("RecentList"));
+        Assert.IsFalse(WelcomeDialog.IsVisible("SampleList"));
+        Assert.IsTrue(WelcomeDialog.IsWindowEnabled());
     }
 
     //--------------------------------------------------------------------------------------------------

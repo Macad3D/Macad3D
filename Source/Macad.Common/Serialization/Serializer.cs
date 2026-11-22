@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -9,11 +10,18 @@ public static class Serializer
 {
     #region Serializer Repository
 
-    static readonly Dictionary<Type, ISerializer> _SerializersByType = new Dictionary<Type, ISerializer>();
+    // The repository can be used by multiple threads, e.g. by the welcome dialog while the main
+    // window is initializing. Lookups are lock-free, creation and registration are serialized
+    // by _RepositoryLock. A serializer is only added after it has been completely constructed.
+    static readonly object _RepositoryLock = new();
 
     //--------------------------------------------------------------------------------------------------
 
-    static readonly Dictionary<string, ISerializer> _SerializersByAlias = new Dictionary<string, ISerializer>();
+    static readonly ConcurrentDictionary<Type, ISerializer> _SerializersByType = new();
+
+    //--------------------------------------------------------------------------------------------------
+
+    static readonly ConcurrentDictionary<string, ISerializer> _SerializersByAlias = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -22,7 +30,7 @@ public static class Serializer
         ISerializer serializer = null;
         if (!_SerializersByType.TryGetValue(type, out serializer))
         {
-            serializer = _CreateSerializer(type);
+            serializer = _GetOrCreateSerializer(type);
             Debug.Assert(serializer != null);
         }
         return serializer;
@@ -59,7 +67,7 @@ public static class Serializer
             return serializer;
         }
 
-        serializer = _CreateSerializer(type);
+        serializer = _GetOrCreateSerializer(type);
         if (serializer == null)
         {
             Console.WriteLine("Serializer not found for type " + typeFullName);
@@ -68,6 +76,22 @@ public static class Serializer
         return serializer;
     }
         
+    //--------------------------------------------------------------------------------------------------
+
+    static ISerializer _GetOrCreateSerializer(Type type)
+    {
+        // The lock is reentrant, serializers of member types are created recursively on the same thread
+        lock (_RepositoryLock)
+        {
+            // Another thread may have created it while waiting for the lock
+            if (_SerializersByType.TryGetValue(type, out var serializer))
+            {
+                return serializer;
+            }
+            return _CreateSerializer(type);
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     static ISerializer _CreateSerializer(Type type)
@@ -128,11 +152,17 @@ public static class Serializer
 
     public static void AddSerializer(Type type, ISerializer serializer)
     {
-        _SerializersByType.Add(type, serializer);
-        var alias = ApplyNamespaceAlias(type.FullName);
-        if (alias != type.FullName)
+        lock (_RepositoryLock)
         {
-            _SerializersByAlias.Add(alias, serializer);
+            if (!_SerializersByType.TryAdd(type, serializer))
+            {
+                throw new ArgumentException($"A serializer for type {type.FullName} is already registered.");
+            }
+            var alias = ApplyNamespaceAlias(type.FullName);
+            if (alias != type.FullName && !_SerializersByAlias.TryAdd(alias, serializer))
+            {
+                throw new ArgumentException($"A serializer for alias {alias} is already registered.");
+            }
         }
     }
         
@@ -142,7 +172,7 @@ public static class Serializer
         
     #region Namespace Aliases
 
-    static readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
+    static readonly ConcurrentDictionary<string, string> _namespaceAliases = new();
         
     //--------------------------------------------------------------------------------------------------
 

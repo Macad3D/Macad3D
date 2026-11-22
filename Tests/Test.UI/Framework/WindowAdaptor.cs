@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
@@ -91,7 +92,24 @@ public class WindowAdaptor : FormAdaptor
         var listCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId(id)))?.AsListBox();
         Assert.IsNotNull(listCtrl, $"ListBox {id} not found in dialog.");
 
-        return listCtrl.Items.Select(item => item.Text);
+        return listCtrl.Items.Select(_GetListBoxItemText);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    // ListBoxItem.Text is empty for items with a custom data template. Use the automation name
+    // of the item, or the first text element inside as fallback.
+    static string _GetListBoxItemText(ListBoxItem item)
+    {
+        var name = item.Name;
+        if (!string.IsNullOrEmpty(name))
+            return name;
+
+        var text = item.Text;
+        if (!string.IsNullOrEmpty(text))
+            return text;
+
+        return item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))?.Name ?? "";
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -102,6 +120,43 @@ public class WindowAdaptor : FormAdaptor
         Assert.IsNotNull(listCtrl, $"ListBox {boxid} not found in dialog.");
 
         listCtrl.Items[index].Click(!jump);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void ClickListBoxItem(string boxid, string itemText, bool doubleClick, bool jump = true)
+    {
+        var listCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId(boxid)))?.AsListBox();
+        Assert.IsNotNull(listCtrl, $"ListBox {boxid} not found in dialog.");
+
+        var item = listCtrl.Items.FirstOrDefault(i => _GetListBoxItemText(i) == itemText);
+        Assert.IsNotNull(item, $"Item {itemText} not found in ListBox {boxid}.");
+
+        if (doubleClick)
+            item.DoubleClick(!jump);
+        else
+            item.Click(!jump);
+
+        try
+        {
+            Wait.UntilInputIsProcessed();
+        }
+        catch (COMException e)
+        {
+            // This can occur when the click leads to closing the window.
+            if ((uint)e.HResult != 0x80040201)
+            {
+                throw;
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool IsVisible(string id)
+    {
+        var control = Window.FindFirstDescendant(cf => cf.ByAutomationId(id));
+        return control != null && !control.IsOffscreen;
     }
         
     //--------------------------------------------------------------------------------------------------

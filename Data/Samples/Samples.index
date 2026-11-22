@@ -1,0 +1,38 @@
+﻿[
+	!Macad.Window.SampleInfo
+	{
+		FileName: "WoodpeckerCase.model",
+		Title: "Woodpecker Case (Milling)",
+		Description: "Electronics enclosure with fan, push buttons, power plug and screw mounts."
+	},
+	!Macad.Window.SampleInfo
+	{
+		FileName: "Controller Carrier.model",
+		Title: "Controller Carrier (3D Print)",
+		Description: "A 3D-printable carrier with clips that holds a controller board, battery and antenna inside an enclosure."
+	},
+	!Macad.Window.SampleInfo
+	{
+		FileName: "AmerigoVespucci - EntranceDoor.model",
+		Title: "Amerigo Vespucci – Entrance Door",
+		Description: "A door with frame set into a wall, built with sketches, imprints and mirroring."
+	},
+	!Macad.Window.SampleInfo
+	{
+		FileName: "AmerigoVespucci - Rudder.model",
+		Title: "Amerigo Vespucci – Rudder",
+		Description: "Ship's rudder with blade, braces, hinges and bolts, made from extrusions, fillets and boolean cuts."
+	},
+	!Macad.Window.SampleInfo
+	{
+		FileName: "AmerigoVespucci - Bridge.model",
+		Title: "Amerigo Vespucci – Bridge",
+		Description: "Bridge deck of a model ship with its antenna masts, built from many small parts."
+	},
+	!Macad.Window.SampleInfo
+	{
+		FileName: "Robt. E. Lee - Boiler.model",
+		Title: "Robt. E. Lee – Boiler",
+		Description: "Boiler assembly of a paddle steamer model, with planking, box joints and linear arrays."
+	}
+]

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
-using System.IO.Compression;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Macad.Presentation;
 
@@ -16,28 +13,12 @@ public class ExtractFileThumbnailConverter : ConverterMarkupExtension<ExtractFil
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var fileName = value as string;
-        if (fileName == null
-            || PresentationHelper.IsInDesignMode
-            || !File.Exists(fileName))
+        if (PresentationHelper.IsInDesignMode)
         {
             return null;
         }
 
-        try
-        {
-            var archive = ZipFile.OpenRead(fileName);
-            var entry = archive.GetEntry("thumbnail.png");
-            if (entry == null)
-                return null;
-
-            using var stream = entry.Open();
-            var decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.Default);
-            var bitmap = decoder.Frames[0];
-            return bitmap;
-        }
-        catch (Exception)
-        {
-            return null;
-        }
+        // Shown with max. 128 DIP, decode with higher resolution for HiDPI screens
+        return DocumentThumbnail.Load(fileName, 256);
     }
 }

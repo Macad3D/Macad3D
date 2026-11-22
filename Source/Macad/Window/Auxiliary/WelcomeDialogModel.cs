@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using Macad.Common;
-using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Dialogs;
@@ -24,6 +23,32 @@ public class WelcomeDialogModel : PanelBase
     public RelayCommand OpenExistingCommand { get; }
     public RelayCommand OpenSampleCommand { get; }
     public RelayCommand<string> OpenRecentCommand { get; }
+    public RelayCommand BackCommand { get; }
+    public RelayCommand<SampleInfo> OpenSampleFileCommand { get; }
+
+    /// <summary>
+    /// Samples shown in the gallery, loaded when the gallery is shown the first time.
+    /// </summary>
+    public List<SampleInfo> Samples { get; private set; }
+
+    /// <summary>
+    /// True if the sample gallery is shown instead of the start page.
+    /// </summary>
+    public bool IsGalleryVisible
+    {
+        get { return _IsGalleryVisible; }
+        private set
+        {
+            _IsGalleryVisible = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    bool _IsGalleryVisible;
+    bool _IsOpeningSample;
+
+    // Thumbnails are shown with 96 DIP, decode with higher resolution for HiDPI screens
+    const int _ThumbnailDecodeWidth = 192;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -33,6 +58,8 @@ public class WelcomeDialogModel : PanelBase
         CreateNewCommand = new RelayCommand(_CreateNewCommandExecute);
         OpenExistingCommand = new RelayCommand(_OpenExistingCommandExecute);
         OpenSampleCommand = new RelayCommand(_OpenSampleCommandExecute, () => SamplesDirectory != null );
+        BackCommand = new RelayCommand(_BackCommandExecute);
+        OpenSampleFileCommand = new RelayCommand<SampleInfo>(_OpenSampleFileCommandExecute);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -64,19 +91,8 @@ public class WelcomeDialogModel : PanelBase
 
     List<string> _LoadMRU()
     {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Macad", "Settings", "MRU");
-        if (!File.Exists(path))
-        {
-            return new List<string>();
-        }
-
-        var data = File.ReadAllText(path, Encoding.UTF8);
-        if (data.IsNullOrEmpty())
-        {
-            return new List<string>();
-        }
-
-        return Serializer.Deserialize<List<string>>(data, new SerializationContext(SerializationScope.Storage));
+        // Use the settings API, which respects the sandbox mode
+        return AppContext.Current?.LoadLocalSettings<List<string>>("MRU") ?? new List<string>();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -96,15 +112,62 @@ public class WelcomeDialogModel : PanelBase
 
     void _OpenSampleCommandExecute()
     {
-        var fileName = _ShowOpenFileDialog(SamplesDirectory);
-        if (fileName != null)
+        if (Samples == null)
         {
-            _BeginInvoke(() =>
+            // Load on the dialog thread, the main thread may still be busy with initialization.
+            // The message log belongs to the main thread, so problems are forwarded to it.
+            _SetSamples(SampleCatalog.Load(SamplesDirectory, out var indexError));
+            if (indexError != null)
             {
-                InteractiveContext.Current?.DocumentController?.OpenModel(fileName);
-            });
-            WelcomeDialog.Current?.Close();
+                _BeginInvoke(() => Core.Messages.Warning(indexError));
+            }
         }
+
+        IsGalleryVisible = true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _SetSamples(List<SampleInfo> samples)
+    {
+        Samples = samples;
+        RaisePropertyChanged(nameof(Samples));
+
+        // Decode thumbnails one by one with low priority, the list shows them as they arrive.
+        // Queued operations are dropped when the dialog closes and its dispatcher shuts down.
+        foreach (var sample in samples)
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                if (!_IsOpeningSample)
+                {
+                    sample.LoadThumbnail(_ThumbnailDecodeWidth);
+                }
+            }, DispatcherPriority.Background);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _BackCommandExecute()
+    {
+        IsGalleryVisible = false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _OpenSampleFileCommandExecute(SampleInfo sample)
+    {
+        if (sample?.FilePath == null)
+            return;
+
+        _IsOpeningSample = true;
+        var fileName = sample.FilePath;
+        _BeginInvoke(() =>
+        {
+            InteractiveContext.Current?.DocumentController?.OpenModel(fileName);
+        });
+        WelcomeDialog.Current?.Close();
     }
 
     //--------------------------------------------------------------------------------------------------

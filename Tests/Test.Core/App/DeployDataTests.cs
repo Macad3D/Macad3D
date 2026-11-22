@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
+using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Window;
 using NUnit.Framework;
 
 namespace Macad.Test.Core.App;
@@ -65,8 +67,35 @@ public class DeployDataTests
     }
 
     //--------------------------------------------------------------------------------------------------
-        
-        
+
+    [Test]
+    public void ValidateSampleIndex()
+    {
+        var samplesPath = Path.GetFullPath(Path.Combine(TestData.TestDataDirectory, @"..\Samples"));
+        var indexPath = Path.Combine(samplesPath, SampleCatalog.IndexFileName);
+        Assert.That(File.Exists(indexPath), $"Sample index not found: {indexPath}");
+
+        var index = Serializer.Deserialize<List<SampleInfo>>(File.ReadAllText(indexPath), new SerializationContext(SerializationScope.Storage));
+        Assert.IsNotNull(index, "Sample index could not be deserialized.");
+
+        // Every entry refers to an existing file and has a title and description
+        foreach (var entry in index)
+        {
+            Assert.IsNotNull(entry, "Sample index contains an empty entry.");
+            Assert.That(File.Exists(Path.Combine(samplesPath, entry.FileName ?? "")), $"Sample index refers to missing file: {entry.FileName}");
+            Assert.That(!string.IsNullOrWhiteSpace(entry.Title), $"Sample has no title: {entry.FileName}");
+            Assert.That(!string.IsNullOrWhiteSpace(entry.Description), $"Sample has no description: {entry.FileName}");
+        }
+
+        // Every shipped sample is listed in the index
+        var indexedFiles = index.Select(entry => entry?.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(samplesPath, "*." + Model.FileExtension))
+        {
+            Assert.That(indexedFiles.Contains(Path.GetFileName(file)), $"Sample is not listed in the index: {Path.GetFileName(file)}");
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     [TestCaseSource(typeof(DocExamplesEnumerator))]

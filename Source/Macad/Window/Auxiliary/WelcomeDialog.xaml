@@ -4,7 +4,7 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-                     xmlns:mmi="clr-namespace:Macad.Interaction;assembly=Macad.Interaction"
+                     xmlns:mmw="clr-namespace:Macad.Window"
                      mc:Ignorable="d" 
                      Width="500" Height="450"
                      WindowStartupLocation="CenterScreen"
@@ -21,7 +21,14 @@
         <WindowChrome CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
 
+    <mmp:Behaviors.Behavior>
+        <mmp:KeyInputBindingBehaviour Key="Escape" Command="{Binding BackCommand}" />
+    </mmp:Behaviors.Behavior>
+
     <Grid Margin="20,10">
+
+    <!-- Start Page -->
+    <Grid Visibility="{Binding IsGalleryVisible, Converter={mmp:BoolToInvisibleCollapsedConverter}}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -74,6 +81,7 @@
                 </StackPanel>
             </Button>
             <Button Command="{Binding OpenSampleCommand}"
+                    x:Name="OpenSampleButton"
                     AutomationProperties.AutomationId="OpenSampleButton"
                     Height="80" Width="90"
                     Margin="10">
@@ -99,8 +107,7 @@
                  AutomationProperties.AutomationId="RecentList"
                  ItemsSource="{Binding MruList}">
             <mmp:Behaviors.Behavior>
-                <mmp:SelectionCommandBehaviour Command="{Binding OpenRecentCommand}"
-                                               CommandParameter="{Binding SelectedValue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                <mmp:ItemActivationCommandBehaviour Command="{Binding OpenRecentCommand}"/>
             </mmp:Behaviors.Behavior>
 
             <ListBox.ItemTemplate>
@@ -139,5 +146,97 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+    </Grid>
+
+    <!-- Sample Gallery Page -->
+    <Grid Visibility="{Binding IsGalleryVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Button DockPanel.Dock="Left"
+                    Command="{Binding BackCommand}"
+                    AutomationProperties.AutomationId="SamplesBackButton"
+                    AutomationProperties.Name="Back"
+                    ToolTip="Back to start page"
+                    Style="{mmp:AppResource Macad.Styles.Button.Glyph}"
+                    Content="{mmp:AppResource Macad.Geometries.Back}"
+                    Padding="4,2,4,0" />
+            
+            <TextBlock Text="Open a Sample"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource Macad.Brushes.Text}" />
+        </DockPanel>
+
+        <Rectangle Grid.Row="1"
+                   Height="1"
+                   Margin="0,10"
+                   Fill="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+
+        <ListBox Grid.Row="2"
+                 x:Name="SampleList"
+                 AutomationProperties.AutomationId="SampleList"
+                 ItemsSource="{Binding Samples}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalContentAlignment="Stretch">
+            <mmp:Behaviors.Behavior>
+                <mmp:ItemActivationCommandBehaviour Command="{Binding OpenSampleFileCommand}"/>
+            </mmp:Behaviors.Behavior>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type mmw:SampleInfo}">
+                    <DockPanel Margin="0,4"
+                               ToolTip="{Binding Description}"
+                               ToolTipService.IsEnabled="{Binding Description, Converter={mmp:StringNotEmptyToBoolConverter}}">
+                        <Grid DockPanel.Dock="Left"
+                              Width="96" Height="96"
+                              Margin="0,0,10,0">
+                            <Image Source="{Binding Thumbnail}"
+                                   RenderOptions.BitmapScalingMode="Fant" />
+                            <!-- Placeholder for samples without thumbnail -->
+                            <Image Source="{mmp:IconResource App-OpenSample}"
+                                   Width="48" Height="48">
+                                <Image.Visibility>
+                                    <MultiBinding Converter="{mmp:BooleanAndToVisibleCollapsedMultiConverter}">
+                                        <Binding Path="IsThumbnailLoaded" />
+                                        <Binding Path="Thumbnail" Converter="{mmp:NotNullToNotBoolConverter}" />
+                                    </MultiBinding>
+                                </Image.Visibility>
+                            </Image>
+                        </Grid>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="{Binding Title}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="{Binding Description}"
+                                   Margin="0,4,0,0"
+                                   Foreground="{StaticResource Macad.Brushes.TextLight}"
+                                   TextWrapping="Wrap"
+                                   TextTrimming="CharacterEllipsis"
+                                   LineHeight="16"
+                                   LineStackingStrategy="BlockLineHeight"
+                                   MaxHeight="48"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+
     </Grid>
 </Window>

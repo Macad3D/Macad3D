@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows;
 using System.Windows.Threading;
 using Macad.Common.Interop;
 using Macad.Presentation;
@@ -75,10 +76,42 @@ public partial class WelcomeDialog
 
         Closing += _Closing;
         Closed += _OnClosed;
+        Model.PropertyChanged += _Model_PropertyChanged;
 
         Dispatcher.InvokeAsync(() => Model.DeferredInit());
 
         base.Show();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(WelcomeDialogModel.IsGalleryVisible)
+            && e.PropertyName != nameof(WelcomeDialogModel.Samples))
+        {
+            return;
+        }
+
+        // Move keyboard focus to the visible page, so that the dialog can be used without mouse
+        Dispatcher.InvokeAsync(() =>
+        {
+            if (!Model.IsGalleryVisible)
+            {
+                OpenSampleButton.Focus();
+                return;
+            }
+
+            if (SampleList.Items.Count == 0)
+                return;
+
+            if (SampleList.SelectedIndex < 0)
+            {
+                SampleList.SelectedIndex = 0;
+            }
+            var container = SampleList.ItemContainerGenerator.ContainerFromIndex(SampleList.SelectedIndex) as UIElement;
+            (container ?? SampleList).Focus();
+        }, DispatcherPriority.Loaded);
     }
 
     //--------------------------------------------------------------------------------------------------
