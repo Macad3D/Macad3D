@@ -20,6 +20,11 @@ public class Model : Document<InteractiveEntity>
 
     //--------------------------------------------------------------------------------------------------
 
+    [SerializeMember]
+    public FolderCollection Folders { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public const string FileExtension = "model";
     const int FileVersionMajor = 5;
     const int FileVersionMinor = 0;
@@ -29,6 +34,7 @@ public class Model : Document<InteractiveEntity>
     public Model()
     {
         Layers = new LayerCollection(this);
+        Folders = new FolderCollection(this);
         Workspaces = new List<Workspace> {new (this)};
             
         CoreContext.Current.MessageHandler.ClearAllEntityMessages();

@@ -186,7 +186,7 @@ public class DocumentExplorerTests : UITestBase
         
         var menu = _GetFilterMenu();
         menu.ClickMenuItem("SortByType");
-        CollectionAssert.AreEqual(new []{"Box_2", "Box_1", "DatumPlane_1"}, MainWindow.Document.GetItems().Select(ti => ti.Text));
+        CollectionAssert.AreEqual(new []{"Box_1", "Box_2", "DatumPlane_1"}, MainWindow.Document.GetItems().Select(ti => ti.Text));
         
         menu = _GetFilterMenu();
         menu.ClickMenuItem("SortDescending");

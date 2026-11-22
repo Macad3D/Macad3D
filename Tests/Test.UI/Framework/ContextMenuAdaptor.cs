@@ -31,14 +31,9 @@ public class ContextMenuAdaptor : WindowAdaptor
                             ?? Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(name))))
             ?.AsMenuItem();
         Assert.IsNotNull(menuItemCtrl, $"MenuItem {name} not found in current context menu.");
-        if (menuItemCtrl.IsPatternSupported(InvokePattern.Pattern))
-        {
-
-        }
-        else
-        {
-            menuItemCtrl.Click();
-        }
+        // Use the mouse, even if the invoke pattern is supported: invoking a WPF menu item
+        // executes its command synchronously, so a command opening a modal dialog would block.
+        menuItemCtrl.Click(!jump);
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(Window);
     }

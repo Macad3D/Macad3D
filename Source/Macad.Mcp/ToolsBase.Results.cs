@@ -19,6 +19,25 @@ public abstract partial class ToolsBase
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Returns the folder path like 'Parent/Child', or null if at root.
+    /// </summary>
+    public static string? GetFolderPath(Folder? folder)
+    {
+        if (folder == null)
+            return null;
+
+        var names = new List<string>();
+        var folders = CoreContext.Current.Document.Folders;
+        for (var f = folder; f != null && names.Count <= folders.Count; f = f.Parent)
+        {
+            names.Insert(0, f.Name);
+        }
+        return string.Join("/", names);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public sealed record BoundingBoxInfo(double MinX, double MinY, double MinZ, double MaxX, double MaxY, double MaxZ)
     {
         public double SizeX => MaxX - MinX;
@@ -44,12 +63,13 @@ public abstract partial class ToolsBase
     //--------------------------------------------------------------------------------------------------
 
     public sealed record BodySummary(string Guid, string Name, bool Visible, string? Shape, string? ShapeType, bool HasErrors, string[] UsedBy,
-                                     string? Layer)
+                                     string? Layer, string? Folder)
     {
         public static BodySummary From(Body body)
         {
             return new(body.Guid.ToString(), body.Name, body.IsVisible, body.Shape?.GetType().Name, body.Shape?.ShapeType.ToString(),
-                       body.HasErrors || (body.Shape?.HasErrors ?? false), GetUsingBodies(body), body.Layer?.Name);
+                       body.HasErrors || (body.Shape?.HasErrors ?? false), GetUsingBodies(body), body.Layer?.Name,
+                       GetFolderPath(body.Folder));
         }
     }
 
@@ -57,7 +77,8 @@ public abstract partial class ToolsBase
 
     public sealed record BodyDetails(string Guid, string Name, bool Visible, double[] Position, string? ShapeType, 
                                      string[] ShapeStack, bool HasErrors, string[] Errors, string[] UsedBy,
-                                     BoundingBoxInfo? BoundingBox, double? Volume, double? Area, string? Layer)
+                                     BoundingBoxInfo? BoundingBox, double? Volume, double? Area, string? Layer,
+                                     string? Folder)
     {
         public static BodyDetails From(Body body)
         {
@@ -81,7 +102,7 @@ public abstract partial class ToolsBase
                        BoundingBoxInfo.From(brep), 
                        isSolid && brep != null ? brep.Volume() : null,
                        isSolid && brep != null ? brep.Area() : null,
-                       body.Layer?.Name);
+                       body.Layer?.Name, GetFolderPath(body.Folder));
         }
     }
 

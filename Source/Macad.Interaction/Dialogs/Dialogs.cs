@@ -80,11 +80,29 @@ public static class Dialogs
 
     public static bool AssureLayerDeletion(bool multiple, string names)
     {
+        if (Application.Current?.MainWindow == null)
+            return true;
+
         var s = multiple ? "s" : "";
         return TaskDialog.ShowMessage(Application.Current.MainWindow,
                                       $"Delete selected layer{s}?",
                                       $"The layer{s} '{names}' will be deleted permanently. This action cannot be reverted. All entities assigned to this layer will be reassigned to the default layer.",
                                       $"Delete Layer{s}",
+                                      TaskDialogCommonButtons.OKCancel, TaskDialogIcon.Warning) == TaskDialogResults.Ok;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool AssureFolderRemoval(bool multiple, string names)
+    {
+        if (Application.Current?.MainWindow == null)
+            return true;
+
+        var s = multiple ? "s" : "";
+        return TaskDialog.ShowMessage(Application.Current.MainWindow,
+                                      $"Remove selected folder{s}?",
+                                      $"The folder{s} '{names}' will be removed. All entities and folders inside will be moved to the parent folder.",
+                                      $"Remove Folder{s}",
                                       TaskDialogCommonButtons.OKCancel, TaskDialogIcon.Warning) == TaskDialogResults.Ok;
     }
 

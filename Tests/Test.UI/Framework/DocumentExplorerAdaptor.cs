@@ -71,6 +71,83 @@ public class DocumentExplorerAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public IEnumerable<TreeItem> GetFolderItems()
+    {
+        return _TreeControl.Items.Where(ti => ti.AutomationId == "Folder");
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Finds an item by its text, searching expanded folders recursively.
+    /// </summary>
+    public TreeItem FindItem(string text)
+    {
+        return _FindItem(_TreeControl.Items, text);
+    }
+
+    static TreeItem _FindItem(IEnumerable<TreeItem> items, string text)
+    {
+        foreach (var item in items)
+        {
+            if (item.Text == text)
+                return item;
+            var child = _FindItem(item.Items, text);
+            if (child != null)
+                return child;
+        }
+        return null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void RightClickItem(TreeItem item)
+    {
+        RightClickItemAt(item.BoundingRectangle.Center());
+    }
+
+    public void RightClickItemAt(Point point)
+    {
+        Mouse.Click(point, MouseButton.Right);
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(_FormControl);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void DragItem(TreeItem source, TreeItem target)
+    {
+        DragItem(source, target.BoundingRectangle.Center());
+    }
+
+    public void DragItem(TreeItem source, Point target)
+    {
+        var start = source.BoundingRectangle.Center();
+        Mouse.MoveTo(start);
+        Mouse.Down(MouseButton.Left);
+        Wait.UntilInputIsProcessed();
+        Mouse.MoveTo(new Point(start.X, start.Y + 10));
+        Wait.UntilInputIsProcessed();
+        Mouse.MoveTo(target);
+        Wait.UntilInputIsProcessed();
+        Mouse.Up(MouseButton.Left);
+        Wait.UntilInputIsProcessed();
+        Wait.UntilResponsive(_FormControl);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// A point inside the tree below all items, where dropping means moving to root.
+    /// </summary>
+    public Point GetEmptyTreePoint()
+    {
+        var rect = _TreeControl.BoundingRectangle;
+        return new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Bottom - 10));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public override void Click(string id, bool jump = true, bool doubleClick = false)
     {
         var item = _TreeControl.Items.FirstOrDefault(ti => ti.Text == id);

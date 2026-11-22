@@ -20,6 +20,51 @@
         <DockPanel DockPanel.Dock="Top"
                    Background="{StaticResource Macad.Brushes.Panel.Background}">
 
+            <Button DockPanel.Dock="Right"
+                    Height="22" Width="24" Padding="0,2,2,2"
+                    Style="{StaticResource Macad.Styles.Button.ToolBar}"
+                    ToolTip="Menu"
+                    AutomationProperties.AutomationId="ExplorerMenu">
+
+                <mmp:Behaviors.Behavior>
+                    <mmp:DropDownButtonBehavior />
+                </mmp:Behaviors.Behavior>
+
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding DataContext, Source={mmp:RootObject}}"
+                                 AutomationProperties.AutomationId="ExplorerContextMenu">
+                        <MenuItem Header="Folder"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem mmp:Command.Action="{Binding AddFolderCommand}"
+                                  AutomationProperties.AutomationId="AddFolder"/>
+                        <MenuItem mmp:Command.Action="{Binding RenameFolderCommand}"
+                                  AutomationProperties.AutomationId="RenameFolder"/>
+                        <MenuItem mmp:Command.Action="{Binding RemoveFolderCommand}"
+                                  AutomationProperties.AutomationId="RemoveFolder"/>
+                        <Separator />
+                        <MenuItem mmp:Command.Action="{x:Static mmi:FolderCommands.ExpandToSelection}"
+                                  AutomationProperties.AutomationId="ExpandToSelection"/>
+                        <MenuItem Header="Element"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem mmp:Command.Action="{Binding RenameEntityCommand}"
+                                  AutomationProperties.AutomationId="RenameEntity"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+
+                <!-- Menu Button Icon -->
+                <Grid>
+                    <Image Source="{mmp:IconResource Generic-Menu}"
+                           HorizontalAlignment="Left"/>
+                    <Path HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                          Stroke="{x:Null}"
+                          Fill="{StaticResource Macad.Brushes.Text}"
+                          Data="M0,0L5,0 2.5,3z"
+                          Margin="0,0,-2,0"
+                          Height="4" Width="7" />
+                </Grid>
+
+            </Button>
+
             <Button DockPanel.Dock="Right" 
                     Height="22" Width="24" Padding="0,2,2,2"
                     Style="{StaticResource Macad.Styles.Button.ToolBar}"
@@ -134,8 +179,12 @@
         -->
         <Grid>
             <treeView:TreeViewEx x:Name="TreeView"
-                             ItemsSource="{Binding EntitiesView}"
-                             SelectedItems="{Binding SelectedEntities, Mode=OneWay}"
+                             ItemsSource="{Binding RootItems}"
+                             SelectedItems="{Binding SelectedItems, Mode=OneWay}"
+                             IsDragNDropEnabled="True"
+                             DragCommand="{Binding DragCommand}"
+                             DropCommand="{Binding DropCommand}"
+                             PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown"
                              Background="{StaticResource Macad.Brushes.Panel.Background}"
                              BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
                              OnSelecting="TreeView_OnOnSelecting"
@@ -146,13 +195,54 @@
                 
                 <treeView:TreeViewEx.ItemContainerStyle>
                     <Style TargetType="{x:Type treeView:TreeViewExItem}" BasedOn="{StaticResource {x:Type treeView:TreeViewExItem}}">
-                        <!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />-->
                         <Setter Property="Focusable" Value="True" />
                         <Setter Property="AutomationProperties.AutomationId" Value="{Binding Converter={mmp:TypeToStringConverter}}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={x:Static panels:DocumentExplorerPanelModel.IsFolderNodeConverter}}" Value="True">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                <Setter Property="AutomationProperties.AutomationId" Value="Folder" />
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </treeView:TreeViewEx.ItemContainerStyle>
                 
+                <treeView:TreeViewEx.ContextMenu>
+                    <ContextMenu AutomationProperties.AutomationId="DocumentTreeContextMenu">
+                        <MenuItem Header="Folder"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem mmp:Command.Action="{Binding AddFolderCommand}"
+                                  AutomationProperties.AutomationId="AddFolder"/>
+                        <MenuItem mmp:Command.Action="{Binding RenameFolderCommand}"
+                                  AutomationProperties.AutomationId="RenameFolder"/>
+                        <MenuItem mmp:Command.Action="{Binding RemoveFolderCommand}"
+                                  AutomationProperties.AutomationId="RemoveFolder"/>
+                        <Separator />
+                        <MenuItem mmp:Command.Action="{x:Static mmi:FolderCommands.ExpandToSelection}"
+                                  AutomationProperties.AutomationId="ExpandToSelection"/>
+                        <MenuItem Header="Element"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem mmp:Command.Action="{Binding RenameEntityCommand}"
+                                  AutomationProperties.AutomationId="RenameEntity"/>
+                    </ContextMenu>
+                </treeView:TreeViewEx.ContextMenu>
+
                 <treeView:TreeViewEx.Resources>
+
+                    <Style x:Key="RenameBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="-2,0,0,0"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="MinWidth" Value="80"/>
+                        <Setter Property="Visibility">
+                            <Setter.Value>
+                                <MultiBinding Converter="{x:Static panels:DocumentExplorerPanelModel.IsRenamingConverter}">
+                                    <Binding />
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type treeView:TreeViewEx}}" Path="DataContext.RenamingItem" />
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
                     
                     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="Transparent"/>
@@ -198,18 +288,25 @@
                                 </Grid>
                             </Button>
 
-                            <TextBlock x:Name="text" Text="{Binding Name}" Margin="3,0">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasErrors}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                            <Grid Margin="3,0">
+                                <TextBlock x:Name="text" Text="{Binding Name}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBox Style="{StaticResource RenameBoxStyle}"
+                                         LostKeyboardFocus="_RenameBox_LostFocus"
+                                         IsVisibleChanged="_RenameBox_IsVisibleChanged"
+                                         PreviewKeyDown="_RenameBox_PreviewKeyDown"
+                                         AutomationProperties.AutomationId="EntityRenameBox"/>
+                            </Grid>
                         </DockPanel>
 
                     </HierarchicalDataTemplate>
@@ -240,21 +337,48 @@
                                 </Grid>
                             </Button>
 
-                            <TextBlock Text="{Binding Name}" Margin="3,0">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasErrors}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                            <Grid Margin="3,0">
+                                <TextBlock Text="{Binding Name}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBox Style="{StaticResource RenameBoxStyle}"
+                                         LostKeyboardFocus="_RenameBox_LostFocus"
+                                         IsVisibleChanged="_RenameBox_IsVisibleChanged"
+                                         PreviewKeyDown="_RenameBox_PreviewKeyDown"
+                                         AutomationProperties.AutomationId="EntityRenameBox"/>
+                            </Grid>
                         </DockPanel>
                     </HierarchicalDataTemplate>
                     
+                    <!--
+                            Folder
+                    -->
+                    <HierarchicalDataTemplate DataType="{x:Type panels:DocumentExplorerFolderNode}"
+                                              ItemsSource="{Binding Children}">
+                        <DockPanel Margin="0,0,10,0">
+                            <Image Height="16"
+                                   Source="{mmp:IconResource Generic-Folder}" />
+                            <Grid Margin="3,0">
+                                <TextBlock Text="{Binding Folder.Name}"
+                                           AutomationProperties.AutomationId="FolderName"/>
+                                <TextBox Style="{StaticResource RenameBoxStyle}"
+                                         LostKeyboardFocus="_RenameBox_LostFocus"
+                                         IsVisibleChanged="_RenameBox_IsVisibleChanged"
+                                         PreviewKeyDown="_RenameBox_PreviewKeyDown"
+                                         AutomationProperties.AutomationId="FolderRenameBox"/>
+                            </Grid>
+                        </DockPanel>
+                    </HierarchicalDataTemplate>
+
                     <!--
                             Model
                     -->
@@ -278,7 +402,7 @@
                        Style="{StaticResource Macad.Styles.TextBlock.PanelHintText}">
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{mmp:BooleanAndToVisibleCollapsedMultiConverter}">
-                        <Binding Path="EntitiesView.IsEmpty" />
+                        <Binding Path="IsTreeEmpty" />
                         <Binding Path="DocumentIsEmpty" Converter="{mmp:BoolToNotBoolConverter}" />
                     </MultiBinding>
                 </TextBlock.Visibility>

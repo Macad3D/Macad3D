@@ -190,11 +190,11 @@ public class BodyTests
         var body = TestGeomGenerator.CreateImprint().Body;
         model.Add(body);
         Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
-        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(6));
+        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(7));
 
         model.SafeDelete(new[] {body});
         Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(0));
-        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(2));
+        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(3));
     }
 
     //--------------------------------------------------------------------------------------------------

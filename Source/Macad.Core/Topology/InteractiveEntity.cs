@@ -84,11 +84,46 @@ public abstract class InteractiveEntity : Entity
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    /// <summary>
+    /// The guid of the folder the entity is shown in, or <see cref="Guid.Empty"/> if it is at root.
+    /// </summary>
+    [SerializeMember]
+    public Guid FolderId
+    {
+        get { return _FolderId; }
+        set
+        {
+            if (_FolderId != value)
+            {
+                SaveUndo();
+                _FolderId = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(Folder));
+                if (!IsDeserializing && CoreContext.Current != null)
+                {
+                    Document?.InstanceChanged(this);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// The folder the entity is shown in, or null if it is at root.
+    /// </summary>
+    public Folder Folder
+    {
+        get { return ((Document as Model) ?? CoreContext.Current?.Document)?.Folders?.Find(_FolderId); }
+        set { FolderId = value?.Guid ?? Guid.Empty; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Initialization / Serialization
 
+    Guid _FolderId;
     Guid _LayerId;
     string _Name;
     bool _IsVisible;

@@ -44,7 +44,7 @@ public class DocumentTests
 
         ctx.DocumentController.NewModel();
         ctx.WorkspaceController.Invalidate(forceRedraw: true);
-        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(2));
+        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(3));
         Assert.That(ctx.Document, Is.Empty);
         Assert.That(ctx.WorkspaceController.VisualObjects.GetVisibleEntities(), Is.Empty);
         Assert.That(ctx.WorkspaceController.VisualObjects.GetAll(), Is.Empty);
@@ -66,7 +66,7 @@ public class DocumentTests
 
         ctx.DocumentController.NewModel();
         ctx.WorkspaceController.Invalidate(forceRedraw: true);
-        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(2));
+        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(3));
         Assert.That(ctx.Document, Is.Empty);
         Assert.That(ctx.WorkspaceController.VisualObjects.GetVisibleEntities(), Is.Empty);
         Assert.That(ctx.WorkspaceController.VisualObjects.GetAll(), Is.Empty);
